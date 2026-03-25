@@ -1,13 +1,38 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "@gravity-ui/uikit/styles/styles.css";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --color-bg: #020103;
+  --color-text-primary: #fefaec;
+  --color-text-muted: #a3a3a3;
+  --color-border-primary: #6d6d6d;
+  --color-border-subtle: #2f2f2f;
+  --font-body: "Roboto", sans-serif;
+  --font-display: "Raleway", sans-serif;
+  --text-display: 96px;
+  --text-title: 64px;
+  --text-subtitle: 40px;
+  --text-body: 16px;
+  --text-label: 16px;
+  --text-link: 16px;
+  --leading-tight: 1.05;
+  --leading-snug: 1.2;
+  --leading-normal: 1.4;
+  --space-0: 0;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+  --space-7: 56px;
+  --space-8: 64px;
+  --space-9: 72px;
+  --space-10: 80px;
+  --space-12: 96px;
+  --radius-0: 0;
+  --radius-1: 8px;
+  --radius-2: 16px;
+  --radius-3: 24px;
 }
 
 html {
@@ -24,9 +49,11 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  line-height: 1.4;
+  font-size: var(--text-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -42,8 +69,64 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+}
+
+.text-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+}
+
+.text-title {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  line-height: var(--leading-tight);
+}
+
+.text-subtitle {
+  font-size: var(--text-subtitle);
+  line-height: var(--leading-snug);
+}
+
+.text-body {
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
+}
+
+.text-label {
+  font-size: var(--text-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.text-link {
+  font-size: var(--text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--leading-tight);
+}
+
+p {
+  line-height: var(--leading-normal);
+}
+
+h1 + p,
+h2 + p,
+h3 + p {
+  margin-top: 0.2em;
 }

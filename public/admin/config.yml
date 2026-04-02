@@ -3,8 +3,7 @@ backend:
   repo: Ultraivanov/portfolio
   branch: main
   base_url: https://ginzburg.work
-  auth_endpoint: oauth
-  api_root: https://api.github.com
+  auth_endpoint: /oauth
   site_domain: ginzburg.work
 
 local_backend: false

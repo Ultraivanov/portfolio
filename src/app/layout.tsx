@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Raleway, Roboto } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
 import ClientProviders from "@/components/ClientProviders";
 import Layout from "@/components/layout/Layout";
 import "./globals.css";
 
-const bodyFont = Roboto({
+const bodyFont = IBM_Plex_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-body",
 });
 
-const displayFont = Raleway({
+const displayFont = IBM_Plex_Sans({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["500", "600", "700"],
   variable: "--font-display",
 });
 
@@ -28,6 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${bodyFont.variable} ${displayFont.variable}`}>
+      <head>
+        <script
+          async
+          src="https://mcp.figma.com/mcp/html-to-design/capture.js"
+        />
+      </head>
       <body>
         <ClientProviders>
           <Layout>{children}</Layout>

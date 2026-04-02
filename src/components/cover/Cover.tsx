@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Cover as CoverData } from "@/lib/content/cover";
+import type { Cover as CoverData } from "@/content/cover";
 import styles from "./cover.module.css";
 
 type CoverProps = {

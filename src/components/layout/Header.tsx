@@ -6,7 +6,7 @@ export default function Header() {
     <header className={styles.header}>
       <Container className={styles.headerInner}>
         <nav className={styles.nav} aria-label="Primary">
-          <a className={styles.navLink} href="#work">
+          <a className={styles.navLink} href="/work">
             works
           </a>
           <a
@@ -17,7 +17,7 @@ export default function Header() {
           >
             linkedin
           </a>
-          <a className={styles.navLink} href="#contact">
+          <a className={styles.navLink} href="/contact">
             connect
           </a>
         </nav>

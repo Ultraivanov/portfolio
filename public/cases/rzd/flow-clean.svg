@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1100" viewBox="0 0 1200 1100">
+  <defs>
+    <style>
+      .box { fill: #ffffff; stroke: #222222; stroke-width: 1; rx: 6; }
+      .label { font-family: Arial, Helvetica, sans-serif; font-size: 12px; fill: #111111; }
+      .title { font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: 700; fill: #111111; }
+      .note { font-family: Arial, Helvetica, sans-serif; font-size: 11px; fill: #555555; }
+      .line { stroke: #222222; stroke-width: 1; fill: none; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#222222" />
+    </marker>
+  </defs>
+
+  <text x="40" y="28" class="title">Service logic and flow (clean)</text>
+
+  <!-- Main column -->
+  <rect x="240" y="40" width="520" height="50" class="box" />
+  <text x="255" y="70" class="label">Entry points: history / price / location / open search</text>
+
+  <rect x="240" y="120" width="520" height="50" class="box" />
+  <text x="255" y="150" class="label">Sanatorium card (PDP)</text>
+
+  <rect x="240" y="200" width="520" height="50" class="box" />
+  <text x="255" y="230" class="label">Eligibility check (subsidy / quota)</text>
+
+  <rect x="240" y="280" width="520" height="50" class="box" />
+  <text x="255" y="310" class="label">Application form</text>
+
+  <rect x="240" y="360" width="520" height="50" class="box" />
+  <text x="255" y="390" class="label">Real-time validation</text>
+
+  <rect x="240" y="440" width="520" height="50" class="box" />
+  <text x="255" y="470" class="label">Approval decision</text>
+
+  <rect x="240" y="520" width="520" height="50" class="box" />
+  <text x="255" y="550" class="label">Success &amp; payment</text>
+
+  <rect x="240" y="600" width="520" height="50" class="box" />
+  <text x="255" y="630" class="label">Booking confirmation</text>
+
+  <rect x="240" y="680" width="520" height="50" class="box" />
+  <text x="255" y="710" class="label">Pre-trip info</text>
+
+  <rect x="240" y="760" width="520" height="50" class="box" />
+  <text x="255" y="790" class="label">Arrival reminder</text>
+
+  <rect x="240" y="840" width="520" height="50" class="box" />
+  <text x="255" y="870" class="label">Welcome &amp; onsite info</text>
+
+  <rect x="240" y="920" width="520" height="50" class="box" />
+  <text x="255" y="950" class="label">Post-stay wrap-up</text>
+
+  <!-- Side branches -->
+  <rect x="20" y="440" width="200" height="50" class="box" />
+  <text x="32" y="470" class="label">Correction path</text>
+
+  <rect x="820" y="360" width="320" height="50" class="box" />
+  <text x="832" y="390" class="label">Overbooking management</text>
+
+  <rect x="820" y="920" width="320" height="50" class="box" />
+  <text x="832" y="950" class="label">Retention loop (repeat usage)</text>
+
+  <!-- Main flow connectors -->
+  <line x1="500" y1="90" x2="500" y2="120" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="170" x2="500" y2="200" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="250" x2="500" y2="280" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="330" x2="500" y2="360" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="410" x2="500" y2="440" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="490" x2="500" y2="520" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="570" x2="500" y2="600" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="650" x2="500" y2="680" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="730" x2="500" y2="760" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="810" x2="500" y2="840" class="line" marker-end="url(#arrow)" />
+  <line x1="500" y1="890" x2="500" y2="920" class="line" marker-end="url(#arrow)" />
+
+  <!-- Correction path loop -->
+  <polyline points="240,465 220,465 220,465 220,465 220,465" class="line" marker-end="url(#arrow)" />
+  <line x1="240" y1="465" x2="220" y2="465" class="line" marker-end="url(#arrow)" />
+  <line x1="220" y1="465" x2="220" y2="305" class="line" marker-end="url(#arrow)" />
+  <line x1="220" y1="305" x2="240" y2="305" class="line" marker-end="url(#arrow)" />
+
+  <!-- Overbooking branch -->
+  <line x1="760" y1="385" x2="820" y2="385" class="line" marker-end="url(#arrow)" />
+  <polyline points="980,410 980,90 760,90" class="line" marker-end="url(#arrow)" />
+
+  <!-- Retention loop -->
+  <line x1="760" y1="945" x2="820" y2="945" class="line" marker-end="url(#arrow)" />
+  <polyline points="980,920 980,40 260,40" class="line" marker-end="url(#arrow)" />
+
+  <!-- Labels -->
+  <text x="260" y="430" class="note">Not approved</text>
+  <text x="640" y="430" class="note">Approved</text>
+</svg>

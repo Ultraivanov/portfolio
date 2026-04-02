@@ -2,6 +2,7 @@ export type PastProject = {
   title: string;
   detail: string;
   year: string;
+  href?: string;
 };
 
 export type PastProjects = {
@@ -38,9 +39,10 @@ export const pastProjects: PastProjects = {
       year: "2022",
     },
     {
-      title: "Russian Railway",
-      detail: "Product Design",
-      year: "2021",
+      title: "Russian Railways",
+      detail: "Resort booking case",
+      year: "2020–2021",
+      href: "/work/railway-booking-flow",
     },
     {
       title: "Technion",

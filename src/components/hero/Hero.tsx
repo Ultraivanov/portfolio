@@ -1,5 +1,5 @@
 import { Button } from "@gravity-ui/uikit";
-import type { Hero as HeroData } from "@/lib/content/hero";
+import type { Hero as HeroData } from "@/content/hero";
 import styles from "./hero.module.css";
 
 type HeroProps = {
@@ -14,10 +14,10 @@ export default function Hero({ data }: HeroProps) {
       <p className={styles.headline}>{data.headline}</p>
       <p className={styles.subhead}>{data.subhead}</p>
       <div className={styles.ctaRow}>
-        <Button size="m" view="outlined" className={styles.primary}>
+        <Button size="m" view="outlined" className={styles.primary} href="/work">
           {data.primaryCTA}
         </Button>
-        <Button size="m" view="flat" className={styles.secondary}>
+        <Button size="m" view="flat" className={styles.secondary} href="/contact">
           {data.secondaryCTA}
         </Button>
       </div>

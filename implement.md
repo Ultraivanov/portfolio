@@ -16,6 +16,7 @@ DONE when:
 - Create Layout component
 - Header + Footer
 - Container system (max-width, paddings)
+- Typography + spacing system (8px scale)
 
 DONE when:
 - consistent layout exists

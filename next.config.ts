@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.github.com https://github.com https://raw.githubusercontent.com; frame-ancestors 'self'; base-uri 'self'",
+              "default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.github.com https://github.com https://raw.githubusercontent.com https://unpkg.com; frame-ancestors 'self'; base-uri 'self'",
           },
           {
             key: "Cross-Origin-Opener-Policy",
@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.github.com https://github.com https://raw.githubusercontent.com; frame-ancestors 'self'; base-uri 'self'",
+              "default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.github.com https://github.com https://raw.githubusercontent.com https://unpkg.com; frame-ancestors 'self'; base-uri 'self'",
           },
           {
             key: "Cross-Origin-Opener-Policy",

@@ -26,6 +26,13 @@
           provider +
           ":success:" +
           JSON.stringify({ token: token, provider: provider });
+        try {
+          var payload = JSON.stringify({ token: token, provider: provider });
+          window.localStorage.setItem("netlify-cms-user", payload);
+          window.localStorage.setItem("decap-cms-user", payload);
+        } catch (e) {
+          console.warn("CMS login: unable to write localStorage", e);
+        }
         var origin = window.location.origin;
         var attempts = 0;
         var timer = setInterval(function () {

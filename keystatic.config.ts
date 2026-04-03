@@ -1,11 +1,14 @@
 import { config, fields, collection } from "@keystatic/core";
 
-const isProd = process.env.NODE_ENV === "production";
+const githubRepo =
+  process.env.KEYSTATIC_GITHUB_REPO || "Ultraivanov/portfolio";
+const useGithub =
+  !!process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
+  !!process.env.KEYSTATIC_GITHUB_CLIENT_SECRET &&
+  !!process.env.KEYSTATIC_SECRET;
 
 export default config({
-  storage: isProd
-    ? { kind: "github", repo: "Ultraivanov/portfolio" }
-    : { kind: "local" },
+  storage: useGithub ? { kind: "github", repo: githubRepo } : { kind: "local" },
   collections: {
     cases: collection({
       label: "Cases",

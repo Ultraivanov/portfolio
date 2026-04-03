@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         source: "/admin",
         headers: [
           {
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.github.com https://github.com https://raw.githubusercontent.com; frame-ancestors 'self'; base-uri 'self'",
+          },
+          {
             key: "Cross-Origin-Opener-Policy",
             value: "unsafe-none",
           },
@@ -25,6 +30,11 @@ const nextConfig: NextConfig = {
       {
         source: "/admin/:path*",
         headers: [
+          {
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.github.com https://github.com https://raw.githubusercontent.com; frame-ancestors 'self'; base-uri 'self'",
+          },
           {
             key: "Cross-Origin-Opener-Policy",
             value: "unsafe-none",

@@ -7,32 +7,6 @@
     <title>Content Manager</title>
   </head>
   <body>
-    <script>
-      window.CMS_MANUAL_INIT = true;
-      window.__CMS_CONFIG_PATH__ =
-        location.hostname === "localhost" || location.hostname === "127.0.0.1"
-          ? "/admin/config.local.yml"
-          : "/admin/config.yml";
-    </script>
     <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
-    <script>
-      fetch(window.__CMS_CONFIG_PATH__)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to load CMS config");
-          }
-          return response.text();
-        })
-        .then((config) => {
-          CMS.init({ config });
-        })
-        .catch((error) => {
-          // Surface config loading errors in the page for faster debugging.
-          document.body.innerHTML =
-            "<pre style=\"white-space: pre-wrap; font: 13px/1.5 monospace; color: #b00020;\">" +
-            error.message +
-            "</pre>";
-        });
-    </script>
   </body>
 </html>

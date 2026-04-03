@@ -54,6 +54,7 @@
 
         window.addEventListener("message", function (event) {
           if (event.origin !== window.location.origin) return;
+          if (event.source === window) return;
           if (typeof event.data !== "string") return;
           if (!event.data.startsWith("authorization:")) return;
           var parts = event.data.split(":");
@@ -62,7 +63,7 @@
             var payload = JSON.parse(parts.slice(3).join(":"));
             if (payload && payload.token) {
               storeToken(payload.token, payload.provider || "github");
-              window.location.reload();
+              sendAuth(payload.token, payload.provider || "github");
             }
           } catch (e) {
             console.warn("CMS login: failed to parse message", e);

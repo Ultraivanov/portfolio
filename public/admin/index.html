@@ -26,8 +26,16 @@
           provider +
           ":success:" +
           JSON.stringify({ token: token, provider: provider });
-        window.postMessage(message, window.location.origin);
-        window.history.replaceState(null, "", "/admin/#/");
+        var origin = window.location.origin;
+        var attempts = 0;
+        var timer = setInterval(function () {
+          attempts += 1;
+          window.postMessage(message, origin);
+          if (window.CMS || attempts > 20) {
+            clearInterval(timer);
+            window.history.replaceState(null, "", "/admin/#/");
+          }
+        }, 300);
       })();
     </script>
     <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>

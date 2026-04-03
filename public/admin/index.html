@@ -23,6 +23,35 @@
           }
         }
 
+        function sendAuth(token, provider) {
+          var message =
+            "authorization:" +
+            provider +
+            ":success:" +
+            JSON.stringify({ token: token, provider: provider });
+          var origin = window.location.origin;
+          var attempts = 0;
+          var timer = setInterval(function () {
+            attempts += 1;
+            window.postMessage(message, origin);
+            if (window.CMS || attempts > 20) {
+              clearInterval(timer);
+            }
+          }, 300);
+        }
+
+        function readStoredToken() {
+          try {
+            var raw =
+              window.localStorage.getItem("netlify-cms-user") ||
+              window.localStorage.getItem("decap-cms-user");
+            if (!raw) return null;
+            return JSON.parse(raw);
+          } catch (e) {
+            return null;
+          }
+        }
+
         window.addEventListener("message", function (event) {
           if (event.origin !== window.location.origin) return;
           if (typeof event.data !== "string") return;
@@ -40,6 +69,11 @@
           }
         });
 
+        var stored = readStoredToken();
+        if (stored && stored.token) {
+          sendAuth(stored.token, stored.provider || "github");
+        }
+
         var hash = window.location.hash || "";
         if (!hash.includes("cms_token=")) return;
         var cleaned = hash.replace(/^#\/?/, "");
@@ -48,22 +82,11 @@
         var token = params.get("cms_token");
         if (!token) return;
         var provider = params.get("provider") || "github";
-        var message =
-          "authorization:" +
-          provider +
-          ":success:" +
-          JSON.stringify({ token: token, provider: provider });
         storeToken(token, provider);
-        var origin = window.location.origin;
-        var attempts = 0;
-        var timer = setInterval(function () {
-          attempts += 1;
-          window.postMessage(message, origin);
-          if (window.CMS || attempts > 20) {
-            clearInterval(timer);
-            window.history.replaceState(null, "", "/admin/#/");
-          }
-        }, 300);
+        sendAuth(token, provider);
+        setTimeout(function () {
+          window.history.replaceState(null, "", "/admin/#/");
+        }, 1200);
       })();
     </script>
     <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>

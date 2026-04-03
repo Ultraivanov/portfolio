@@ -7,6 +7,25 @@
     <title>Content Manager</title>
   </head>
   <body>
+    <script>
+      (function () {
+        var hash = window.location.hash || "";
+        if (!hash.includes("cms_token=")) return;
+        var cleaned = hash.replace(/^#\/?/, "");
+        var query = cleaned.includes("?") ? cleaned.split("?")[1] : cleaned;
+        var params = new URLSearchParams(query);
+        var token = params.get("cms_token");
+        if (!token) return;
+        var provider = params.get("provider") || "github";
+        var message =
+          "authorization:" +
+          provider +
+          ":success:" +
+          JSON.stringify({ token: token, provider: provider });
+        window.postMessage(message, window.location.origin);
+        window.history.replaceState(null, "", "/admin/#/");
+      })();
+    </script>
     <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
   </body>
 </html>

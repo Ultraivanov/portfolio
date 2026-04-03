@@ -156,6 +156,9 @@ export async function POST(request: Request) {
   })}`;
 
   const targetOrigin = url.origin;
+  const redirectUrl = `${targetOrigin}/admin/#/?cms_token=${encodeURIComponent(
+    token,
+  )}&provider=${encodeURIComponent(provider)}`;
 
   const html = `<!doctype html>
 <html lang="en">
@@ -165,7 +168,8 @@ export async function POST(request: Request) {
       <div style="max-width: 520px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 24px; background:#141215;">
         <h1 style="font-size:18px; margin:0 0 12px;">Login completed</h1>
         <p style="margin:0 0 16px; color: rgba(245,242,238,0.7);">If the CMS didn’t switch, click the button below to resend the token.</p>
-        <button id="resend" style="padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.25); background:transparent; color:inherit; font-size:14px; text-transform:uppercase; letter-spacing:0.12em; cursor:pointer;">Send login to CMS</button>
+        <button id="resend" type="button" style="padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.25); background:transparent; color:inherit; font-size:14px; text-transform:uppercase; letter-spacing:0.12em; cursor:pointer;">Send login to CMS</button>
+        <a id="continue" href="${redirectUrl}" style="display:inline-flex;margin-top:12px;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);color:#f5f2ee;text-decoration:none;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;">Open CMS directly</a>
         <code>provider: ${provider}\norigin: ${targetOrigin}</code>
       </div>
     </div>
@@ -173,6 +177,7 @@ export async function POST(request: Request) {
       (function () {
         var message = ${JSON.stringify(message)};
         var targetOrigin = ${JSON.stringify(targetOrigin)};
+        var redirectUrl = ${JSON.stringify(redirectUrl)};
         function send() {
           if (window.opener) {
             window.opener.postMessage(message, targetOrigin);
@@ -183,6 +188,12 @@ export async function POST(request: Request) {
         send();
         var btn = document.getElementById("resend");
         if (btn) btn.addEventListener("click", send);
+        if (!window.opener) {
+          // In the same tab — redirect to admin with token hash.
+          setTimeout(function () {
+            window.location.href = redirectUrl;
+          }, 300);
+        }
       })();
     </script>
   </body>

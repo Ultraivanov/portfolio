@@ -13,6 +13,33 @@
   <body>
     <script>
       (function () {
+        function storeToken(token, provider) {
+          try {
+            var payload = JSON.stringify({ token: token, provider: provider });
+            window.localStorage.setItem("netlify-cms-user", payload);
+            window.localStorage.setItem("decap-cms-user", payload);
+          } catch (e) {
+            console.warn("CMS login: unable to write localStorage", e);
+          }
+        }
+
+        window.addEventListener("message", function (event) {
+          if (event.origin !== window.location.origin) return;
+          if (typeof event.data !== "string") return;
+          if (!event.data.startsWith("authorization:")) return;
+          var parts = event.data.split(":");
+          if (parts.length < 4 || parts[2] !== "success") return;
+          try {
+            var payload = JSON.parse(parts.slice(3).join(":"));
+            if (payload && payload.token) {
+              storeToken(payload.token, payload.provider || "github");
+              window.location.reload();
+            }
+          } catch (e) {
+            console.warn("CMS login: failed to parse message", e);
+          }
+        });
+
         var hash = window.location.hash || "";
         if (!hash.includes("cms_token=")) return;
         var cleaned = hash.replace(/^#\/?/, "");
@@ -26,13 +53,7 @@
           provider +
           ":success:" +
           JSON.stringify({ token: token, provider: provider });
-        try {
-          var payload = JSON.stringify({ token: token, provider: provider });
-          window.localStorage.setItem("netlify-cms-user", payload);
-          window.localStorage.setItem("decap-cms-user", payload);
-        } catch (e) {
-          console.warn("CMS login: unable to write localStorage", e);
-        }
+        storeToken(token, provider);
         var origin = window.location.origin;
         var attempts = 0;
         var timer = setInterval(function () {

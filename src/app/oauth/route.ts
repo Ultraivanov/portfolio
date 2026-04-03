@@ -185,7 +185,14 @@ export async function POST(request: Request) {
             console.warn("CMS login: window.opener is not available.");
           }
         }
-        send();
+        var attempts = 0;
+        var interval = setInterval(function () {
+          attempts += 1;
+          send();
+          if (attempts >= 12) {
+            clearInterval(interval);
+          }
+        }, 300);
         var btn = document.getElementById("resend");
         if (btn) btn.addEventListener("click", send);
         if (!window.opener) {

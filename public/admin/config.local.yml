@@ -1,0 +1,93 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend:
+  url: http://localhost:8081/api/v1
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "cases"
+    label: "Cases"
+    folder: "src/content/cases"
+    create: true
+    slug: "{{slug}}"
+    format: "json"
+    extension: "json"
+    summary: "{{title}}"
+    sortable_fields: ["title", "slug"]
+    fields:
+      - { label: "Slug", name: "slug", widget: "string", hint: "URL slug, e.g. railway-booking-flow" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Subtitle", name: "subtitle", widget: "text" }
+      - { label: "Cover src", name: "coverSrc", widget: "string", hint: "Path in /public, e.g. /cases/rzd/cover.png" }
+      - { label: "Cover alt", name: "coverAlt", widget: "string" }
+      - label: "Facts"
+        name: "facts"
+        widget: "list"
+        summary: "{{fields.label}}"
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - label: "Value"
+            name: "value"
+            widget: "list"
+            field: { label: "Value", name: "value", widget: "string" }
+          - { label: "Href", name: "href", widget: "string", required: false, hint: "Optional link for fact value" }
+      - label: "Sections"
+        name: "sections"
+        widget: "list"
+        summary: "{{fields.title}}"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "list", required: false }
+          - { label: "List", name: "list", widget: "list", required: false }
+          - label: "Links"
+            name: "links"
+            widget: "list"
+            required: false
+            summary: "{{fields.label}}"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Href", name: "href", widget: "string" }
+          - label: "Media"
+            name: "media"
+            widget: "list"
+            required: false
+            summary: "{{fields.alt}}"
+            fields:
+              - { label: "Src", name: "src", widget: "string" }
+              - { label: "Alt", name: "alt", widget: "string" }
+              - { label: "Caption", name: "caption", widget: "text", required: false }
+          - label: "Blocks"
+            name: "blocks"
+            widget: "list"
+            required: false
+            types:
+              - label: "Paragraph"
+                name: "paragraph"
+                widget: "object"
+                fields:
+                  - { label: "Text", name: "text", widget: "text" }
+              - label: "List"
+                name: "list"
+                widget: "object"
+                fields:
+                  - label: "Items"
+                    name: "items"
+                    widget: "list"
+                    field: { label: "Item", name: "item", widget: "string" }
+              - label: "Link"
+                name: "link"
+                widget: "object"
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Href", name: "href", widget: "string" }
+              - label: "Media"
+                name: "media"
+                widget: "object"
+                fields:
+                  - { label: "Src", name: "src", widget: "string" }
+                  - { label: "Alt", name: "alt", widget: "string" }
+                  - { label: "Caption", name: "caption", widget: "text", required: false }

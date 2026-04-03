@@ -67,6 +67,17 @@ const htmlShell = (body: string) => `<!doctype html>
         font-size: 13px;
         color: rgba(245, 242, 238, 0.7);
       }
+      code {
+        display: block;
+        margin-top: 10px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.06);
+        font-size: 12px;
+        color: rgba(245, 242, 238, 0.85);
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
       .error {
         margin-top: 12px;
         color: #ff9da6;
@@ -80,10 +91,13 @@ const htmlShell = (body: string) => `<!doctype html>
   </body>
 </html>`;
 
-export function GET() {
+export function GET(request: Request) {
+  const url = new URL(request.url);
+  const provider = url.searchParams.get("provider") || "github";
   const body = `
       <h1>CMS Access</h1>
       <form method="post">
+        <input type="hidden" name="provider" value="${provider}" />
         <label for="password">Password</label>
         <input id="password" name="password" type="password" autocomplete="current-password" required />
         <button type="submit">Continue</button>
@@ -99,8 +113,13 @@ export function GET() {
 }
 
 export async function POST(request: Request) {
+  const url = new URL(request.url);
   const formData = await request.formData();
   const password = String(formData.get("password") || "");
+  const provider =
+    String(formData.get("provider") || "") ||
+    url.searchParams.get("provider") ||
+    "github";
 
   const expected = process.env.CMS_PASSWORD;
   const token = process.env.CMS_GITHUB_TOKEN;
@@ -115,6 +134,7 @@ export async function POST(request: Request) {
     const body = `
       <h1>CMS Access</h1>
       <form method="post">
+        <input type="hidden" name="provider" value="${provider}" />
         <label for="password">Password</label>
         <input id="password" name="password" type="password" autocomplete="current-password" required />
         <button type="submit">Continue</button>
@@ -130,25 +150,39 @@ export async function POST(request: Request) {
     });
   }
 
-  const message = `authorization:github:success:${JSON.stringify({
+  const message = `authorization:${provider}:success:${JSON.stringify({
     token,
-    provider: "github",
+    provider,
   })}`;
+
+  const targetOrigin = url.origin;
 
   const html = `<!doctype html>
 <html lang="en">
   <head><meta charset="utf-8" /></head>
   <body>
+    <div style="font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #0a090b; color: #f5f2ee; min-height: 100vh; padding: 32px;">
+      <div style="max-width: 520px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 24px; background:#141215;">
+        <h1 style="font-size:18px; margin:0 0 12px;">Login completed</h1>
+        <p style="margin:0 0 16px; color: rgba(245,242,238,0.7);">If the CMS didn’t switch, click the button below to resend the token.</p>
+        <button id="resend" style="padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.25); background:transparent; color:inherit; font-size:14px; text-transform:uppercase; letter-spacing:0.12em; cursor:pointer;">Send login to CMS</button>
+        <code>provider: ${provider}\norigin: ${targetOrigin}</code>
+      </div>
+    </div>
     <script>
       (function () {
         var message = ${JSON.stringify(message)};
-        var targetOrigin = "*";
-        if (window.opener) {
-          window.opener.postMessage(message, targetOrigin);
+        var targetOrigin = ${JSON.stringify(targetOrigin)};
+        function send() {
+          if (window.opener) {
+            window.opener.postMessage(message, targetOrigin);
+          } else {
+            console.warn("CMS login: window.opener is not available.");
+          }
         }
-        setTimeout(function () {
-          window.close();
-        }, 200);
+        send();
+        var btn = document.getElementById("resend");
+        if (btn) btn.addEventListener("click", send);
       })();
     </script>
   </body>

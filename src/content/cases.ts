@@ -16,6 +16,8 @@ export type CaseSectionBlock = {
   blocks?: CaseSectionContent[];
 };
 
+export type CaseSlug = string | { name: string; slug: string };
+
 export type CaseStudy = {
   slug: string;
   title: string;
@@ -32,10 +34,20 @@ const caseFiles = fs
   .readdirSync(casesDirectory)
   .filter((file) => file.endsWith(".json"));
 
+type CaseStudyRaw = Omit<CaseStudy, "slug"> & { slug: CaseSlug };
+
+const normalizeSlug = (slug: CaseSlug) =>
+  typeof slug === "string" ? slug : slug.slug;
+
+const normalizeCase = (raw: CaseStudyRaw): CaseStudy => ({
+  ...raw,
+  slug: normalizeSlug(raw.slug),
+});
+
 export const cases = caseFiles.map((file) => {
   const fullPath = path.join(casesDirectory, file);
   const raw = fs.readFileSync(fullPath, "utf-8");
-  return JSON.parse(raw) as CaseStudy;
+  return normalizeCase(JSON.parse(raw) as CaseStudyRaw);
 });
 
 export const getCaseBySlug = (slug: string) =>

@@ -1,5 +1,8 @@
 {
-  "slug": "railway-booking-flow",
+  "slug": {
+    "name": "railway-booking-flow",
+    "slug": "railway-booking-flow"
+  },
   "title": "RZD - Sanatorium & Resort Booking Service",
   "subtitle": "Turning a complex internal booking process into a predictable and reusable experience.",
   "coverSrc": "/cases/rzd/cover.png",

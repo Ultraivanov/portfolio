@@ -56,9 +56,9 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 12px;
-  line-height: 26px;
-  padding: 6px 24px;
-  height: auto;
+  line-height: 24px;
+  padding: 10px 28px;
+  min-height: 44px;
   display: inline-flex;
   width: auto;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), -2px 2px 0 #3c3c3c;
@@ -73,6 +73,13 @@
   background: transparent;
   border-color: var(--color-border-primary);
   color: var(--color-text-primary);
+}
+
+@media (max-width: 600px) {
+  .heroCta :global(.g-button) {
+    min-height: 48px;
+    padding: 12px 28px;
+  }
 }
 
 .about {

@@ -18,8 +18,11 @@ export default config({
       format: { data: "json" },
       schema: {
         slug: fields.slug({
-          name: { label: "Slug" },
-          slug: { label: "Slug value" },
+          name: {
+            label: "Slug source (paste Title)",
+            description: "Paste the Title here once, then click Regenerate.",
+          },
+          slug: { label: "Slug value (auto)" },
         }),
         title: fields.text({
           label: "Title",

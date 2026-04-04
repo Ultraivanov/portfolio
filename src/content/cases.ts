@@ -9,10 +9,6 @@ export type CaseSectionContent =
 
 export type CaseSectionBlock = {
   title: string;
-  body?: string[];
-  list?: string[];
-  links?: { label: string; href: string }[];
-  media?: { src: string; alt: string; caption?: string }[];
   blocks?: CaseSectionContent[];
 };
 

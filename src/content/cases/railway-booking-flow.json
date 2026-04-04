@@ -5,20 +5,59 @@
   "coverSrc": "/cases/rzd/cover.png",
   "coverAlt": "RZD sanatorium booking service cover",
   "facts": [
-    { "label": "domain", "value": ["Enterprise / Internal service"] },
-    { "label": "scope", "value": ["500+ resorts nationwide"] },
-    { "label": "audience", "value": ["Employees and families"] },
-    { "label": "platform context", "value": ["Internal portal (30+ services)"] },
-    { "label": "role", "value": ["Product Designer"] },
-    { "label": "focus", "value": ["Flow simplification, transparency, behavioral UX"] }
+    {
+      "label": "domain",
+      "value": [
+        "Enterprise / Internal service"
+      ]
+    },
+    {
+      "label": "scope",
+      "value": [
+        "500+ resorts nationwide"
+      ]
+    },
+    {
+      "label": "audience",
+      "value": [
+        "Employees and families"
+      ]
+    },
+    {
+      "label": "platform context",
+      "value": [
+        "Internal portal (30+ services)"
+      ]
+    },
+    {
+      "label": "role",
+      "value": [
+        "Product Designer"
+      ]
+    },
+    {
+      "label": "focus",
+      "value": [
+        "Flow simplification, transparency, behavioral UX"
+      ]
+    }
   ],
   "sections": [
     {
       "title": "Context",
-      "body": [
-        "The sanatorium booking service is one of many internal services in the RZD employee ecosystem. It sits inside a larger portal, but it is a single service with its own logic and behavior.",
-        "Functionally it resembles a booking platform, yet it has additional constraints that public services do not: subsidies and approvals, limited availability, internal rules, and mandatory documentation.",
-        "That combination created value and demand, but also made the service hard to trust and easy to abandon; usage lagged because people could not see how the system would behave for them."
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The sanatorium booking service is one of many internal services in the RZD employee ecosystem. It sits inside a larger portal, but it is a single service with its own logic and behavior."
+        },
+        {
+          "type": "paragraph",
+          "text": "Functionally it resembles a booking platform, yet it has additional constraints that public services do not: subsidies and approvals, limited availability, internal rules, and mandatory documentation."
+        },
+        {
+          "type": "paragraph",
+          "text": "That combination created value and demand, but also made the service hard to trust and easy to abandon; usage lagged because people could not see how the system would behave for them."
+        }
       ]
     },
     {
@@ -103,44 +142,79 @@
     },
     {
       "title": "Constraints",
-      "body": [
-        "The service operated inside fixed business rules: subsidies, approvals, quotas, and eligibility logic that could not be negotiated at the UX layer.",
-        "Multiple systems sat behind the flow, and I could not redesign backend logic or remove dependencies. Changes had to be incremental and compatible with legacy information architecture."
-      ],
-      "list": [
-        "Fixed business rules (subsidies, approvals, quotas).",
-        "Multiple systems behind the flow.",
-        "No ability to redesign backend logic.",
-        "Legacy structure and information architecture.",
-        "Need to reduce calls to resorts without changing operational processes.",
-        "Must work for multiple audience types simultaneously."
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The service operated inside fixed business rules: subsidies, approvals, quotas, and eligibility logic that could not be negotiated at the UX layer."
+        },
+        {
+          "type": "paragraph",
+          "text": "Multiple systems sat behind the flow, and I could not redesign backend logic or remove dependencies. Changes had to be incremental and compatible with legacy information architecture."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Fixed business rules (subsidies, approvals, quotas).",
+            "Multiple systems behind the flow.",
+            "No ability to redesign backend logic.",
+            "Legacy structure and information architecture.",
+            "Need to reduce calls to resorts without changing operational processes.",
+            "Must work for multiple audience types simultaneously."
+          ]
+        }
       ]
     },
     {
       "title": "Behavioral model",
-      "body": [
-        "A linear view of the service would describe it as Search -> Book -> Done. That model was misleading because it hides the loops, rejections, and approvals that shape real behavior.",
-        "I reframed the service as a behavioral loop: Experience -> Trust -> Return -> Habit. The goal was not only to complete a booking but to make the service something users would return to without hesitation.",
-        "This lens changed how I evaluated decisions: I did not just ask whether a step works, I asked whether it increases trust enough to create repeat use."
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "A linear view of the service would describe it as Search -> Book -> Done. That model was misleading because it hides the loops, rejections, and approvals that shape real behavior."
+        },
+        {
+          "type": "paragraph",
+          "text": "I reframed the service as a behavioral loop: Experience -> Trust -> Return -> Habit. The goal was not only to complete a booking but to make the service something users would return to without hesitation."
+        },
+        {
+          "type": "paragraph",
+          "text": "This lens changed how I evaluated decisions: I did not just ask whether a step works, I asked whether it increases trust enough to create repeat use."
+        }
       ]
     },
     {
       "title": "Key insight",
-      "body": [
-        "As the CJMs and loop maps came together, a pattern appeared. The service did not fail because it lacked features; it failed because its logic was invisible and therefore unpredictable.",
-        "Different users, under different eligibility and availability conditions, were pushed into different paths with no explanation. The same interface produced different outcomes, and users could not tell why.",
-        "This revealed that the right solution was not another UI layer. The service needed its logic to be structured and made visible so the flow could be anticipated rather than guessed."
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "As the CJMs and loop maps came together, a pattern appeared. The service did not fail because it lacked features; it failed because its logic was invisible and therefore unpredictable."
+        },
+        {
+          "type": "paragraph",
+          "text": "Different users, under different eligibility and availability conditions, were pushed into different paths with no explanation. The same interface produced different outcomes, and users could not tell why."
+        },
+        {
+          "type": "paragraph",
+          "text": "This revealed that the right solution was not another UI layer. The service needed its logic to be structured and made visible so the flow could be anticipated rather than guessed."
+        }
       ]
     },
     {
       "title": "Approach",
-      "body": [
-        "Instead of designing one ideal flow, I mapped the service across different audience scenarios. Each audience type had distinct expectations, but they all collided with the same approval logic and loops.",
-        "This included CJMs for each audience type, analysis of loops and breakdown points, and explicit mapping of approval and rejection paths. That work showed where users were forced to backtrack and where the system hid critical states.",
-        "Instead of simplifying logic, I focused on making it understandable. This led to a design approach that exposes rules early, clarifies state changes, and reduces unnecessary loops."
-      ],
-      "media": [
+      "blocks": [
         {
+          "type": "paragraph",
+          "text": "Instead of designing one ideal flow, I mapped the service across different audience scenarios. Each audience type had distinct expectations, but they all collided with the same approval logic and loops."
+        },
+        {
+          "type": "paragraph",
+          "text": "This included CJMs for each audience type, analysis of loops and breakdown points, and explicit mapping of approval and rejection paths. That work showed where users were forced to backtrack and where the system hid critical states."
+        },
+        {
+          "type": "paragraph",
+          "text": "Instead of simplifying logic, I focused on making it understandable. This led to a design approach that exposes rules early, clarifies state changes, and reduces unnecessary loops."
+        },
+        {
+          "type": "media",
           "src": "/cases/rzd/cjm-segmentation.png",
           "alt": "Audience scenarios mapped to flows",
           "caption": "Segmented audience journeys to see how the same service behaves differently for different users and where loops repeat."
@@ -149,29 +223,39 @@
     },
     {
       "title": "Design decisions",
-      "body": [
-        "The design decisions were not isolated UI changes. Each decision was tied to a specific behavioral breakdown: where users got stuck, where the system hid logic, or where the flow became non-linear without warning.",
-        "I used the CJMs and loop analysis as a constraint map. If a decision did not reduce uncertainty or make the flow more predictable, it was not enough."
-      ],
-      "list": [
-        "Structured comparison: replaced manual tab switching with a compact comparison layer so users could evaluate options without leaving the flow. This removed a major source of backtracking.",
-        "Loop control: made flows editable and preserved progress so users could recover without restarting. Loops remain only where required by business logic, and they are explained.",
-        "Transparency model: introduced visible steps, status tracking, document requirements, and expected timelines so users understand what happens next and why.",
-        "Multi-audience adaptation: the same service now supports different entry points and expectations, rather than forcing all users into a single path.",
-        "Information in the interface: moved critical details into the UI to reduce resort calls and prevent users from relying on external clarification."
-      ],
-      "media": [
+      "blocks": [
         {
+          "type": "paragraph",
+          "text": "The design decisions were not isolated UI changes. Each decision was tied to a specific behavioral breakdown: where users got stuck, where the system hid logic, or where the flow became non-linear without warning."
+        },
+        {
+          "type": "paragraph",
+          "text": "I used the CJMs and loop analysis as a constraint map. If a decision did not reduce uncertainty or make the flow more predictable, it was not enough."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Structured comparison: replaced manual tab switching with a compact comparison layer so users could evaluate options without leaving the flow. This removed a major source of backtracking.",
+            "Loop control: made flows editable and preserved progress so users could recover without restarting. Loops remain only where required by business logic, and they are explained.",
+            "Transparency model: introduced visible steps, status tracking, document requirements, and expected timelines so users understand what happens next and why.",
+            "Multi-audience adaptation: the same service now supports different entry points and expectations, rather than forcing all users into a single path.",
+            "Information in the interface: moved critical details into the UI to reduce resort calls and prevent users from relying on external clarification."
+          ]
+        },
+        {
+          "type": "media",
           "src": "/cases/rzd/search-results.png",
           "alt": "Structured comparison layer",
           "caption": "Introduced a comparison layer to eliminate manual tab switching and reduce decision friction."
         },
         {
+          "type": "media",
           "src": "/cases/rzd/application-form.png",
           "alt": "Transparent step-based booking",
           "caption": "Made steps, requirements, and timelines explicit so users can predict outcomes before committing."
         },
         {
+          "type": "media",
           "src": "/cases/rzd/tracking-1.png",
           "alt": "Clear booking status",
           "caption": "Visible status tracking replaces black-box outcomes with explicit state changes."
@@ -180,26 +264,50 @@
     },
     {
       "title": "Solution",
-      "body": [
-        "The service was redesigned into a structured, transparent system. The goal was not to add screens, but to make system behavior legible.",
-        "Users no longer needed to interpret hidden rules. The flow explains itself through visible steps, explicit states, and predictable transitions.",
-        "The result is a service that can be reused: once a user understands the model, it applies to future bookings and different audience scenarios."
-      ],
-      "list": [
-        "Clear comparison layer.",
-        "Predictable flow with minimal loops.",
-        "Visible booking states.",
-        "Editable steps with preserved progress.",
-        "Guidance integrated into the interface."
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The service was redesigned into a structured, transparent system. The goal was not to add screens, but to make system behavior legible."
+        },
+        {
+          "type": "paragraph",
+          "text": "Users no longer needed to interpret hidden rules. The flow explains itself through visible steps, explicit states, and predictable transitions."
+        },
+        {
+          "type": "paragraph",
+          "text": "The result is a service that can be reused: once a user understands the model, it applies to future bookings and different audience scenarios."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Clear comparison layer.",
+            "Predictable flow with minimal loops.",
+            "Visible booking states.",
+            "Editable steps with preserved progress.",
+            "Guidance integrated into the interface."
+          ]
+        }
       ]
     },
     {
       "title": "Outcome",
-      "body": [
-        "The most important shift was behavioral. Employees moved from avoiding the service to trusting it enough to return the next year.",
-        "That trust came from predictability: knowing what will happen, why it will happen, and how to recover when the system rejects a path.",
-        "The business signal of success is repeat use. The north star metric is Repeat Usage Share - the percentage of users who return to the service for another booking.",
-        "Operationally, clearer information inside the interface reduced calls to resorts and lowered friction across the booking cycle."
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The most important shift was behavioral. Employees moved from avoiding the service to trusting it enough to return the next year."
+        },
+        {
+          "type": "paragraph",
+          "text": "That trust came from predictability: knowing what will happen, why it will happen, and how to recover when the system rejects a path."
+        },
+        {
+          "type": "paragraph",
+          "text": "The business signal of success is repeat use. The north star metric is Repeat Usage Share - the percentage of users who return to the service for another booking."
+        },
+        {
+          "type": "paragraph",
+          "text": "Operationally, clearer information inside the interface reduced calls to resorts and lowered friction across the booking cycle."
+        }
       ]
     }
   ]

@@ -54,71 +54,47 @@ export default config({
           fields.object(
             {
               title: fields.text({ label: "Title" }),
-              body: fields.array(
-                fields.text({ label: "Paragraph", multiline: true }),
-                { label: "Body" },
-              ),
-              list: fields.array(fields.text({ label: "Item" }), {
-                label: "List",
-              }),
-              links: fields.array(
-                fields.object(
-                  {
-                    label: fields.text({ label: "Label" }),
-                    href: fields.url({
-                      label: "Href",
-                      validation: { isRequired: false },
-                    }),
+              blocks: fields.blocks(
+                {
+                  paragraph: {
+                    label: "Paragraph",
+                    schema: {
+                      text: fields.text({
+                        label: "Text",
+                        multiline: true,
+                      }),
+                    },
                   },
-                  { label: "Link" },
-                ),
-                { label: "Links" },
-              ),
-              media: fields.array(
-                fields.object(
-                  {
-                    src: fields.text({ label: "Src" }),
-                    alt: fields.text({ label: "Alt" }),
-                    caption: fields.text({
-                      label: "Caption",
-                      multiline: true,
-                    }),
+                  list: {
+                    label: "List",
+                    schema: {
+                      items: fields.array(fields.text({ label: "Item" }), {
+                        label: "Items",
+                      }),
+                    },
                   },
-                  { label: "Media item" },
-                ),
-                { label: "Media" },
-              ),
-              blocks: fields.array(
-                fields.object(
-                  {
-                    type: fields.select({
-                      label: "Type",
-                      options: [
-                        { label: "Paragraph", value: "paragraph" },
-                        { label: "List", value: "list" },
-                        { label: "Link", value: "link" },
-                        { label: "Media", value: "media" },
-                      ],
-                      defaultValue: "paragraph",
-                    }),
-                    text: fields.text({
-                      label: "Text",
-                      multiline: true,
-                    }),
-                    items: fields.array(fields.text({ label: "Item" }), {
-                      label: "Items",
-                    }),
-                    label: fields.text({ label: "Label" }),
-                    href: fields.url({ label: "Href" }),
-                    src: fields.text({ label: "Src" }),
-                    alt: fields.text({ label: "Alt" }),
-                    caption: fields.text({
-                      label: "Caption",
-                      multiline: true,
-                    }),
+                  link: {
+                    label: "Link",
+                    schema: {
+                      label: fields.text({ label: "Label" }),
+                      href: fields.url({
+                        label: "Href",
+                        validation: { isRequired: false },
+                      }),
+                    },
                   },
-                  { label: "Block" },
-                ),
+                  media: {
+                    label: "Media",
+                    schema: {
+                      src: fields.text({ label: "Src" }),
+                      alt: fields.text({ label: "Alt" }),
+                      caption: fields.text({
+                        label: "Caption",
+                        multiline: true,
+                      }),
+                    },
+                  },
+                },
                 { label: "Blocks" },
               ),
             },

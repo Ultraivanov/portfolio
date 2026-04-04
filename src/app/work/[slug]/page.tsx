@@ -60,39 +60,6 @@ export default function CasePage({ params }: CasePageProps) {
                 return null;
               })
             : null}
-          {!section.blocks?.length ? (
-            <>
-              {section.body?.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-              {section.list ? (
-                <ul>
-                  {section.list.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              ) : null}
-              {section.links?.map((link) => (
-                <a
-                  key={link.href}
-                  className="text-link"
-                  href={link.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {link.label}
-                </a>
-              ))}
-              {section.media?.map((item) => (
-                <CaseMedia
-                  key={item.src}
-                  src={item.src}
-                  alt={item.alt}
-                  caption={item.caption}
-                />
-              ))}
-            </>
-          ) : null}
         </CaseSection>
       ))}
     </article>

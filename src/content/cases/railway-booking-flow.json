@@ -210,6 +210,15 @@
           "text": "This included CJMs for each audience type, analysis of loops and breakdown points, and explicit mapping of approval and rejection paths. That work showed where users were forced to backtrack and where the system hid critical states."
         },
         {
+          "type": "list",
+          "items": [
+            "Price-sensitive users — need fast comparison",
+            "Overwhelmed users — need guidance",
+            "Location-first users — need structured discovery",
+            "Returning users — need low-friction repeat flow"
+          ]
+        },
+        {
           "type": "paragraph",
           "text": "Instead of simplifying logic, I focused on making it understandable. This led to a design approach that exposes rules early, clarifies state changes, and reduces unnecessary loops."
         },

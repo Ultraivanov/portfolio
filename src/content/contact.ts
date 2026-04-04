@@ -11,7 +11,7 @@ export const contact: ContactContent = {
   title: "Get in touch",
   subtitle:
     "If you want to discuss a product, case study, or role, send a short brief and I will reply with next steps.",
-  email: "hello@example.com",
+  email: "dima@ginzburg.work",
   availability: "Available for product and system design projects",
   location: "Based in Tel Aviv · Open to global teams",
   note: "Please include context, timelines, and decision owner so I can respond faster.",

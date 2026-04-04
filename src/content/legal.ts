@@ -15,9 +15,9 @@ export type LegalPageContent = {
 
 export const privacyPolicy: LegalPageContent = {
   title: "Privacy Policy",
-  updated: "Updated March 26, 2026",
+  updated: "Updated April 4, 2026",
   intro:
-    "This Privacy Policy explains how we collect, use, and protect information when you use this website and contact the designer.",
+    "This Privacy Policy explains how information is handled when you use ginsburg.work and contact the designer.",
   items: [
     {
       id: "01",
@@ -73,16 +73,16 @@ export const privacyPolicy: LegalPageContent = {
     {
       id: "08",
       title: "Contact",
-      body: ["Questions about privacy can be sent to hello@example.com."],
+      body: ["Questions about privacy can be sent to dima@ginzburg.work."],
     },
   ],
 };
 
 export const termsOfUse: LegalPageContent = {
   title: "Terms of Use",
-  updated: "Updated March 26, 2026",
+  updated: "Updated April 4, 2026",
   intro:
-    "These Terms describe how you can use this portfolio website and its content.",
+    "These Terms describe how you can use ginsburg.work and its content.",
   items: [
     {
       id: "01",
@@ -115,7 +115,7 @@ export const termsOfUse: LegalPageContent = {
     {
       id: "05",
       title: "Contact",
-      body: ["For usage questions, email hello@example.com."],
+      body: ["For usage questions, email dima@ginzburg.work."],
     },
   ],
 };

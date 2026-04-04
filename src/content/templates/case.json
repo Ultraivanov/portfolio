@@ -1,0 +1,165 @@
+{
+  "slug": "",
+  "title": "",
+  "subtitle": "",
+  "coverSrc": "",
+  "coverAlt": "",
+  "facts": [
+    {
+      "label": "domain",
+      "value": [
+        ""
+      ]
+    },
+    {
+      "label": "scope",
+      "value": [
+        ""
+      ]
+    },
+    {
+      "label": "audience",
+      "value": [
+        ""
+      ]
+    },
+    {
+      "label": "platform context",
+      "value": [
+        ""
+      ]
+    },
+    {
+      "label": "role",
+      "value": [
+        ""
+      ]
+    },
+    {
+      "label": "focus",
+      "value": [
+        ""
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Context",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "title": "Problem",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        },
+        {
+          "type": "list",
+          "items": [
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Constraints",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        },
+        {
+          "type": "list",
+          "items": [
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Behavioral model",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "title": "Key insight",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "title": "Approach",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "title": "Design decisions",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        },
+        {
+          "type": "list",
+          "items": [
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Solution",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "title": "Outcome",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        },
+        {
+          "type": "list",
+          "items": [
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Reflection",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": ""
+        }
+      ]
+    }
+  ]
+}

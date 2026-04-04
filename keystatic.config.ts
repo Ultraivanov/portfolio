@@ -13,6 +13,7 @@ export default config({
     cases: collection({
       label: "Cases",
       path: "src/content/cases/*",
+      template: "src/content/templates/case",
       slugField: "slug",
       format: { data: "json" },
       schema: {

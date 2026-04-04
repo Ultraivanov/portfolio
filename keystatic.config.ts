@@ -91,6 +91,12 @@ export default config({
         pastProjects: fields.object(
           {
             label: fields.text({ label: "Label" }),
+            maxItems: fields.integer({
+              label: "Max items",
+              description: "How many items to show on the homepage (e.g. 5)",
+              defaultValue: 5,
+              validation: { isRequired: false, min: 1, max: 6 },
+            }),
             items: fields.array(
               fields.object(
                 {

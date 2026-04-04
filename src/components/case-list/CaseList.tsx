@@ -7,11 +7,18 @@ type CaseListProps = {
 };
 
 export default function CaseList({ data }: CaseListProps) {
+  const maxItems =
+    typeof data.maxItems === "number" && data.maxItems > 0
+      ? Math.min(data.maxItems, data.items.length)
+      : data.items.length;
+
+  const items = data.items.slice(0, maxItems);
+
   return (
     <section className={styles.section}>
       <div className={styles.label}>{data.label}</div>
       <div className={styles.list}>
-        {data.items.map((item) => (
+        {items.map((item) => (
           <div key={`${item.title}-${item.year}`} className={styles.rowWrap}>
             {item.href || item.caseSlug ? (
               <Link

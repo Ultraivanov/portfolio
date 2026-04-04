@@ -49,6 +49,7 @@ export type PastProject = {
 
 export type PastProjects = {
   label: string;
+  maxItems?: number | null;
   items: PastProject[];
 };
 

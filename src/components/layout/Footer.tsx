@@ -14,12 +14,7 @@ export default function Footer() {
           Terms of Use
         </a>
         <div className={styles.footerMark}>
-          <Image
-            src="/home/footer-mark.png"
-            alt="Fundrising design"
-            width={97}
-            height={36}
-          />
+          <img src="/home/footer-mark.svg" alt="Fundrising design" />
         </div>
       </Container>
     </footer>

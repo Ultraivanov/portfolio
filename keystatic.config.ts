@@ -17,41 +17,94 @@ export default config({
       schema: {
         hero: fields.object(
           {
-            title: fields.text({ label: "Title" }),
-            role: fields.text({ label: "Role" }),
+            titleImageSrc: fields.text({
+              label: "Title image src",
+              description: "Path in /public, e.g. /home/hero-title.png",
+            }),
+            titleImageAlt: fields.text({ label: "Title image alt" }),
             headline: fields.text({ label: "Headline", multiline: true }),
-            subhead: fields.text({ label: "Subhead", multiline: true }),
-            primaryCTA: fields.text({ label: "Primary CTA" }),
-            secondaryCTA: fields.text({ label: "Secondary CTA" }),
+            ctaLabel: fields.text({ label: "CTA label" }),
+            ctaHref: fields.text({ label: "CTA href" }),
           },
           { label: "Hero" },
         ),
-        intro: fields.object(
+        about: fields.object(
           {
             name: fields.text({ label: "Name" }),
             role: fields.text({ label: "Role" }),
             avatarSrc: fields.text({
               label: "Avatar src",
-              description: "Path in /public, e.g. /avatar.png",
+              description: "Path in /public, e.g. /home/avatar.png",
             }),
-            highlights: fields.array(fields.text({ label: "Highlight" }), {
-              label: "Highlights",
+            description: fields.text({
+              label: "Description",
+              multiline: true,
             }),
           },
-          { label: "Intro" },
+          { label: "About" },
         ),
-        valueProps: fields.array(
-          fields.object(
-            {
-              title: fields.text({ label: "Title" }),
-              description: fields.text({
-                label: "Description",
-                multiline: true,
-              }),
-            },
-            { label: "Value item" },
-          ),
-          { label: "Value props" },
+        cover: fields.object(
+          {
+            src: fields.text({
+              label: "Cover src",
+              description: "Path in /public, e.g. /home/cover.png",
+            }),
+            alt: fields.text({ label: "Cover alt" }),
+          },
+          { label: "Cover" },
+        ),
+        skills: fields.object(
+          {
+            label: fields.text({ label: "Label" }),
+            groups: fields.array(
+              fields.object(
+                {
+                  title: fields.text({ label: "Title" }),
+                  items: fields.array(fields.text({ label: "Item" }), {
+                    label: "Items",
+                  }),
+                },
+                { label: "Group" },
+              ),
+              { label: "Groups" },
+            ),
+          },
+          { label: "Skills" },
+        ),
+        tools: fields.object(
+          {
+            label: fields.text({ label: "Label" }),
+            groups: fields.array(
+              fields.object(
+                {
+                  items: fields.array(fields.text({ label: "Item" }), {
+                    label: "Items",
+                  }),
+                },
+                { label: "Group" },
+              ),
+              { label: "Groups" },
+            ),
+          },
+          { label: "Tools" },
+        ),
+        pastProjects: fields.object(
+          {
+            label: fields.text({ label: "Label" }),
+            items: fields.array(
+              fields.object(
+                {
+                  title: fields.text({ label: "Title" }),
+                  detail: fields.text({ label: "Detail" }),
+                  year: fields.text({ label: "Year" }),
+                  href: fields.text({ label: "Href", validation: { isRequired: false } }),
+                },
+                { label: "Item" },
+              ),
+              { label: "Items" },
+            ),
+          },
+          { label: "Past projects" },
         ),
       },
     }),

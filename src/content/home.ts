@@ -1,30 +1,63 @@
 import homeData from "./home.json";
 
 export type Hero = {
-  title: string;
-  role: string;
+  titleImageSrc: string;
+  titleImageAlt: string;
   headline: string;
-  subhead: string;
-  primaryCTA: string;
-  secondaryCTA: string;
+  ctaLabel: string;
+  ctaHref: string;
 };
 
-export type Intro = {
+export type About = {
   name: string;
   role: string;
   avatarSrc: string;
-  highlights: string[];
+  description: string;
 };
 
-export type ValueItem = {
+export type SkillGroup = {
   title: string;
-  description: string;
+  items: string[];
+};
+
+export type SkillSection = {
+  label: string;
+  groups: SkillGroup[];
+};
+
+export type ToolGroup = {
+  items: string[];
+};
+
+export type ToolSection = {
+  label: string;
+  groups: ToolGroup[];
+};
+
+export type Cover = {
+  src: string;
+  alt: string;
+};
+
+export type PastProject = {
+  title: string;
+  detail: string;
+  year: string;
+  href?: string;
+};
+
+export type PastProjects = {
+  label: string;
+  items: PastProject[];
 };
 
 export type HomeContent = {
   hero: Hero;
-  intro: Intro;
-  valueProps: ValueItem[];
+  about: About;
+  cover: Cover;
+  skills: SkillSection;
+  tools: ToolSection;
+  pastProjects: PastProjects;
 };
 
 export const home = homeData as HomeContent;

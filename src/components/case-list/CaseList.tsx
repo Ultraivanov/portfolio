@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { PastProjects } from "@/content/pastProjects";
+import type { PastProjects } from "@/content/home";
 import styles from "./case-list.module.css";
 
 type CaseListProps = {

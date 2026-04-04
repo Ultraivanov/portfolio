@@ -1,39 +1,100 @@
 {
   "hero": {
-    "title": "Portfolio",
-    "role": "Product Designer",
-    "headline": "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
-    "subhead": "Working across UX, systems, and product narrative — from early ambiguity to shipped solutions.",
-    "primaryCTA": "View work",
-    "secondaryCTA": "Get in touch"
+    "titleImageSrc": "/home/hero-title.png",
+    "titleImageAlt": "Portfolio",
+    "headline": "I turn messy product problems into clear structure, usable flows, and credible interfaces",
+    "ctaLabel": "Get in touch",
+    "ctaHref": "/contact"
   },
-  "intro": {
+  "about": {
     "name": "Dima Ginzburg",
-    "role": "Product / communication Designer",
-    "avatarSrc": "/avatar.png",
-    "highlights": [
-      "Designer with full-stack expertise focusing in UI and combining UX and visual design",
-      "Mastery of Figma (components, libraries, plugins, variables), skilled on AI-based building",
-      "Experienced in prototypes to showcase product interactions and boost engagement",
-      "Background in media, ecommerce, game development. Over 7 years of experience in entrepreneurship"
+    "role": "Product/Web Designer • AI builder",
+    "avatarSrc": "/home/avatar-dima.png",
+    "description": "Product / Web Designer with experience in early-stage products, web design, and visual concepts. I design websites, interfaces, and user flows — from idea and structure to final UI. My focus is translating product ideas and constraints into clear, well-structured visual solutions that are easy to understand and communicate — both for users and stakeholders."
+  },
+  "cover": {
+    "src": "/home/cover-1.png",
+    "alt": "Product visual preview"
+  },
+  "skills": {
+    "label": "skills:",
+    "groups": [
+      {
+        "title": "Product & UX",
+        "items": [
+          "Product strategy",
+          "UX system",
+          "Product framing",
+          "Product narratives",
+          "Interaction design"
+        ]
+      },
+      {
+        "title": "Research & Validation",
+        "items": [
+          "JTBD",
+          "User research",
+          "Persona hypothesis",
+          "CJM",
+          "A/B testing"
+        ]
+      },
+      {
+        "title": "Delivery & Execution",
+        "items": [
+          "Prototyping",
+          "Wireframing",
+          "Micro-interaction",
+          "Design systems",
+          "shadcn/UI Kit"
+        ]
+      }
     ]
   },
-  "valueProps": [
-    {
-      "title": "Make product logic usable",
-      "description": "Turn multi-step flows, constraints, and edge cases into something people can actually navigate."
-    },
-    {
-      "title": "Structure messy\nflows",
-      "description": "Bring order to fragmented journeys, unclear states, and broken logic."
-    },
-    {
-      "title": "Build systems that scale",
-      "description": "Design UI patterns and foundations that survive growth and iteration."
-    },
-    {
-      "title": "Clarify product\nthinking",
-      "description": "Translate product logic into interfaces, flows, and communication everyone understands."
-    }
-  ]
+  "tools": {
+    "label": "tools:",
+    "groups": [
+      {
+        "items": [
+          "Figma",
+          "Sketch",
+          "Adobe XD",
+          "Framer"
+        ]
+      },
+      {
+        "items": [
+          "Codex",
+          "Claude Code",
+          "Stitch"
+        ]
+      }
+    ]
+  },
+  "pastProjects": {
+    "label": "Past projects:",
+    "items": [
+      {
+        "title": "Megamod",
+        "detail": "UX structure, visual system, investors website, pitch decks, and marketing assets",
+        "year": "2024–2025"
+      },
+      {
+        "title": "My Perfect Greek Vacation",
+        "detail": "Travel Booking Platform",
+        "year": "2023"
+      },
+      {
+        "title": "Russian Railway",
+        "detail": "Product Design",
+        "year": "2022"
+      },
+      {
+        "title": "Russian Railways",
+        "detail": "Resort booking case",
+        "year": "2020–2021",
+        "href": "/work/railway-booking-flow"
+      }
+    ]
+  }
 }

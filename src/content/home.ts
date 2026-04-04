@@ -44,6 +44,7 @@ export type PastProject = {
   detail: string;
   year: string;
   href?: string;
+  caseSlug?: string;
 };
 
 export type PastProjects = {

@@ -58,6 +58,8 @@
   row-gap: var(--space-1);
   font-size: var(--text-body);
   line-height: var(--leading-snug);
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .title {
@@ -89,5 +91,10 @@
 
   .text {
     column-gap: var(--space-1);
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
   }
 }

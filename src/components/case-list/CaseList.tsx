@@ -13,8 +13,11 @@ export default function CaseList({ data }: CaseListProps) {
       <div className={styles.list}>
         {data.items.map((item) => (
           <div key={`${item.title}-${item.year}`} className={styles.rowWrap}>
-            {item.href ? (
-              <Link className={styles.row} href={item.href}>
+            {item.href || item.caseSlug ? (
+              <Link
+                className={styles.row}
+                href={item.href ?? `/work/${item.caseSlug}`}
+              >
                 <span className={styles.text}>
                   <span className={styles.title}>{item.title}</span>
                   <span className={styles.separator}>•</span>

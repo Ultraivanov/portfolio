@@ -98,6 +98,11 @@ export default config({
                   detail: fields.text({ label: "Detail" }),
                   year: fields.text({ label: "Year" }),
                   href: fields.text({ label: "Href", validation: { isRequired: false } }),
+                  caseSlug: fields.text({
+                    label: "Case slug",
+                    description: "Optional: auto-links to /work/{slug} if href is empty.",
+                    validation: { isRequired: false },
+                  }),
                 },
                 { label: "Item" },
               ),

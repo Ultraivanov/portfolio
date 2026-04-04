@@ -28,6 +28,29 @@
   gap: var(--space-4);
 }
 
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.headerLogo {
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.headerLogo:hover {
+  color: var(--color-text-muted);
+}
+
+.headerLogo:focus-visible {
+  outline: 1px solid var(--color-text-primary);
+  outline-offset: 4px;
+}
+
 .nav {
   display: flex;
   align-items: center;
@@ -112,6 +135,10 @@
     align-items: center;
     padding-block: var(--space-3) var(--space-2);
     min-height: auto;
+  }
+
+  .headerLeft {
+    gap: var(--space-3);
   }
 
   .nav {

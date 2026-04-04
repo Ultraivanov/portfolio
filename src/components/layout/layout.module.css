@@ -90,17 +90,6 @@
   white-space: nowrap;
 }
 
-.footerMark {
-  display: flex;
-  align-items: center;
-}
-
-.footerMark img {
-  width: 97px;
-  height: auto;
-  display: block;
-}
-
 @media (max-width: 900px) {
   .footerInner {
     flex-direction: column;

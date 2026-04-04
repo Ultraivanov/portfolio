@@ -13,9 +13,6 @@ export default function Footer() {
         <a className={styles.footerLink} href="/terms">
           Terms of Use
         </a>
-        <div className={styles.footerMark}>
-          <img src="/home/footer-mark.svg" alt="Fundrising design" />
-        </div>
       </Container>
     </footer>
   );

@@ -8,7 +8,11 @@ export default function Header() {
       <Container className={styles.headerInner}>
         <div className={styles.headerLeft}>
           <a className={styles.headerLogo} href="/" aria-label="Home">
-            dg
+            <img
+              className={styles.headerLogoImage}
+              src="/home/logo.svg"
+              alt="Dima Ginzburg"
+            />
           </a>
           <nav className={styles.nav} aria-label="Primary">
             <a className={styles.navLink} href="/work">

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#F5F2EA"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+    font-family="SF Mono, Menlo, Consolas, 'Liberation Mono', monospace" font-size="280" fill="#000">
+    DG
+  </text>
+</svg>

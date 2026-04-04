@@ -1,6 +1,6 @@
 {
   "hero": {
-    "titleImageSrc": "/home/hero-title.png",
+    "titleImageSrc": "/home/hero-title.svg",
     "titleImageAlt": "Portfolio",
     "headline": "I turn messy product problems into clear structure, usable flows, and credible interfaces",
     "ctaLabel": "Get in touch",

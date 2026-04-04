@@ -15,13 +15,7 @@ export default function HomePage({ data }: HomePageProps) {
     <section className={styles.page}>
       <div className={styles.hero}>
         <div className={styles.heroTitle}>
-          <Image
-            src={data.hero.titleImageSrc}
-            alt={data.hero.titleImageAlt}
-            fill
-            priority
-            sizes="(max-width: 1200px) 100vw, 1080px"
-          />
+          <img src={data.hero.titleImageSrc} alt={data.hero.titleImageAlt} />
         </div>
         <p className={styles.heroHeadline}>{data.hero.headline}</p>
         <Button

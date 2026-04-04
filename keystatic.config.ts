@@ -58,41 +58,41 @@ export default config({
                 {
                   paragraph: {
                     label: "Paragraph",
-                    schema: {
+                    schema: fields.object({
                       text: fields.text({
                         label: "Text",
                         multiline: true,
                       }),
-                    },
+                    }),
                   },
                   list: {
                     label: "List",
-                    schema: {
+                    schema: fields.object({
                       items: fields.array(fields.text({ label: "Item" }), {
                         label: "Items",
                       }),
-                    },
+                    }),
                   },
                   link: {
                     label: "Link",
-                    schema: {
+                    schema: fields.object({
                       label: fields.text({ label: "Label" }),
                       href: fields.url({
                         label: "Href",
                         validation: { isRequired: false },
                       }),
-                    },
+                    }),
                   },
                   media: {
                     label: "Media",
-                    schema: {
+                    schema: fields.object({
                       src: fields.text({ label: "Src" }),
                       alt: fields.text({ label: "Alt" }),
                       caption: fields.text({
                         label: "Caption",
                         multiline: true,
                       }),
-                    },
+                    }),
                   },
                 },
                 { label: "Blocks" },

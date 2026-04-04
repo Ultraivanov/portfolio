@@ -42,6 +42,14 @@
   --font-display: "IBM Plex Sans";
 }
 
+:root[data-theme="light"] {
+  --color-bg: #f5f2ea;
+  --color-text-primary: #151515;
+  --color-text-muted: #5a5a5a;
+  --color-border-primary: #c7c1b4;
+  --color-border-subtle: #e1dbcf;
+}
+
 html {
   height: 100%;
 }

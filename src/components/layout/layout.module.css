@@ -25,16 +25,23 @@
   align-items: center;
   justify-content: space-between;
   min-height: var(--space-12);
+  gap: var(--space-4);
 }
 
 .nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: flex-start;
+  width: auto;
+  gap: var(--space-4);
   font-size: var(--text-label);
   letter-spacing: 0.2em;
   color: var(--color-text-primary);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
 }
 
 .navLink {
@@ -117,5 +124,9 @@
     gap: 20px;
     flex-wrap: wrap;
     padding-top: var(--space-1);
+  }
+
+  .headerActions {
+    margin-top: var(--space-2);
   }
 }

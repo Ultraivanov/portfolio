@@ -1,5 +1,6 @@
 import Container from "./Container";
 import styles from "./layout.module.css";
+import ThemeToggle from "../theme/ThemeToggle";
 
 export default function Header() {
   return (
@@ -21,6 +22,9 @@ export default function Header() {
             connect
           </a>
         </nav>
+        <div className={styles.headerActions}>
+          <ThemeToggle />
+        </div>
       </Container>
     </header>
   );

@@ -33,12 +33,18 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon.ico", type: "image/x-icon" },
+      { url: "/favicon.svg?v=1", type: "image/svg+xml" },
+      { url: "/favicon-32.png?v=1", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png?v=1", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico?v=1", type: "image/x-icon" },
     ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      {
+        url: "/apple-touch-icon.png?v=1",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
   },
 };
 

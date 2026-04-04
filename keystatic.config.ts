@@ -1,8 +1,7 @@
 import { config, fields, collection } from "@keystatic/core";
-import type { RepoConfig } from "@keystatic/core/config";
 
 const githubRepo = (process.env.KEYSTATIC_GITHUB_REPO ||
-  "Ultraivanov/portfolio") as RepoConfig;
+  "Ultraivanov/portfolio") as `${string}/${string}`;
 const useGithub =
   !!process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
   !!process.env.KEYSTATIC_GITHUB_CLIENT_SECRET &&

@@ -1,0 +1,39 @@
+{
+  "hero": {
+    "title": "Portfolio",
+    "role": "Product Designer",
+    "headline": "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
+    "subhead": "Working across UX, systems, and product narrative — from early ambiguity to shipped solutions.",
+    "primaryCTA": "View work",
+    "secondaryCTA": "Get in touch"
+  },
+  "intro": {
+    "name": "Dima Ginzburg",
+    "role": "Product / communication Designer",
+    "avatarSrc": "/avatar.png",
+    "highlights": [
+      "Designer with full-stack expertise focusing in UI and combining UX and visual design",
+      "Mastery of Figma (components, libraries, plugins, variables), skilled on AI-based building",
+      "Experienced in prototypes to showcase product interactions and boost engagement",
+      "Background in media, ecommerce, game development. Over 7 years of experience in entrepreneurship"
+    ]
+  },
+  "valueProps": [
+    {
+      "title": "Make product logic usable",
+      "description": "Turn multi-step flows, constraints, and edge cases into something people can actually navigate."
+    },
+    {
+      "title": "Structure messy\nflows",
+      "description": "Bring order to fragmented journeys, unclear states, and broken logic."
+    },
+    {
+      "title": "Build systems that scale",
+      "description": "Design UI patterns and foundations that survive growth and iteration."
+    },
+    {
+      "title": "Clarify product\nthinking",
+      "description": "Translate product logic into interfaces, flows, and communication everyone understands."
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { Button } from "@gravity-ui/uikit";
-import type { Hero as HeroData } from "@/content/hero";
+import type { Hero as HeroData } from "@/content/home";
 import styles from "./hero.module.css";
 
 type HeroProps = {

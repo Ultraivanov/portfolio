@@ -1,4 +1,4 @@
-import { config, fields, collection } from "@keystatic/core";
+import { config, fields, collection, singleton } from "@keystatic/core";
 
 const githubRepo = (process.env.KEYSTATIC_GITHUB_REPO ||
   "Ultraivanov/portfolio") as `${string}/${string}`;
@@ -9,6 +9,53 @@ const useGithub =
 
 export default config({
   storage: useGithub ? { kind: "github", repo: githubRepo } : { kind: "local" },
+  singletons: {
+    home: singleton({
+      label: "Home",
+      path: "src/content/home",
+      format: { data: "json" },
+      schema: {
+        hero: fields.object(
+          {
+            title: fields.text({ label: "Title" }),
+            role: fields.text({ label: "Role" }),
+            headline: fields.text({ label: "Headline", multiline: true }),
+            subhead: fields.text({ label: "Subhead", multiline: true }),
+            primaryCTA: fields.text({ label: "Primary CTA" }),
+            secondaryCTA: fields.text({ label: "Secondary CTA" }),
+          },
+          { label: "Hero" },
+        ),
+        intro: fields.object(
+          {
+            name: fields.text({ label: "Name" }),
+            role: fields.text({ label: "Role" }),
+            avatarSrc: fields.text({
+              label: "Avatar src",
+              description: "Path in /public, e.g. /avatar.png",
+            }),
+            highlights: fields.array(fields.text({ label: "Highlight" }), {
+              label: "Highlights",
+            }),
+          },
+          { label: "Intro" },
+        ),
+        valueProps: fields.array(
+          fields.object(
+            {
+              title: fields.text({ label: "Title" }),
+              description: fields.text({
+                label: "Description",
+                multiline: true,
+              }),
+            },
+            { label: "Value item" },
+          ),
+          { label: "Value props" },
+        ),
+      },
+    }),
+  },
   collections: {
     cases: collection({
       label: "Cases",

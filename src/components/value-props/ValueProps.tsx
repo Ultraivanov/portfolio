@@ -1,4 +1,4 @@
-import type { ValueItem } from "@/content/valueProps";
+import type { ValueItem } from "@/content/home";
 import styles from "./value-props.module.css";
 
 type ValuePropsSectionProps = {

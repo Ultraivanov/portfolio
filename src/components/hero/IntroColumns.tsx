@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Intro } from "@/content/intro";
+import type { Intro } from "@/content/home";
 import styles from "./intro-columns.module.css";
 
 type IntroColumnsProps = {

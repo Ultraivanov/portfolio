@@ -4,18 +4,16 @@ import Hero from "@/components/hero/Hero";
 import IntroColumns from "@/components/hero/IntroColumns";
 import ValueProps from "@/components/value-props/ValueProps";
 import { cover } from "@/content/cover";
-import { hero } from "@/content/hero";
-import { intro } from "@/content/intro";
+import { home } from "@/content/home";
 import { pastProjects } from "@/content/pastProjects";
-import { valueProps } from "@/content/valueProps";
 
 export default function Home() {
   return (
     <section>
-      <Hero data={hero} />
-      <IntroColumns data={intro} />
+      <Hero data={home.hero} />
+      <IntroColumns data={home.intro} />
       <Cover data={cover} />
-      <ValueProps items={valueProps} />
+      <ValueProps items={home.valueProps} />
       <CaseList data={pastProjects} />
       <div id="work" />
       <div id="contact" />

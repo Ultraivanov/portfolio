@@ -115,7 +115,7 @@
   .headerInner {
     flex-direction: column;
     align-items: flex-start;
-    padding: var(--space-3) 0 var(--space-2);
+    padding-block: var(--space-3) var(--space-2);
     min-height: auto;
   }
 

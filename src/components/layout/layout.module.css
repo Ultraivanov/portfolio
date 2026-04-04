@@ -113,8 +113,8 @@
   }
 
   .headerInner {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     padding-block: var(--space-3) var(--space-2);
     min-height: auto;
   }
@@ -122,11 +122,11 @@
   .nav {
     justify-content: flex-start;
     gap: 20px;
-    flex-wrap: wrap;
-    padding-top: var(--space-1);
+    flex-wrap: nowrap;
+    padding-top: 0;
   }
 
   .headerActions {
-    margin-top: var(--space-2);
+    margin-top: 0;
   }
 }

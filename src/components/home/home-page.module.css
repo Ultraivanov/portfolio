@@ -44,8 +44,8 @@
 }
 
 .heroHeadline {
-  font-size: 40px;
-  line-height: 48px;
+  font-size: 32px;
+  line-height: 40px;
   color: var(--color-text-primary);
 }
 
@@ -76,6 +76,11 @@
 }
 
 @media (max-width: 600px) {
+  .heroHeadline {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
   .heroCta :global(.g-button) {
     min-height: 48px;
     padding: 12px 28px;

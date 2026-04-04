@@ -235,6 +235,40 @@
     height: 96px;
   }
 
+  .skillsTools {
+    gap: var(--space-5);
+  }
+
+  .sectionLabel {
+    padding: 8px 0;
+  }
+
+  .skillGroups {
+    gap: 16px;
+    width: 100%;
+  }
+
+  .skillTitle {
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .skillList,
+  .toolList {
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .tools {
+    width: 100%;
+  }
+
+  .toolGroups {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+  }
+
   .skillGroups {
     grid-template-columns: 1fr;
   }

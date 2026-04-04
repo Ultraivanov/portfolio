@@ -1,20 +1,7 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans } from "next/font/google";
 import ClientProviders from "@/components/ClientProviders";
 import Layout from "@/components/layout/Layout";
 import "./globals.css";
-
-const bodyFont = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-body",
-});
-
-const displayFont = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-display",
-});
 
 export const metadata: Metadata = {
   title: "Dima Ginzburg — Product Designer",
@@ -27,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${bodyFont.variable} ${displayFont.variable}`}>
+    <html lang="en">
       <head>
         <script
           async

@@ -168,17 +168,20 @@ export default function HomePage({ data }: HomePageProps) {
           </h2>
         </div>
         <div className={styles.resourcesGrid}>
-          {data.resources.items.map((item, index) => (
-            <a
-              key={`${item.title}-${index}`}
-              className={styles.resourceCard}
-              href={item.href}
-            >
-              <p className={styles.resourceTitle}>{item.title}</p>
-              <p className={styles.resourceDescription}>{item.description}</p>
-              <span className={styles.resourceLink}>{item.linkLabel}</span>
-            </a>
-          ))}
+          {data.resources.items.map((item, index) => {
+            const label = item.linkLabel.replace(/\s*→\s*$/u, "");
+            return (
+              <a
+                key={`${item.title}-${index}`}
+                className={styles.resourceCard}
+                href={item.href}
+              >
+                <p className={styles.resourceTitle}>{item.title}</p>
+                <p className={styles.resourceDescription}>{item.description}</p>
+                <span className={styles.resourceLink}>{label}</span>
+              </a>
+            );
+          })}
         </div>
       </section>
     </article>

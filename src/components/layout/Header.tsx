@@ -9,8 +9,13 @@ export default function Header() {
         <div className={styles.headerLeft}>
           <a className={styles.headerLogo} href="/" aria-label="Home">
             <img
-              className={styles.headerLogoImage}
+              className={styles.headerLogoImageLight}
               src="/home/logo.svg"
+              alt="Dima Ginzburg"
+            />
+            <img
+              className={styles.headerLogoImageDark}
+              src="/home/logo-dark.svg"
               alt="Dima Ginzburg"
             />
           </a>

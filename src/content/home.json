@@ -76,7 +76,7 @@
     ]
   },
   "pastProjects": {
-    "label": "Past projects:",
+    "label": "/ Past projects",
     "maxItems": 4,
     "featuredCases": [],
     "items": [
@@ -111,7 +111,7 @@
     ]
   },
   "resources": {
-    "label": "Resources",
+    "label": "/ Resources",
     "items": [
       {
         "title": "Config Presets",

@@ -4,7 +4,9 @@
     "titleImageAlt": "Portfolio",
     "headline": "I turn messy product problems into clear structure, usable flows, and credible interfaces",
     "ctaLabel": "Get in touch",
-    "ctaHref": "/contact"
+    "ctaHref": "/contact",
+    "secondaryCtaLabel": "Hire me",
+    "secondaryCtaHref": "/cv"
   },
   "about": {
     "name": "Dima Ginzburg",

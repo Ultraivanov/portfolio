@@ -30,14 +30,19 @@ export default function HomePage({ data }: HomePageProps) {
           <img src={titleSrc} alt={data.hero.titleImageAlt} />
         </div>
         <p className={styles.heroHeadline}>{data.hero.headline}</p>
-        <Button
-          size="m"
-          view="outlined"
-          className={styles.heroCta}
-          href={data.hero.ctaHref}
-        >
-          {data.hero.ctaLabel}
-        </Button>
+        <div className={styles.heroCtas}>
+          <Button
+            size="m"
+            view="outlined"
+            className={styles.heroCta}
+            href={data.hero.ctaHref}
+          >
+            {data.hero.ctaLabel}
+          </Button>
+          <a className={styles.heroCtaSecondary} href={data.hero.secondaryCtaHref}>
+            {data.hero.secondaryCtaLabel}
+          </a>
+        </div>
       </section>
 
       <section className={styles.about} aria-labelledby="about-title">

@@ -25,6 +25,12 @@ export default config({
             headline: fields.text({ label: "Headline", multiline: true }),
             ctaLabel: fields.text({ label: "CTA label" }),
             ctaHref: fields.text({ label: "CTA href" }),
+            secondaryCtaLabel: fields.text({
+              label: "Secondary CTA label",
+            }),
+            secondaryCtaHref: fields.text({
+              label: "Secondary CTA href",
+            }),
           },
           { label: "Hero" },
         ),

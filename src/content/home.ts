@@ -6,6 +6,8 @@ export type Hero = {
   headline: string;
   ctaLabel: string;
   ctaHref: string;
+  secondaryCtaLabel: string;
+  secondaryCtaHref: string;
 };
 
 export type About = {

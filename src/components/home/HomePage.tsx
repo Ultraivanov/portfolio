@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@gravity-ui/uikit";
+import { useThemeMode } from "@/components/ClientProviders";
 import CaseList from "@/components/case-list/CaseList";
 import type { HomeContent } from "@/content/home";
 import styles from "./home-page.module.css";
@@ -11,20 +12,15 @@ type HomePageProps = {
 };
 
 export default function HomePage({ data }: HomePageProps) {
+  const { theme } = useThemeMode();
+  const titleSrc =
+    theme === "light" ? "/home/hero-title-dark.svg" : data.hero.titleImageSrc;
+
   return (
     <section className={styles.page}>
       <div className={styles.hero}>
         <div className={styles.heroTitle}>
-          <img
-            src={data.hero.titleImageSrc}
-            alt={data.hero.titleImageAlt}
-            className={styles.heroTitleLight}
-          />
-          <img
-            src="/home/hero-title-dark.svg"
-            alt={data.hero.titleImageAlt}
-            className={styles.heroTitleDark}
-          />
+          <img src={titleSrc} alt={data.hero.titleImageAlt} />
         </div>
         <p className={styles.heroHeadline}>{data.hero.headline}</p>
         <Button

@@ -176,6 +176,8 @@
   height: 16px;
   display: inline-block;
   color: currentColor;
+  flex: 0 0 auto;
+  overflow: visible;
 }
 
 @media (max-width: 900px) {

@@ -21,8 +21,15 @@ export default config({
               label: "Title image src",
               description: "Path in /public, e.g. /home/hero-title.png",
             }),
-            titleImageAlt: fields.text({ label: "Title image alt" }),
-            headline: fields.text({ label: "Headline", multiline: true }),
+            titleImageAlt: fields.text({
+              label: "Title image alt",
+              description: "Alt text for the hero title (SEO + accessibility).",
+            }),
+            headline: fields.text({
+              label: "Headline",
+              multiline: true,
+              description: "Main line under the hero title.",
+            }),
             ctaLabel: fields.text({ label: "CTA label" }),
             ctaHref: fields.text({ label: "CTA href" }),
             secondaryCtaLabel: fields.text({
@@ -55,7 +62,10 @@ export default config({
               label: "Cover src",
               description: "Path in /public, e.g. /home/cover.png",
             }),
-            alt: fields.text({ label: "Cover alt" }),
+            alt: fields.text({
+              label: "Cover alt",
+              description: "Alt text for the cover image (SEO + accessibility).",
+            }),
           },
           { label: "Cover" },
         ),
@@ -128,7 +138,10 @@ export default config({
                     label: "Image src",
                     description: "Path in /public, e.g. /home/project-alpha.png",
                   }),
-                  imageAlt: fields.text({ label: "Image alt" }),
+                  imageAlt: fields.text({
+                    label: "Image alt",
+                    description: "Alt text for the preview image (SEO + accessibility).",
+                  }),
                   href: fields.text({
                     label: "Href",
                     validation: { isRequired: false },
@@ -209,16 +222,21 @@ export default config({
         title: fields.text({
           label: "Title",
           validation: { isRequired: true },
+          description: "Case study title shown on the page and in listings.",
         }),
         subtitle: fields.text({
           label: "Subtitle",
           multiline: true,
+          description: "Short case summary shown under the title.",
         }),
         coverSrc: fields.text({
           label: "Cover src",
           description: "Path in /public, e.g. /cases/rzd/cover.png",
         }),
-        coverAlt: fields.text({ label: "Cover alt" }),
+        coverAlt: fields.text({
+          label: "Cover alt",
+          description: "Alt text for the cover image (SEO + accessibility).",
+        }),
         facts: fields.array(
           fields.object(
             {
@@ -273,7 +291,10 @@ export default config({
                     label: "Media",
                     schema: fields.object({
                       src: fields.text({ label: "Src" }),
-                      alt: fields.text({ label: "Alt" }),
+                      alt: fields.text({
+                        label: "Alt",
+                        description: "Alt text for the image (SEO + accessibility).",
+                      }),
                       caption: fields.text({
                         label: "Caption",
                         multiline: true,

@@ -47,16 +47,22 @@
       "title": "Context",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "The sanatorium booking service is one of many internal services in the RZD employee ecosystem. It sits inside a larger portal, but it is a single service with its own logic and behavior."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The sanatorium booking service is one of many internal services in the RZD employee ecosystem. It sits inside a larger portal, but it is a single service with its own logic and behavior."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Functionally it resembles a booking platform, yet it has additional constraints that public services do not: subsidies and approvals, limited availability, internal rules, and mandatory documentation."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Functionally it resembles a booking platform, yet it has additional constraints that public services do not: subsidies and approvals, limited availability, internal rules, and mandatory documentation."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "That combination created value and demand, but also made the service hard to trust and easy to abandon; usage lagged because people could not see how the system would behave for them."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "That combination created value and demand, but also made the service hard to trust and easy to abandon; usage lagged because people could not see how the system would behave for them."
+          }
         }
       ]
     },
@@ -64,79 +70,109 @@
       "title": "Problem",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "The sanatorium booking service was not broken in terms of functionality — it was broken in terms of predictability."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The sanatorium booking service was not broken in terms of functionality — it was broken in terms of predictability."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Employees could technically complete a booking, but the process required constant interpretation. Users had to figure out:"
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Employees could technically complete a booking, but the process required constant interpretation. Users had to figure out:"
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "Which resorts were actually available to them",
-            "What conditions applied to their case",
-            "What would happen after submission",
-            "Whether their effort would lead to a real outcome"
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Which resorts were actually available to them",
+              "What conditions applied to their case",
+              "What would happen after submission",
+              "Whether their effort would lead to a real outcome"
+            ]
+          }
         },
         {
-          "type": "paragraph",
-          "text": "This uncertainty created a very specific pattern of behavior."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This uncertainty created a very specific pattern of behavior."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Users approached the service with intent, but quickly lost confidence:"
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users approached the service with intent, but quickly lost confidence:"
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "Selection loops forced them to restart decisions",
-            "Unclear eligibility rules made outcomes unpredictable",
-            "Lack of transparency turned the process into a “black box”",
-            "Missing information pushed users to call resorts directly"
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Selection loops forced them to restart decisions",
+              "Unclear eligibility rules made outcomes unpredictable",
+              "Lack of transparency turned the process into a “black box”",
+              "Missing information pushed users to call resorts directly"
+            ]
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Even after completing a booking, the experience did not build trust."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Even after completing a booking, the experience did not build trust."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "The system did not answer the key question: “Can I rely on this next time?”"
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system did not answer the key question: “Can I rely on this next time?”"
+          }
         },
         {
-          "type": "paragraph",
-          "text": "As a result, the service failed not at conversion — but at retention."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "As a result, the service failed not at conversion — but at retention."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Users did not form a relationship with the system. They treated each interaction as a one-time, risky attempt."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users did not form a relationship with the system. They treated each interaction as a one-time, risky attempt."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "The core problem was not about making booking easier."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The core problem was not about making booking easier."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "It was about transforming the experience from: a fragile, one-off interaction into a repeatable, trusted behavior."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "It was about transforming the experience from: a fragile, one-off interaction into a repeatable, trusted behavior."
+          }
         },
         {
-          "type": "link",
-          "label": "Open CJM and flow map (FigJam)",
-          "href": "https://www.figma.com/board/2KDFWzfes5bvWg3gY63pPo/RZD-%E2%80%A2-CJM-%E2%80%A2-J2BD-%E2%80%A2-Personas?node-id=0-1"
+          "discriminant": "link",
+          "value": {
+            "label": "Open CJM and flow map (FigJam)",
+            "href": "https://www.figma.com/board/2KDFWzfes5bvWg3gY63pPo/RZD-%E2%80%A2-CJM-%E2%80%A2-J2BD-%E2%80%A2-Personas?node-id=0-1"
+          }
         },
         {
-          "type": "media",
-          "src": "/cases/rzd/cjm.png",
-          "alt": "Multi-audience CJM with loops",
-          "caption": "Used a multi-audience CJM to expose where different paths collapse into the same loops and where logic diverges without explanation."
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/cjm.png",
+            "alt": "Multi-audience CJM with loops",
+            "caption": "Used a multi-audience CJM to expose where different paths collapse into the same loops and where logic diverges without explanation."
+          }
         },
         {
-          "type": "media",
-          "src": "/cases/rzd/flow-clean.svg",
-          "alt": "Clean service logic flow with loops",
-          "caption": "Rebuilt the flow to isolate loops, approvals, and recovery paths without decorative noise."
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/flow-clean.svg",
+            "alt": "Clean service logic flow with loops",
+            "caption": "Rebuilt the flow to isolate loops, approvals, and recovery paths without decorative noise."
+          }
         }
       ]
     },
@@ -144,23 +180,29 @@
       "title": "Constraints",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "The service operated inside fixed business rules: subsidies, approvals, quotas, and eligibility logic that could not be negotiated at the UX layer."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The service operated inside fixed business rules: subsidies, approvals, quotas, and eligibility logic that could not be negotiated at the UX layer."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Multiple systems sat behind the flow, and I could not redesign backend logic or remove dependencies. Changes had to be incremental and compatible with legacy information architecture."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Multiple systems sat behind the flow, and I could not redesign backend logic or remove dependencies. Changes had to be incremental and compatible with legacy information architecture."
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "Fixed business rules (subsidies, approvals, quotas).",
-            "Multiple systems behind the flow.",
-            "No ability to redesign backend logic.",
-            "Legacy structure and information architecture.",
-            "Need to reduce calls to resorts without changing operational processes.",
-            "Must work for multiple audience types simultaneously."
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Fixed business rules (subsidies, approvals, quotas).",
+              "Multiple systems behind the flow.",
+              "No ability to redesign backend logic.",
+              "Legacy structure and information architecture.",
+              "Need to reduce calls to resorts without changing operational processes.",
+              "Must work for multiple audience types simultaneously."
+            ]
+          }
         }
       ]
     },
@@ -168,16 +210,22 @@
       "title": "Behavioral model",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "A linear view of the service would describe it as Search -> Book -> Done. That model was misleading because it hides the loops, rejections, and approvals that shape real behavior."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "A linear view of the service would describe it as Search -> Book -> Done. That model was misleading because it hides the loops, rejections, and approvals that shape real behavior."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "I reframed the service as a behavioral loop: Experience -> Trust -> Return -> Habit. The goal was not only to complete a booking but to make the service something users would return to without hesitation."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "I reframed the service as a behavioral loop: Experience -> Trust -> Return -> Habit. The goal was not only to complete a booking but to make the service something users would return to without hesitation."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "This lens changed how I evaluated decisions: I did not just ask whether a step works, I asked whether it increases trust enough to create repeat use."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This lens changed how I evaluated decisions: I did not just ask whether a step works, I asked whether it increases trust enough to create repeat use."
+          }
         }
       ]
     },
@@ -185,16 +233,22 @@
       "title": "Key insight",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "As the CJMs and loop maps came together, a pattern appeared. The service did not fail because it lacked features; it failed because its logic was invisible and therefore unpredictable."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "As the CJMs and loop maps came together, a pattern appeared. The service did not fail because it lacked features; it failed because its logic was invisible and therefore unpredictable."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Different users, under different eligibility and availability conditions, were pushed into different paths with no explanation. The same interface produced different outcomes, and users could not tell why."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Different users, under different eligibility and availability conditions, were pushed into different paths with no explanation. The same interface produced different outcomes, and users could not tell why."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "This revealed that the right solution was not another UI layer. The service needed its logic to be structured and made visible so the flow could be anticipated rather than guessed."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This revealed that the right solution was not another UI layer. The service needed its logic to be structured and made visible so the flow could be anticipated rather than guessed."
+          }
         }
       ]
     },
@@ -202,31 +256,41 @@
       "title": "Approach",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "Instead of designing one ideal flow, I mapped the service across different audience scenarios. Each audience type had distinct expectations, but they all collided with the same approval logic and loops."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Instead of designing one ideal flow, I mapped the service across different audience scenarios. Each audience type had distinct expectations, but they all collided with the same approval logic and loops."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "This included CJMs for each audience type, analysis of loops and breakdown points, and explicit mapping of approval and rejection paths. That work showed where users were forced to backtrack and where the system hid critical states."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This included CJMs for each audience type, analysis of loops and breakdown points, and explicit mapping of approval and rejection paths. That work showed where users were forced to backtrack and where the system hid critical states."
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "Price-sensitive users — need fast comparison",
-            "Overwhelmed users — need guidance",
-            "Location-first users — need structured discovery",
-            "Returning users — need low-friction repeat flow"
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Price-sensitive users — need fast comparison",
+              "Overwhelmed users — need guidance",
+              "Location-first users — need structured discovery",
+              "Returning users — need low-friction repeat flow"
+            ]
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Instead of simplifying logic, I focused on making it understandable. This led to a design approach that exposes rules early, clarifies state changes, and reduces unnecessary loops."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Instead of simplifying logic, I focused on making it understandable. This led to a design approach that exposes rules early, clarifies state changes, and reduces unnecessary loops."
+          }
         },
         {
-          "type": "media",
-          "src": "/cases/rzd/cjm-segmentation.png",
-          "alt": "Audience scenarios mapped to flows",
-          "caption": "Segmented audience journeys to see how the same service behaves differently for different users and where loops repeat."
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/cjm-segmentation.png",
+            "alt": "Audience scenarios mapped to flows",
+            "caption": "Segmented audience journeys to see how the same service behaves differently for different users and where loops repeat."
+          }
         }
       ]
     },
@@ -234,40 +298,52 @@
       "title": "Design decisions",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "The design decisions were not isolated UI changes. Each decision was tied to a specific behavioral breakdown: where users got stuck, where the system hid logic, or where the flow became non-linear without warning."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The design decisions were not isolated UI changes. Each decision was tied to a specific behavioral breakdown: where users got stuck, where the system hid logic, or where the flow became non-linear without warning."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "I used the CJMs and loop analysis as a constraint map. If a decision did not reduce uncertainty or make the flow more predictable, it was not enough."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "I used the CJMs and loop analysis as a constraint map. If a decision did not reduce uncertainty or make the flow more predictable, it was not enough."
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "Structured comparison: replaced manual tab switching with a compact comparison layer so users could evaluate options without leaving the flow. This removed a major source of backtracking.",
-            "Loop control: made flows editable and preserved progress so users could recover without restarting. Loops remain only where required by business logic, and they are explained.",
-            "Transparency model: introduced visible steps, status tracking, document requirements, and expected timelines so users understand what happens next and why.",
-            "Multi-audience adaptation: the same service now supports different entry points and expectations, rather than forcing all users into a single path.",
-            "Information in the interface: moved critical details into the UI to reduce resort calls and prevent users from relying on external clarification."
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Structured comparison: replaced manual tab switching with a compact comparison layer so users could evaluate options without leaving the flow. This removed a major source of backtracking.",
+              "Loop control: made flows editable and preserved progress so users could recover without restarting. Loops remain only where required by business logic, and they are explained.",
+              "Transparency model: introduced visible steps, status tracking, document requirements, and expected timelines so users understand what happens next and why.",
+              "Multi-audience adaptation: the same service now supports different entry points and expectations, rather than forcing all users into a single path.",
+              "Information in the interface: moved critical details into the UI to reduce resort calls and prevent users from relying on external clarification."
+            ]
+          }
         },
         {
-          "type": "media",
-          "src": "/cases/rzd/search-results.png",
-          "alt": "Structured comparison layer",
-          "caption": "Introduced a comparison layer to eliminate manual tab switching and reduce decision friction."
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/search-results.png",
+            "alt": "Structured comparison layer",
+            "caption": "Introduced a comparison layer to eliminate manual tab switching and reduce decision friction."
+          }
         },
         {
-          "type": "media",
-          "src": "/cases/rzd/application-form.png",
-          "alt": "Transparent step-based booking",
-          "caption": "Made steps, requirements, and timelines explicit so users can predict outcomes before committing."
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/application-form.png",
+            "alt": "Transparent step-based booking",
+            "caption": "Made steps, requirements, and timelines explicit so users can predict outcomes before committing."
+          }
         },
         {
-          "type": "media",
-          "src": "/cases/rzd/tracking-1.png",
-          "alt": "Clear booking status",
-          "caption": "Visible status tracking replaces black-box outcomes with explicit state changes."
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/tracking-1.png",
+            "alt": "Clear booking status",
+            "caption": "Visible status tracking replaces black-box outcomes with explicit state changes."
+          }
         }
       ]
     },
@@ -275,26 +351,34 @@
       "title": "Solution",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "The service was redesigned into a structured, transparent system. The goal was not to add screens, but to make system behavior legible."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The service was redesigned into a structured, transparent system. The goal was not to add screens, but to make system behavior legible."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Users no longer needed to interpret hidden rules. The flow explains itself through visible steps, explicit states, and predictable transitions."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users no longer needed to interpret hidden rules. The flow explains itself through visible steps, explicit states, and predictable transitions."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "The result is a service that can be reused: once a user understands the model, it applies to future bookings and different audience scenarios."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The result is a service that can be reused: once a user understands the model, it applies to future bookings and different audience scenarios."
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "Clear comparison layer.",
-            "Predictable flow with minimal loops.",
-            "Visible booking states.",
-            "Editable steps with preserved progress.",
-            "Guidance integrated into the interface."
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Clear comparison layer.",
+              "Predictable flow with minimal loops.",
+              "Visible booking states.",
+              "Editable steps with preserved progress.",
+              "Guidance integrated into the interface."
+            ]
+          }
         }
       ]
     },
@@ -302,20 +386,28 @@
       "title": "Outcome",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": "The most important shift was behavioral. Employees moved from avoiding the service to trusting it enough to return the next year."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The most important shift was behavioral. Employees moved from avoiding the service to trusting it enough to return the next year."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "That trust came from predictability: knowing what will happen, why it will happen, and how to recover when the system rejects a path."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "That trust came from predictability: knowing what will happen, why it will happen, and how to recover when the system rejects a path."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "The business signal of success is repeat use. The north star metric is Repeat Usage Share - the percentage of users who return to the service for another booking."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The business signal of success is repeat use. The north star metric is Repeat Usage Share - the percentage of users who return to the service for another booking."
+          }
         },
         {
-          "type": "paragraph",
-          "text": "Operationally, clearer information inside the interface reduced calls to resorts and lowered friction across the booking cycle."
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Operationally, clearer information inside the interface reduced calls to resorts and lowered friction across the booking cycle."
+          }
         }
       ]
     }

@@ -5,7 +5,11 @@ export type CaseSectionContent =
   | { type: "paragraph"; text: string }
   | { type: "list"; items: string[] }
   | { type: "link"; label: string; href: string }
-  | { type: "media"; src: string; alt: string; caption?: string };
+  | { type: "media"; src: string; alt: string; caption?: string }
+  | { discriminant: "paragraph"; value: { text: string } }
+  | { discriminant: "list"; value: { items: string[] } }
+  | { discriminant: "link"; value: { label: string; href: string } }
+  | { discriminant: "media"; value: { src: string; alt: string; caption?: string } };
 
 export type CaseSectionBlock = {
   title: string;

@@ -47,8 +47,10 @@
       "title": "Context",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         }
       ]
     },
@@ -56,15 +58,19 @@
       "title": "Problem",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "",
-            ""
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "",
+              ""
+            ]
+          }
         }
       ]
     },
@@ -72,15 +78,19 @@
       "title": "Constraints",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "",
-            ""
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "",
+              ""
+            ]
+          }
         }
       ]
     },
@@ -88,8 +98,10 @@
       "title": "Behavioral model",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         }
       ]
     },
@@ -97,8 +109,10 @@
       "title": "Key insight",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         }
       ]
     },
@@ -106,8 +120,10 @@
       "title": "Approach",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         }
       ]
     },
@@ -115,15 +131,19 @@
       "title": "Design decisions",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "",
-            ""
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "",
+              ""
+            ]
+          }
         }
       ]
     },
@@ -131,8 +151,10 @@
       "title": "Solution",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         }
       ]
     },
@@ -140,15 +162,19 @@
       "title": "Outcome",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         },
         {
-          "type": "list",
-          "items": [
-            "",
-            ""
-          ]
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "",
+              ""
+            ]
+          }
         }
       ]
     },
@@ -156,8 +182,10 @@
       "title": "Reflection",
       "blocks": [
         {
-          "type": "paragraph",
-          "text": ""
+          "discriminant": "paragraph",
+          "value": {
+            "text": ""
+          }
         }
       ]
     }

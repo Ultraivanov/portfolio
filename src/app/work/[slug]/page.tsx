@@ -22,38 +22,46 @@ export default function CasePage({ params }: CasePageProps) {
         <CaseSection key={section.title} title={section.title}>
           {section.blocks?.length
             ? section.blocks.map((block, index) => {
-                if (block.type === "paragraph") {
-                  return <p key={`${block.type}-${index}`}>{block.text}</p>;
-                }
-                if (block.type === "list") {
+                const normalized =
+                  "discriminant" in block
+                    ? { type: block.discriminant, ...block.value }
+                    : block;
+                if (normalized.type === "paragraph") {
                   return (
-                    <ul key={`${block.type}-${index}`}>
-                      {block.items.map((item) => (
+                    <p key={`${normalized.type}-${index}`}>
+                      {normalized.text}
+                    </p>
+                  );
+                }
+                if (normalized.type === "list") {
+                  return (
+                    <ul key={`${normalized.type}-${index}`}>
+                      {normalized.items.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
                   );
                 }
-                if (block.type === "link") {
+                if (normalized.type === "link") {
                   return (
                     <a
-                      key={`${block.type}-${index}`}
+                      key={`${normalized.type}-${index}`}
                       className="text-link"
-                      href={block.href}
+                      href={normalized.href}
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {block.label}
+                      {normalized.label}
                     </a>
                   );
                 }
-                if (block.type === "media") {
+                if (normalized.type === "media") {
                   return (
                     <CaseMedia
-                      key={`${block.type}-${index}`}
-                      src={block.src}
-                      alt={block.alt}
-                      caption={block.caption}
+                      key={`${normalized.type}-${index}`}
+                      src={normalized.src}
+                      alt={normalized.alt}
+                      caption={normalized.caption}
                     />
                   );
                 }

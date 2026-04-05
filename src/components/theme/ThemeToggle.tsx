@@ -6,7 +6,7 @@ import { useThemeMode } from "@/components/ClientProviders";
 import styles from "./ThemeToggle.module.css";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useThemeMode();
+  const { theme, toggleTheme } = useThemeMode();
   const isDark = theme === "dark";
   const pathname = usePathname();
 
@@ -18,11 +18,10 @@ export default function ThemeToggle() {
     <Switch
       size="s"
       checked={isDark}
-      onUpdate={() => undefined}
-      aria-disabled="true"
+      onUpdate={() => toggleTheme()}
       className={styles.switch}
-      aria-label="Theme follows system"
-      title="Theme follows system"
+      aria-label="Toggle theme"
+      title="Toggle theme"
     />
   );
 }

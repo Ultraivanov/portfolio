@@ -3,5 +3,4 @@
   --g-switch-border-color: var(--color-text-muted);
   --g-switch-track-color: var(--color-border-subtle);
   opacity: 1;
-  pointer-events: none;
 }

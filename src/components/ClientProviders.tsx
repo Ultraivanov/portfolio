@@ -27,24 +27,47 @@ type ClientProvidersProps = {
 
 export default function ClientProviders({ children }: ClientProvidersProps) {
   const [theme, setTheme] = useState<ThemeMode>("dark");
+  const [isAuto, setIsAuto] = useState(true);
 
   useEffect(() => {
+    const stored = window.localStorage.getItem("theme");
     const media = window.matchMedia?.("(prefers-color-scheme: light)");
-    const applyTheme = () => {
+    const applyTheme = (force?: ThemeMode) => {
+      if (force) {
+        setTheme(force);
+        return;
+      }
       setTheme(media?.matches ? "light" : "dark");
     };
-    applyTheme();
+
+    if (stored === "light" || stored === "dark") {
+      setIsAuto(false);
+      applyTheme(stored);
+    } else {
+      setIsAuto(true);
+      applyTheme();
+    }
 
     if (media?.addEventListener) {
-      media.addEventListener("change", applyTheme);
-      return () => media.removeEventListener("change", applyTheme);
+      const handler = () => {
+        if (isAuto) {
+          applyTheme();
+        }
+      };
+      media.addEventListener("change", handler);
+      return () => media.removeEventListener("change", handler);
     }
     if (media?.addListener) {
-      media.addListener(applyTheme);
-      return () => media.removeListener(applyTheme);
+      const handler = () => {
+        if (isAuto) {
+          applyTheme();
+        }
+      };
+      media.addListener(handler);
+      return () => media.removeListener(handler);
     }
     return undefined;
-  }, []);
+  }, [isAuto]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -53,9 +76,18 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
   const value = useMemo<ThemeContextValue>(
     () => ({
       theme,
-      setTheme,
+      setTheme: (next) => {
+        setIsAuto(false);
+        window.localStorage.setItem("theme", next);
+        setTheme(next);
+      },
       toggleTheme: () =>
-        setTheme((prev) => (prev === "dark" ? "light" : "dark")),
+        setTheme((prev) => {
+          const next = prev === "dark" ? "light" : "dark";
+          setIsAuto(false);
+          window.localStorage.setItem("theme", next);
+          return next;
+        }),
     }),
     [theme],
   );

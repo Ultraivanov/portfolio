@@ -152,7 +152,7 @@
 }
 
 .aboutRole {
-  font-weight: 300;
+  font-weight: 400;
   font-size: var(--text-small);
   color: var(--color-text-muted);
   letter-spacing: 0.03em;

@@ -109,7 +109,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-6);
-  padding: var(--space-4) 0;
+  padding-block: var(--space-4);
 }
 
 .footerCtaMain {

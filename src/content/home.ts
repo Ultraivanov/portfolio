@@ -41,8 +41,8 @@ export type Cover = {
 
 export type PastProject = {
   title: string;
-  detail: string;
-  year: string;
+  detail?: string;
+  year?: string;
   href?: string;
   caseSlug?: string;
 };
@@ -50,6 +50,7 @@ export type PastProject = {
 export type PastProjects = {
   label: string;
   maxItems?: number | null;
+  featuredCases?: string[];
   items: PastProject[];
 };
 

@@ -97,6 +97,18 @@ export default config({
               defaultValue: 5,
               validation: { isRequired: false, min: 1, max: 6 },
             }),
+            featuredCases: fields.array(
+              fields.relationship({
+                label: "Case",
+                collection: "cases",
+              }),
+              {
+                label: "Featured cases",
+                description:
+                  "Select cases to show on the homepage (overrides manual items).",
+                validation: { length: { max: 6 } },
+              },
+            ),
             items: fields.array(
               fields.object(
                 {

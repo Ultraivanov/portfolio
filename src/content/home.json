@@ -73,6 +73,8 @@
   },
   "pastProjects": {
     "label": "Past projects:",
+    "maxItems": 5,
+    "featuredCases": [],
     "items": [
       {
         "title": "Megamod",

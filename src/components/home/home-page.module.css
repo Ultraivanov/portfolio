@@ -82,13 +82,16 @@
 .heroCtaSecondary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 48px;
+  height: 48px;
   font-size: 14px;
   line-height: 26px;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--color-text-primary);
   text-decoration: none;
+  padding: 0 24px;
 }
 
 @media (max-width: 600px) {

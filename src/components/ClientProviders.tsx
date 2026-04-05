@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { ThemeProvider } from "@gravity-ui/uikit";
+import { usePathname } from "next/navigation";
 
 type ThemeMode = "dark" | "light";
 type ThemeContextValue = {
@@ -28,6 +29,8 @@ type ClientProvidersProps = {
 export default function ClientProviders({ children }: ClientProvidersProps) {
   const [theme, setTheme] = useState<ThemeMode>("dark");
   const [isAuto, setIsAuto] = useState(true);
+  const pathname = usePathname();
+  const isKeystatic = pathname?.startsWith("/keystatic");
 
   useEffect(() => {
     const stored = window.localStorage.getItem("theme");
@@ -40,7 +43,10 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
       setTheme(media?.matches ? "light" : "dark");
     };
 
-    if (stored === "light" || stored === "dark") {
+    if (isKeystatic) {
+      setIsAuto(true);
+      applyTheme();
+    } else if (stored === "light" || stored === "dark") {
       setIsAuto(false);
       applyTheme(stored);
     } else {
@@ -67,7 +73,7 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
       return () => media.removeListener(handler);
     }
     return undefined;
-  }, [isAuto]);
+  }, [isAuto, isKeystatic]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;

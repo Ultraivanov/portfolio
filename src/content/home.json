@@ -19,7 +19,7 @@
     "alt": "Product visual preview"
   },
   "skills": {
-    "label": "skills:",
+    "label": "/ skills",
     "groups": [
       {
         "title": "Product & UX",
@@ -54,7 +54,7 @@
     ]
   },
   "tools": {
-    "label": "tools:",
+    "label": "/ tools",
     "groups": [
       {
         "title": "Design",

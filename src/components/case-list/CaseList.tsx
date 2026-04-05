@@ -18,12 +18,12 @@ export default function CaseList({ data }: CaseListProps) {
     <section className={styles.section}>
       <div className={styles.label}>{data.label}</div>
       <div className={styles.list}>
-        {items.map((item) => (
-          <div key={`${item.title}-${item.year}`} className={styles.rowWrap}>
-            {item.href || item.caseSlug ? (
+        {items.map((item, index) => (
+          <div key={`${item.title}-${index}`} className={styles.rowWrap}>
+            {item.href ? (
               <Link
                 className={styles.row}
-                href={item.href ?? `/work/${item.caseSlug}`}
+                href={item.href}
               >
                 <span className={styles.text}>
                   <span className={styles.title}>{item.title}</span>

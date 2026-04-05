@@ -1,3 +1,4 @@
+import { Paperclip } from "@gravity-ui/icons";
 import styles from "./cv-page.module.css";
 
 export const metadata = {
@@ -296,19 +297,12 @@ export default function CVPage() {
             href="/cv/dmitry-ginzburg-cv.pdf"
             download
           >
-            <svg
+            <Paperclip
               className={styles.cvDownloadIcon}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              width={16}
+              height={16}
               aria-hidden="true"
-            >
-              <path d="M21 8.5L10.5 19a5 5 0 0 1-7.07-7.07L14 1.36" />
-              <path d="M17.5 4.5l-9.6 9.6a2 2 0 1 0 2.83 2.83L20 7.66" />
-            </svg>
+            />
             Download PDF (2MB)
           </a>
         </div>

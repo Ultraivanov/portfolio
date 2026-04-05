@@ -29,21 +29,25 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
   const [theme, setTheme] = useState<ThemeMode>("dark");
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("theme");
-    const preferred = window.matchMedia?.("(prefers-color-scheme: light)")
-      .matches
-      ? "light"
-      : "dark";
-    if (stored === "light" || stored === "dark") {
-      setTheme(stored);
-    } else {
-      setTheme(preferred);
+    const media = window.matchMedia?.("(prefers-color-scheme: light)");
+    const applyTheme = () => {
+      setTheme(media?.matches ? "light" : "dark");
+    };
+    applyTheme();
+
+    if (media?.addEventListener) {
+      media.addEventListener("change", applyTheme);
+      return () => media.removeEventListener("change", applyTheme);
     }
+    if (media?.addListener) {
+      media.addListener(applyTheme);
+      return () => media.removeListener(applyTheme);
+    }
+    return undefined;
   }, []);
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem("theme", theme);
   }, [theme]);
 
   const value = useMemo<ThemeContextValue>(

@@ -18,10 +18,11 @@ export default function ThemeToggle() {
     <Switch
       size="s"
       checked={isDark}
-      onUpdate={(checked) => setTheme(checked ? "dark" : "light")}
+      onUpdate={() => undefined}
+      disabled
       className={styles.switch}
-      aria-label="Toggle theme"
-      title="Toggle theme"
+      aria-label="Theme follows system"
+      title="Theme follows system"
     />
   );
 }

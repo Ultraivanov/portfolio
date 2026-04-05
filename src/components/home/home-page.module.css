@@ -94,6 +94,11 @@
   padding: 0 24px;
 }
 
+.heroCtaSecondary:hover,
+.heroCtaSecondary:focus-visible {
+  color: #e63746;
+}
+
 @media (max-width: 600px) {
   .heroHeadline {
     font-size: 24px;

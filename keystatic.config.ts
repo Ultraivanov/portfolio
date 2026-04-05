@@ -77,6 +77,10 @@ export default config({
             groups: fields.array(
               fields.object(
                 {
+                  title: fields.text({
+                    label: "Title",
+                    validation: { isRequired: false },
+                  }),
                   items: fields.array(fields.text({ label: "Item" }), {
                     label: "Items",
                   }),

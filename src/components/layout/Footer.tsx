@@ -4,6 +4,8 @@ import { home } from "@/content/home";
 
 export default function Footer() {
   const { cta } = home;
+  const primaryLinks = cta.links.filter((link) => !link.muted);
+  const legalLinks = cta.links.filter((link) => link.muted);
   return (
     <footer className={styles.footer}>
       <Container className={styles.footerCta}>
@@ -16,17 +18,24 @@ export default function Footer() {
           <p className={styles.footerCtaDescription}>{cta.description}</p>
         </div>
         <div className={styles.footerLinks}>
-          {cta.links.map((link) => (
-            <a
-              key={link.label}
-              className={
-                link.muted ? styles.footerLinkMuted : styles.footerLink
-              }
-              href={link.href}
-            >
-              {link.label}
-            </a>
-          ))}
+          <div className={styles.footerLinkGroup}>
+            {primaryLinks.map((link) => (
+              <a key={link.label} className={styles.footerLink} href={link.href}>
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <div className={styles.footerLinkGroup}>
+            {legalLinks.map((link) => (
+              <a
+                key={link.label}
+                className={styles.footerLinkMuted}
+                href={link.href}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
       </Container>
     </footer>

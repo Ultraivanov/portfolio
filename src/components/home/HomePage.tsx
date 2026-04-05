@@ -98,11 +98,16 @@ export default function HomePage({ data }: HomePageProps) {
           <p className={styles.sectionLabel}>{data.tools.label}</p>
           <div className={styles.toolGroups}>
             {data.tools.groups.map((group, index) => (
-              <ul key={index} className={styles.toolList}>
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              <div key={group.title ?? index} className={styles.toolGroup}>
+                {group.title ? (
+                  <p className={styles.toolTitle}>{group.title}</p>
+                ) : null}
+                <ul className={styles.toolList}>
+                  {group.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
         </div>

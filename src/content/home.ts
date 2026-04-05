@@ -26,6 +26,7 @@ export type SkillSection = {
 };
 
 export type ToolGroup = {
+  title?: string;
   items: string[];
 };
 

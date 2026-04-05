@@ -1,0 +1,165 @@
+.cvPage {
+  background: #fdf7e3;
+  color: #060606;
+  padding: 32px 48px 70px;
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.cvContainer {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cvHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+  border-bottom: 1px solid #000;
+  font-size: 24px;
+  text-transform: capitalize;
+}
+
+.cvHeaderName {
+  font-family: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  color: #060606;
+  letter-spacing: 0.02em;
+}
+
+.cvHeaderDot,
+.cvHeaderRole {
+  font-family: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #393838;
+}
+
+.cvContacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 0;
+  font-size: 12px;
+  color: #060606;
+}
+
+.cvContacts a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.cvSeparator {
+  color: #000;
+  font-weight: 300;
+}
+
+.cvSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0;
+  color: #393838;
+}
+
+.cvSectionLabel {
+  font-family: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  font-weight: 700;
+}
+
+.cvBody {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.cvList {
+  margin-left: 18px;
+  font-size: 12px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cvGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cvGroupTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #393838;
+}
+
+.cvExperience {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.cvExperienceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  gap: 12px;
+}
+
+.cvExperienceHeader a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.cvDate {
+  font-family: "Geist Mono", "Courier New", monospace;
+  font-weight: 300;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.cvMuted {
+  font-size: 10px;
+  opacity: 0.8;
+  font-weight: 300;
+}
+
+.cvBody a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+@media (max-width: 900px) {
+  .cvPage {
+    padding: 24px;
+  }
+
+  .cvHeader {
+    flex-wrap: wrap;
+    font-size: 20px;
+  }
+
+  .cvExperienceHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .cvPage {
+    padding: 20px;
+  }
+
+  .cvHeader {
+    font-size: 18px;
+  }
+}

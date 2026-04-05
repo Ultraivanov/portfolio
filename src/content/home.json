@@ -55,44 +55,49 @@
     "label": "tools:",
     "groups": [
       {
+        "title": "Design",
         "items": [
           "Figma",
           "Sketch",
           "Adobe XD",
-          "Framer"
+          "Framer",
+          "Stitch"
         ]
       },
       {
+        "title": "Dev",
         "items": [
           "Codex",
-          "Claude Code",
-          "Stitch"
+          "Claude Code"
         ]
       }
     ]
   },
   "pastProjects": {
     "label": "Past projects:",
-    "maxItems": 5,
+    "maxItems": 4,
     "featuredCases": [],
     "items": [
       {
         "title": "Megamod",
         "subtitle": "UX structure, visual system, investors website, pitch decks, and marketing assets",
         "imageSrc": "/home/project-alpha.png",
-        "imageAlt": "Project preview"
+        "imageAlt": "Project preview",
+        "href": "/work"
       },
       {
         "title": "My Perfect Greek Vacation",
         "subtitle": "Travel Booking Platform",
         "imageSrc": "/home/project-beta.png",
-        "imageAlt": "Project preview"
+        "imageAlt": "Project preview",
+        "href": "/work"
       },
       {
-        "title": "Russian Railway",
+        "title": "Russian Railways",
         "subtitle": "Product Design",
         "imageSrc": "/home/project-alpha.png",
-        "imageAlt": "Project preview"
+        "imageAlt": "Project preview",
+        "href": "/work"
       },
       {
         "title": "Russian Railways",
@@ -136,14 +141,18 @@
     "titleLine1": "Let's build something",
     "titleLine2": "together.",
     "highlight": "meaningful",
-    "description": "Currently open to freelance projects and consultations",
+    "description": "Currently open to freelance projects and full-time development",
     "links": [
+      {
+        "label": "CV",
+        "href": "/cv"
+      },
       {
         "label": "Github",
         "href": "https://github.com"
       },
       {
-        "label": "Twitter / X",
+        "label": "Twitter",
         "href": "https://x.com"
       },
       {

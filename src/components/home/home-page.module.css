@@ -92,11 +92,16 @@
   color: var(--color-text-primary);
   text-decoration: none;
   padding: 0 24px;
+  transition: color 0.15s ease;
 }
 
 .heroCtaSecondary:hover,
 .heroCtaSecondary:focus-visible {
   color: #e63746;
+}
+
+.heroCtaSecondary:active {
+  color: #b72a36;
 }
 
 @media (max-width: 600px) {

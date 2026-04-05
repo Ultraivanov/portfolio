@@ -2,5 +2,6 @@
   --g-switch-thumb-color: var(--color-text-primary);
   --g-switch-border-color: var(--color-text-muted);
   --g-switch-track-color: var(--color-border-subtle);
+  --g-color-base-brand: #e63746;
   opacity: 1;
 }

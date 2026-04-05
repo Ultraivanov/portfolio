@@ -1,7 +1,7 @@
 .switch {
-  --g-switch-thumb-color: var(--color-bg);
-  --g-switch-border-color: var(--color-border-primary);
-  --g-switch-track-color: transparent;
+  --g-switch-thumb-color: var(--color-text-primary);
+  --g-switch-border-color: var(--color-text-muted);
+  --g-switch-track-color: var(--color-border-subtle);
   opacity: 1;
   pointer-events: none;
 }

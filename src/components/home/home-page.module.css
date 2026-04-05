@@ -418,13 +418,6 @@
   color: #e63746;
 }
 
-.resourceLink::after {
-  content: "";
-  width: 20px;
-  height: 20px;
-  background: url("/home/arrow-icon.svg") center/20px 20px no-repeat;
-  display: block;
-}
 
 .resourceCard:hover .resourceTitle,
 .resourceCard:focus-visible .resourceTitle {

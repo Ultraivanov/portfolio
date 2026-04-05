@@ -30,21 +30,35 @@ export default config({
               multiline: true,
               description: "Main line under the hero title.",
             }),
-            ctaLabel: fields.text({ label: "CTA label" }),
-            ctaHref: fields.text({ label: "CTA href" }),
+            ctaLabel: fields.text({
+              label: "CTA label",
+              description: "Primary button text.",
+            }),
+            ctaHref: fields.text({
+              label: "CTA href",
+              description: "Primary button link, e.g. /contact.",
+            }),
             secondaryCtaLabel: fields.text({
               label: "Secondary CTA label",
+              description: "Secondary text link label.",
             }),
             secondaryCtaHref: fields.text({
               label: "Secondary CTA href",
+              description: "Secondary link target, e.g. /cv.",
             }),
           },
           { label: "Hero" },
         ),
         about: fields.object(
           {
-            name: fields.text({ label: "Name" }),
-            role: fields.text({ label: "Role" }),
+            name: fields.text({
+              label: "Name",
+              description: "Displayed next to the avatar.",
+            }),
+            role: fields.text({
+              label: "Role",
+              description: "Short role line under the name.",
+            }),
             avatarSrc: fields.text({
               label: "Avatar src",
               description: "Path in /public, e.g. /home/avatar.png",
@@ -52,6 +66,7 @@ export default config({
             description: fields.text({
               label: "Description",
               multiline: true,
+              description: "About paragraph under the name/role.",
             }),
           },
           { label: "About" },
@@ -71,14 +86,23 @@ export default config({
         ),
         skills: fields.object(
           {
-            label: fields.text({ label: "Label" }),
+            label: fields.text({
+              label: "Label",
+              description: "Section label (e.g. / skills).",
+            }),
             groups: fields.array(
               fields.object(
                 {
-                  title: fields.text({ label: "Title" }),
-                  items: fields.array(fields.text({ label: "Item" }), {
-                    label: "Items",
+                  title: fields.text({
+                    label: "Title",
+                    description: "Group heading.",
                   }),
+                  items: fields.array(
+                    fields.text({ label: "Item", description: "Single skill." }),
+                    {
+                      label: "Items",
+                    },
+                  ),
                 },
                 { label: "Group" },
               ),
@@ -89,17 +113,24 @@ export default config({
         ),
         tools: fields.object(
           {
-            label: fields.text({ label: "Label" }),
+            label: fields.text({
+              label: "Label",
+              description: "Section label (e.g. / tools).",
+            }),
             groups: fields.array(
               fields.object(
                 {
                   title: fields.text({
                     label: "Title",
                     validation: { isRequired: false },
+                    description: "Optional group title.",
                   }),
-                  items: fields.array(fields.text({ label: "Item" }), {
-                    label: "Items",
-                  }),
+                  items: fields.array(
+                    fields.text({ label: "Item", description: "Single tool." }),
+                    {
+                      label: "Items",
+                    },
+                  ),
                 },
                 { label: "Group" },
               ),
@@ -110,7 +141,10 @@ export default config({
         ),
         pastProjects: fields.object(
           {
-            label: fields.text({ label: "Label" }),
+            label: fields.text({
+              label: "Label",
+              description: "Section label (e.g. / past projects).",
+            }),
             maxItems: fields.integer({
               label: "Max items",
               description: "How many items to show on the homepage (e.g. 5)",
@@ -132,8 +166,14 @@ export default config({
             items: fields.array(
               fields.object(
                 {
-                  title: fields.text({ label: "Title" }),
-                  subtitle: fields.text({ label: "Subtitle" }),
+                  title: fields.text({
+                    label: "Title",
+                    description: "Project title shown on the card.",
+                  }),
+                  subtitle: fields.text({
+                    label: "Subtitle",
+                    description: "Short description under the title.",
+                  }),
                   imageSrc: fields.text({
                     label: "Image src",
                     description: "Path in /public, e.g. /home/project-alpha.png",
@@ -145,6 +185,7 @@ export default config({
                   href: fields.text({
                     label: "Href",
                     validation: { isRequired: false },
+                    description: "Card link (optional).",
                   }),
                 },
                 { label: "Item" },
@@ -156,17 +197,30 @@ export default config({
         ),
         resources: fields.object(
           {
-            label: fields.text({ label: "Label" }),
+            label: fields.text({
+              label: "Label",
+              description: "Section label (e.g. / resources).",
+            }),
             items: fields.array(
               fields.object(
                 {
-                  title: fields.text({ label: "Title" }),
+                  title: fields.text({
+                    label: "Title",
+                    description: "Resource title.",
+                  }),
                   description: fields.text({
                     label: "Description",
                     multiline: true,
+                    description: "Short description shown on the card.",
                   }),
-                  linkLabel: fields.text({ label: "Link label" }),
-                  href: fields.text({ label: "Href" }),
+                  linkLabel: fields.text({
+                    label: "Link label",
+                    description: "Short link label (shown with arrow).",
+                  }),
+                  href: fields.text({
+                    label: "Href",
+                    description: "Resource link target.",
+                  }),
                 },
                 { label: "Item" },
               ),
@@ -177,18 +231,34 @@ export default config({
         ),
         cta: fields.object(
           {
-            titleLine1: fields.text({ label: "Title line 1" }),
-            titleLine2: fields.text({ label: "Title line 2" }),
-            highlight: fields.text({ label: "Highlight word" }),
+            titleLine1: fields.text({
+              label: "Title line 1",
+              description: "First line of the CTA title.",
+            }),
+            titleLine2: fields.text({
+              label: "Title line 2",
+              description: "Second line of the CTA title.",
+            }),
+            highlight: fields.text({
+              label: "Highlight word",
+              description: "Word highlighted in the CTA title.",
+            }),
             description: fields.text({
               label: "Description",
               multiline: true,
+              description: "CTA supporting text.",
             }),
             links: fields.array(
               fields.object(
                 {
-                  label: fields.text({ label: "Label" }),
-                  href: fields.text({ label: "Href" }),
+                  label: fields.text({
+                    label: "Label",
+                    description: "Footer link label.",
+                  }),
+                  href: fields.text({
+                    label: "Href",
+                    description: "Footer link target.",
+                  }),
                   muted: fields.checkbox({
                     label: "Muted style",
                     defaultValue: false,
@@ -217,7 +287,10 @@ export default config({
             label: "Slug source (paste Title)",
             description: "Paste the Title here once, then click Regenerate.",
           },
-          slug: { label: "Slug value (auto)" },
+          slug: {
+            label: "Slug value (auto)",
+            description: "Auto-generated URL slug.",
+          },
         }),
         title: fields.text({
           label: "Title",
@@ -240,9 +313,13 @@ export default config({
         facts: fields.array(
           fields.object(
             {
-              label: fields.text({ label: "Label" }),
+              label: fields.text({
+                label: "Label",
+                description: "Fact label shown in the left column.",
+              }),
               value: fields.array(fields.text({ label: "Value" }), {
                 label: "Value",
+                description: "One or more values for the fact.",
               }),
               href: fields.url({
                 label: "Href",
@@ -257,7 +334,10 @@ export default config({
         sections: fields.array(
           fields.object(
             {
-              title: fields.text({ label: "Title" }),
+              title: fields.text({
+                label: "Title",
+                description: "Section heading.",
+              }),
               blocks: fields.blocks(
                 {
                   paragraph: {
@@ -266,6 +346,7 @@ export default config({
                       text: fields.text({
                         label: "Text",
                         multiline: true,
+                        description: "Paragraph text.",
                       }),
                     }),
                   },
@@ -274,23 +355,31 @@ export default config({
                     schema: fields.object({
                       items: fields.array(fields.text({ label: "Item" }), {
                         label: "Items",
+                        description: "List items.",
                       }),
                     }),
                   },
                   link: {
                     label: "Link",
                     schema: fields.object({
-                      label: fields.text({ label: "Label" }),
+                      label: fields.text({
+                        label: "Label",
+                        description: "Link label.",
+                      }),
                       href: fields.url({
                         label: "Href",
                         validation: { isRequired: false },
+                        description: "Link URL.",
                       }),
                     }),
                   },
                   media: {
                     label: "Media",
                     schema: fields.object({
-                      src: fields.text({ label: "Src" }),
+                      src: fields.text({
+                        label: "Src",
+                        description: "Path in /public, e.g. /cases/rzd/image.png",
+                      }),
                       alt: fields.text({
                         label: "Alt",
                         description: "Alt text for the image (SEO + accessibility).",
@@ -298,6 +387,7 @@ export default config({
                       caption: fields.text({
                         label: "Caption",
                         multiline: true,
+                        description: "Optional caption under the image.",
                       }),
                     }),
                   },

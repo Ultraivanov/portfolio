@@ -15,6 +15,7 @@
   font-size: var(--text-small);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  transition: color 0.15s ease;
 }
 
 .backIcon {
@@ -28,8 +29,8 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  border-left: 1px solid var(--color-text-muted);
-  border-bottom: 1px solid var(--color-text-muted);
+  border-left: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
   transform: rotate(45deg);
   top: 4px;
   left: 6px;
@@ -37,6 +38,20 @@
 
 .backLabel {
   line-height: 1;
+}
+
+.back:hover,
+.back:focus-visible {
+  color: #e63746;
+}
+
+.back:active {
+  color: #b72a36;
+}
+
+.back:focus-visible {
+  outline: 1px solid #e63746;
+  outline-offset: 3px;
 }
 
 .header {

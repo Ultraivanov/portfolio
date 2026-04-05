@@ -35,6 +35,16 @@
   color: var(--color-text-primary);
   text-decoration: underline;
   text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.link:hover,
+.link:focus-visible {
+  color: #e63746;
+}
+
+.link:active {
+  color: #b72a36;
 }
 
 .value p {

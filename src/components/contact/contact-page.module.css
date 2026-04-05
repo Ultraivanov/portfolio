@@ -60,6 +60,21 @@
   color: var(--color-text-primary);
   text-decoration: none;
   overflow-wrap: anywhere;
+  transition: color 0.15s ease;
+}
+
+.detailValue:hover,
+.detailValue:focus-visible {
+  color: #e63746;
+}
+
+.detailValue:active {
+  color: #b72a36;
+}
+
+.detailValue:focus-visible {
+  outline: 1px solid #e63746;
+  outline-offset: 3px;
 }
 
 .note {

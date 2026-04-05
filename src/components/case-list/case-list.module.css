@@ -46,6 +46,10 @@
   outline-offset: 2px;
 }
 
+.row:active {
+  background: rgba(230, 55, 70, 0.08);
+}
+
 .row[aria-disabled="true"] {
   cursor: default;
 }

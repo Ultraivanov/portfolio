@@ -278,6 +278,7 @@
   border-bottom: 1px solid #e5e7eb;
   color: inherit;
   text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .projectImage {
@@ -347,6 +348,20 @@
   display: block;
 }
 
+.projectCard:hover .projectTitle,
+.projectCard:focus-visible .projectTitle {
+  color: #e63746;
+}
+
+.projectCard:active .projectTitle {
+  color: #b72a36;
+}
+
+.projectCard:focus-visible {
+  outline: 1px solid #e63746;
+  outline-offset: 3px;
+}
+
 .resourcesSection {
   display: flex;
   flex-direction: column;
@@ -377,6 +392,7 @@
   border-bottom: 1px solid #e5e7eb;
   color: inherit;
   text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .resourceTitle {
@@ -396,6 +412,25 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #e63746;
+}
+
+.resourceCard:hover .resourceTitle,
+.resourceCard:focus-visible .resourceTitle {
+  color: #e63746;
+}
+
+.resourceCard:active .resourceTitle {
+  color: #b72a36;
+}
+
+.resourceCard:hover .resourceLink {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.resourceCard:focus-visible {
+  outline: 1px solid #e63746;
+  outline-offset: 3px;
 }
 
 @media (max-width: 900px) {

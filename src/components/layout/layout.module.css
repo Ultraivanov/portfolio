@@ -155,22 +155,29 @@
 .footerLink {
   color: var(--color-text-primary);
   text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 .footerLinkMuted {
   color: var(--color-text-muted);
   text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 .footerLink:hover,
 .footerLinkMuted:hover {
-  color: var(--color-text-primary);
+  color: #e63746;
 }
 
 .footerLink:focus-visible,
 .footerLinkMuted:focus-visible {
-  outline: 1px solid var(--color-text-primary);
+  outline: 1px solid #e63746;
   outline-offset: 3px;
+}
+
+.footerLink:active,
+.footerLinkMuted:active {
+  color: #b72a36;
 }
 
 @media (max-width: 900px) {

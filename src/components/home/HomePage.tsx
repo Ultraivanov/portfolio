@@ -17,8 +17,11 @@ export default function HomePage({ data }: HomePageProps) {
     theme === "light" ? "/home/hero-title-dark.svg" : data.hero.titleImageSrc;
 
   return (
-    <section className={styles.page}>
-      <div className={styles.hero}>
+    <article className={styles.page} aria-labelledby="home-title">
+      <h1 id="home-title" className={styles.visuallyHidden}>
+        Portfolio
+      </h1>
+      <section className={styles.hero}>
         <div className={styles.heroTitle}>
           <img src={titleSrc} alt={data.hero.titleImageAlt} />
         </div>
@@ -31,9 +34,12 @@ export default function HomePage({ data }: HomePageProps) {
         >
           {data.hero.ctaLabel}
         </Button>
-      </div>
+      </section>
 
-      <div className={styles.about}>
+      <section className={styles.about} aria-labelledby="about-title">
+        <h2 id="about-title" className={styles.visuallyHidden}>
+          About
+        </h2>
         <div className={styles.aboutHeader}>
           <div className={styles.avatar}>
             <Image
@@ -49,9 +55,12 @@ export default function HomePage({ data }: HomePageProps) {
           </div>
         </div>
         <p className={styles.aboutText}>{data.about.description}</p>
-      </div>
+      </section>
 
-      <div className={styles.cover}>
+      <section className={styles.cover} aria-labelledby="cover-title">
+        <h2 id="cover-title" className={styles.visuallyHidden}>
+          Cover
+        </h2>
         <Image
           src={data.cover.src}
           alt={data.cover.alt}
@@ -60,9 +69,12 @@ export default function HomePage({ data }: HomePageProps) {
           sizes="(max-width: 1200px) 100vw, 1080px"
           className={styles.coverImage}
         />
-      </div>
+      </section>
 
-      <div className={styles.skillsTools}>
+      <section className={styles.skillsTools} aria-labelledby="skills-title">
+        <h2 id="skills-title" className={styles.visuallyHidden}>
+          Skills and tools
+        </h2>
         <div className={styles.skills}>
           <p className={styles.sectionLabel}>{data.skills.label}</p>
           <div className={styles.skillGroups}>
@@ -90,9 +102,14 @@ export default function HomePage({ data }: HomePageProps) {
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      <CaseList data={data.pastProjects} />
-    </section>
+      <section aria-labelledby="past-projects-title">
+        <h2 id="past-projects-title" className={styles.visuallyHidden}>
+          Past projects
+        </h2>
+        <CaseList data={data.pastProjects} />
+      </section>
+    </article>
   );
 }

@@ -215,7 +215,7 @@ export default config({
                   }),
                   linkLabel: fields.text({
                     label: "Link label",
-                    description: "Short link label (shown with arrow).",
+                    description: "Short link label (arrow is added automatically).",
                   }),
                   href: fields.text({
                     label: "Href",

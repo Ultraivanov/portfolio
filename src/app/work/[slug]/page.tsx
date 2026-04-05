@@ -24,16 +24,16 @@ export default function CasePage({ params }: CasePageProps) {
             ? section.blocks.map((block, index) => {
                 const normalized =
                   "discriminant" in block
-                    ? { type: block.discriminant, ...block.value }
+                    ? ({ type: block.discriminant, ...block.value } as const)
                     : block;
-                if (normalized.type === "paragraph") {
+                if (normalized.type === "paragraph" && "text" in normalized) {
                   return (
                     <p key={`${normalized.type}-${index}`}>
                       {normalized.text}
                     </p>
                   );
                 }
-                if (normalized.type === "list") {
+                if (normalized.type === "list" && "items" in normalized) {
                   return (
                     <ul key={`${normalized.type}-${index}`}>
                       {normalized.items.map((item) => (
@@ -42,7 +42,11 @@ export default function CasePage({ params }: CasePageProps) {
                     </ul>
                   );
                 }
-                if (normalized.type === "link") {
+                if (
+                  normalized.type === "link" &&
+                  "href" in normalized &&
+                  "label" in normalized
+                ) {
                   return (
                     <a
                       key={`${normalized.type}-${index}`}
@@ -55,7 +59,11 @@ export default function CasePage({ params }: CasePageProps) {
                     </a>
                   );
                 }
-                if (normalized.type === "media") {
+                if (
+                  normalized.type === "media" &&
+                  "src" in normalized &&
+                  "alt" in normalized
+                ) {
                   return (
                     <CaseMedia
                       key={`${normalized.type}-${index}`}

@@ -113,12 +113,14 @@ export default config({
               fields.object(
                 {
                   title: fields.text({ label: "Title" }),
-                  detail: fields.text({ label: "Detail" }),
-                  year: fields.text({ label: "Year" }),
-                  href: fields.text({ label: "Href", validation: { isRequired: false } }),
-                  caseSlug: fields.text({
-                    label: "Case slug",
-                    description: "Optional: auto-links to /work/{slug} if href is empty.",
+                  subtitle: fields.text({ label: "Subtitle" }),
+                  imageSrc: fields.text({
+                    label: "Image src",
+                    description: "Path in /public, e.g. /home/project-alpha.png",
+                  }),
+                  imageAlt: fields.text({ label: "Image alt" }),
+                  href: fields.text({
+                    label: "Href",
                     validation: { isRequired: false },
                   }),
                 },
@@ -128,6 +130,53 @@ export default config({
             ),
           },
           { label: "Past projects" },
+        ),
+        resources: fields.object(
+          {
+            label: fields.text({ label: "Label" }),
+            items: fields.array(
+              fields.object(
+                {
+                  title: fields.text({ label: "Title" }),
+                  description: fields.text({
+                    label: "Description",
+                    multiline: true,
+                  }),
+                  linkLabel: fields.text({ label: "Link label" }),
+                  href: fields.text({ label: "Href" }),
+                },
+                { label: "Item" },
+              ),
+              { label: "Items", validation: { length: { max: 4 } } },
+            ),
+          },
+          { label: "Resources" },
+        ),
+        cta: fields.object(
+          {
+            titleLine1: fields.text({ label: "Title line 1" }),
+            titleLine2: fields.text({ label: "Title line 2" }),
+            highlight: fields.text({ label: "Highlight word" }),
+            description: fields.text({
+              label: "Description",
+              multiline: true,
+            }),
+            links: fields.array(
+              fields.object(
+                {
+                  label: fields.text({ label: "Label" }),
+                  href: fields.text({ label: "Href" }),
+                  muted: fields.checkbox({
+                    label: "Muted style",
+                    defaultValue: false,
+                  }),
+                },
+                { label: "Link" },
+              ),
+              { label: "Links" },
+            ),
+          },
+          { label: "CTA" },
         ),
       },
     }),

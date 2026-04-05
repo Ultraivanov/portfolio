@@ -11,8 +11,9 @@ export default function Home() {
     .filter((item): item is NonNullable<typeof item> => Boolean(item))
     .map((item) => ({
       title: item.title,
-      detail: item.subtitle,
-      year: "",
+      subtitle: item.subtitle,
+      imageSrc: item.coverSrc,
+      imageAlt: item.coverAlt,
       href: `/work/${item.slug}`,
     }));
 

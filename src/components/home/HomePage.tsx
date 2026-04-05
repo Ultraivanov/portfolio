@@ -3,8 +3,7 @@
 import Image from "next/image";
 import { Button } from "@gravity-ui/uikit";
 import { useThemeMode } from "@/components/ClientProviders";
-import CaseList from "@/components/case-list/CaseList";
-import type { HomeContent } from "@/content/home";
+import type { HomeContent, PastProject } from "@/content/home";
 import styles from "./home-page.module.css";
 
 type HomePageProps = {
@@ -15,6 +14,11 @@ export default function HomePage({ data }: HomePageProps) {
   const { theme } = useThemeMode();
   const titleSrc =
     theme === "light" ? "/home/hero-title-dark.svg" : data.hero.titleImageSrc;
+
+  const projects = data.pastProjects.items.slice(
+    0,
+    data.pastProjects.maxItems ?? data.pastProjects.items.length,
+  );
 
   return (
     <article className={styles.page} aria-labelledby="home-title">
@@ -104,11 +108,68 @@ export default function HomePage({ data }: HomePageProps) {
         </div>
       </section>
 
-      <section aria-labelledby="past-projects-title">
+      <section className={styles.projectsSection} aria-labelledby="past-projects-title">
         <h2 id="past-projects-title" className={styles.visuallyHidden}>
           Past projects
         </h2>
-        <CaseList data={data.pastProjects} />
+        <p className={styles.sectionLabel}>{data.pastProjects.label}</p>
+        <div className={styles.projectsGrid}>
+          {projects.map((item: PastProject, index) => {
+            const content = (
+              <>
+                <div className={styles.projectImage}>
+                  {item.imageSrc ? (
+                    <img src={item.imageSrc} alt={item.imageAlt ?? item.title} />
+                  ) : null}
+                </div>
+                <div className={styles.projectMeta}>
+                  <div className={styles.projectText}>
+                    <p className={styles.projectTitle}>{item.title}</p>
+                    {item.subtitle ? (
+                      <p className={styles.projectSubtitle}>{item.subtitle}</p>
+                    ) : null}
+                  </div>
+                  <span className={styles.projectArrow} aria-hidden="true" />
+                </div>
+              </>
+            );
+
+            return item.href ? (
+              <a
+                key={`${item.title}-${index}`}
+                className={styles.projectCard}
+                href={item.href}
+              >
+                {content}
+              </a>
+            ) : (
+              <div key={`${item.title}-${index}`} className={styles.projectCard}>
+                {content}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className={styles.resourcesSection} aria-labelledby="resources-title">
+        <div className={styles.resourcesHeader}>
+          <h2 id="resources-title" className={styles.sectionLabel}>
+            {data.resources.label}
+          </h2>
+        </div>
+        <div className={styles.resourcesGrid}>
+          {data.resources.items.map((item, index) => (
+            <a
+              key={`${item.title}-${index}`}
+              className={styles.resourceCard}
+              href={item.href}
+            >
+              <p className={styles.resourceTitle}>{item.title}</p>
+              <p className={styles.resourceDescription}>{item.description}</p>
+              <span className={styles.resourceLink}>{item.linkLabel}</span>
+            </a>
+          ))}
+        </div>
       </section>
     </article>
   );

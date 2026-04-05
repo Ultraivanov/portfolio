@@ -41,10 +41,10 @@ export type Cover = {
 
 export type PastProject = {
   title: string;
-  detail?: string;
-  year?: string;
+  subtitle?: string;
+  imageSrc?: string;
+  imageAlt?: string;
   href?: string;
-  caseSlug?: string;
 };
 
 export type PastProjects = {
@@ -54,6 +54,32 @@ export type PastProjects = {
   items: PastProject[];
 };
 
+export type ResourceItem = {
+  title: string;
+  description: string;
+  linkLabel: string;
+  href: string;
+};
+
+export type Resources = {
+  label: string;
+  items: ResourceItem[];
+};
+
+export type FooterLink = {
+  label: string;
+  href: string;
+  muted?: boolean;
+};
+
+export type CallToAction = {
+  titleLine1: string;
+  titleLine2: string;
+  highlight: string;
+  description: string;
+  links: FooterLink[];
+};
+
 export type HomeContent = {
   hero: Hero;
   about: About;
@@ -61,6 +87,8 @@ export type HomeContent = {
   skills: SkillSection;
   tools: ToolSection;
   pastProjects: PastProjects;
+  resources: Resources;
+  cta: CallToAction;
 };
 
 export const home = homeData as HomeContent;

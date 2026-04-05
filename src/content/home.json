@@ -78,24 +78,87 @@
     "items": [
       {
         "title": "Megamod",
-        "detail": "UX structure, visual system, investors website, pitch decks, and marketing assets",
-        "year": "2024–2025"
+        "subtitle": "UX structure, visual system, investors website, pitch decks, and marketing assets",
+        "imageSrc": "/home/project-alpha.png",
+        "imageAlt": "Project preview"
       },
       {
         "title": "My Perfect Greek Vacation",
-        "detail": "Travel Booking Platform",
-        "year": "2023"
+        "subtitle": "Travel Booking Platform",
+        "imageSrc": "/home/project-beta.png",
+        "imageAlt": "Project preview"
       },
       {
         "title": "Russian Railway",
-        "detail": "Product Design",
-        "year": "2022"
+        "subtitle": "Product Design",
+        "imageSrc": "/home/project-alpha.png",
+        "imageAlt": "Project preview"
       },
       {
         "title": "Russian Railways",
-        "detail": "Resort booking case",
-        "year": "2020–2021",
+        "subtitle": "Resort booking case",
+        "imageSrc": "/home/project-beta.png",
+        "imageAlt": "Project preview",
         "href": "/work/railway-booking-flow"
+      }
+    ]
+  },
+  "resources": {
+    "label": "Resources",
+    "items": [
+      {
+        "title": "Config Presets",
+        "description": "My personal Prettier & ESLint configs.",
+        "linkLabel": "Download →",
+        "href": "/"
+      },
+      {
+        "title": "Config Presets",
+        "description": "My personal Prettier & ESLint configs.",
+        "linkLabel": "Github →",
+        "href": "/"
+      },
+      {
+        "title": "Config Presets",
+        "description": "My personal Prettier & ESLint configs.",
+        "linkLabel": "Github →",
+        "href": "/"
+      },
+      {
+        "title": "Config Presets",
+        "description": "My personal Prettier & ESLint configs.",
+        "linkLabel": "Github →",
+        "href": "/"
+      }
+    ]
+  },
+  "cta": {
+    "titleLine1": "Let's build something",
+    "titleLine2": "together.",
+    "highlight": "meaningful",
+    "description": "Currently open to freelance projects and consultations",
+    "links": [
+      {
+        "label": "Github",
+        "href": "https://github.com"
+      },
+      {
+        "label": "Twitter / X",
+        "href": "https://x.com"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com"
+      },
+      {
+        "label": "Terms of Use",
+        "href": "/terms",
+        "muted": true
+      },
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy",
+        "muted": true
       }
     ]
   }

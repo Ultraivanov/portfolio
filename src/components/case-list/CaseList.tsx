@@ -27,10 +27,12 @@ export default function CaseList({ data }: CaseListProps) {
               >
                 <span className={styles.text}>
                   <span className={styles.title}>{item.title}</span>
-                  <span className={styles.separator}>•</span>
-                  <span className={styles.meta}>{item.detail}</span>
-                  <span className={styles.separator}>•</span>
-                  <span className={styles.meta}>{item.year}</span>
+                  {item.subtitle ? (
+                    <>
+                      <span className={styles.separator}>•</span>
+                      <span className={styles.meta}>{item.subtitle}</span>
+                    </>
+                  ) : null}
                 </span>
                 <span className={styles.icon} aria-hidden="true" />
               </Link>
@@ -38,10 +40,12 @@ export default function CaseList({ data }: CaseListProps) {
               <div className={styles.row} aria-disabled="true">
                 <span className={styles.text}>
                   <span className={styles.title}>{item.title}</span>
-                  <span className={styles.separator}>•</span>
-                  <span className={styles.meta}>{item.detail}</span>
-                  <span className={styles.separator}>•</span>
-                  <span className={styles.meta}>{item.year}</span>
+                  {item.subtitle ? (
+                    <>
+                      <span className={styles.separator}>•</span>
+                      <span className={styles.meta}>{item.subtitle}</span>
+                    </>
+                  ) : null}
                 </span>
                 <span className={styles.icon} aria-hidden="true" />
               </div>

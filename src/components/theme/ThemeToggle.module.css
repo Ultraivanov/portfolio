@@ -2,4 +2,6 @@
   --g-switch-thumb-color: var(--color-bg);
   --g-switch-border-color: var(--color-border-primary);
   --g-switch-track-color: transparent;
+  opacity: 1;
+  pointer-events: none;
 }

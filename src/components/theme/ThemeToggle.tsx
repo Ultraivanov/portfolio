@@ -19,7 +19,7 @@ export default function ThemeToggle() {
       size="s"
       checked={isDark}
       onUpdate={() => undefined}
-      disabled
+      aria-disabled="true"
       className={styles.switch}
       aria-label="Theme follows system"
       title="Theme follows system"

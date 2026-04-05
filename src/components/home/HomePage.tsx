@@ -169,7 +169,7 @@ export default function HomePage({ data }: HomePageProps) {
         </div>
         <div className={styles.resourcesGrid}>
           {data.resources.items.map((item, index) => {
-            const label = item.linkLabel.replace(/\s*→\s*$/u, "");
+            const label = item.linkLabel.replace(/→/gu, "").trim();
             return (
               <a
                 key={`${item.title}-${index}`}

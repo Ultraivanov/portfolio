@@ -53,3 +53,43 @@
 :global(.g-text-area__control::placeholder) {
   color: var(--color-text-muted);
 }
+
+.consent {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+}
+
+.consent input {
+  accent-color: #e63746;
+}
+
+.consent a {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.statusSuccess,
+.statusError {
+  font-size: var(--text-small);
+}
+
+.statusSuccess {
+  color: var(--color-text-primary);
+}
+
+.statusError {
+  color: #e63746;
+}

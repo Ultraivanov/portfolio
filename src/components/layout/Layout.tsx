@@ -6,6 +6,8 @@ import { usePathname } from "next/navigation";
 import Container from "./Container";
 import Footer from "./Footer";
 import Header from "./Header";
+import Analytics from "@/components/analytics/Analytics";
+import ConsentBanner from "@/components/analytics/ConsentBanner";
 import styles from "./layout.module.css";
 
 type LayoutProps = {
@@ -33,6 +35,8 @@ export default function Layout({ children }: LayoutProps) {
         <Container>{children}</Container>
       </main>
       <Footer />
+      <Analytics />
+      <ConsentBanner />
     </div>
   );
 }

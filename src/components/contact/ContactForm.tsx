@@ -1,46 +1,96 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Button, TextArea, TextInput } from "@gravity-ui/uikit";
+import { trackEvent } from "@/lib/analytics";
 import styles from "./contact-form.module.css";
 
 type ContactFormProps = {
   email: string;
 };
 
+type FormStatus = "idle" | "sending" | "success" | "error";
+
 export default function ContactForm({ email }: ContactFormProps) {
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [message, setMessage] = useState("");
   const [contactEmail, setContactEmail] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [error, setError] = useState("");
 
-  const mailto = useMemo(() => {
-    const subject = name ? `Portfolio inquiry from ${name}` : "Portfolio inquiry";
-    const body = [
-      name && `Name: ${name}`,
-      company && `Company: ${company}`,
-      contactEmail && `Email: ${contactEmail}`,
-      message && `\n${message}`,
-    ]
-      .filter(Boolean)
-      .join("\n");
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
 
-    return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }, [company, contactEmail, email, message, name]);
+    if (honeypot) {
+      return;
+    }
+
+    if (!name || !contactEmail || !message) {
+      setStatus("error");
+      setError("Please fill in name, email, and message.");
+      return;
+    }
+
+    if (!consent) {
+      setStatus("error");
+      setError("Please confirm you agree to the Privacy Policy.");
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          company,
+          email: contactEmail,
+          message,
+          page: window.location.href,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      setStatus("success");
+      trackEvent("contact_submit", { status: "success" });
+      setName("");
+      setCompany("");
+      setMessage("");
+      setContactEmail("");
+      setConsent(false);
+    } catch (err) {
+      setStatus("error");
+      trackEvent("contact_submit", { status: "error" });
+      setError(
+        `Something went wrong. Please email directly at ${email}.`,
+      );
+    }
+  };
 
   return (
-    <form className={styles.form} onSubmit={(event) => event.preventDefault()}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.fieldGroup}>
         <label className={styles.label} htmlFor="contact-name">
           Name
         </label>
         <TextInput
           id="contact-name"
+          name="name"
           size="l"
           view="normal"
           value={name}
           onUpdate={setName}
           placeholder="Your name"
+          autoComplete="name"
+          aria-required="true"
         />
       </div>
       <div className={styles.fieldGroup}>
@@ -49,11 +99,15 @@ export default function ContactForm({ email }: ContactFormProps) {
         </label>
         <TextInput
           id="contact-email"
+          name="email"
           size="l"
           view="normal"
           value={contactEmail}
           onUpdate={setContactEmail}
           placeholder="you@company.com"
+          autoComplete="email"
+          type="email"
+          aria-required="true"
         />
       </div>
       <div className={styles.fieldGroup}>
@@ -62,11 +116,13 @@ export default function ContactForm({ email }: ContactFormProps) {
         </label>
         <TextInput
           id="contact-company"
+          name="company"
           size="l"
           view="normal"
           value={company}
           onUpdate={setCompany}
           placeholder="Company or product"
+          autoComplete="organization"
         />
       </div>
       <div className={styles.fieldGroup}>
@@ -75,17 +131,61 @@ export default function ContactForm({ email }: ContactFormProps) {
         </label>
         <TextArea
           id="contact-message"
+          name="message"
           size="l"
           view="normal"
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           placeholder="Project context, timeline, and the decision owner"
           minRows={6}
+          aria-required="true"
         />
       </div>
-      <Button size="l" view="outlined" className={styles.submit} href={mailto}>
+
+      <input
+        className={styles.honeypot}
+        type="text"
+        name="website"
+        value={honeypot}
+        onChange={(event) => setHoneypot(event.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
+
+      <label className={styles.consent}>
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(event) => setConsent(event.target.checked)}
+          required
+        />
+        <span>
+          I agree to the <a href="/privacy">Privacy Policy</a>.
+        </span>
+      </label>
+
+      <Button
+        size="l"
+        view="outlined"
+        className={styles.submit}
+        type="submit"
+        loading={status === "sending"}
+        disabled={status === "sending"}
+      >
         Send message
       </Button>
+
+      {status === "success" ? (
+        <p className={styles.statusSuccess} role="status">
+          Message sent. I will reply with next steps.
+        </p>
+      ) : null}
+      {status === "error" ? (
+        <p className={styles.statusError} role="alert">
+          {error}
+        </p>
+      ) : null}
     </form>
   );
 }

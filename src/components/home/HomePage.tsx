@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Button } from "@gravity-ui/uikit";
 import { useThemeMode } from "@/components/ClientProviders";
+import { trackEvent } from "@/lib/analytics";
 import type { HomeContent, PastProject } from "@/content/home";
 import styles from "./home-page.module.css";
 
@@ -149,6 +150,12 @@ export default function HomePage({ data }: HomePageProps) {
                 key={`${item.title}-${index}`}
                 className={styles.projectCard}
                 href={item.href}
+                onClick={() =>
+                  trackEvent("case_click", {
+                    label: item.title,
+                    href: item.href,
+                  })
+                }
               >
                 {content}
               </a>
@@ -178,6 +185,12 @@ export default function HomePage({ data }: HomePageProps) {
                 key={`${item.title}-${index}`}
                 className={styles.resourceCard}
                 href={item.href}
+                onClick={() =>
+                  trackEvent("resource_click", {
+                    label: item.title,
+                    href: item.href,
+                  })
+                }
               >
                 <p className={styles.resourceTitle}>{item.title}</p>
                 <p className={styles.resourceDescription}>{item.description}</p>

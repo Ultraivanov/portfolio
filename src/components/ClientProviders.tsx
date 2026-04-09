@@ -27,30 +27,30 @@ type ClientProvidersProps = {
 };
 
 export default function ClientProviders({ children }: ClientProvidersProps) {
-  const [theme, setTheme] = useState<ThemeMode>("dark");
-  const [isAuto, setIsAuto] = useState(true);
   const pathname = usePathname();
   const isKeystatic = pathname?.startsWith("/keystatic");
+  const [theme, setTheme] = useState<ThemeMode>(() => {
+    if (typeof window === "undefined") return "dark";
+    const stored = window.localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark") return stored;
+    const media = window.matchMedia?.("(prefers-color-scheme: light)");
+    return media?.matches ? "light" : "dark";
+  });
+  const isAuto = useMemo(() => {
+    if (isKeystatic) return true;
+    const stored = window.localStorage.getItem("theme");
+    return !(stored === "light" || stored === "dark");
+  }, [isKeystatic]);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("theme");
     const media = window.matchMedia?.("(prefers-color-scheme: light)");
-    const applyTheme = (force?: ThemeMode) => {
-      if (force) {
-        setTheme(force);
-        return;
+    const applyTheme = () => {
+      if (isAuto) {
+        setTheme(media?.matches ? "light" : "dark");
       }
-      setTheme(media?.matches ? "light" : "dark");
     };
 
     if (isKeystatic) {
-      setIsAuto(true);
-      applyTheme();
-    } else if (stored === "light" || stored === "dark") {
-      setIsAuto(false);
-      applyTheme(stored);
-    } else {
-      setIsAuto(true);
       applyTheme();
     }
 

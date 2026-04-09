@@ -70,7 +70,8 @@
         "title": "Dev",
         "items": [
           "Codex",
-          "Claude Code"
+          "Claude Code",
+          "Cursor"
         ]
       }
     ]

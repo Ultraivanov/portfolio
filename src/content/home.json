@@ -125,7 +125,7 @@
     "items": [
       {
         "title": "Deus in Machina",
-        "description": "Design System Runtime (DSR) — enforcement + structure + runtime for design systems. The focus is on token normalization, pattern inference, and UI validation with a fix loop",
+        "description": "Design System Runtime (DSR) — enforcement + structure + runtime for design systems — focused on token normalization, pattern inference, and UI validation with a fix loop",
         "linkLabel": "DEUS-IN-MACHINA",
         "href": "https://deus-in-machina.vercel.app/"
       },
@@ -153,7 +153,7 @@
     "titleLine1": "Let's build something",
     "titleLine2": "together.",
     "highlight": "meaningful",
-    "description": "Currently open to freelance projects and full-time development",
+    "description": "Currently open to freelance projects\nand full-time development",
     "links": [
       {
         "label": "CV",

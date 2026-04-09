@@ -6,6 +6,7 @@ export default function Footer() {
   const { cta } = home;
   const primaryLinks = cta.links.filter((link) => !link.muted);
   const legalLinks = cta.links.filter((link) => link.muted);
+  const descriptionLines = cta.description.split("\n");
   return (
     <footer className={styles.footer}>
       <Container className={styles.footerCta}>
@@ -15,7 +16,14 @@ export default function Footer() {
             <span className={styles.footerCtaHighlight}>{cta.highlight}</span>{" "}
             <span>{cta.titleLine2}</span>
           </h2>
-          <p className={styles.footerCtaDescription}>{cta.description}</p>
+          <p className={styles.footerCtaDescription}>
+            {descriptionLines.map((line, index) => (
+              <span key={`${line}-${index}`}>
+                {line}
+                {index < descriptionLines.length - 1 ? <br /> : null}
+              </span>
+            ))}
+          </p>
         </div>
         <div className={styles.footerLinks}>
           <div className={styles.footerLinkGroup}>

@@ -70,6 +70,11 @@ export default function CasePage({ params }: CasePageProps) {
                       src={normalized.src}
                       alt={normalized.alt}
                       caption={normalized.caption}
+                      variant={
+                        "variant" in normalized
+                          ? (normalized.variant as "phone" | "desktop" | "diagram" | undefined)
+                          : undefined
+                      }
                     />
                   );
                 }

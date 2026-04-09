@@ -253,6 +253,24 @@
           "value": {
             "text": "Users can re-enter the loop at any stage."
           }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2Feqsvfe3M64CbnVbVbemt4n%2FMy-Perfect-Greek-Vacation%3Fnode-id%3D1-256",
+            "alt": "Decision-first travel booking flow diagram",
+            "caption": "Decision-first flow map showing how preference capture, composition, and confidence loops replace a linear booking funnel.",
+            "variant": "diagram"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2Feqsvfe3M64CbnVbVbemt4n%2FMy-Perfect-Greek-Vacation%3Fnode-id%3D1-2012",
+            "alt": "Decision-first travel booking flow diagram (page 2)",
+            "caption": "Second diagram page with additional flow detail and decision checkpoints.",
+            "variant": "diagram"
+          }
         }
       ]
     },
@@ -299,6 +317,24 @@
           "discriminant": "paragraph",
           "value": {
             "text": "A travel booking platform that captures user intent early, reduces option space, provides curated recommendations, explains each option, and enables confident booking."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FPZmx9cxqPNLG9btTp50gth%2FMy-Perfect-greek-vacation%3Fnode-id%3D2049-9630",
+            "alt": "Desktop booking UI mockup",
+            "caption": "Desktop decision layer showing curated options and a structured catalog for comparison.",
+            "variant": "desktop"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FPZmx9cxqPNLG9btTp50gth%2FMy-Perfect-greek-vacation%3Fnode-id%3D2378-24635",
+            "alt": "Mobile booking UI mockup",
+            "caption": "Mobile layout with the same decision-first structure translated into a single-column flow.",
+            "variant": "phone"
           }
         }
       ]

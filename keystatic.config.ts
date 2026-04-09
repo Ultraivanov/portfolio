@@ -384,6 +384,12 @@ export default config({
                         label: "Alt",
                         description: "Alt text for the image (SEO + accessibility).",
                       }),
+                      variant: fields.text({
+                        label: "Variant",
+                        description:
+                          "Optional style hint: phone, desktop, diagram (leave empty for default).",
+                        validation: { isRequired: false },
+                      }),
                       caption: fields.text({
                         label: "Caption",
                         multiline: true,

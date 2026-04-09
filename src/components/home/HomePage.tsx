@@ -177,7 +177,7 @@ export default function HomePage({ data }: HomePageProps) {
         <div className={styles.resourcesGrid}>
           {data.resources.items.map((item, index) => {
             const label = item.linkLabel
-              .replace(/[^\p{L}\p{N}\s]/gu, "")
+              .replace(/[^\p{L}\p{N}\s-]/gu, "")
               .replace(/\s+/g, " ")
               .trim();
             return (

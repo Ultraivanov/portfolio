@@ -32,14 +32,29 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
   const isKeystatic = pathname?.startsWith("/keystatic");
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof window === "undefined") return initialTheme;
+    // First check cookie
+    const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
+      const [key, value] = cookie.split("=");
+      acc[key] = value;
+      return acc;
+    }, {} as Record<string, string>);
+    if (cookies.theme === "light" || cookies.theme === "dark") return cookies.theme;
+    // Then localStorage
     const stored = window.localStorage.getItem("theme");
     if (stored === "light" || stored === "dark") return stored;
+    // Then media
     const media = window.matchMedia?.("(prefers-color-scheme: light)");
     return media?.matches ? "light" : "dark";
   });
   const [isAuto, setIsAuto] = useState(() => {
     if (isKeystatic) return true;
     if (typeof window === "undefined") return true;
+    const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
+      const [key, value] = cookie.split("=");
+      acc[key] = value;
+      return acc;
+    }, {} as Record<string, string>);
+    if (cookies.theme === "light" || cookies.theme === "dark") return false;
     const stored = window.localStorage.getItem("theme");
     return !(stored === "light" || stored === "dark");
   });

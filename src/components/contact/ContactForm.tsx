@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button, TextArea, TextInput } from "@gravity-ui/uikit";
 import { trackEvent } from "@/lib/analytics";
 import TurnstileWidget from "./TurnstileWidget";
@@ -24,6 +24,17 @@ export default function ContactForm({ email }: ContactFormProps) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [error, setError] = useState("");
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
+  const handleVerify = useCallback((token: string) => {
+    setCaptchaToken(token);
+  }, []);
+
+  const handleExpire = useCallback(() => {
+    setCaptchaToken("");
+  }, []);
+
+  const handleError = useCallback(() => {
+    setCaptchaToken("");
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -190,9 +201,9 @@ export default function ContactForm({ email }: ContactFormProps) {
           <TurnstileWidget
             siteKey={turnstileSiteKey}
             resetKey={captchaReset}
-            onVerify={(token) => setCaptchaToken(token)}
-            onExpire={() => setCaptchaToken("")}
-            onError={() => setCaptchaToken("")}
+            onVerify={handleVerify}
+            onExpire={handleExpire}
+            onError={handleError}
           />
         </div>
       ) : null}

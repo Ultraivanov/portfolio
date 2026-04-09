@@ -125,25 +125,25 @@
     "items": [
       {
         "title": "Deus in Machina",
-        "description": "Turn the design system into a runtime.",
+        "description": "Design System Runtime (DSR) — enforcement + structure + runtime for design systems. The focus is on token normalization, pattern inference, and UI validation with a fix loop",
         "linkLabel": "DEUS-IN-MACHINA",
         "href": "https://deus-in-machina.vercel.app/"
       },
       {
         "title": "Agent Skills",
-        "description": "Production-grade engineering skills for AI coding agents.",
+        "description": "Production-grade engineering skills for AI coding agents",
         "linkLabel": "GITHUB",
         "href": "https://github.com/Ultraivanov/agent-skills"
       },
       {
         "title": "Design Token Auditor",
-        "description": "AI-powered design token analysis for JSON files with scores, stats, and actionable recommendations.",
+        "description": "AI-powered design token analysis for JSON files with scores, stats, and actionable recommendations",
         "linkLabel": "GITHUB",
         "href": "https://github.com/Ultraivanov/Design-Token-Auditor"
       },
       {
         "title": "Shimlayer",
-        "description": "HITL API layer for last-mile failures in AI-agentic workflows.",
+        "description": "HITL API layer for last-mile failures in AI-agentic workflows",
         "linkLabel": "GITHUB",
         "href": "https://github.com/Ultraivanov/shimlayer"
       }

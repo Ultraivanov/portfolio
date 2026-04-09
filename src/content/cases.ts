@@ -58,10 +58,36 @@ const normalizeCase = (raw: CaseStudyRaw): CaseStudy => ({
   slug: normalizeSlug(raw.slug),
 });
 
-export const cases = caseFiles.map((file) => {
+const allCases = caseFiles.map((file) => {
   const fullPath = path.join(casesDirectory, file);
   const raw = fs.readFileSync(fullPath, "utf-8");
   return normalizeCase(JSON.parse(raw) as CaseStudyRaw);
+});
+
+// Define preferred order of cases
+const preferredOrder = [
+  "travel-booking-platform",
+  "railway-booking-flow",
+  "megamod",
+  "my-perfect-greek-vacation",
+  "design-system-runtime",
+];
+
+export const cases = allCases.sort((a, b) => {
+  const indexA = preferredOrder.indexOf(a.slug);
+  const indexB = preferredOrder.indexOf(b.slug);
+  
+  // If both are in preferred order, sort by preferred order
+  if (indexA !== -1 && indexB !== -1) {
+    return indexA - indexB;
+  }
+  
+  // If only one is in preferred order, it comes first
+  if (indexA !== -1) return -1;
+  if (indexB !== -1) return 1;
+  
+  // Otherwise, keep alphabetical order
+  return a.slug.localeCompare(b.slug);
 });
 
 export const getCaseBySlug = (slug: string) =>

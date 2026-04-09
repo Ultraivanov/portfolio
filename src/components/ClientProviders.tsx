@@ -45,6 +45,8 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
   });
 
   useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+
     const media = window.matchMedia?.("(prefers-color-scheme: light)");
     const applyTheme = () => {
       if (isAuto) {
@@ -56,54 +58,45 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
       applyTheme();
     }
 
+    const handler = () => {
+      if (isAuto) {
+        applyTheme();
+      }
+    };
+
     if (media?.addEventListener) {
-      const handler = () => {
-        if (isAuto) {
-          applyTheme();
-        }
-      };
       media.addEventListener("change", handler);
       return () => media.removeEventListener("change", handler);
     }
     if (media?.addListener) {
-      const handler = () => {
-        if (isAuto) {
-          applyTheme();
-        }
-      };
       media.addListener(handler);
       return () => media.removeListener(handler);
     }
     return undefined;
-  }, [isAuto, isKeystatic]);
+  }, [theme, isAuto, isKeystatic]);
 
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
+  const saveTheme = async (newTheme: ThemeMode) => {
+    window.localStorage.setItem("theme", newTheme);
+    await fetch("/api/theme", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ theme: newTheme }),
+    });
+  };
 
   const value = useMemo<ThemeContextValue>(
     () => ({
       theme,
       setTheme: async (next) => {
         setIsAuto(false);
-        window.localStorage.setItem("theme", next);
         setTheme(next);
-        await fetch("/api/theme", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ theme: next }),
-        });
+        await saveTheme(next);
       },
       toggleTheme: async () => {
         const next = theme === "dark" ? "light" : "dark";
         setIsAuto(false);
-        window.localStorage.setItem("theme", next);
         setTheme(next);
-        await fetch("/api/theme", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ theme: next }),
-        });
+        await saveTheme(next);
       },
     }),
     [theme],

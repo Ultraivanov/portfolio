@@ -91,6 +91,13 @@
     "featuredCases": [],
     "items": [
       {
+        "title": "Travel Booking Platform",
+        "subtitle": "Decision-driven UX architecture",
+        "imageSrc": "/home/project-beta.png",
+        "imageAlt": "Project preview",
+        "href": "/work/travel-booking-platform"
+      },
+      {
         "title": "Megamod",
         "subtitle": "UX structure, visual system, investors website, pitch decks, and marketing assets",
         "imageSrc": "/home/project-alpha.png",
@@ -100,13 +107,6 @@
       {
         "title": "My Perfect Greek Vacation",
         "subtitle": "Travel Booking Platform",
-        "imageSrc": "/home/project-beta.png",
-        "imageAlt": "Project preview",
-        "href": "/work"
-      },
-      {
-        "title": "Russian Railways",
-        "subtitle": "Product Design",
         "imageSrc": "/home/project-alpha.png",
         "imageAlt": "Project preview",
         "href": "/work"

@@ -1,0 +1,629 @@
+{
+  "slug": "travel-booking-platform",
+  "title": "Travel Booking Platform",
+  "subtitle": "Decision-driven UX architecture for confident booking.",
+  "coverSrc": "/home/project-beta.png",
+  "coverAlt": "Travel booking platform cover",
+  "facts": [
+    {
+      "label": "domain",
+      "value": [
+        "Travel / Booking Platforms"
+      ]
+    },
+    {
+      "label": "scope",
+      "value": [
+        "End-to-end UX architecture",
+        "Decision-first booking flow",
+        "Behavior modeling + interaction logic"
+      ]
+    },
+    {
+      "label": "audience",
+      "value": [
+        "Users planning vacations without a clear destination",
+        "Users overwhelmed by choice",
+        "Users seeking confidence before booking"
+      ]
+    },
+    {
+      "label": "role",
+      "value": [
+        "Product Designer"
+      ]
+    },
+    {
+      "label": "focus",
+      "value": [
+        "Guided decision-making before booking"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Context",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Most travel platforms optimize for inventory exposure, search and filtering, and comparison tools."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "However, users struggle with lack of decision clarity, too many options, and unclear evaluation criteria."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Excessive browsing",
+              "Decision fatigue",
+              "Delayed or abandoned bookings"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Role",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Product Designer"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Responsibilities:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Define UX strategy",
+              "Design system-level interaction logic",
+              "Structure decision-making flow",
+              "Translate behavior into interface"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Focus",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Shift the experience from search and browse to guided decision-making before booking."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Problem",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users cannot confidently choose a travel option."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Symptoms:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Opening multiple tabs",
+              "Inconsistent comparison",
+              "Lack of criteria",
+              "Postponed decisions"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Constraints",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Large inventory space",
+              "No initial user clarity",
+              "High emotional + financial stakes",
+              "Limited decision time"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Behavior model",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users approach travel booking as a risk-heavy decision under uncertainty."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Behavior patterns:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Over-scrolling",
+              "Fragmented comparison",
+              "Reliance on external validation",
+              "Inability to commit"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "They are not solving a search problem. They are solving a decision problem."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Key insight",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The core problem in travel booking is not lack of options. It is lack of decision clarity."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Approach",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Introduce a decision-first architecture:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Capture user preferences early",
+              "Convert them into structured input",
+              "Map preferences to relevant options",
+              "Provide reasoning for each option",
+              "Enable confident decision before booking"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "UX architecture",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system is divided into two layers."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Phase 1 — Decision layer: preference capture, user modeling, curated options, decision support",
+              "Phase 2 — Booking layer: availability selection, user data input, transaction"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "UX flow",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system is not a funnel. It is a loop: Uncertainty → Preference Input → Structured Profile → Curated Options → Evaluation → Decision → Action."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users can re-enter the loop at any stage."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Design decisions",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Replace search with preference capture — users cannot define queries without understanding options",
+              "Limit visible options — show 3–7 curated results instead of full inventory",
+              "Add reasoning to each option — explain why each option fits the user",
+              "Separate decision from booking — booking confirms a decision, not creates it",
+              "Introduce an iterative loop — allow users to refine preferences and re-evaluate"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Design trade-offs",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Breadth vs clarity — limit options to improve decision-making",
+              "Speed vs confidence — add upfront steps to increase decision quality",
+              "Control vs guidance — reduce free exploration in favor of structured flow",
+              "Completeness vs simplicity — prioritize decision-relevant information",
+              "Transparency vs simplicity — expose reasoning without overwhelming UI",
+              "Funnel vs loop — support iterative behavior instead of forcing linear flow",
+              "Conversion vs decision quality — delay booking until confidence is achieved"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Solution",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "A travel booking platform that captures user intent early, reduces option space, provides curated recommendations, explains each option, and enables confident booking."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Metrics & outcome",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "No production data was available. Success was defined through system-level metrics."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "North Star Metric: Decision Confidence Rate — percentage of users who proceed to booking without returning to exploration."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Supporting metrics:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Time to Decision — time from entry to option selection",
+              "Option Exploration Depth — number of options viewed before decision",
+              "Preference Refinement Rate — how often users adjust preferences",
+              "Decision Drop-off Rate — users who do not proceed after viewing options",
+              "Booking Conversion Rate — measured after decision layer"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Expected outcomes:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Reduced cognitive load",
+              "Fewer irrelevant options viewed",
+              "Faster decision-making",
+              "Higher confidence before booking",
+              "Improved trust in recommendations"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Qualitative validation:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Users can explain why they chose an option",
+              "Reduced need for external comparison",
+              "Clear understanding of next steps",
+              "Lower hesitation before booking"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Validation strategy (if implemented):"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "A/B test traditional listing vs decision-driven flow",
+              "Measure time to decision and conversion after decision layer",
+              "Observe refinement patterns and hesitation behavior"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "UX layer summary",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system transforms: Uncertain user → Structured profile → Curated options → Confident decision → Booking."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Positioning",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "A travel booking platform designed for decision-making, not browsing."
+          }
+        }
+      ]
+    },
+    {
+      "title": "System thinking",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This product is not a catalog. It is a decision system embedded inside a booking platform."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Future improvements",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Adaptive preference modeling",
+              "Personalization over time",
+              "Smarter recommendation logic",
+              "Dynamic explanation system",
+              "Saved profiles and history"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Key takeaway",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The goal is not to maximize browsing. It is to maximize confident decisions before booking."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Visual system & UI decisions",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The visual layer was designed not as decoration, but as an extension of the decision system. The primary goal: reduce cognitive load and support confident decision-making."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "1. Visual principle — Clarity over stimulation. The UI avoids visual noise, heavy marketing patterns, and aggressive CTAs."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "2. Information hierarchy — The hierarchy is structured around decision logic: What this is, why it fits, what matters, what to do next."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "3. Layout system — Predictable vertical rhythm with section-based composition, clear separation between blocks, and a consistent spacing scale. Grid uses an 8pt system with wide margins to reduce comparison friction."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "4. Typography — Main carrier of hierarchy. Strong headline defines context, subhead explains intent, body supports evaluation, labels guide actions. Neutral sans-serif, high readability, no decorative typography."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "5. Color system — Used sparingly and functionally: neutral palette for base, accent color for actions, status colors for feedback. Avoids competing accents and decorative gradients."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "6. Card system — The core decision unit. Each card answers: what is this, why it fits, key attributes, next step. Supports fast comparison, low-effort scanning, and progressive disclosure."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "7. Decision support UI — Each option includes contextual reasoning (“Why this fits you”) to reduce doubt and explain system logic."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "8. Interaction design — Minimal friction, predictable behavior, clear hover/tap feedback, visible selection states, immediate response to input. Avoids hidden states and complex animations."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "9. Progressive disclosure — High-level info first, details on demand, deeper layers on interaction. Prevents information overload."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "10. CTA strategy — Do not force booking too early. Primary: proceed/book. Secondary: save/refine. Tertiary: explore more."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "11. System consistency — Same structure across options, same logic across screens, same interaction patterns. Reduces cognitive load and learning cost."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "12. Intentionally avoided — marketplace-style dense listings, aggressive sales UI, overloaded filters, comparison tables as primary interface."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "13. UX → UI translation: reduce overload → limit visible options; improve clarity → strong hierarchy; increase trust → add reasoning blocks; support decisions → structured cards; allow iteration → flexible navigation."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "14. Key takeaway — The UI was designed not to impress, but to support thinking. It acts as a quiet interface for making decisions."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Failure modes",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Designing a decision-driven system introduces new risks. Understanding where the system can fail is critical for its evolution."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Incorrect preference modeling — Problem: user inputs do not reflect real intent. Impact: irrelevant recommendations and loss of trust. Mitigation: allow easy refinement, avoid rigid categorization, introduce hybrid options.",
+              "Over-reduction of options — Problem: too few options presented. Impact: perceived lack of choice and distrust. Mitigation: communicate curation logic, allow expand options, show range not just exact matches.",
+              "Weak explanation layer — Problem: recommendations not clearly justified. Impact: system feels arbitrary; users revert to external comparison. Mitigation: strengthen “why this fits” logic tied to user input.",
+              "Forced flow friction — Problem: preference capture feels like a barrier. Impact: early drop-off and frustration. Mitigation: reduce steps, allow skipping, provide instant feedback.",
+              "Misaligned mental model — Problem: users expect a traditional booking experience. Impact: confusion and resistance. Mitigation: clear onboarding framing and early value explanation.",
+              "Loop fatigue — Problem: users refine preferences too many times. Impact: decision fatigue returns. Mitigation: improve initial mapping quality and provide stronger defaults.",
+              "Over-confidence bias — Problem: users trust system too much without validation. Impact: regret after booking and reduced long-term trust. Mitigation: expose trade-offs, show alternatives, allow comparison.",
+              "Break between decision and booking — Problem: booking flow feels disconnected. Impact: drop-off at conversion and loss of context. Mitigation: maintain continuity, carry decision context, minimize transition friction."
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Key takeaway: a decision system does not remove complexity. It redistributes it. The design challenge is to manage that complexity without exposing it to the user."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Before / After",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Traditional travel platforms follow Search → Filter → Compare → Book. They expose large inventory, rely on user-driven exploration, and force users to define what they want before understanding options."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This product follows Define → Narrow → Evaluate → Decide → Book. It starts with preference-driven entry, curated options, explanation-based evaluation, and a decision-first flow."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Key differences:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Inventory-first vs decision-first",
+              "Search-driven vs preference-driven",
+              "User defines query vs system helps define intent",
+              "Large option sets vs curated options",
+              "Comparison-heavy vs explanation-based",
+              "Linear funnel vs iterative loop"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Traditional platforms optimize for engagement and browsing time. This system optimizes for decision confidence and quality of conversion."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The innovation is not in how options are displayed. It is in how decisions are formed."
+          }
+        }
+      ]
+    }
+  ]
+}

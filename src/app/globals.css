@@ -11,7 +11,7 @@
   --color-text-muted: #a3a3a3;
   --color-border-primary: #6d6d6d;
   --color-border-subtle: #2f2f2f;
-  --color-border-subtle-soft: rgba(47, 47, 47, 0.8);
+  --color-border-subtle-soft: rgba(47, 47, 47, 0.9);
   --grid-columns: 12;
   --grid-margin: 60px;
   --grid-gutter: 24px;
@@ -53,7 +53,7 @@
   --color-text-muted: #5a5a5a;
   --color-border-primary: #c7c1b4;
   --color-border-subtle: #e1dbcf;
-  --color-border-subtle-soft: rgba(225, 219, 207, 0.8);
+  --color-border-subtle-soft: rgba(225, 219, 207, 0.9);
 }
 
 html {

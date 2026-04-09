@@ -44,8 +44,21 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
     return !(stored === "light" || stored === "dark");
   });
 
+  const saveTheme = async (newTheme: ThemeMode) => {
+    window.localStorage.setItem("theme", newTheme);
+    await fetch("/api/theme", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ theme: newTheme }),
+    });
+  };
+
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+
+    if (theme !== initialTheme) {
+      saveTheme(theme);
+    }
 
     const media = window.matchMedia?.("(prefers-color-scheme: light)");
     const applyTheme = () => {
@@ -73,16 +86,7 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
       return () => media.removeListener(handler);
     }
     return undefined;
-  }, [theme, isAuto, isKeystatic]);
-
-  const saveTheme = async (newTheme: ThemeMode) => {
-    window.localStorage.setItem("theme", newTheme);
-    await fetch("/api/theme", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ theme: newTheme }),
-    });
-  };
+  }, [theme, isAuto, isKeystatic, initialTheme]);
 
   const value = useMemo<ThemeContextValue>(
     () => ({

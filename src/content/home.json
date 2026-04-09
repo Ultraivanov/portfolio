@@ -50,6 +50,15 @@
           "Design systems",
           "shadcn/UI Kit"
         ]
+      },
+      {
+        "title": "AI Design",
+        "items": [
+          "AI-assisted UX",
+          "Prompt prototyping",
+          "Design automation",
+          "Agent workflows"
+        ]
       }
     ]
   },

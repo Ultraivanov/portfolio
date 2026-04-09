@@ -70,6 +70,7 @@ export const privacyPolicy: LegalPageContent = {
       title: "Where data is stored",
       body: [
         "Contact submissions are stored in Airtable. Hosting and delivery are provided by Vercel. Analytics data is processed by Google Analytics.",
+        "We use Cloudflare Turnstile for anti-spam verification on the contact form.",
       ],
       bullets: [
         "Airtable may process data outside your country (including the United States).",

@@ -93,3 +93,16 @@
 .statusError {
   color: #e63746;
 }
+
+.captchaField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.captchaLabel {
+  font-size: var(--text-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}

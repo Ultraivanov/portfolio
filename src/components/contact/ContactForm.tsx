@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button, TextArea, TextInput } from "@gravity-ui/uikit";
 import { trackEvent } from "@/lib/analytics";
+import TurnstileWidget from "./TurnstileWidget";
 import styles from "./contact-form.module.css";
 
 type ContactFormProps = {
@@ -18,8 +19,11 @@ export default function ContactForm({ email }: ContactFormProps) {
   const [contactEmail, setContactEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [honeypot, setHoneypot] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaReset, setCaptchaReset] = useState(0);
   const [status, setStatus] = useState<FormStatus>("idle");
   const [error, setError] = useState("");
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,6 +36,18 @@ export default function ContactForm({ email }: ContactFormProps) {
     if (!name || !contactEmail || !message) {
       setStatus("error");
       setError("Please fill in name, email, and message.");
+      return;
+    }
+
+    if (!turnstileSiteKey) {
+      setStatus("error");
+      setError("Captcha is not configured.");
+      return;
+    }
+
+    if (!captchaToken) {
+      setStatus("error");
+      setError("Please complete the captcha.");
       return;
     }
 
@@ -52,6 +68,7 @@ export default function ContactForm({ email }: ContactFormProps) {
           email: contactEmail,
           message,
           page: window.location.href,
+          captchaToken,
         }),
       });
 
@@ -66,6 +83,8 @@ export default function ContactForm({ email }: ContactFormProps) {
       setMessage("");
       setContactEmail("");
       setConsent(false);
+      setCaptchaToken("");
+      setCaptchaReset((prev) => prev + 1);
     } catch (err) {
       setStatus("error");
       trackEvent("contact_submit", { status: "error" });
@@ -164,6 +183,19 @@ export default function ContactForm({ email }: ContactFormProps) {
           I agree to the <a href="/privacy">Privacy Policy</a>.
         </span>
       </label>
+
+      {turnstileSiteKey ? (
+        <div className={styles.captchaField}>
+          <span className={styles.captchaLabel}>Verification</span>
+          <TurnstileWidget
+            siteKey={turnstileSiteKey}
+            resetKey={captchaReset}
+            onVerify={(token) => setCaptchaToken(token)}
+            onExpire={() => setCaptchaToken("")}
+            onError={() => setCaptchaToken("")}
+          />
+        </div>
+      ) : null}
 
       <Button
         size="l"

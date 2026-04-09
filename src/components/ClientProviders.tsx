@@ -24,23 +24,25 @@ export const useThemeMode = () => {
 
 type ClientProvidersProps = {
   children: ReactNode;
+  initialTheme?: ThemeMode;
 };
 
-export default function ClientProviders({ children }: ClientProvidersProps) {
+export default function ClientProviders({ children, initialTheme = "dark" }: ClientProvidersProps) {
   const pathname = usePathname();
   const isKeystatic = pathname?.startsWith("/keystatic");
   const [theme, setTheme] = useState<ThemeMode>(() => {
-    if (typeof window === "undefined") return "dark";
+    if (typeof window === "undefined") return initialTheme;
     const stored = window.localStorage.getItem("theme");
     if (stored === "light" || stored === "dark") return stored;
     const media = window.matchMedia?.("(prefers-color-scheme: light)");
     return media?.matches ? "light" : "dark";
   });
-  const isAuto = useMemo(() => {
+  const [isAuto, setIsAuto] = useState(() => {
     if (isKeystatic) return true;
+    if (typeof window === "undefined") return true;
     const stored = window.localStorage.getItem("theme");
     return !(stored === "light" || stored === "dark");
-  }, [isKeystatic]);
+  });
 
   useEffect(() => {
     const media = window.matchMedia?.("(prefers-color-scheme: light)");
@@ -82,18 +84,27 @@ export default function ClientProviders({ children }: ClientProvidersProps) {
   const value = useMemo<ThemeContextValue>(
     () => ({
       theme,
-      setTheme: (next) => {
+      setTheme: async (next) => {
         setIsAuto(false);
         window.localStorage.setItem("theme", next);
         setTheme(next);
+        await fetch("/api/theme", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ theme: next }),
+        });
       },
-      toggleTheme: () =>
-        setTheme((prev) => {
-          const next = prev === "dark" ? "light" : "dark";
-          setIsAuto(false);
-          window.localStorage.setItem("theme", next);
-          return next;
-        }),
+      toggleTheme: async () => {
+        const next = theme === "dark" ? "light" : "dark";
+        setIsAuto(false);
+        window.localStorage.setItem("theme", next);
+        setTheme(next);
+        await fetch("/api/theme", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ theme: next }),
+        });
+      },
     }),
     [theme],
   );

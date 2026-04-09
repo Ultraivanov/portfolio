@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import ClientProviders from "@/components/ClientProviders";
 import Layout from "@/components/layout/Layout";
 import "./globals.css";
@@ -50,8 +51,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const theme = (cookieStore.get("theme")?.value as "light" | "dark") || "dark";
+
   return (
-    <html lang="en">
+    <html lang="en" data-theme={theme}>
       <head>
         <script
           async
@@ -59,7 +63,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ClientProviders>
+        <ClientProviders initialTheme={theme}>
           <Layout>{children}</Layout>
         </ClientProviders>
       </body>

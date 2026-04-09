@@ -1,0 +1,215 @@
+{
+  "slug": "design-system-runtime",
+  "title": "Deus in Machina — Design System Runtime",
+  "subtitle": "Built a runtime-driven design system with enforcement, validation, and reusable structure.",
+  "coverSrc": "/home/project-beta.png",
+  "coverAlt": "Deus in Machina design system runtime cover",
+  "facts": [
+    {
+      "label": "domain",
+      "value": [
+        "Design systems / developer tools"
+      ]
+    },
+    {
+      "label": "scope",
+      "value": [
+        "Design runtime, tokens, validation, design governance"
+      ]
+    },
+    {
+      "label": "audience",
+      "value": [
+        "Designers, developers, product teams"
+      ]
+    },
+    {
+      "label": "role",
+      "value": [
+        "Product Designer"
+      ]
+    },
+    {
+      "label": "focus",
+      "value": [
+        "Systems, structure, reliability, handoff"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Context",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Modern teams need design systems that do more than define tokens and components. They need runtime enforcement, structure, and a feedback loop that keeps system decisions aligned with product needs."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Deus in Machina is a design system runtime concept created to reduce the distance between design tokens, development implementation, and product governance."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Problem",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Design systems often become static documentation. Teams struggle to keep tokens normalized, patterns consistent, and handoff decisions enforceable in real implementation."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Tokens drift between design and code",
+              "Patterns are reused inconsistently",
+              "Governance decisions are lost in handoff",
+              "No feedback loop for system quality"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Constraints",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The runtime needed to work with existing tools and documentation practices, not replace them entirely. It had to add value without requiring a large new process."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Existing token and component libraries",
+              "Cross-functional designer + developer workflows",
+              "Need for lightweight integration",
+              "Focus on verification, not control"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Behavioral model",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Teams adopt design systems when the system feels helpful and reliable. The runtime must surface problems before they become debt and make the right decision easier than the wrong one."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Key insight",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system’s strongest value is not in its assets. It is in its ability to keep product teams aligned and reduce repeated decision-making through automation and validation."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Approach",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "I designed a runtime that treats design tokens as living data, validates patterns in real time, and provides actionable feedback to both designers and developers."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Normalize tokens and enforce naming conventions",
+              "Validate component usage against pattern rules",
+              "Surface system health issues before release",
+              "Enable a continuous design governance loop"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Design decisions",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Runtime-driven validation — embed checks into the system rather than rely on manual reviews.",
+              "Token normalization — use a shared structure to reduce ambiguity and improve predictability.",
+              "Feedback-focused UI — make issues visible and actionable without blocking work.",
+              "Documentation as code — keep system rules and examples close to implementation."
+            ]
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FPZmx9cxqPNLG9btTp50gth%2FMy-Perfect-greek-vacation%3Fnode-id%3D2049-9630",
+            "alt": "Design system runtime concept diagram",
+            "caption": "A conceptual flow showing how runtime validation connects design tokens, pattern rules, and team feedback.",
+            "variant": "diagram"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Solution",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The final concept is a system that reduces repeated design decisions by making the right choice obvious and the wrong one detectable early. It supports teams with enforcement, feedback, and reusable structure."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "A shared runtime for token and component rules",
+              "Validation warnings and actionable remediation",
+              "System health metrics for design quality",
+              "A clear path from design intent to implementation"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Outcome",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The concept shifts a design system from passive documentation to active product infrastructure. It helps teams deliver consistent experience quality with less manual oversight."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Fewer token inconsistencies",
+              "Higher pattern reliability",
+              "Faster handoff cycles",
+              "Design decisions preserved in runtime rules"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

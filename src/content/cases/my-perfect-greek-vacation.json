@@ -1,0 +1,218 @@
+{
+  "slug": "my-perfect-greek-vacation",
+  "title": "My Perfect Greek Vacation",
+  "subtitle": "A travel booking concept that reduces choice overload and builds confidence before checkout.",
+  "coverSrc": "/home/project-alpha.png",
+  "coverAlt": "My Perfect Greek Vacation concept cover",
+  "facts": [
+    {
+      "label": "domain",
+      "value": [
+        "Travel / Booking experience"
+      ]
+    },
+    {
+      "label": "scope",
+      "value": [
+        "Concept product architecture",
+        "Decision-first booking flow"
+      ]
+    },
+    {
+      "label": "audience",
+      "value": [
+        "Vacation planners",
+        "Users overwhelmed by options",
+        "Travel decision makers"
+      ]
+    },
+    {
+      "label": "role",
+      "value": [
+        "Product Designer"
+      ]
+    },
+    {
+      "label": "focus",
+      "value": [
+        "Decision clarity, confidence, and curated experience"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Context",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Travel booking is increasingly a decision problem, not a search problem. Most platforms overwhelm users with inventory before they know what they actually want."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "My Perfect Greek Vacation is a concept for a travel experience that shapes intent early, then surfaces options that feel meaningful and manageable."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Problem",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users struggle with too many destinations, inconsistent comparison, and unclear trade-offs. They often delay decisions or default to the safest option."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Endless browsing without progress",
+              "Difficulty comparing different packages",
+              "Lack of confidence in final choice",
+              "High risk of booking abandonment"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Constraints",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The concept had to work with existing travel inventory and still feel simpler. It could not rely on perfect data or heavy personalization on the first pass."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Large and varied itinerary data",
+              "Limited initial user context",
+              "Need for fast, low-friction entry",
+              "Requirement to support both mobile and desktop"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Behavioral model",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users do not want to choose from a catalogue. They want to narrow options through meaning, values, and practical confidence. The design must support that mental shift."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Key insight",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The core decision happens before users reach inventory. If the experience helps users articulate what matters, it can turn browsing into a confident selection process."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Approach",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "I designed a decision-first flow that captures user intent early, converts it into curated options, and explains why each choice fits."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Start with preference capture, not inventory",
+              "Limit visible options to reduce overload",
+              "Explain each recommendation with clear reasoning",
+              "Allow users to refine without losing progress"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Design decisions",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Decision layer first — help users define goals before showing options.",
+              "Curated option cards — show 3–5 meaningful offers instead of full inventory.",
+              "Reasoning labels — answer why this package matches the user.",
+              "Progressive refinement — let users adjust preferences without restarting."
+            ]
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2Feqsvfe3M64CbnVbVbemt4n%2FMy-Perfect-Greek-Vacation%3Fnode-id%3D1-256",
+            "alt": "Decision-first travel booking flow",
+            "caption": "A diagram of the decision-first flow used to ground the travel concept in user intent and clarity.",
+            "variant": "diagram"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Solution",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The resulting concept is a travel experience that feels focused, understandable, and easy to choose. Users move from uncertainty to a clear vacation choice with fewer distractions."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Early preference capture",
+              "Curated options with reasoning",
+              "A clear decision narrative",
+              "Refinement without fragmentation"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Outcome",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The concept improves confidence by turning travel selection into a guided decision process rather than a chaotic browsing session. It can reduce abandonment and increase clarity in product messaging."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Reduced choice overload",
+              "Faster decision-making",
+              "Stronger product narrative",
+              "Better alignment between user goals and offers"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

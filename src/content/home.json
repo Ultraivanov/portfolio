@@ -88,7 +88,13 @@
   "pastProjects": {
     "label": "/ Past projects",
     "maxItems": 4,
-    "featuredCases": [],
+    "featuredCases": [
+      "travel-booking-platform",
+      "railway-booking-flow",
+      "megamod",
+      "my-perfect-greek-vacation",
+      "design-system-runtime"
+    ],
     "items": [
       {
         "title": "Travel Booking Platform",
@@ -102,14 +108,14 @@
         "subtitle": "UX structure, visual system, investors website, pitch decks, and marketing assets",
         "imageSrc": "/home/project-alpha.png",
         "imageAlt": "Project preview",
-        "href": "/work"
+        "href": "/work/megamod"
       },
       {
         "title": "My Perfect Greek Vacation",
-        "subtitle": "Travel Booking Platform",
+        "subtitle": "Travel booking concept for confident choice",
         "imageSrc": "/home/project-alpha.png",
         "imageAlt": "Project preview",
-        "href": "/work"
+        "href": "/work/my-perfect-greek-vacation"
       },
       {
         "title": "Russian Railways",
@@ -117,6 +123,13 @@
         "imageSrc": "/home/project-beta.png",
         "imageAlt": "Project preview",
         "href": "/work/railway-booking-flow"
+      },
+      {
+        "title": "Deus in Machina",
+        "subtitle": "Design system runtime for consistent product design",
+        "imageSrc": "/home/project-beta.png",
+        "imageAlt": "Project preview",
+        "href": "/work/design-system-runtime"
       }
     ]
   },

@@ -1,0 +1,199 @@
+{
+  "slug": "megamod",
+  "title": "Megamod — Modular launch platform",
+  "subtitle": "Built a unified product narrative, modular UX structure, and investor-ready experience.",
+  "coverSrc": "/home/project-alpha.png",
+  "coverAlt": "Megamod product platform cover",
+  "facts": [
+    {
+      "label": "domain",
+      "value": [
+        "Early-stage product launch"
+      ]
+    },
+    {
+      "label": "scope",
+      "value": [
+        "Website, investor materials, launch system"
+      ]
+    },
+    {
+      "label": "audience",
+      "value": [
+        "Investors, early adopters, design partners"
+      ]
+    },
+    {
+      "label": "role",
+      "value": [
+        "Product Designer"
+      ]
+    },
+    {
+      "label": "focus",
+      "value": [
+        "Narrative structure, visual system, product storytelling"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "title": "Context",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Megamod is an early-stage product platform aiming to launch multiple modular tools under one brand. The challenge was to communicate a flexible product offering while keeping the experience coherent for investors and early users."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The product needed an identity that could scale from single feature launches to a larger ecosystem, without creating separate narratives for each use case."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Problem",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The existing content was fragmented: marketing copy, pitch assets, and product ideas were disconnected. This made it hard for stakeholders to grasp the platform’s core value and growth path."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Multiple product stories without a single anchor",
+              "Inconsistent visual presentation across launch materials",
+              "Unclear product ecosystem for investors",
+              "No reusable structure for future modules"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Constraints",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The work had to be fast, resource-efficient, and flexible. The team needed assets that could be reused across landing pages, pitch decks, and demo scripts."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Limited visual resources and content budget",
+              "Need to support both product and investor narratives",
+              "Flexible structure for future modules",
+              "Must work in both digital and presentation formats"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Approach",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "I created a modular experience framework: core proposition, module stories, and launch-ready narrative blocks. This allowed the product to feel unified while still supporting multiple use cases."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Define the brand’s north star and product promise",
+              "Develop a repeatable content structure for each module",
+              "Use visual rules to connect product, investor, and marketing assets",
+              "Create a system that scales without fragmenting the story"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Design decisions",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Single-page narrative — one clear path from problem to product to traction",
+              "Modular sections — each module sits in the same structure and can be reused",
+              "Visual consistency — same palette, typography, and icon system across assets",
+              "Actionable storytelling — every block explains what, why, and what’s next"
+            ]
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/home/project-alpha.png",
+            "alt": "Megamod website preview",
+            "caption": "A cohesive landing page structure that supports multiple future product modules.",
+            "variant": "desktop"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Solution",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The final concept is a modular launch platform: a single product narrative with interchangeable tiles for each module, supported by investor-ready visuals and clear UX structure."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The website and pitch assets share the same visual grammar, ensuring the brand feels consistent across every touchpoint."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Branded core proposition block",
+              "Module cards with clear use cases",
+              "Investor section with traction and roadmap",
+              "Reusable visual components for future launches"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Outcome",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The result is a product narrative that can scale. Stakeholders can now present a single, coherent platform story instead of multiple disconnected ideas."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Faster production of launch materials",
+              "Stronger investor-facing storytelling",
+              "Clearer product architecture for future modules",
+              "A consistent system designed for growth"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

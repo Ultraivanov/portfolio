@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { ThemeProvider } from "@gravity-ui/uikit";
 import { usePathname } from "next/navigation";
 
@@ -68,9 +68,11 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
     });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
+  useEffect(() => {
     if (theme !== initialTheme) {
       saveTheme(theme);
     }

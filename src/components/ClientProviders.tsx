@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState, useRef } from "react";
 import { ThemeProvider } from "@gravity-ui/uikit";
 import { usePathname } from "next/navigation";
 import { jsonPost } from "@/lib/api";
@@ -69,10 +69,16 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
     if (isKeystatic) return true;
     return isThemeAuto();
   });
+  
+  // Use a ref to track the last saved theme to avoid infinite loops
+  const lastSavedTheme = useRef<ThemeMode | null>(null);
 
   const saveTheme = async (newTheme: ThemeMode) => {
+    if (lastSavedTheme.current === newTheme) return;
+    
     window.localStorage.setItem("theme", newTheme);
     try {
+      lastSavedTheme.current = newTheme;
       await jsonPost("/api/theme", { theme: newTheme });
     } catch (error) {
       console.error("Failed to save theme:", error);
@@ -84,6 +90,7 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
   }, [theme]);
 
   useEffect(() => {
+    // Only save if it's different from what we started with
     if (theme !== initialTheme) {
       saveTheme(theme);
     }
@@ -91,7 +98,10 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
     const media = window.matchMedia?.("(prefers-color-scheme: light)");
     const applyTheme = () => {
       if (isAuto) {
-        setTheme(media?.matches ? "light" : "dark");
+        const nextTheme = media?.matches ? "light" : "dark";
+        if (nextTheme !== theme) {
+          setTheme(nextTheme);
+        }
       }
     };
 
@@ -119,16 +129,16 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
   const value = useMemo<ThemeContextValue>(
     () => ({
       theme,
-      setTheme: async (next) => {
+      setTheme: (next) => {
         setIsAuto(false);
         setTheme(next);
-        await saveTheme(next);
+        saveTheme(next);
       },
-      toggleTheme: async () => {
+      toggleTheme: () => {
         const next = theme === "dark" ? "light" : "dark";
         setIsAuto(false);
         setTheme(next);
-        await saveTheme(next);
+        saveTheme(next);
       },
     }),
     [theme]

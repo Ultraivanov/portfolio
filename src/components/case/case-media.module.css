@@ -16,8 +16,10 @@
 .frameDesktop {
   width: 100%;
   max-width: 960px;
-  border-radius: 20px;
-  padding: var(--space-3);
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
 }
 
 .frameDiagram {
@@ -55,6 +57,9 @@
 
 .embedDesktop {
   aspect-ratio: 16 / 10;
+  border: none;
+  border-radius: 0;
+  background: transparent;
 }
 
 .embedDiagram {

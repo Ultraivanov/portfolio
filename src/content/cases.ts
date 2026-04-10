@@ -10,7 +10,7 @@ export type CaseSectionContent =
       src: string;
       alt: string;
       caption?: string;
-      variant?: "phone" | "desktop" | "diagram";
+      variant?: "desktop" | "diagram";
     }
   | { discriminant: "paragraph"; value: { text: string } }
   | { discriminant: "list"; value: { items: string[] } }
@@ -21,7 +21,7 @@ export type CaseSectionContent =
         src: string;
         alt: string;
         caption?: string;
-        variant?: "phone" | "desktop" | "diagram";
+        variant?: "desktop" | "diagram";
       };
     };
 

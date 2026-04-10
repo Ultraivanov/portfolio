@@ -5,11 +5,29 @@ type CaseMediaProps = {
   src: string;
   alt: string;
   caption?: string;
-  variant?: "phone" | "desktop" | "diagram";
+  variant?: "desktop" | "diagram";
 };
 
 const isEmbedSource = (src: string) =>
   src.startsWith("https://www.figma.com/embed");
+
+/**
+ * Enhance Figma embed URL with scaling and presentation parameters
+ */
+const getEnhancedFigmaUrl = (src: string) => {
+  if (!isEmbedSource(src)) return src;
+  
+  try {
+    const url = new URL(src);
+    // Use 'scaling=scale-down-to-fit' for scaling content
+    url.searchParams.set("scaling", "scale-down-to-fit");
+    // 'hide-ui=1' for a cleaner presentation mode
+    url.searchParams.set("hide-ui", "1");
+    return url.toString();
+  } catch (e) {
+    return src;
+  }
+};
 
 export default function CaseMedia({
   src,
@@ -20,10 +38,6 @@ export default function CaseMedia({
   const frameClasses = [styles.frame];
   const embedClasses = [styles.embed];
 
-  if (variant === "phone") {
-    frameClasses.push(styles.framePhone);
-    embedClasses.push(styles.embedPhone);
-  }
   if (variant === "desktop") {
     frameClasses.push(styles.frameDesktop);
     embedClasses.push(styles.embedDesktop);
@@ -34,6 +48,7 @@ export default function CaseMedia({
   }
 
   const isEmbed = isEmbedSource(src);
+  const finalSrc = isEmbed ? getEnhancedFigmaUrl(src) : src;
 
   return (
     <figure className={styles.figure}>
@@ -42,7 +57,7 @@ export default function CaseMedia({
           <div className={embedClasses.join(" ")}>
             <iframe
               title={alt}
-              src={src}
+              src={finalSrc}
               loading="lazy"
               allowFullScreen
             />

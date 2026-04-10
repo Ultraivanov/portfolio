@@ -12,7 +12,7 @@ export type NormalizedCaseSectionContent =
       src: string;
       alt: string;
       caption?: string;
-      variant?: "phone" | "desktop" | "diagram";
+      variant?: "desktop" | "diagram";
     };
 
 /**
@@ -71,7 +71,7 @@ export const isMediaBlock = (
   src: string;
   alt: string;
   caption?: string;
-  variant?: "phone" | "desktop" | "diagram";
+  variant?: "desktop" | "diagram";
 } => {
   return block.type === "media" && "src" in block && "alt" in block;
 };

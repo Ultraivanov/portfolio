@@ -1,7 +1,7 @@
 {
   "slug": "railway-booking-flow",
   "title": "RZD - Sanatorium & Resort Booking Service",
-  "subtitle": "Turning a complex internal booking process into a predictable and reusable experience.",
+  "subtitle": "Turning a complex internal booking process into a predictable and repeatable system",
   "coverSrc": "/cases/rzd/cover.png",
   "coverAlt": "RZD sanatorium booking service cover",
   "facts": [
@@ -49,19 +49,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The sanatorium booking service is one of many internal services in the RZD employee ecosystem. It sits inside a larger portal, but it is a single service with its own logic and behavior."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Functionally it resembles a booking platform, yet it has additional constraints that public services do not: subsidies and approvals, limited availability, internal rules, and mandatory documentation."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "That combination created value and demand, but also made the service hard to trust and easy to abandon; usage lagged because people could not see how the system would behave for them."
+            "text": "The sanatorium & resort booking service is one of the internal services within the RZD employee ecosystem. It operates similarly to a booking platform, but includes additional constraints: subsidies and quotas, approval workflows, limited availability, internal documentation. The service covers 500+ resorts nationwide and is available to employees and their families. Despite its value, it remained underutilized due to complexity and lack of trust."
           }
         }
       ]
@@ -72,53 +60,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The sanatorium booking service was not broken in terms of functionality — it was broken in terms of predictability."
+            "text": "The service was not broken in terms of functionality - it was broken in terms of predictability. Employees could technically complete a booking, but the process required constant interpretation. Users had to figure out which resorts were available to them, what conditions applied, what would happen after submission, whether the effort would lead to a real outcome."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Employees could technically complete a booking, but the process required constant interpretation. Users had to figure out:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Which resorts were actually available to them",
-              "What conditions applied to their case",
-              "What would happen after submission",
-              "Whether their effort would lead to a real outcome"
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "This uncertainty created a very specific pattern of behavior."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Users approached the service with intent, but quickly lost confidence:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Selection loops forced them to restart decisions",
-              "Unclear eligibility rules made outcomes unpredictable",
-              "Lack of transparency turned the process into a “black box”",
-              "Missing information pushed users to call resorts directly"
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Even after completing a booking, the experience did not build trust."
+            "text": "This created a specific behavioral pattern. Users entered with intent, but quickly lost confidence: selection loops forced them to restart, eligibility rules appeared too late, system behavior was unclear, the process felt like a 'black box'. Even successful bookings did not build trust."
           }
         },
         {

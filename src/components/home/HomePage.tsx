@@ -5,21 +5,37 @@ import { Button } from "@gravity-ui/uikit";
 import { useThemeMode } from "@/components/ClientProviders";
 import { trackEvent } from "@/lib/analytics";
 import type { HomeContent, PastProject } from "@/content/home";
+import type { CaseStudy } from "@/content/cases";
 import styles from "./home-page.module.css";
 
 type HomePageProps = {
   data: HomeContent;
+  featuredCases?: CaseStudy[];
 };
 
-export default function HomePage({ data }: HomePageProps) {
-  const { theme } = useThemeMode();
-  const titleSrc =
-    theme === "light" ? "/home/hero-title-dark.svg" : data.hero.titleImageSrc;
-
-  const projects = data.pastProjects.items.slice(
-    0,
-    data.pastProjects.maxItems ?? data.pastProjects.items.length,
-  );
+export default function HomePage({ data, featuredCases }: HomePageProps) {
+  // Use real case data if featuredCases is provided, otherwise fall back to static items
+  const projects = featuredCases && featuredCases.length > 0
+    ? featuredCases
+        .map(caseStudy => {
+          // Validate required properties and provide defaults
+          if (!caseStudy?.title || !caseStudy?.slug) {
+            return null;
+          }
+          return {
+            title: caseStudy.title,
+            subtitle: caseStudy.subtitle || '',
+            imageSrc: caseStudy.coverSrc || '',
+            imageAlt: caseStudy.coverAlt || caseStudy.title,
+            href: `/work/${caseStudy.slug}`
+          };
+        })
+        .filter((item): item is NonNullable<typeof item> => Boolean(item))
+        .slice(0, data.pastProjects.maxItems ?? featuredCases.length)
+    : data.pastProjects.items.slice(
+        0,
+        data.pastProjects.maxItems ?? data.pastProjects.items.length,
+      );
 
   return (
     <article className={styles.page} aria-labelledby="home-title">
@@ -28,7 +44,7 @@ export default function HomePage({ data }: HomePageProps) {
       </h1>
       <section className={styles.hero}>
         <div className={styles.heroTitle}>
-          <img src={titleSrc} alt={data.hero.titleImageAlt} />
+          <h1 className={styles.heroTitleText}>Portfolio</h1>
         </div>
         <p className={styles.heroHeadline}>{data.hero.headline}</p>
         <div className={styles.heroCtas}>
@@ -125,7 +141,9 @@ export default function HomePage({ data }: HomePageProps) {
         </h2>
         <p className={styles.sectionLabel}>{data.pastProjects.label}</p>
         <div className={styles.projectsGrid}>
-          {projects.map((item: PastProject, index) => {
+          {projects.map((item, index) => {
+            // Additional safety check - this should never be null due to filtering above
+            if (!item || !item.title) return null;
             const content = (
               <>
                 <div className={styles.projectImage}>

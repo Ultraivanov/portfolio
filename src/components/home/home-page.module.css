@@ -239,6 +239,7 @@
   font-size: 16px;
   color: var(--color-text-primary);
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  white-space: pre-line;
 }
 
 .skillList,
@@ -456,13 +457,6 @@
 @media (min-width: 901px) {
   .skillList li,
   .toolList li {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .skillTitle,
-  .toolTitle {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

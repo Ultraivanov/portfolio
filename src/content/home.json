@@ -22,7 +22,7 @@
     "label": "/ skills",
     "groups": [
       {
-        "title": "Product & User Experience",
+        "title": "Product &\nUser Experience",
         "items": [
           "Product strategy",
           "UX system",
@@ -32,7 +32,7 @@
         ]
       },
       {
-        "title": "Research & Validation",
+        "title": "Research &\nValidation",
         "items": [
           "JTBD",
           "User research",
@@ -42,7 +42,7 @@
         ]
       },
       {
-        "title": "Delivery & Execution",
+        "title": "Delivery &\nExecution",
         "items": [
           "Prototyping",
           "Wireframing",
@@ -52,7 +52,7 @@
         ]
       },
       {
-        "title": "AI Product Design",
+        "title": "AI Product\nDesign",
         "items": [
           "AI-assisted UX",
           "Prompt prototyping",

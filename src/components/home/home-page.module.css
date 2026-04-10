@@ -24,17 +24,25 @@
   padding: var(--space-4) 0;
 }
 
-.heroTitle {
+.heroTitleContainer {
   position: relative;
   width: 100%;
-  height: 157px;
+  padding: var(--space-2) 0;
 }
 
-.heroTitle img {
-  object-fit: contain;
-  width: 100%;
-  height: 100%;
-  display: block;
+.heroTitleText {
+  font-family: var(--font-plus-jakarta), sans-serif;
+  font-weight: 800;
+  font-size: 157px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
 }
 
 .heroHeadline {
@@ -464,8 +472,8 @@
 }
 
 @media (max-width: 900px) {
-  .heroTitle {
-    height: 120px;
+  .heroTitleText {
+    font-size: 80px;
   }
 
   .skillsTools {

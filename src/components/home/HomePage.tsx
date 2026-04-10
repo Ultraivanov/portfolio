@@ -13,8 +13,6 @@ type HomePageProps = {
 
 export default function HomePage({ data }: HomePageProps) {
   const { theme } = useThemeMode();
-  const titleSrc =
-    theme === "light" ? "/home/hero-title-dark.svg" : data.hero.titleImageSrc;
 
   const projects = data.pastProjects.items.slice(
     0,
@@ -23,12 +21,11 @@ export default function HomePage({ data }: HomePageProps) {
 
   return (
     <article className={styles.page} aria-labelledby="home-title">
-      <h1 id="home-title" className={styles.visuallyHidden}>
-        Portfolio
-      </h1>
       <section className={styles.hero}>
-        <div className={styles.heroTitle}>
-          <img src={titleSrc} alt={data.hero.titleImageAlt} />
+        <div className={styles.heroTitleContainer}>
+          <h1 id="home-title" className={styles.heroTitleText}>
+            PORTFOLIO
+          </h1>
         </div>
         <p className={styles.heroHeadline}>{data.hero.headline}</p>
         <div className={styles.heroCtas}>

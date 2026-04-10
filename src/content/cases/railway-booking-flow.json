@@ -109,7 +109,7 @@
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/rzd/cjm.png",
+            "src": "https://www.figma.com/board/2KDFWzfes5bvWg3gY63pPo/RZD-%E2%80%A2-CJM-%E2%80%A2-J2BD-%E2%80%A2-Personas?node-id=63-2038&t=SSvcrYmOihUKUDLv-4",
             "alt": "Multi-audience CJM with loops",
             "caption": "Used a multi-audience CJM to expose where different paths collapse into the same loops and where logic diverges without explanation."
           }

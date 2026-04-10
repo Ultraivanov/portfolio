@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 680" fill="none" font-family="IBM Plex Sans, system-ui, sans-serif">
+  <style>
+    .step { fill: #1a1a1a; rx: 6; }
+    .step-system { fill: #f5f5f5; stroke: #1a1a1a; stroke-width: 1.5; rx: 6; }
+    .step-branch { fill: #fff; stroke: #1a1a1a; stroke-width: 1.5; rx: 6; }
+    .label { fill: #fff; font-size: 12.5px; font-weight: 500; }
+    .label-dark { fill: #1a1a1a; font-size: 12.5px; font-weight: 500; }
+    .label-sm { fill: #666; font-size: 11px; }
+    .arrow { stroke: #1a1a1a; stroke-width: 1.5; fill: none; marker-end: url(#arr); }
+    .arrow-branch { stroke: #888; stroke-width: 1.2; fill: none; marker-end: url(#arr-g); }
+    .badge { fill: #e8e8e8; rx: 4; }
+    .badge-text { fill: #444; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1a1a1a"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="340" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">User Flow — Operational Layer</text>
+
+  <!-- Entry Point -->
+  <rect x="220" y="50" width="240" height="36" class="step" rx="6"/>
+  <text x="340" y="73" text-anchor="middle" class="label">Entry Point</text>
+
+  <!-- Select request category -->
+  <rect x="220" y="110" width="240" height="36" class="step" rx="6"/>
+  <text x="340" y="133" text-anchor="middle" class="label">Select request category</text>
+
+  <!-- Compose request -->
+  <rect x="220" y="170" width="240" height="36" class="step" rx="6"/>
+  <text x="340" y="193" text-anchor="middle" class="label">Compose request</text>
+
+  <!-- Submit request -->
+  <rect x="220" y="230" width="240" height="36" class="step" rx="6"/>
+  <text x="340" y="253" text-anchor="middle" class="label">Submit request</text>
+
+  <!-- System: Sent -->
+  <rect x="220" y="290" width="240" height="36" class="step-system" rx="6"/>
+  <text x="340" y="313" text-anchor="middle" class="label-dark">System assigns status: "Sent"</text>
+
+  <!-- Request delivered -->
+  <rect x="220" y="350" width="240" height="36" class="step-system" rx="6"/>
+  <text x="340" y="373" text-anchor="middle" class="label-dark">Request delivered to manager</text>
+
+  <!-- System: Received -->
+  <rect x="220" y="410" width="240" height="36" class="step-system" rx="6"/>
+  <text x="340" y="433" text-anchor="middle" class="label-dark">Status: "Received"</text>
+
+  <!-- Manager responds -->
+  <rect x="220" y="470" width="240" height="36" class="step" rx="6"/>
+  <text x="340" y="493" text-anchor="middle" class="label">Manager responds</text>
+
+  <!-- System: Answered -->
+  <rect x="220" y="530" width="240" height="36" class="step-system" rx="6"/>
+  <text x="340" y="553" text-anchor="middle" class="label-dark">Status: "Answered"</text>
+
+  <!-- User reviews response -->
+  <rect x="220" y="590" width="240" height="36" class="step" rx="6"/>
+  <text x="340" y="613" text-anchor="middle" class="label">User reviews response</text>
+
+  <!-- Branch: Accept -->
+  <rect x="80" y="650" width="180" height="36" class="step-branch" rx="6"/>
+  <text x="170" y="673" text-anchor="middle" class="label-dark">Accept result → Complete</text>
+
+  <!-- Branch: Escalate -->
+  <rect x="420" y="650" width="200" height="36" class="step-branch" rx="6"/>
+  <text x="520" y="673" text-anchor="middle" class="label-dark">Escalate → Loop continues</text>
+
+  <!-- Arrows (main flow) -->
+  <line x1="340" y1="86" x2="340" y2="110" class="arrow"/>
+  <line x1="340" y1="146" x2="340" y2="170" class="arrow"/>
+  <line x1="340" y1="206" x2="340" y2="230" class="arrow"/>
+  <line x1="340" y1="266" x2="340" y2="290" class="arrow"/>
+  <line x1="340" y1="326" x2="340" y2="350" class="arrow"/>
+  <line x1="340" y1="386" x2="340" y2="410" class="arrow"/>
+  <line x1="340" y1="446" x2="340" y2="470" class="arrow"/>
+  <line x1="340" y1="506" x2="340" y2="530" class="arrow"/>
+  <line x1="340" y1="566" x2="340" y2="590" class="arrow"/>
+
+  <!-- Branch arrows -->
+  <path d="M 300 626 L 170 650" class="arrow-branch"/>
+  <path d="M 380 626 L 520 650" class="arrow-branch"/>
+
+  <!-- Loop-back arrow from Escalate -->
+  <path d="M 620 668 Q 660 668 660 400 Q 660 50 460 68" class="arrow-branch" stroke-dasharray="6 4"/>
+
+  <!-- Side badges -->
+  <rect x="470" y="296" width="80" height="20" class="badge" rx="4"/>
+  <text x="510" y="310" text-anchor="middle" class="badge-text">SYSTEM</text>
+
+  <rect x="470" y="476" width="80" height="20" class="badge" rx="4"/>
+  <text x="510" y="490" text-anchor="middle" class="badge-text">MANAGER</text>
+
+  <rect x="470" y="596" width="80" height="20" class="badge" rx="4"/>
+  <text x="510" y="610" text-anchor="middle" class="badge-text">USER</text>
+</svg>

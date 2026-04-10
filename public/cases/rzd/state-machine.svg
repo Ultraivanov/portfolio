@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" fill="none" font-family="IBM Plex Sans, system-ui, sans-serif">
+  <style>
+    .state { fill: #1a1a1a; rx: 8; }
+    .state-esc { fill: #f5f5f5; stroke: #1a1a1a; stroke-width: 1.5; rx: 8; }
+    .state-final { fill: #1a1a1a; rx: 8; }
+    .state-label { fill: #fff; font-size: 14px; font-weight: 600; }
+    .state-label-dark { fill: #1a1a1a; font-size: 14px; font-weight: 600; }
+    .arrow { stroke: #1a1a1a; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+    .arrow-esc { stroke: #888; stroke-width: 1.4; stroke-dasharray: 6 4; fill: none; marker-end: url(#arr-g); }
+    .section-title { fill: #888; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+    .transition-label { fill: #666; font-size: 10.5px; font-weight: 500; }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1a1a1a"/>
+    </marker>
+    <marker id="arr-g" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">State Machine — Request Lifecycle</text>
+
+  <!-- Section labels -->
+  <text x="400" y="58" text-anchor="middle" class="section-title">Main flow</text>
+  <text x="400" y="238" text-anchor="middle" class="section-title">Parallel branch</text>
+
+  <!-- States: Draft → Sent → Received → Answered → Closed -->
+  <!-- Draft -->
+  <rect x="30" y="80" width="120" height="50" class="state" rx="8"/>
+  <text x="90" y="110" text-anchor="middle" class="state-label">Draft</text>
+
+  <!-- Sent -->
+  <rect x="190" y="80" width="120" height="50" class="state" rx="8"/>
+  <text x="250" y="110" text-anchor="middle" class="state-label">Sent</text>
+
+  <!-- Received -->
+  <rect x="350" y="80" width="130" height="50" class="state" rx="8"/>
+  <text x="415" y="110" text-anchor="middle" class="state-label">Received</text>
+
+  <!-- Answered -->
+  <rect x="520" y="80" width="130" height="50" class="state" rx="8"/>
+  <text x="585" y="110" text-anchor="middle" class="state-label">Answered</text>
+
+  <!-- Closed -->
+  <rect x="690" y="80" width="100" height="50" class="state-final" rx="8"/>
+  <text x="740" y="110" text-anchor="middle" class="state-label">Closed</text>
+
+  <!-- Escalated (parallel branch) -->
+  <rect x="470" y="260" width="140" height="50" class="state-esc" rx="8"/>
+  <text x="540" y="290" text-anchor="middle" class="state-label-dark">Escalated</text>
+
+  <!-- Main flow arrows -->
+  <line x1="150" y1="105" x2="190" y2="105" class="arrow"/>
+  <line x1="310" y1="105" x2="350" y2="105" class="arrow"/>
+  <line x1="480" y1="105" x2="520" y2="105" class="arrow"/>
+  <line x1="650" y1="105" x2="690" y2="105" class="arrow"/>
+
+  <!-- Transition labels -->
+  <text x="170" y="98" text-anchor="middle" class="transition-label">submit</text>
+  <text x="330" y="98" text-anchor="middle" class="transition-label">deliver</text>
+  <text x="500" y="98" text-anchor="middle" class="transition-label">respond</text>
+  <text x="670" y="98" text-anchor="middle" class="transition-label">accept</text>
+
+  <!-- Escalation arrow from Answered down to Escalated -->
+  <path d="M 585 130 L 585 180 Q 585 200 560 220 L 540 260" class="arrow-esc"/>
+  <text x="610" y="195" class="transition-label">escalate</text>
+
+  <!-- Escalated loops back to Received -->
+  <path d="M 470 285 Q 380 285 380 200 Q 380 155 400 130" class="arrow-esc"/>
+  <text x="370" y="210" text-anchor="end" class="transition-label">re-route</text>
+
+  <!-- Initial state indicator (dot) -->
+  <circle cx="15" cy="105" r="8" fill="#1a1a1a"/>
+  <line x1="23" y1="105" x2="30" y2="105" class="arrow"/>
+
+  <!-- Final state indicator (double border) -->
+  <rect x="688" y="82" width="104" height="46" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="8"/>
+</svg>

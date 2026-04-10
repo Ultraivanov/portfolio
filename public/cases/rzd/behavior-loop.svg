@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" fill="none" font-family="IBM Plex Sans, system-ui, sans-serif">
+  <style>
+    .node { fill: #1a1a1a; rx: 8; }
+    .node-light { fill: #f5f5f5; stroke: #1a1a1a; stroke-width: 1.5; rx: 8; }
+    .label { fill: #fff; font-size: 13px; font-weight: 500; }
+    .label-dark { fill: #1a1a1a; font-size: 13px; font-weight: 500; }
+    .arrow { stroke: #1a1a1a; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .arrow-optional { stroke: #888; stroke-width: 1.2; stroke-dasharray: 6 4; fill: none; marker-end: url(#arrowhead-gray); }
+    .section-label { fill: #888; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1a1a1a"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#888"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="360" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">Behavior Loop — Closed Communication Cycle</text>
+
+  <!-- Nodes in a hexagonal loop -->
+  <!-- 1. User creates request -->
+  <rect x="260" y="55" width="200" height="40" class="node" rx="8"/>
+  <text x="360" y="80" text-anchor="middle" class="label">User creates request</text>
+
+  <!-- 2. System assigns status -->
+  <rect x="500" y="130" width="190" height="40" class="node" rx="8"/>
+  <text x="595" y="155" text-anchor="middle" class="label">System assigns status</text>
+
+  <!-- 3. Manager reviews & responds -->
+  <rect x="460" y="220" width="230" height="40" class="node" rx="8"/>
+  <text x="575" y="245" text-anchor="middle" class="label">Manager reviews &amp; responds</text>
+
+  <!-- 4. System updates state -->
+  <rect x="500" y="310" width="190" height="40" class="node" rx="8"/>
+  <text x="595" y="335" text-anchor="middle" class="label">System updates state</text>
+
+  <!-- 5. User receives response -->
+  <rect x="260" y="310" width="200" height="40" class="node" rx="8"/>
+  <text x="360" y="335" text-anchor="middle" class="label">User receives response</text>
+
+  <!-- 6. User evaluates outcome -->
+  <rect x="30" y="220" width="210" height="40" class="node-light" rx="8"/>
+  <text x="135" y="245" text-anchor="middle" class="label-dark">User evaluates outcome</text>
+
+  <!-- 7. Escalation (optional) -->
+  <rect x="30" y="130" width="210" height="40" class="node-light" rx="8"/>
+  <text x="135" y="155" text-anchor="middle" class="label-dark">Escalate to higher authority</text>
+
+  <!-- Arrows -->
+  <!-- 1 → 2 -->
+  <path d="M 460 75 Q 490 75 500 130" class="arrow"/>
+  <!-- 2 → 3 -->
+  <path d="M 595 170 L 575 220" class="arrow"/>
+  <!-- 3 → 4 -->
+  <path d="M 575 260 L 595 310" class="arrow"/>
+  <!-- 4 → 5 -->
+  <path d="M 500 330 L 460 330" class="arrow"/>
+  <!-- 5 → 6 -->
+  <path d="M 260 330 Q 200 330 135 260" class="arrow"/>
+  <!-- 6 → 1 (loop back) -->
+  <path d="M 135 220 Q 135 75 260 75" class="arrow"/>
+
+  <!-- 6 → 7 (optional escalation) -->
+  <path d="M 135 220 L 135 170" class="arrow-optional"/>
+  <!-- 7 → 2 (back to system) -->
+  <path d="M 240 150 Q 370 100 500 150" class="arrow-optional"/>
+
+  <!-- Optional label -->
+  <text x="80" y="195" class="section-label">optional</text>
+</svg>

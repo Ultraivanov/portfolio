@@ -1,32 +1,32 @@
 {
   "slug": "railway-booking-flow",
-  "title": "RZD - Sanatorium & Resort Booking Service",
-  "subtitle": "Turning a complex internal booking process into a predictable and repeatable system",
+  "title": "Russian Railways — Communication Workflow System",
+  "subtitle": "From fragmented interactions to a controlled communication loop inside an enterprise constraint envelope.",
   "coverSrc": "/cases/rzd/cover.png",
-  "coverAlt": "RZD sanatorium booking service cover",
+  "coverAlt": "RZD communication workflow system cover",
   "facts": [
     {
       "label": "domain",
       "value": [
-        "Enterprise / Internal service"
+        "Enterprise internal communication system",
+        "Document management & executive request workflows"
       ]
     },
     {
       "label": "scope",
       "value": [
-        "500+ resorts nationwide"
+        "Mobile application redesign",
+        "Workflow restructuring",
+        "Communication lifecycle system design",
+        "UX / UI system under strict enterprise constraints"
       ]
     },
     {
       "label": "audience",
       "value": [
-        "Employees and families"
-      ]
-    },
-    {
-      "label": "platform context",
-      "value": [
-        "Internal portal (30+ services)"
+        "Employees initiating requests",
+        "Managers reviewing and responding",
+        "Executive chain for escalations"
       ]
     },
     {
@@ -38,7 +38,10 @@
     {
       "label": "focus",
       "value": [
-        "Flow simplification, transparency, behavioral UX"
+        "Request lifecycle modeling",
+        "Communication flow structuring",
+        "System-level interaction logic",
+        "Full mobile UX/UI delivery"
       ]
     }
   ],
@@ -49,7 +52,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The sanatorium & resort booking service is one of the internal services within the RZD employee ecosystem. It operates similarly to a booking platform, but includes additional constraints: subsidies and quotas, approval workflows, limited availability, internal documentation. The service covers 500+ resorts nationwide and is available to employees and their families. Despite its value, it remained underutilized due to complexity and lack of trust."
+            "text": "Russian Railways operated a legacy internal service used for employee-to-management communication, document-related requests, and internal approvals and escalations."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system was functionally complete, but operationally inefficient."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "It supported processes — but did not structure them."
           }
         }
       ]
@@ -60,66 +75,41 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service was not broken in terms of functionality - it was broken in terms of predictability. Employees could technically complete a booking, but the process required constant interpretation. Users had to figure out which resorts were available to them, what conditions applied, what would happen after submission, whether the effort would lead to a real outcome."
+            "text": "The system failed not at the interface level, but at the process level."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This created a specific behavioral pattern. Users entered with intent, but quickly lost confidence: selection loops forced them to restart, eligibility rules appeared too late, system behavior was unclear, the process felt like a 'black box'. Even successful bookings did not build trust."
+            "text": "Symptoms:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Complex and inconsistent navigation",
+              "Unclear request statuses",
+              "Fragmented communication flows",
+              "Lack of transparency in request handling"
+            ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The system did not answer the key question: “Can I rely on this next time?”"
+            "text": "System-level failure:"
           }
         },
         {
-          "discriminant": "paragraph",
+          "discriminant": "list",
           "value": {
-            "text": "As a result, the service failed not at conversion — but at retention."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Users did not form a relationship with the system. They treated each interaction as a one-time, risky attempt."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The core problem was not about making booking easier."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "It was about transforming the experience from: a fragile, one-off interaction into a repeatable, trusted behavior."
-          }
-        },
-        {
-          "discriminant": "link",
-          "value": {
-            "label": "Open CJM and flow map (FigJam)",
-            "href": "https://www.figma.com/board/2KDFWzfes5bvWg3gY63pPo/RZD-%E2%80%A2-CJM-%E2%80%A2-J2BD-%E2%80%A2-Personas?node-id=0-1"
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "https://www.figma.com/board/2KDFWzfes5bvWg3gY63pPo/RZD-%E2%80%A2-CJM-%E2%80%A2-J2BD-%E2%80%A2-Personas?node-id=63-2038&t=SSvcrYmOihUKUDLv-4",
-            "alt": "Multi-audience CJM with loops",
-            "caption": "Used a multi-audience CJM to expose where different paths collapse into the same loops and where logic diverges without explanation."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/flow-clean.svg",
-            "alt": "Clean service logic flow with loops",
-            "caption": "Rebuilt the flow to isolate loops, approvals, and recovery paths without decorative noise."
+            "items": [
+              "Requests had no predictable lifecycle",
+              "Escalation paths were implicit",
+              "Responses were not structured",
+              "Users could not anticipate outcomes"
+            ]
           }
         }
       ]
@@ -128,74 +118,32 @@
       "title": "Constraints",
       "blocks": [
         {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The service operated inside fixed business rules: subsidies, approvals, quotas, and eligibility logic that could not be negotiated at the UX layer."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Multiple systems sat behind the flow, and I could not redesign backend logic or remove dependencies. Changes had to be incremental and compatible with legacy information architecture."
-          }
-        },
-        {
           "discriminant": "list",
           "value": {
             "items": [
-              "Fixed business rules (subsidies, approvals, quotas).",
-              "Multiple systems behind the flow.",
-              "No ability to redesign backend logic.",
-              "Legacy structure and information architecture.",
-              "Need to reduce calls to resorts without changing operational processes.",
-              "Must work for multiple audience types simultaneously."
+              "Legacy database and architecture (no restructuring)",
+              "Strict enterprise requirements",
+              "Minimal visual expressiveness allowed",
+              "Formal communication must be preserved",
+              "High information density"
             ]
           }
         }
       ]
     },
     {
-      "title": "Behavioral model",
+      "title": "Key Insight",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A linear view of the service would describe it as Search -> Book -> Done. That model was misleading because it hides the loops, rejections, and approvals that shape real behavior."
+            "text": "The core issue was not usability — it was lack of system-level clarity."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "I reframed the service as a behavioral loop: Experience -> Trust -> Return -> Habit. The goal was not only to complete a booking but to make the service something users would return to without hesitation."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "This lens changed how I evaluated decisions: I did not just ask whether a step works, I asked whether it increases trust enough to create repeat use."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Key insight",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "As the CJMs and loop maps came together, a pattern appeared. The service did not fail because it lacked features; it failed because its logic was invisible and therefore unpredictable."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Different users, under different eligibility and availability conditions, were pushed into different paths with no explanation. The same interface produced different outcomes, and users could not tell why."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "This revealed that the right solution was not another UI layer. The service needed its logic to be structured and made visible so the flow could be anticipated rather than guessed."
+            "text": "Users did not need a \"better interface\". They needed a controlled communication loop."
           }
         }
       ]
@@ -206,91 +154,209 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Instead of designing one ideal flow, I mapped the service across different audience scenarios. Each audience type had distinct expectations, but they all collided with the same approval logic and loops."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "This included CJMs for each audience type, analysis of loops and breakdown points, and explicit mapping of approval and rejection paths. That work showed where users were forced to backtrack and where the system hid critical states."
+            "text": "Instead of redesigning screens, the focus shifted to designing a system:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Price-sensitive users — need fast comparison",
-              "Overwhelmed users — need guidance",
-              "Location-first users — need structured discovery",
-              "Returning users — need low-friction repeat flow"
+              "Request lifecycle model",
+              "Explicit state management",
+              "Escalation logic",
+              "Notification structure",
+              "Feedback loop"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Instead of simplifying logic, I focused on making it understandable. This led to a design approach that exposes rules early, clarifies state changes, and reduces unnecessary loops."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/cjm-segmentation.png",
-            "alt": "Audience scenarios mapped to flows",
-            "caption": "Segmented audience journeys to see how the same service behaves differently for different users and where loops repeat."
+            "text": "The interface became a reflection of system logic — not the other way around."
           }
         }
       ]
     },
     {
-      "title": "Design decisions",
+      "title": "Behavior Model",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The design decisions were not isolated UI changes. Each decision was tied to a specific behavioral breakdown: where users got stuck, where the system hid logic, or where the flow became non-linear without warning."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "I used the CJMs and loop analysis as a constraint map. If a decision did not reduce uncertainty or make the flow more predictable, it was not enough."
+            "text": "User interaction was reframed as a closed loop:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Structured comparison: replaced manual tab switching with a compact comparison layer so users could evaluate options without leaving the flow. This removed a major source of backtracking.",
-              "Loop control: made flows editable and preserved progress so users could recover without restarting. Loops remain only where required by business logic, and they are explained.",
-              "Transparency model: introduced visible steps, status tracking, document requirements, and expected timelines so users understand what happens next and why.",
-              "Multi-audience adaptation: the same service now supports different entry points and expectations, rather than forcing all users into a single path.",
-              "Information in the interface: moved critical details into the UI to reduce resort calls and prevent users from relying on external clarification."
+              "User creates request",
+              "System assigns status",
+              "Manager reviews & responds",
+              "System updates state",
+              "User receives response",
+              "User evaluates outcome",
+              "[Optional] Escalation to higher authority"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This loop defines the core behavior of the system."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/behavior-loop.svg",
+            "alt": "Behavior loop diagram — closed communication cycle",
+            "caption": "Closed-loop communication model: request → status → review → response → evaluation → optional escalation.",
+            "variant": "diagram"
+          }
+        }
+      ]
+    },
+    {
+      "title": "User Flow — Operational Layer",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Entry Point → Select request category",
+              "Compose request → Submit request",
+              "System assigns status: \"Sent\"",
+              "Request delivered to manager → Status: \"Received\"",
+              "Manager responds → Status: \"Answered\"",
+              "User reviews response",
+              "Accept result → Complete",
+              "OR Escalate request → Forward to higher manager → Loop continues"
             ]
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/rzd/search-results.png",
-            "alt": "Structured comparison layer",
-            "caption": "Introduced a comparison layer to eliminate manual tab switching and reduce decision friction."
+            "src": "/cases/rzd/user-flow-operational.svg",
+            "alt": "Operational user flow with branching",
+            "caption": "Operational flow: from request entry through category selection, submission, manager review, and resolution or escalation.",
+            "variant": "diagram"
+          }
+        }
+      ]
+    },
+    {
+      "title": "System Logic — Control Layer",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "INPUT: user request + selected category"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "PROCESSING: routing to responsible manager, assigning status, triggering notifications"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "STATE MACHINE: Draft → Sent → Received → Answered → Closed (↓ Escalated)"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "OUTPUT: response from manager, updated request status, user notification"
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/rzd/application-form.png",
-            "alt": "Transparent step-based booking",
-            "caption": "Made steps, requirements, and timelines explicit so users can predict outcomes before committing."
+            "src": "/cases/rzd/state-machine.svg",
+            "alt": "State machine diagram — request lifecycle",
+            "caption": "State machine: Draft → Sent → Received → Answered → Closed, with Escalated as a parallel branch.",
+            "variant": "diagram"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Design Decisions",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "1. Explicit State System"
           }
         },
         {
-          "discriminant": "media",
+          "discriminant": "paragraph",
           "value": {
-            "src": "/cases/rzd/tracking-1.png",
-            "alt": "Clear booking status",
-            "caption": "Visible status tracking replaces black-box outcomes with explicit state changes."
+            "text": "All requests operate within a clearly defined lifecycle. Eliminates ambiguity. Improves predictability."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "2. Linear Communication Flow"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Replaced fragmented interactions with a structured sequence. Reduces cognitive load. Enforces process consistency."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "3. Category-Based Routing"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Requests are classified at entry point. Enables correct routing. Reduces handling time."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "4. Built-in Escalation"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Escalation becomes part of the system, not a workaround. Supports hierarchical structures. Maintains accountability."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "5. Feedback Loop"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users can evaluate responses. Closes communication loop. Introduces quality control."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "6. Minimalist Interface Strategy"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Due to constraints: no decorative graphics, reliance on typography and structure, contrast used as primary visual tool. Aligns with enterprise expectations. Ensures clarity under high information load."
           }
         }
       ]
@@ -301,31 +367,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service was redesigned into a structured, transparent system. The goal was not to add screens, but to make system behavior legible."
+            "text": "A structured communication system embedded in a mobile interface."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users no longer needed to interpret hidden rules. The flow explains itself through visible steps, explicit states, and predictable transitions."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The result is a service that can be reused: once a user understands the model, it applies to future bookings and different audience scenarios."
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Clear comparison layer.",
-              "Predictable flow with minimal loops.",
-              "Visible booking states.",
-              "Editable steps with preserved progress.",
-              "Guidance integrated into the interface."
-            ]
+            "text": "Not just an app redesign — but a workflow control layer for enterprise communication."
           }
         }
       ]
@@ -334,27 +382,48 @@
       "title": "Outcome",
       "blocks": [
         {
-          "discriminant": "paragraph",
+          "discriminant": "list",
           "value": {
-            "text": "The most important shift was behavioral. Employees moved from avoiding the service to trusting it enough to return the next year."
+            "items": [
+              "Reduced ambiguity in communication",
+              "Improved predictability of request handling",
+              "Clearer responsibility boundaries",
+              "Faster decision loops",
+              "Scalable interaction model"
+            ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "That trust came from predictability: knowing what will happen, why it will happen, and how to recover when the system rejects a path."
+            "text": "The system transitioned from interface-driven interaction to process-driven communication."
           }
-        },
+        }
+      ]
+    },
+    {
+      "title": "Artifacts",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "Full mobile UX/UI",
+              "Interactive prototype (Figma)",
+              "Usability testing flows",
+              "System-level workflow mapping"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "Reflection",
+      "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The business signal of success is repeat use. The north star metric is Repeat Usage Share - the percentage of users who return to the service for another booking."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Operationally, clearer information inside the interface reduced calls to resorts and lowered friction across the booking cycle."
+            "text": "This project demonstrates system thinking over screen-level design, ability to operate under strict enterprise constraints, focus on behavior modeling and process clarity, and designing control layers instead of isolated interfaces."
           }
         }
       ]

@@ -24,6 +24,7 @@ export const useThemeMode = () => {
 
 type ClientProvidersProps = {
   children: ReactNode;
+  initialTheme?: ThemeMode;
 };
 
 export default function ClientProviders({ children, initialTheme = "dark" }: ClientProvidersProps) {

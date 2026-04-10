@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./case-media.module.css";
 
 type CaseMediaProps = {
@@ -47,7 +48,17 @@ export default function CaseMedia({
             />
           </div>
         ) : (
-          <img className={styles.image} src={src} alt={alt} />
+          <div className={styles.imageWrapper}>
+            <Image 
+              className={styles.image} 
+              src={src} 
+              alt={alt}
+              width={2048}
+              height={1536}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1160px"
+              loading="lazy"
+            />
+          </div>
         )}
       </div>
       {caption ? <figcaption className={styles.caption}>{caption}</figcaption> : null}

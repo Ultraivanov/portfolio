@@ -1,8 +1,4 @@
 @import "@gravity-ui/uikit/styles/styles.css";
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
 :root {
   --color-bg: #151414;
@@ -43,8 +39,8 @@
   --radius-1: 8px;
   --radius-2: 16px;
   --radius-3: 24px;
-  --font-body: "IBM Plex Sans";
-  --font-display: "IBM Plex Sans";
+  --font-body: var(--font-ibm-plex);
+  --font-display: var(--font-ibm-plex);
 }
 
 :root[data-theme="light"] {

@@ -22,7 +22,7 @@
     "label": "/ skills",
     "groups": [
       {
-        "title": "Product & UX",
+        "title": "Product & User Experience",
         "items": [
           "Product strategy",
           "UX system",
@@ -52,7 +52,7 @@
         ]
       },
       {
-        "title": "AI Design",
+        "title": "AI Product Design",
         "items": [
           "AI-assisted UX",
           "Prompt prototyping",

@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { ThemeProvider } from "@gravity-ui/uikit";
 import { usePathname } from "next/navigation";
+import { jsonPost } from "@/lib/api";
+import { getThemeFromCookies } from "@/lib/cookies";
 
 type ThemeMode = "dark" | "light";
 type ThemeContextValue = {
@@ -27,45 +29,54 @@ type ClientProvidersProps = {
   initialTheme?: ThemeMode;
 };
 
+/**
+ * Get the initial theme from available sources
+ */
+const getInitialTheme = (initialTheme: ThemeMode): ThemeMode => {
+  if (typeof window === "undefined") return initialTheme;
+
+  // Check cookie first
+  const themeFromCookie = getThemeFromCookies(document.cookie);
+  if (themeFromCookie) return themeFromCookie;
+
+  // Then localStorage
+  const stored = window.localStorage.getItem("theme");
+  if (stored === "light" || stored === "dark") return stored;
+
+  // Finally, check system preference
+  const media = window.matchMedia?.("(prefers-color-scheme: light)");
+  return media?.matches ? "light" : "dark";
+};
+
+/**
+ * Check if theme is set to auto (not explicitly configured)
+ */
+const isThemeAuto = (): boolean => {
+  if (typeof window === "undefined") return true;
+
+  const themeFromCookie = getThemeFromCookies(document.cookie);
+  if (themeFromCookie) return false;
+
+  const stored = window.localStorage.getItem("theme");
+  return !(stored === "light" || stored === "dark");
+};
+
 export default function ClientProviders({ children, initialTheme = "dark" }: ClientProvidersProps) {
   const pathname = usePathname();
   const isKeystatic = pathname?.startsWith("/keystatic");
-  const [theme, setTheme] = useState<ThemeMode>(() => {
-    if (typeof window === "undefined") return initialTheme;
-    // First check cookie
-    const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
-      const [key, value] = cookie.split("=");
-      acc[key] = value;
-      return acc;
-    }, {} as Record<string, string>);
-    if (cookies.theme === "light" || cookies.theme === "dark") return cookies.theme;
-    // Then localStorage
-    const stored = window.localStorage.getItem("theme");
-    if (stored === "light" || stored === "dark") return stored;
-    // Then media
-    const media = window.matchMedia?.("(prefers-color-scheme: light)");
-    return media?.matches ? "light" : "dark";
-  });
+  const [theme, setTheme] = useState<ThemeMode>(() => getInitialTheme(initialTheme));
   const [isAuto, setIsAuto] = useState(() => {
     if (isKeystatic) return true;
-    if (typeof window === "undefined") return true;
-    const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
-      const [key, value] = cookie.split("=");
-      acc[key] = value;
-      return acc;
-    }, {} as Record<string, string>);
-    if (cookies.theme === "light" || cookies.theme === "dark") return false;
-    const stored = window.localStorage.getItem("theme");
-    return !(stored === "light" || stored === "dark");
+    return isThemeAuto();
   });
 
   const saveTheme = async (newTheme: ThemeMode) => {
     window.localStorage.setItem("theme", newTheme);
-    await fetch("/api/theme", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ theme: newTheme }),
-    });
+    try {
+      await jsonPost("/api/theme", { theme: newTheme });
+    } catch (error) {
+      console.error("Failed to save theme:", error);
+    }
   };
 
   useLayoutEffect(() => {
@@ -120,7 +131,7 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
         await saveTheme(next);
       },
     }),
-    [theme],
+    [theme]
   );
 
   return (

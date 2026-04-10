@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import ClientProviders from "@/components/ClientProviders";
 import Layout from "@/components/layout/Layout";
 import "./globals.css";

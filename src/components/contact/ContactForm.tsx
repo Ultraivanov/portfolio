@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { Button, TextArea, TextInput } from "@gravity-ui/uikit";
 import { trackEvent } from "@/lib/analytics";
+import { jsonPost } from "@/lib/api";
 import TurnstileWidget from "./TurnstileWidget";
 import styles from "./contact-form.module.css";
 
@@ -11,6 +12,15 @@ type ContactFormProps = {
 };
 
 type FormStatus = "idle" | "sending" | "success" | "error";
+
+type ContactPayload = {
+  name: string;
+  company: string;
+  email: string;
+  message: string;
+  page: string;
+  captchaToken: string;
+};
 
 export default function ContactForm({ email }: ContactFormProps) {
   const [name, setName] = useState("");
@@ -24,44 +34,42 @@ export default function ContactForm({ email }: ContactFormProps) {
   const [status, setStatus] = useState<FormStatus>("idle");
   const [error, setError] = useState("");
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
-  const handleVerify = useCallback((token: string) => {
-    setCaptchaToken(token);
-  }, []);
 
-  const handleExpire = useCallback(() => {
-    setCaptchaToken("");
-  }, []);
-
-  const handleError = useCallback(() => {
-    setCaptchaToken("");
+  const handleCaptchaStateChange = useCallback((token: string | null) => {
+    setCaptchaToken(token || "");
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
 
+    // Honeypot check
     if (honeypot) {
       return;
     }
 
+    // Validate required fields
     if (!name || !contactEmail || !message) {
       setStatus("error");
       setError("Please fill in name, email, and message.");
       return;
     }
 
+    // Validate captcha configuration
     if (!turnstileSiteKey) {
       setStatus("error");
       setError("Captcha is not configured.");
       return;
     }
 
+    // Validate captcha token
     if (!captchaToken) {
       setStatus("error");
       setError("Please complete the captcha.");
       return;
     }
 
+    // Validate consent
     if (!consent) {
       setStatus("error");
       setError("Please confirm you agree to the Privacy Policy.");
@@ -70,25 +78,21 @@ export default function ContactForm({ email }: ContactFormProps) {
 
     setStatus("sending");
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          company,
-          email: contactEmail,
-          message,
-          page: window.location.href,
-          captchaToken,
-        }),
-      });
+      const payload: ContactPayload = {
+        name,
+        company,
+        email: contactEmail,
+        message,
+        page: window.location.href,
+        captchaToken,
+      };
 
-      if (!response.ok) {
-        throw new Error("Request failed");
-      }
+      await jsonPost("/api/contact", payload);
 
       setStatus("success");
       trackEvent("contact_submit", { status: "success" });
+
+      // Reset form
       setName("");
       setCompany("");
       setMessage("");
@@ -201,9 +205,9 @@ export default function ContactForm({ email }: ContactFormProps) {
           <TurnstileWidget
             siteKey={turnstileSiteKey}
             resetKey={captchaReset}
-            onVerify={handleVerify}
-            onExpire={handleExpire}
-            onError={handleError}
+            onVerify={(token) => handleCaptchaStateChange(token)}
+            onExpire={() => handleCaptchaStateChange(null)}
+            onError={() => handleCaptchaStateChange(null)}
           />
         </div>
       ) : null}

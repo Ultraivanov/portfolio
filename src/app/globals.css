@@ -8,6 +8,7 @@
   --color-border-primary: #6d6d6d;
   --color-border-subtle: #2f2f2f;
   --color-border-subtle-soft: rgba(47, 47, 47, 0.9);
+  --color-hero-title: rgba(255, 250, 236, 0.1);
   --grid-columns: 12;
   --grid-margin: 60px;
   --grid-gutter: 24px;
@@ -50,6 +51,7 @@
   --color-border-primary: #c7c1b4;
   --color-border-subtle: #e1dbcf;
   --color-border-subtle-soft: rgba(225, 219, 207, 0.9);
+  --color-hero-title: rgba(21, 20, 20, 0.18);
 }
 
 html {

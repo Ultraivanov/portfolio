@@ -36,16 +36,12 @@
   font-size: 157px;
   line-height: 1;
   letter-spacing: -0.04em;
-  color: rgba(21, 20, 20, 0.12);
+  color: var(--color-hero-title);
   text-transform: uppercase;
   margin: 0;
   padding: 0;
   pointer-events: none;
   user-select: none;
-}
-
-:root[data-theme="light"] .heroTitleText {
-  color: rgba(21, 20, 20, 0.15);
 }
 
 .heroHeadline {

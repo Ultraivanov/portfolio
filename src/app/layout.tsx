@@ -51,11 +51,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
-  const theme = (cookieStore.get("theme")?.value as "light" | "dark") || "dark";
-
   return (
-    <html lang="en" data-theme={theme}>
+    <html lang="en">
       <head>
         <script
           async
@@ -63,7 +60,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ClientProviders initialTheme={theme}>
+        <ClientProviders>
           <Layout>{children}</Layout>
         </ClientProviders>
       </body>

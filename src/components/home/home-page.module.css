@@ -253,6 +253,7 @@
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+
 .toolGroups {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -450,6 +451,22 @@
 .resourceCard:focus-visible {
   outline: 1px solid #e63746;
   outline-offset: 3px;
+}
+
+@media (min-width: 901px) {
+  .skillList li,
+  .toolList li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .skillTitle,
+  .toolTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 @media (max-width: 900px) {

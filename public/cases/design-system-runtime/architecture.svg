@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" style="background:#0a0a0f">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563"/>
+    </marker>
+    <linearGradient id="specGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="execGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b2d5c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e1b4b;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="detectGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5c3d2d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#291b12;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="validGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d5c3d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1b2912;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="reportGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5c2d3d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#29121b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="40" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600" fill="#e5e7eb">Product Validator Architecture</text>
+
+  <!-- Spec Layer -->
+  <rect x="50" y="80" width="200" height="100" rx="8" fill="url(#specGrad)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="150" y="105" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#60a5fa">Spec Layer</text>
+  <text x="150" y="125" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">DESIGN.md</text>
+  <text x="150" y="140" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Parser → AST</text>
+  <text x="150" y="155" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b">Source of truth</text>
+
+  <!-- Arrow 1 -->
+  <line x1="250" y1="130" x2="320" y2="130" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Execution Layer -->
+  <rect x="320" y="80" width="200" height="100" rx="8" fill="url(#execGrad)" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="420" y="105" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#a78bfa">Execution Layer</text>
+  <text x="420" y="125" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Playwright</text>
+  <text x="420" y="140" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Flow Runner</text>
+  <text x="420" y="155" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b">Browser automation</text>
+
+  <!-- Arrow 2 -->
+  <line x1="520" y1="130" x2="590" y2="130" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Detection Layer -->
+  <rect x="590" y="80" width="200" height="100" rx="8" fill="url(#detectGrad)" stroke="#f59e0b" stroke-width="2"/>
+  <text x="690" y="105" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#fbbf24">Detection Layer</text>
+  <text x="690" y="125" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">State Detector</text>
+  <text x="690" y="140" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Interface analysis</text>
+  <text x="690" y="155" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b">Extract actual behavior</text>
+
+  <!-- Arrow 3 -->
+  <line x1="790" y1="130" x2="860" y2="130" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Validation Layer -->
+  <rect x="860" y="80" width="200" height="100" rx="8" fill="url(#validGrad)" stroke="#10b981" stroke-width="2"/>
+  <text x="960" y="105" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#34d399">Validation Layer</text>
+  <text x="960" y="125" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Rule Engine</text>
+  <text x="960" y="140" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Comparator</text>
+  <text x="960" y="155" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b">Expected vs Actual</text>
+
+  <!-- Arrow 4 -->
+  <path d="M 960 180 L 960 220 L 690 220 L 690 250" stroke="#4b5563" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Reporting Layer -->
+  <rect x="590" y="250" width="200" height="100" rx="8" fill="url(#reportGrad)" stroke="#ef4444" stroke-width="2"/>
+  <text x="690" y="275" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" fill="#f87171">Reporting Layer</text>
+  <text x="690" y="295" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Product Insights</text>
+  <text x="690" y="310" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Issue classification</text>
+  <text x="690" y="325" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b">Missing states, broken transitions</text>
+
+  <!-- Data flow labels -->
+  <text x="285" y="120" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#6b7280">AST</text>
+  <text x="555" y="120" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#6b7280">User Flow</text>
+  <text x="825" y="120" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#6b7280">Actual States</text>
+  <text x="825" y="200" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#6b7280">Diff</text>
+
+  <!-- Bottom info -->
+  <text x="600" y="420" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9ca3af">Linear pipeline: Spec → Execute → Detect → Validate → Report</text>
+
+  <!-- Legend -->
+  <rect x="50" y="460" width="15" height="15" fill="#3b82f6" opacity="0.3" stroke="#3b82f6"/>
+  <text x="75" y="472" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#9ca3af">Input</text>
+
+  <rect x="150" y="460" width="15" height="15" fill="#8b5cf6" opacity="0.3" stroke="#8b5cf6"/>
+  <text x="175" y="472" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#9ca3af">Execution</text>
+
+  <rect x="280" y="460" width="15" height="15" fill="#f59e0b" opacity="0.3" stroke="#f59e0b"/>
+  <text x="305" y="472" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#9ca3af">Detection</text>
+
+  <rect x="410" y="460" width="15" height="15" fill="#10b981" opacity="0.3" stroke="#10b981"/>
+  <text x="435" y="472" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#9ca3af">Validation</text>
+
+  <rect x="540" y="460" width="15" height="15" fill="#ef4444" opacity="0.3" stroke="#ef4444"/>
+  <text x="565" y="472" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#9ca3af">Output</text>
+</svg>

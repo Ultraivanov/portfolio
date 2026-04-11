@@ -141,9 +141,27 @@
           }
         },
         {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/design-system-runtime/architecture.svg",
+            "alt": "Product Validator system architecture",
+            "caption": "Five-layer architecture: Spec → Execution → Detection → Validation → Reporting",
+            "variant": "diagram"
+          }
+        },
+        {
           "discriminant": "paragraph",
           "value": {
             "text": "For health monitoring, I implemented custom metrics feeding into Grafana, giving us real-time visibility into token drift, component coverage, and adoption rates across teams. IDE plugins for Figma and VS Code provide immediate feedback where decisions are made."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/design-system-runtime/engine-flow.svg",
+            "alt": "Engine interaction flow in n8n style",
+            "caption": "Engine interaction flow: Input → Parser → Flow Runner → State Detector → Rule Engine → Report",
+            "variant": "diagram"
           }
         },
         {

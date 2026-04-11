@@ -39,6 +39,15 @@
           }
         },
         {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/design-system-runtime/market-demand.png",
+            "alt": "Market demand for design system designers",
+            "caption": "Real market signal: VP of Design at Xsolla describing exactly this profile",
+            "variant": "desktop"
+          }
+        },
+        {
           "discriminant": "paragraph",
           "value": {
             "text": "This case study is a response to that request. At 500+ tokens and 80+ components across 6 product teams, our design system had reached a scaling threshold where documentation alone couldn't maintain consistency. Token drift hit 47%, handoff delays averaged 2-3 days, and teams spent nearly a third of design time on system maintenance. The risk was clear: without structural intervention, product teams would abandon the system for local solutions."

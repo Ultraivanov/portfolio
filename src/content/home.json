@@ -106,7 +106,7 @@
       {
         "title": "MegaMod - Structuring a Multi-Product Narrative for a UGC Gaming Ecosystem",
         "subtitle": "Turned product complexity into a scalable communication system with multiple entry points.",
-        "imageSrc": "/home/project-alpha.png",
+        "imageSrc": "/cases/megamod/cover.png",
         "imageAlt": "MegaMod multi-product ecosystem cover",
         "href": "/work/megamod"
       },
@@ -120,7 +120,7 @@
       {
         "title": "Russian Railways — Communication Workflow System",
         "subtitle": "From fragmented interactions to a controlled communication loop inside an enterprise constraint envelope.",
-        "imageSrc": "/cases/rzd/cover.png",
+        "imageSrc": "/cases/rzd-communication/cover.png",
         "imageAlt": "RZD communication workflow system cover",
         "href": "/work/railway-booking-flow"
       },

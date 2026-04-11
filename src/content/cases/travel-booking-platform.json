@@ -13,12 +13,6 @@
       ]
     },
     {
-      "label": "role",
-      "value": [
-        "Product Designer"
-      ]
-    },
-    {
       "label": "scope",
       "value": [
         "Service logic mapping",
@@ -30,13 +24,21 @@
     {
       "label": "audience",
       "value": [
-        "RZD employees and their families across eligibility tiers"
+        "RZD employees",
+        "Employees' families",
+        "Users with different eligibility and booking conditions"
+      ]
+    },
+    {
+      "label": "role",
+      "value": [
+        "Product Designer across system behavior, interaction logic, and UI"
       ]
     },
     {
       "label": "focus",
       "value": [
-        "Predictability, trust, and repeat usage under operational constraints"
+        "Predictability, trust, and repeat usage under real operational constraints"
       ]
     }
   ],
@@ -47,13 +49,36 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The sanatorium & resort booking service is a benefits platform inside the RZD employee ecosystem — covering 500+ resorts nationwide, available to employees and their families across different eligibility tiers. On paper, the service was functional. In practice, it was consistently underutilized in a way internal metrics didn't fully capture."
+            "text": "The sanatorium & resort booking service is one of the internal services within the RZD employee ecosystem."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The risk wasn't user drop-off during booking. It was behavioral: a service that costs real organizational capital to build and maintain, but fails to become a habit, is a structural problem — not a UI problem. That reframing shaped everything that followed."
+            "text": "It operates similarly to a booking platform, but includes additional constraints:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "subsidies and quotas",
+              "approval workflows",
+              "limited availability",
+              "internal documentation"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The service covers 500+ resorts nationwide and is available to employees and their families."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Despite its value, it remained underutilized due to complexity and lack of trust."
           }
         }
       ]
@@ -64,13 +89,77 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service wasn't broken in terms of functionality. It was broken in terms of predictability — which is a harder problem because it doesn't surface as a clear error state. Users entered with genuine intent and left without confidence. Not because booking was impossible, but because the system provided no framework for decision-making: which resorts applied to their eligibility tier, what would happen after submission, whether the approval process had defined timelines."
+            "text": "The service was not broken in terms of functionality — it was broken in terms of predictability."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Each unknown added a small tax on trust. Collectively, those taxes meant the service felt risky rather than reliable. The real diagnostic signal was this: even users who successfully completed a booking didn't return. Conversion wasn't the problem. Retention was."
+            "text": "Employees could technically complete a booking, but the process required constant interpretation."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users had to figure out:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "which resorts were available to them",
+              "what conditions applied",
+              "what would happen after submission",
+              "whether the effort would lead to a real outcome"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This created a specific behavioral pattern."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users entered with intent, but quickly lost confidence:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "selection loops forced them to restart",
+              "eligibility rules appeared too late",
+              "system behavior was unclear",
+              "the process felt like a \"black box\""
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Even successful bookings did not build trust."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system did not answer: “Can I rely on this next time?”"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The failure was not in conversion — it was in retention."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users treated the service as a one-time, risky interaction."
           }
         }
       ]
@@ -81,13 +170,125 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Redesigning within an enterprise internal system means accepting constraints that would be unacceptable in a greenfield product. The business rules — subsidies, quota allocation, tiered eligibility, approval chains — were fixed. Multiple backend systems couldn't be consolidated. No control over core logic. Manual approval processes remained manual."
+            "text": "The redesign had to operate within strict limitations:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "fixed business rules (subsidies, approvals, quotas)",
+              "multiple backend systems",
+              "no control over core logic",
+              "legacy structure",
+              "manual approval processes",
+              "multiple audience types within one flow"
+            ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The tradeoff I had to accept upfront: I couldn't simplify the underlying complexity. The risk was that trying to hide it would create a different failure mode — users encountering the complexity later in the flow with no framework to interpret it. The mitigation was to make the system legible instead of pretending it was simple."
+            "text": "The challenge was not to reduce complexity, but to make it understandable."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Behavioral model",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The service was reframed as a behavioral system."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Not:"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "search → book → done"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "But:"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "experience → trust → return → habit"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The goal was not to complete bookings, but to make the service reusable."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Key insight",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The issue was not that the process was complex."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "It was that the system did not help users understand that complexity."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The experience varied depending on:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "user type",
+              "eligibility",
+              "availability",
+              "approval outcomes"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "From the user’s perspective, the system behaved unpredictably."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This made every interaction feel like a one-time attempt."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The problem became behavioral: the system failed to build trust."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The solution required making system logic visible and structured."
           }
         }
       ]
@@ -98,13 +299,53 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The mental model shift that unlocked the design direction: this is not a booking flow, it's a trust-building system. The target isn't conversion at the end of a single session — it's repeat usage over multiple years. That reframe changed what \"good\" looked like. A booking flow optimizes for completion. A trust system optimizes for predictability at every step, including the steps after submission and the steps where the answer is \"pending approval\" or \"not available this season.\""
+            "text": "Once the problem was reframed, the focus shifted from UI to system behavior."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "I mapped the service as overlapping journeys rather than a single linear flow. Price-sensitive users, location-first users, eligibility-constrained users, returning users — they share a system but diverge at critical decision points. Those divergence points were exactly where the existing design failed. They became the design targets."
+            "text": "Instead of designing a single flow, the service was mapped as overlapping journeys."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Each journey represented a different user type:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "price-sensitive",
+              "unsure users",
+              "location-first",
+              "returning users"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This revealed:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "divergence points",
+              "loops",
+              "shared logic",
+              "breakdowns in expectation"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The goal was not simplification, but legibility."
           }
         },
         {
@@ -144,12 +385,30 @@
       ]
     },
     {
-      "title": "Design Decisions",
+      "title": "Design decisions",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Moving eligibility validation earlier was the highest-leverage change. In the original flow, users discovered their eligibility constraints late — sometimes after selecting a resort and filling a form. The failure mode was clear: wasted effort, eroded trust. The risk in moving it earlier was top-of-funnel friction. The mitigation was framing it as orientation rather than restriction — the system telling you what's available to you, not what you can't have."
+            "text": "Each decision reduces uncertainty and supports repeat behavior."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Comparison"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Replaced manual tab comparison with structured comparison."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Improves decision confidence (Experience)."
           }
         },
         {
@@ -164,7 +423,55 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Making comparison a first-class action addressed a subtler problem. Users were mentally comparing resorts across multiple sessions, tabs, and phone calls with colleagues — because the system didn't support that process. The tradeoff was scope: a proper comparison layer adds complexity to both the interface and the backend. The decision was to invest here because decision confidence is directly linked to trust in the outcome. If you feel uncertain when you choose, you're more likely to abandon the service before committing."
+            "text": "Early eligibility"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Moved eligibility logic before booking."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Reduces failed attempts (Trust)."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Loop handling"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Made loops explicit and recoverable."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Removes frustration (Experience + Trust)."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "System transparency"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Introduced clear states, steps, and expectations."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Enables predictability (Trust → Return)."
           }
         },
         {
@@ -179,7 +486,55 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "System transparency throughout the booking and approval process was the least glamorous but most structurally important change. Status visibility, explicit next steps, expected timelines — these things are invisible when they work. But they're the mechanism through which a single successful booking becomes a reason to return. Without them, every interaction resets the trust counter to zero."
+            "text": "Reduced external dependency"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Moved critical info into UI."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Reduces calls, increases reliance on system (Trust)."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Repeat usage"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Added re-entry via history and simplified flows."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Enables Return → Habit."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "System structure"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Defined consistent stages: discovery → comparison → eligibility → booking → approval → outcome."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Makes system learnable."
           }
         },
         {
@@ -194,7 +549,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "To hold the interaction model together visually, I built a minimal design system — typography, spacing, and core interface elements structured around repeated states and content patterns. That wasn't a visual polish decision. It was an operational one: a service with this many branches and states only stays learnable if it behaves consistently across all of them."
+            "text": "To support the UI layer, I also built a minimal viable design system with typography, spacing, and core interface elements. It was structured using Atomic Design principles so that the service could stay visually consistent while the interaction model remained scalable."
           }
         },
         {
@@ -214,7 +569,31 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service became a structured system that explains itself. Users can compare resorts on defined criteria, understand their eligibility before investing effort, follow a booking process with explicit stages and expected outcomes, and track status after submission without ambiguity. The underlying complexity didn't disappear — the quotas, approvals, and eligibility tiers still exist. What changed is that the system now has a consistent framework for communicating all of that, so the complexity becomes learnable rather than unpredictable."
+            "text": "The service became a structured system that explains itself."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users can:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "compare options clearly",
+              "understand eligibility early",
+              "follow predictable steps",
+              "track booking status",
+              "recover from failures"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system no longer requires interpretation."
           }
         },
         {
@@ -243,24 +622,54 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The primary behavioral shift: from one-time risky interaction to repeatable system usage. Users who previously treated the service as something to avoid began treating it as something to plan around. The design work that's hardest to measure — status transparency, recovery flows, early eligibility framing — is also the work most responsible for that shift. Trust is built in the moments where the system could have failed silently but didn't."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Reflection",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The instinct in enterprise service design is to simplify relentlessly: reduce options, flatten flows, minimize decisions. For complex benefit systems with real eligibility rules and operational dependencies, that instinct is often wrong. Users don't want a simpler system. They want a system they can predict."
+            "text": "The service shifted from a one-time interaction to repeatable behavior."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The distinction matters because it changes what you optimize for. Simplification removes information. Legibility structures it. One makes the system easier to complete once. The other makes it possible to rely on."
+            "text": "Users move from: “I don’t want to deal with this again” to: “I can use this next year”."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Results:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "increased clarity",
+              "reduced friction",
+              "fewer support calls",
+              "improved trust",
+              "higher repeat usage"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "North Star",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Repeat Usage Share"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The percentage of users who return to the service."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This reflects trust, value, and long-term adoption."
           }
         }
       ]

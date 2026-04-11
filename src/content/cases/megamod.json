@@ -1,36 +1,25 @@
 {
   "slug": "megamod",
-  "title": "MegaMod - Structuring a Multi-Product Narrative for a UGC Gaming Ecosystem",
-  "subtitle": "Turned product complexity into a scalable communication system with multiple entry points.",
-  "coverSrc": "/home/project-alpha.png",
+  "title": "Megamod • Multi-Product Communication System",
+  "subtitle": "Scaling product complexity through a unified communication layer",
+  "coverSrc": "/cases/megamod/cover.png",
   "coverAlt": "MegaMod multi-product ecosystem",
   "facts": [
     {
       "label": "domain",
-      "value": [
-        "UGC Gaming Platform / Multi-product ecosystem"
-      ]
+      "value": "UGC Gaming Platform / Multi-product ecosystem"
     },
     {
       "label": "role",
-      "value": [
-        "Product Designer"
-      ]
+      "value": "Product Designer"
     },
     {
       "label": "scope",
-      "value": [
-        "Information architecture",
-        "Narrative system",
-        "Modular design system",
-        "Navigation routing"
-      ]
+      "value": ["Information architecture", "Narrative system", "Modular design system", "Navigation routing"]
     },
     {
       "label": "audiences",
-      "value": [
-        "Creators, Streamers, Platforms, Events & Brands, Education, B2G, Developers"
-      ]
+      "value": "Creators, Streamers, Platforms, Events & Brands, Education, B2G, Developers"
     }
   ],
   "sections": [
@@ -110,10 +99,10 @@
         {
           "discriminant": "media",
           "value": {
-            "src": "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/design/s5IGirsROfjaoxL4eAzwYX/MegaMod?node-id=8698-15228",
-            "alt": "MegaMod vertical pages — all audience entry points",
-            "caption": "Vertical layer: each audience gets a distinct narrative built around their specific outcome",
-            "variant": "desktop"
+            "src": "FIGMA_EMBED_ECOSYSTEM_MAP",
+            "alt": "MegaMod ecosystem architecture map",
+            "caption": "Two-layer architecture: ecosystem framing layer and vertical conversion pages",
+            "variant": "diagram"
           }
         }
       ]
@@ -177,9 +166,9 @@
         {
           "discriminant": "media",
           "value": {
-            "src": "https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/design/s5IGirsROfjaoxL4eAzwYX/MegaMod?node-id=8698-15220",
-            "alt": "MegaMod modular layout system overview",
-            "caption": "Modular system: reusable structural blocks across all vertical pages",
+            "src": "FIGMA_EMBED_SYSTEM_DESIGN",
+            "alt": "MegaMod modular layout system",
+            "caption": "Modular layout system: reusable blocks with per-audience visual tuning",
             "variant": "desktop"
           }
         }
@@ -197,9 +186,9 @@
         {
           "discriminant": "media",
           "value": {
-            "src": "https://www.figma.com/proto/s5IGirsROfjaoxL4eAzwYX/MegaMod?node-id=6687-13257&starting-point-node-id=6687-13257&scaling=scale-down-width&content-scaling=fixed&page-id=1705%3A38633&hide-ui=1",
-            "alt": "MegaMod pitch deck — business context and scale",
-            "caption": "Pitch deck: ecosystem positioning, distribution channels, content metrics",
+            "src": "FIGMA_EMBED_VERTICAL_PAGES",
+            "alt": "MegaMod vertical pages",
+            "caption": "Vertical pages: same structure, different language — Creators, Streamers, Platforms",
             "variant": "desktop"
           }
         }

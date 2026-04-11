@@ -162,6 +162,13 @@
           "value": {
             "text": "The quality dashboard gave us what we never had before: visibility. An 87% system health score shows not just current state but trend direction. Most importantly, governance became self-service — teams can validate their work against system rules without waiting for manual review. The 60% reduction in maintenance overhead didn't come from cutting corners; it came from replacing human bottlenecks with automated enforcement that never sleeps."
           }
+        },
+        {
+          "discriminant": "link",
+          "value": {
+            "label": "View live project",
+            "href": "https://deus-in-machina.vercel.app/"
+          }
         }
       ]
     },

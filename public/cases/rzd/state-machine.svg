@@ -1,80 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" fill="none" font-family="IBM Plex Sans, system-ui, sans-serif">
-  <style>
-    .state { fill: #1a1a1a; rx: 8; }
-    .state-esc { fill: #f5f5f5; stroke: #1a1a1a; stroke-width: 1.5; rx: 8; }
-    .state-final { fill: #1a1a1a; rx: 8; }
-    .state-label { fill: #fff; font-size: 14px; font-weight: 600; }
-    .state-label-dark { fill: #1a1a1a; font-size: 14px; font-weight: 600; }
-    .arrow { stroke: #1a1a1a; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
-    .arrow-esc { stroke: #888; stroke-width: 1.4; stroke-dasharray: 6 4; fill: none; marker-end: url(#arr-g); }
-    .section-title { fill: #888; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
-    .transition-label { fill: #666; font-size: 10.5px; font-weight: 500; }
-  </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" fill="none" font-family="IBM Plex Sans, system-ui, sans-serif">
   <defs>
-    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#1a1a1a"/>
-    </marker>
-    <marker id="arr-g" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#888"/>
-    </marker>
+    <marker id="a" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#3B82F6"/></marker>
+    <marker id="ao" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#F59E0B"/></marker>
   </defs>
+  <style>
+    .pill{fill:#EFF6FF;stroke:#3B82F6;stroke-width:1.8;rx:20} .pill-o{fill:#FEF3C7;stroke:#F59E0B;stroke-width:1.8;rx:20}
+    .lp{fill:#3B82F6;font-size:13px;font-weight:600} .lo{fill:#B45309;font-size:13px;font-weight:600}
+    .ar{stroke:#3B82F6;stroke-width:1.5;fill:none;marker-end:url(#a)} .aro{stroke:#F59E0B;stroke-width:1.4;stroke-dasharray:5 3;fill:none;marker-end:url(#ao)}
+    .tl{fill:#6B7280;font-size:10px;font-weight:500} .sub{fill:#888;font-size:10.5px;font-style:italic}
+  </style>
 
-  <!-- Title -->
-  <text x="400" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">State Machine — Request Lifecycle</text>
+  <text x="360" y="24" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a1a">State System</text>
 
-  <!-- Section labels -->
-  <text x="400" y="58" text-anchor="middle" class="section-title">Main flow</text>
-  <text x="400" y="238" text-anchor="middle" class="section-title">Parallel branch</text>
+  <!-- Initial state dot -->
+  <circle cx="30" cy="80" r="8" fill="#3B82F6"/>
 
-  <!-- States: Draft → Sent → Received → Answered → Closed -->
   <!-- Draft -->
-  <rect x="30" y="80" width="120" height="50" class="state" rx="8"/>
-  <text x="90" y="110" text-anchor="middle" class="state-label">Draft</text>
+  <rect x="50" y="60" width="110" height="40" class="pill" rx="20"/>
+  <text x="105" y="85" text-anchor="middle" class="lp">Draft</text>
 
   <!-- Sent -->
-  <rect x="190" y="80" width="120" height="50" class="state" rx="8"/>
-  <text x="250" y="110" text-anchor="middle" class="state-label">Sent</text>
+  <rect x="200" y="60" width="110" height="40" class="pill" rx="20"/>
+  <text x="255" y="85" text-anchor="middle" class="lp">Sent</text>
 
   <!-- Received -->
-  <rect x="350" y="80" width="130" height="50" class="state" rx="8"/>
-  <text x="415" y="110" text-anchor="middle" class="state-label">Received</text>
+  <rect x="350" y="60" width="120" height="40" class="pill" rx="20"/>
+  <text x="410" y="85" text-anchor="middle" class="lp">Received</text>
 
   <!-- Answered -->
-  <rect x="520" y="80" width="130" height="50" class="state" rx="8"/>
-  <text x="585" y="110" text-anchor="middle" class="state-label">Answered</text>
+  <rect x="510" y="60" width="120" height="40" class="pill" rx="20"/>
+  <text x="570" y="85" text-anchor="middle" class="lp">Answered</text>
 
   <!-- Closed -->
-  <rect x="690" y="80" width="100" height="50" class="state-final" rx="8"/>
-  <text x="740" y="110" text-anchor="middle" class="state-label">Closed</text>
+  <rect x="600" y="160" width="100" height="40" class="pill" rx="20"/>
+  <text x="650" y="185" text-anchor="middle" class="lp">Closed</text>
 
-  <!-- Escalated (parallel branch) -->
-  <rect x="470" y="260" width="140" height="50" class="state-esc" rx="8"/>
-  <text x="540" y="290" text-anchor="middle" class="state-label-dark">Escalated</text>
+  <!-- Final state double circle -->
+  <circle cx="650" cy="230" r="6" fill="none" stroke="#3B82F6" stroke-width="2"/>
+  <circle cx="650" cy="230" r="3" fill="#3B82F6"/>
+
+  <!-- Escalated (orange) -->
+  <rect x="320" y="180" width="140" height="40" class="pill-o" rx="20"/>
+  <text x="390" y="205" text-anchor="middle" class="lo">Escalated</text>
 
   <!-- Main flow arrows -->
-  <line x1="150" y1="105" x2="190" y2="105" class="arrow"/>
-  <line x1="310" y1="105" x2="350" y2="105" class="arrow"/>
-  <line x1="480" y1="105" x2="520" y2="105" class="arrow"/>
-  <line x1="650" y1="105" x2="690" y2="105" class="arrow"/>
+  <line x1="38" y1="80" x2="50" y2="80" class="ar"/>
+  <line x1="160" y1="80" x2="200" y2="80" class="ar"/>
+  <text x="180" y="74" text-anchor="middle" class="tl">submit</text>
 
-  <!-- Transition labels -->
-  <text x="170" y="98" text-anchor="middle" class="transition-label">submit</text>
-  <text x="330" y="98" text-anchor="middle" class="transition-label">deliver</text>
-  <text x="500" y="98" text-anchor="middle" class="transition-label">respond</text>
-  <text x="670" y="98" text-anchor="middle" class="transition-label">accept</text>
+  <line x1="310" y1="80" x2="350" y2="80" class="ar"/>
+  <text x="330" y="74" text-anchor="middle" class="tl">deliver</text>
 
-  <!-- Escalation arrow from Answered down to Escalated -->
-  <path d="M 585 130 L 585 180 Q 585 200 560 220 L 540 260" class="arrow-esc"/>
-  <text x="610" y="195" class="transition-label">escalate</text>
+  <line x1="470" y1="80" x2="510" y2="80" class="ar"/>
+  <text x="490" y="74" text-anchor="middle" class="tl">respond</text>
 
-  <!-- Escalated loops back to Received -->
-  <path d="M 470 285 Q 380 285 380 200 Q 380 155 400 130" class="arrow-esc"/>
-  <text x="370" y="210" text-anchor="end" class="transition-label">re-route</text>
+  <!-- Answered → Closed -->
+  <path d="M 620 100 Q 650 130 650 160" class="ar"/>
+  <text x="660" y="130" class="tl">accept</text>
 
-  <!-- Initial state indicator (dot) -->
-  <circle cx="15" cy="105" r="8" fill="#1a1a1a"/>
-  <line x1="23" y1="105" x2="30" y2="105" class="arrow"/>
+  <!-- Closed → Final -->
+  <line x1="650" y1="200" x2="650" y2="224" class="ar"/>
 
-  <!-- Final state indicator (double border) -->
-  <rect x="688" y="82" width="104" height="46" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="8"/>
+  <!-- Answered → Escalated -->
+  <path d="M 540 100 Q 460 140 390 180" class="aro"/>
+  <text x="490" y="140" class="tl" fill="#B45309">escalate</text>
+
+  <!-- Escalated → Received (loop back) -->
+  <path d="M 390 180 Q 390 130 410 100" class="aro"/>
+  <text x="375" y="145" class="tl" fill="#B45309">re-route</text>
+
+  <!-- Caption -->
+  <text x="360" y="275" text-anchor="middle" class="sub">Explicit state system eliminates ambiguity and improves predictability</text>
 </svg>

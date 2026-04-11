@@ -98,37 +98,37 @@
     "items": [
       {
         "title": "Travel Booking Platform",
-        "subtitle": "Decision-driven UX architecture",
+        "subtitle": "Decision-driven UX architecture for confident booking.",
         "imageSrc": "/home/project-beta.png",
-        "imageAlt": "Project preview",
+        "imageAlt": "Travel booking platform cover",
         "href": "/work/travel-booking-platform"
       },
       {
-        "title": "Megamod",
-        "subtitle": "UX structure, visual system, investors website, pitch decks, and marketing assets",
+        "title": "MegaMod - Structuring a Multi-Product Narrative for a UGC Gaming Ecosystem",
+        "subtitle": "Turned product complexity into a scalable communication system with multiple entry points.",
         "imageSrc": "/home/project-alpha.png",
-        "imageAlt": "Project preview",
+        "imageAlt": "MegaMod multi-product ecosystem cover",
         "href": "/work/megamod"
       },
       {
         "title": "My Perfect Greek Vacation",
-        "subtitle": "Travel booking concept for confident choice",
+        "subtitle": "Decision-Driven UX Booking Platform",
         "imageSrc": "/cases/my-perfect-greek-vacation/cover.png",
-        "imageAlt": "Project preview",
+        "imageAlt": "My Perfect Greek Vacation concept cover",
         "href": "/work/my-perfect-greek-vacation"
       },
       {
-        "title": "Russian Railways",
-        "subtitle": "Resort booking case",
-        "imageSrc": "/home/project-beta.png",
-        "imageAlt": "Project preview",
+        "title": "Russian Railways — Communication Workflow System",
+        "subtitle": "From fragmented interactions to a controlled communication loop inside an enterprise constraint envelope.",
+        "imageSrc": "/cases/rzd/cover.png",
+        "imageAlt": "RZD communication workflow system cover",
         "href": "/work/railway-booking-flow"
       },
       {
-        "title": "Deus in Machina",
-        "subtitle": "Design system runtime for consistent product design",
+        "title": "Design System Runtime — From Documentation to Infrastructure",
+        "subtitle": "Transformed static design tokens into a living system with runtime validation and automated governance.",
         "imageSrc": "/home/project-beta.png",
-        "imageAlt": "Project preview",
+        "imageAlt": "Deus in Machina design system runtime cover",
         "href": "/work/design-system-runtime"
       }
     ]

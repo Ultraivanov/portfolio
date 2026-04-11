@@ -5,12 +5,19 @@ import { Button } from "@gravity-ui/uikit";
 import { useThemeMode } from "@/components/ClientProviders";
 import { trackEvent } from "@/lib/analytics";
 import type { HomeContent, PastProject } from "@/content/home";
-import type { CaseStudy } from "@/content/cases";
 import styles from "./home-page.module.css";
+
+type FeaturedCase = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  coverSrc: string;
+  coverAlt: string;
+};
 
 type HomePageProps = {
   data: HomeContent;
-  featuredCases?: CaseStudy[];
+  featuredCases?: FeaturedCase[];
 };
 
 export default function HomePage({ data, featuredCases }: HomePageProps) {

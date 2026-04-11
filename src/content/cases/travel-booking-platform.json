@@ -1,42 +1,44 @@
 {
   "slug": "travel-booking-platform",
-  "title": "Travel Booking Platform",
-  "subtitle": "Decision-driven UX architecture for confident booking.",
-  "coverSrc": "/home/project-beta.png",
-  "coverAlt": "Travel booking platform cover",
+  "title": "RZD — Sanatorium & Resort Booking Service",
+  "subtitle": "Turning a complex internal booking process into a predictable and repeatable system",
+  "coverSrc": "/cases/rzd/cover.png",
+  "coverAlt": "RZD sanatorium and resort booking service cover",
   "facts": [
     {
       "label": "domain",
       "value": [
-        "Travel / Booking Platforms"
+        "Internal employee ecosystem",
+        "B2B2C sanatorium & resort booking service"
       ]
     },
     {
       "label": "scope",
       "value": [
-        "End-to-end UX architecture",
-        "Decision-first booking flow",
-        "Behavior modeling + interaction logic"
+        "Service logic mapping",
+        "Booking flow restructuring",
+        "Comparison, eligibility, and status visibility",
+        "UI system for a reusable internal service"
       ]
     },
     {
       "label": "audience",
       "value": [
-        "Users planning vacations without a clear destination",
-        "Users overwhelmed by choice",
-        "Users seeking confidence before booking"
+        "RZD employees",
+        "Employees' families",
+        "Users with different eligibility and booking conditions"
       ]
     },
     {
       "label": "role",
       "value": [
-        "Product Designer"
+        "Product Designer across system behavior, interaction logic, and UI"
       ]
     },
     {
       "label": "focus",
       "value": [
-        "Guided decision-making before booking"
+        "Predictability, trust, and repeat usage under real operational constraints"
       ]
     }
   ],
@@ -47,62 +49,36 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Most travel platforms optimize for inventory exposure, search and filtering, and comparison tools."
+            "text": "The sanatorium & resort booking service is one of the internal services within the RZD employee ecosystem."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "However, users struggle with lack of decision clarity, too many options, and unclear evaluation criteria."
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Excessive browsing",
-              "Decision fatigue",
-              "Delayed or abandoned bookings"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "title": "Role",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Product Designer"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Responsibilities:"
+            "text": "It operates similarly to a booking platform, but includes additional constraints:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Define UX strategy",
-              "Design system-level interaction logic",
-              "Structure decision-making flow",
-              "Translate behavior into interface"
+              "subsidies and quotas",
+              "approval workflows",
+              "limited availability",
+              "internal documentation"
             ]
           }
-        }
-      ]
-    },
-    {
-      "title": "Focus",
-      "blocks": [
+        },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Shift the experience from search and browse to guided decision-making before booking."
+            "text": "The service covers 500+ resorts nationwide and is available to employees and their families."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Despite its value, it remained underutilized due to complexity and lack of trust."
           }
         }
       ]
@@ -113,24 +89,77 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users cannot confidently choose a travel option."
+            "text": "The service was not broken in terms of functionality — it was broken in terms of predictability."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Symptoms:"
+            "text": "Employees could technically complete a booking, but the process required constant interpretation."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users had to figure out:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Opening multiple tabs",
-              "Inconsistent comparison",
-              "Lack of criteria",
-              "Postponed decisions"
+              "which resorts were available to them",
+              "what conditions applied",
+              "what would happen after submission",
+              "whether the effort would lead to a real outcome"
             ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This created a specific behavioral pattern."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users entered with intent, but quickly lost confidence:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "selection loops forced them to restart",
+              "eligibility rules appeared too late",
+              "system behavior was unclear",
+              "the process felt like a \"black box\""
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Even successful bookings did not build trust."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system did not answer: “Can I rely on this next time?”"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The failure was not in conversion — it was in retention."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users treated the service as a one-time, risky interaction."
           }
         }
       ]
@@ -139,48 +168,78 @@
       "title": "Constraints",
       "blocks": [
         {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The redesign had to operate within strict limitations:"
+          }
+        },
+        {
           "discriminant": "list",
           "value": {
             "items": [
-              "Large inventory space",
-              "No initial user clarity",
-              "High emotional + financial stakes",
-              "Limited decision time"
+              "fixed business rules (subsidies, approvals, quotas)",
+              "multiple backend systems",
+              "no control over core logic",
+              "legacy structure",
+              "manual approval processes",
+              "multiple audience types within one flow"
             ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The challenge was not to reduce complexity, but to make it understandable."
           }
         }
       ]
     },
     {
-      "title": "Behavior model",
+      "title": "Behavioral model",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users approach travel booking as a risk-heavy decision under uncertainty."
+            "text": "The service was reframed as a behavioral system."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Behavior patterns:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Over-scrolling",
-              "Fragmented comparison",
-              "Reliance on external validation",
-              "Inability to commit"
-            ]
+            "text": "Not:"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "They are not solving a search problem. They are solving a decision problem."
+            "text": "search → book → done"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "But:"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "experience → trust → return → habit"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The goal was not to complete bookings, but to make the service reusable."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/behavior-loop.svg",
+            "alt": "Behavioral loop from experience to trust, return, and habit",
+            "caption": "The service was modeled as repeat behavior, not as a one-time funnel.",
+            "variant": "diagram"
           }
         }
       ]
@@ -191,7 +250,54 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The core problem in travel booking is not lack of options. It is lack of decision clarity."
+            "text": "The issue was not that the process was complex."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "It was that the system did not help users understand that complexity."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The experience varied depending on:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "user type",
+              "eligibility",
+              "availability",
+              "approval outcomes"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "From the user’s perspective, the system behaved unpredictably."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This made every interaction feel like a one-time attempt."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The problem became behavioral: the system failed to build trust."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The solution required making system logic visible and structured."
           }
         }
       ]
@@ -202,73 +308,86 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Introduce a decision-first architecture:"
+            "text": "Once the problem was reframed, the focus shifted from UI to system behavior."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Instead of designing a single flow, the service was mapped as overlapping journeys."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Each journey represented a different user type:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Capture user preferences early",
-              "Convert them into structured input",
-              "Map preferences to relevant options",
-              "Provide reasoning for each option",
-              "Enable confident decision before booking"
+              "price-sensitive",
+              "unsure users",
+              "location-first",
+              "returning users"
             ]
           }
-        }
-      ]
-    },
-    {
-      "title": "UX architecture",
-      "blocks": [
+        },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The system is divided into two layers."
+            "text": "This revealed:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Phase 1 — Decision layer: preference capture, user modeling, curated options, decision support",
-              "Phase 2 — Booking layer: availability selection, user data input, transaction"
+              "divergence points",
+              "loops",
+              "shared logic",
+              "breakdowns in expectation"
             ]
-          }
-        }
-      ]
-    },
-    {
-      "title": "UX flow",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The system is not a funnel. It is a loop: Uncertainty → Preference Input → Structured Profile → Curated Options → Evaluation → Decision → Action."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users can re-enter the loop at any stage."
+            "text": "The goal was not simplification, but legibility."
+          }
+        },
+        {
+          "discriminant": "link",
+          "value": {
+            "label": "Detailed service logic in FigJam",
+            "href": "https://www.figma.com/board/2KDFWzfes5bvWg3gY63pPo/RZD-%E2%80%A2-CJM-%E2%80%A2-J2BD-%E2%80%A2-Personas?node-id=0-1"
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2Feqsvfe3M64CbnVbVbemt4n%2FMy-Perfect-Greek-Vacation%3Fnode-id%3D1-256",
-            "alt": "Decision-first travel booking flow diagram",
-            "caption": "Decision-first flow map showing how preference capture, composition, and confidence loops replace a linear booking funnel.",
+            "src": "/cases/rzd/screen-06.png",
+            "alt": "Information architecture and audience-specific journeys for the sanatorium booking service",
+            "caption": "The service was decomposed into information architecture, audience-specific paths, and expectation breakdowns before interface decisions were made.",
             "variant": "diagram"
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2Feqsvfe3M64CbnVbVbemt4n%2FMy-Perfect-Greek-Vacation%3Fnode-id%3D1-2012",
-            "alt": "Decision-first travel booking flow diagram (page 2)",
-            "caption": "Second diagram page with additional flow detail and decision checkpoints.",
+            "src": "/cases/rzd/screen-05.png",
+            "alt": "Wireframe set for search, filtered results, card, and booking form",
+            "caption": "Wireframes were used to make the system stages explicit: search, comparison, selection, and booking all had to remain legible as one continuous logic.",
+            "variant": "diagram"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/flow-clean.svg",
+            "alt": "Readable service flow with loops and decision points",
+            "caption": "The flow was treated as overlapping journeys rather than a single linear booking path.",
             "variant": "diagram"
           }
         }
@@ -278,34 +397,177 @@
       "title": "Design decisions",
       "blocks": [
         {
-          "discriminant": "list",
+          "discriminant": "paragraph",
           "value": {
-            "items": [
-              "Replace search with preference capture — users cannot define queries without understanding options",
-              "Limit visible options — show 3–7 curated results instead of full inventory",
-              "Add reasoning to each option — explain why each option fits the user",
-              "Separate decision from booking — booking confirms a decision, not creates it",
-              "Introduce an iterative loop — allow users to refine preferences and re-evaluate"
-            ]
+            "text": "Each decision reduces uncertainty and supports repeat behavior."
           }
-        }
-      ]
-    },
-    {
-      "title": "Design trade-offs",
-      "blocks": [
+        },
         {
-          "discriminant": "list",
+          "discriminant": "paragraph",
           "value": {
-            "items": [
-              "Breadth vs clarity — limit options to improve decision-making",
-              "Speed vs confidence — add upfront steps to increase decision quality",
-              "Control vs guidance — reduce free exploration in favor of structured flow",
-              "Completeness vs simplicity — prioritize decision-relevant information",
-              "Transparency vs simplicity — expose reasoning without overwhelming UI",
-              "Funnel vs loop — support iterative behavior instead of forcing linear flow",
-              "Conversion vs decision quality — delay booking until confidence is achieved"
-            ]
+            "text": "Comparison"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Replaced manual tab comparison with structured comparison."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Improves decision confidence (Experience)."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/search-results.png",
+            "alt": "Structured resort comparison interface",
+            "caption": "Comparison was made explicit so users could decide without rebuilding context on their own.",
+            "variant": "desktop"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Early eligibility"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Moved eligibility logic before booking."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Reduces failed attempts (Trust)."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Loop handling"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Made loops explicit and recoverable."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Removes frustration (Experience + Trust)."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "System transparency"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Introduced clear states, steps, and expectations."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Enables predictability (Trust → Return)."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/application-form.png",
+            "alt": "Booking flow with explicit steps and expectations",
+            "caption": "Critical conditions were surfaced earlier so the service explained the process instead of hiding it.",
+            "variant": "desktop"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Reduced external dependency"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Moved critical info into UI."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Reduces calls, increases reliance on system (Trust)."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Repeat usage"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Added re-entry via history and simplified flows."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Enables Return → Habit."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "System structure"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Defined consistent stages: discovery → comparison → eligibility → booking → approval → outcome."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Makes system learnable."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/main-page.png",
+            "alt": "Main page of the sanatorium booking service with structured entry points and curated selections",
+            "caption": "The main page was redesigned as a structured entry point: instead of throwing users into search immediately, it framed the service, exposed ready-made paths, and reduced the cost of entering the system.",
+            "variant": "desktop"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "To support the UI layer, I also built a minimal viable design system with typography, spacing, and core interface elements. It was structured using Atomic Design principles so that the service could stay visually consistent while the interaction model remained scalable."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/design-system.png",
+            "alt": "Design system foundations and component structure for the sanatorium booking service",
+            "caption": "The UI was not treated as decoration. It was supported by a component-driven system that made repeated states, steps, and content patterns consistent across the service.",
+            "variant": "desktop"
           }
         }
       ]
@@ -316,338 +578,107 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A travel booking platform that captures user intent early, reduces option space, provides curated recommendations, explains each option, and enables confident booking."
+            "text": "The service became a structured system that explains itself."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users can:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "compare options clearly",
+              "understand eligibility early",
+              "follow predictable steps",
+              "track booking status",
+              "recover from failures"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system no longer requires interpretation."
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FPZmx9cxqPNLG9btTp50gth%2FMy-Perfect-greek-vacation%3Fnode-id%3D2049-9630",
-            "alt": "Desktop booking UI mockup",
-            "caption": "Desktop decision layer showing curated options and a structured catalog for comparison.",
+            "src": "/cases/rzd/tracking-1.png",
+            "alt": "Status tracking interface for booking progress",
+            "caption": "Status visibility made the process legible after submission, not only before it.",
+            "variant": "desktop"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/tracking-2.png",
+            "alt": "Detailed booking status and outcome tracking",
+            "caption": "The service exposed progress and outcome states so users could understand where they were and what came next.",
             "variant": "desktop"
           }
         }
       ]
     },
     {
-      "title": "Metrics & outcome",
+      "title": "Outcome",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "No production data was available. Success was defined through system-level metrics."
+            "text": "The service shifted from a one-time interaction to repeatable behavior."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "North Star Metric: Decision Confidence Rate — percentage of users who proceed to booking without returning to exploration."
+            "text": "Users move from: “I don’t want to deal with this again” to: “I can use this next year”."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Supporting metrics:"
+            "text": "Results:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Time to Decision — time from entry to option selection",
-              "Option Exploration Depth — number of options viewed before decision",
-              "Preference Refinement Rate — how often users adjust preferences",
-              "Decision Drop-off Rate — users who do not proceed after viewing options",
-              "Booking Conversion Rate — measured after decision layer"
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Expected outcomes:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Reduced cognitive load",
-              "Fewer irrelevant options viewed",
-              "Faster decision-making",
-              "Higher confidence before booking",
-              "Improved trust in recommendations"
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Qualitative validation:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Users can explain why they chose an option",
-              "Reduced need for external comparison",
-              "Clear understanding of next steps",
-              "Lower hesitation before booking"
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Validation strategy (if implemented):"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "A/B test traditional listing vs decision-driven flow",
-              "Measure time to decision and conversion after decision layer",
-              "Observe refinement patterns and hesitation behavior"
+              "increased clarity",
+              "reduced friction",
+              "fewer support calls",
+              "improved trust",
+              "higher repeat usage"
             ]
           }
         }
       ]
     },
     {
-      "title": "UX layer summary",
+      "title": "North Star",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The system transforms: Uncertain user → Structured profile → Curated options → Confident decision → Booking."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Positioning",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "A travel booking platform designed for decision-making, not browsing."
-          }
-        }
-      ]
-    },
-    {
-      "title": "System thinking",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "This product is not a catalog. It is a decision system embedded inside a booking platform."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Future improvements",
-      "blocks": [
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Adaptive preference modeling",
-              "Personalization over time",
-              "Smarter recommendation logic",
-              "Dynamic explanation system",
-              "Saved profiles and history"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "title": "Key takeaway",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The goal is not to maximize browsing. It is to maximize confident decisions before booking."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Visual system & UI decisions",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The visual layer was designed not as decoration, but as an extension of the decision system. The primary goal: reduce cognitive load and support confident decision-making."
+            "text": "Repeat Usage Share"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "1. Visual principle — Clarity over stimulation. The UI avoids visual noise, heavy marketing patterns, and aggressive CTAs."
+            "text": "The percentage of users who return to the service."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "2. Information hierarchy — The hierarchy is structured around decision logic: What this is, why it fits, what matters, what to do next."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "3. Layout system — Predictable vertical rhythm with section-based composition, clear separation between blocks, and a consistent spacing scale. Grid uses an 8pt system with wide margins to reduce comparison friction."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "4. Typography — Main carrier of hierarchy. Strong headline defines context, subhead explains intent, body supports evaluation, labels guide actions. Neutral sans-serif, high readability, no decorative typography."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "5. Color system — Used sparingly and functionally: neutral palette for base, accent color for actions, status colors for feedback. Avoids competing accents and decorative gradients."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "6. Card system — The core decision unit. Each card answers: what is this, why it fits, key attributes, next step. Supports fast comparison, low-effort scanning, and progressive disclosure."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "7. Decision support UI — Each option includes contextual reasoning (“Why this fits you”) to reduce doubt and explain system logic."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "8. Interaction design — Minimal friction, predictable behavior, clear hover/tap feedback, visible selection states, immediate response to input. Avoids hidden states and complex animations."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "9. Progressive disclosure — High-level info first, details on demand, deeper layers on interaction. Prevents information overload."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "10. CTA strategy — Do not force booking too early. Primary: proceed/book. Secondary: save/refine. Tertiary: explore more."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "11. System consistency — Same structure across options, same logic across screens, same interaction patterns. Reduces cognitive load and learning cost."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "12. Intentionally avoided — marketplace-style dense listings, aggressive sales UI, overloaded filters, comparison tables as primary interface."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "13. UX → UI translation: reduce overload → limit visible options; improve clarity → strong hierarchy; increase trust → add reasoning blocks; support decisions → structured cards; allow iteration → flexible navigation."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "14. Key takeaway — The UI was designed not to impress, but to support thinking. It acts as a quiet interface for making decisions."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Failure modes",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Designing a decision-driven system introduces new risks. Understanding where the system can fail is critical for its evolution."
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Incorrect preference modeling — Problem: user inputs do not reflect real intent. Impact: irrelevant recommendations and loss of trust. Mitigation: allow easy refinement, avoid rigid categorization, introduce hybrid options.",
-              "Over-reduction of options — Problem: too few options presented. Impact: perceived lack of choice and distrust. Mitigation: communicate curation logic, allow expand options, show range not just exact matches.",
-              "Weak explanation layer — Problem: recommendations not clearly justified. Impact: system feels arbitrary; users revert to external comparison. Mitigation: strengthen “why this fits” logic tied to user input.",
-              "Forced flow friction — Problem: preference capture feels like a barrier. Impact: early drop-off and frustration. Mitigation: reduce steps, allow skipping, provide instant feedback.",
-              "Misaligned mental model — Problem: users expect a traditional booking experience. Impact: confusion and resistance. Mitigation: clear onboarding framing and early value explanation.",
-              "Loop fatigue — Problem: users refine preferences too many times. Impact: decision fatigue returns. Mitigation: improve initial mapping quality and provide stronger defaults.",
-              "Over-confidence bias — Problem: users trust system too much without validation. Impact: regret after booking and reduced long-term trust. Mitigation: expose trade-offs, show alternatives, allow comparison.",
-              "Break between decision and booking — Problem: booking flow feels disconnected. Impact: drop-off at conversion and loss of context. Mitigation: maintain continuity, carry decision context, minimize transition friction."
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Key takeaway: a decision system does not remove complexity. It redistributes it. The design challenge is to manage that complexity without exposing it to the user."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Before / After",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Traditional travel platforms follow Search → Filter → Compare → Book. They expose large inventory, rely on user-driven exploration, and force users to define what they want before understanding options."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "This product follows Define → Narrow → Evaluate → Decide → Book. It starts with preference-driven entry, curated options, explanation-based evaluation, and a decision-first flow."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Key differences:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Inventory-first vs decision-first",
-              "Search-driven vs preference-driven",
-              "User defines query vs system helps define intent",
-              "Large option sets vs curated options",
-              "Comparison-heavy vs explanation-based",
-              "Linear funnel vs iterative loop"
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Traditional platforms optimize for engagement and browsing time. This system optimizes for decision confidence and quality of conversion."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The innovation is not in how options are displayed. It is in how decisions are formed."
+            "text": "This reflects trust, value, and long-term adoption."
           }
         }
       ]

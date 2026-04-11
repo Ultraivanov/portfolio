@@ -50,10 +50,18 @@ export type PastProject = {
   href?: string;
 };
 
+export type FeaturedCaseReference =
+  | string
+  | {
+      slug?: string | null;
+      name?: string;
+      label?: string;
+    };
+
 export type PastProjects = {
   label: string;
   maxItems?: number | null;
-  featuredCases?: string[];
+  featuredCases?: FeaturedCaseReference[];
   items: PastProject[];
 };
 

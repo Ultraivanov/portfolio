@@ -2,7 +2,14 @@ import { render, screen } from '@testing-library/react';
 import HomePage from '../HomePage';
 import { useThemeMode } from '@/components/ClientProviders';
 import type { HomeContent } from '@/content/home';
-import type { CaseStudy } from '@/content/cases';
+
+type FeaturedCase = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  coverSrc: string;
+  coverAlt: string;
+};
 
 // Mock the useThemeMode hook
 jest.mock('@/components/ClientProviders');
@@ -104,7 +111,7 @@ describe('HomePage', () => {
   });
 
   it('renders with featured cases when provided', () => {
-    const mockFeaturedCases: CaseStudy[] = [
+    const mockFeaturedCases: FeaturedCase[] = [
       {
         slug: 'case-1',
         title: 'Featured Case 1',
@@ -133,7 +140,7 @@ describe('HomePage', () => {
   });
 
   it('handles incomplete case study data gracefully', () => {
-    const incompleteCases: CaseStudy[] = [
+    const incompleteCases: FeaturedCase[] = [
       {
         slug: 'case-1',
         title: 'Valid Case',
@@ -197,7 +204,7 @@ describe('HomePage', () => {
   });
 
   it('respects maxItems limit', () => {
-    const manyCases: CaseStudy[] = Array.from({ length: 5 }, (_, i) => ({
+    const manyCases: FeaturedCase[] = Array.from({ length: 5 }, (_, i) => ({
       slug: `case-${i}`,
       title: `Case ${i}`,
       subtitle: `Subtitle ${i}`,

@@ -39,6 +39,11 @@
   display: block;
 }
 
+.frameEmbed {
+  border: none;
+  background: transparent;
+}
+
 .embed {
   width: 100%;
   aspect-ratio: 16 / 9;

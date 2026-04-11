@@ -33,6 +33,7 @@ export default function CaseMedia({
   }
 
   const isEmbed = isEmbedSource(src);
+  if (isEmbed) frameClasses.push(styles.frameEmbed);
 
   return (
     <figure className={styles.figure}>

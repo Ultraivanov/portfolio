@@ -302,9 +302,21 @@ export default config({
           multiline: true,
           description: "Short case summary shown under the title.",
         }),
-        coverSrc: fields.text({
-          label: "Cover src",
-          description: "Path in /public, e.g. /cases/rzd/cover.png",
+        status: fields.select({
+          label: "Status",
+          description: "Draft = hidden on site. Published = visible.",
+          options: [
+            { label: "Published", value: "published" },
+            { label: "Draft", value: "draft" },
+          ],
+          defaultValue: "published",
+        }),
+        coverSrc: fields.image({
+          label: "Cover image",
+          description: "Upload from disk. Stored in /public/cases/uploads/.",
+          directory: "public/cases/uploads",
+          publicPath: "/cases/uploads/",
+          validation: { isRequired: false },
         }),
         coverAlt: fields.text({
           label: "Cover alt",
@@ -376,9 +388,12 @@ export default config({
                   media: {
                     label: "Media",
                     schema: fields.object({
-                      src: fields.text({
-                        label: "Src",
-                        description: "Path in /public, e.g. /cases/rzd/image.png",
+                      src: fields.image({
+                        label: "Image",
+                        description: "Upload from disk. Stored in /public/cases/uploads/.",
+                        directory: "public/cases/uploads",
+                        publicPath: "/cases/uploads/",
+                        validation: { isRequired: false },
                       }),
                       alt: fields.text({
                         label: "Alt",

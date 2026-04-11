@@ -7,19 +7,30 @@
   "facts": [
     {
       "label": "domain",
-      "value": "UGC Gaming Platform / Multi-product ecosystem"
+      "value": [
+        "UGC Gaming Platform / Multi-product ecosystem"
+      ]
     },
     {
       "label": "role",
-      "value": "Product Designer"
+      "value": [
+        "Product Designer"
+      ]
     },
     {
       "label": "scope",
-      "value": ["Information architecture", "Narrative system", "Modular design system", "Navigation routing"]
+      "value": [
+        "Information architecture",
+        "Narrative system",
+        "Modular design system",
+        "Navigation routing"
+      ]
     },
     {
       "label": "audiences",
-      "value": "Creators, Streamers, Platforms, Events & Brands, Education, B2G, Developers"
+      "value": [
+        "Creators, Streamers, Platforms, Events & Brands, Education, B2G, Developers"
+      ]
     }
   ],
   "sections": [

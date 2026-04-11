@@ -23,6 +23,7 @@ export type CaseStudy = {
   slug: string;
   title: string;
   subtitle: string;
+  status: "published" | "draft";
   coverSrc: string;
   coverAlt: string;
   facts: { label: string; value: string | string[]; href?: string }[];
@@ -51,6 +52,7 @@ type CaseStudyRaw = {
   slug: RawSlug;
   title: string;
   subtitle: string;
+  status?: "published" | "draft";
   coverSrc: string;
   coverAlt: string;
   facts: { label: string; value: string | string[]; href?: string }[];
@@ -101,6 +103,7 @@ const normalizeCase = (raw: CaseStudyRaw): CaseStudy => ({
   slug: typeof raw.slug === "string" ? raw.slug : raw.slug.slug,
   title: raw.title,
   subtitle: raw.subtitle,
+  status: raw.status ?? "published",
   coverSrc: raw.coverSrc,
   coverAlt: raw.coverAlt,
   facts: raw.facts,
@@ -129,7 +132,9 @@ const preferredOrder = [
   "design-system-runtime",
 ];
 
-export const cases: CaseStudy[] = allCases.sort((a, b) => {
+export const cases: CaseStudy[] = allCases
+  .filter((c) => c.status !== "draft")
+  .sort((a, b) => {
   const ia = preferredOrder.indexOf(a.slug);
   const ib = preferredOrder.indexOf(b.slug);
   if (ia !== -1 && ib !== -1) return ia - ib;

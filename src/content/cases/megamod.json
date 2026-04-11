@@ -1,44 +1,25 @@
 {
   "slug": "megamod",
-  "title": "MegaMod - Structuring a Multi-Product Narrative for a UGC Gaming Ecosystem",
+  "title": "MegaMod — Communication Architecture for a Multi-Product Ecosystem",
   "subtitle": "Turned product complexity into a scalable communication system with multiple entry points.",
   "coverSrc": "/home/project-alpha.png",
-  "coverAlt": "MegaMod multi-product ecosystem cover",
+  "coverAlt": "MegaMod multi-product ecosystem",
   "facts": [
     {
       "label": "domain",
-      "value": [
-        "UGC Gaming Platform / Multi-product ecosystem"
-      ]
-    },
-    {
-      "label": "scope",
-      "value": [
-        "Multi-product website narrative",
-        "Audience-specific value propositions",
-        "Modular design system",
-        "Navigation architecture"
-      ]
-    },
-    {
-      "label": "audience",
-      "value": [
-        "Creators, streamers, platforms, events, education, B2G, developers"
-      ]
+      "value": "UGC Gaming Platform / Multi-product ecosystem"
     },
     {
       "label": "role",
-      "value": [
-        "Product Designer"
-      ]
+      "value": "Product Designer"
     },
     {
-      "label": "focus",
-      "value": [
-        "Multi-audience communication architecture",
-        "Segment-specific storytelling",
-        "Scalable narrative system"
-      ]
+      "label": "scope",
+      "value": ["Information architecture", "Narrative system", "Modular design system", "Navigation routing"]
+    },
+    {
+      "label": "audiences",
+      "value": "Creators, Streamers, Platforms, Events & Brands, Education, B2G, Developers"
     }
   ],
   "sections": [
@@ -48,19 +29,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "MegaMod evolved from a single product into a multi-layered ecosystem: creators, streamers, platforms, events, education, and public-sector use cases."
+            "text": "MegaMod started as a single product and expanded into a layered ecosystem: creators, streamers, platforms, events, education, and public-sector verticals. Seven distinct audiences with different business models, different success metrics, and fundamentally different questions they arrive with."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The product was expanding faster than its ability to explain itself."
+            "text": "The product was expanding faster than its communication could support. The website was trying to speak to everyone simultaneously — and reaching no one specifically."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "My task was to turn that complexity into a clear, scalable web narrative: one ecosystem, multiple entry points, each with a focused value proposition."
+            "text": "My role was to design the information architecture and narrative system that would make this complexity legible: one coherent ecosystem, seven distinct entry points."
           }
         }
       ]
@@ -71,59 +52,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The core issue wasn't lack of positioning — it was too much of it."
+            "text": "The issue wasn't that MegaMod lacked positioning. It had too much of it, distributed unevenly across a single surface."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Different audiences landed on the same message, but needed fundamentally different answers:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "creators → Can I build and earn here?",
-              "streamers → Will this increase engagement?",
-              "platforms → Can this scale content and retention?",
-              "institutions → What strategic value does this create?"
-            ]
+            "text": "A creator arriving at the homepage needed to know if they could build and monetize here. A streaming platform needed to assess integration potential and retention impact. A public institution was asking about strategic and infrastructure value. All of them landed on the same page — and left with the same diluted message."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Trying to answer all of these in one place diluted the impact."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "At the same time, the brand felt more ambitious than the structure supporting it — strong visually, but not yet productized in how it communicated value."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Goal",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Design a communication system that would:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "keep MegaMod as a unified ecosystem",
-              "give each audience a clear entry point",
-              "express value in segment-specific language",
-              "support both discovery and conversion",
-              "make the product feel more mature and commercially legible"
-            ]
+            "text": "The deeper structural problem: the product's visual identity was strong, but the communication architecture wasn't built for this many audiences. The brand projected ambition; the website didn't yet support it with clarity."
           }
         }
       ]
@@ -134,75 +75,63 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "I reframed MegaMod as a platform with multiple product narratives, not a single generic story."
+            "text": "I reframed the problem from \"how do we describe MegaMod\" to \"how do we route different audiences through a single ecosystem without losing coherence.\""
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This led to a two-layer model:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Ecosystem layer - The main page answers: what MegaMod is, why it matters, how the ecosystem fits together. Its role is framing and routing — not conversion.",
-              "Vertical narratives - Each audience gets its own page with a distinct logic, not just different copy."
-            ]
+            "text": "This led to a two-layer architecture. The ecosystem layer — the main page — doesn't try to convert. Its job is framing: what MegaMod is, why it matters as a platform, and how the parts connect. It routes, not sells."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Core verticals: Creators, Streamers (StreamPlay), Events / Brands, Platforms, Education, B2G, Developers"
+            "text": "The vertical layer is where conversion happens. Each audience gets its own page with distinct logic — not different copy over the same structure, but a different narrative built around their specific outcome: Creators, Streamers, Events & Brands, Platforms, Education, B2G, Developers."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Each page follows the same structure, but speaks a different business language."
+            "text": "The constraint I imposed: same structural rhythm across all vertical pages, different language. This made the system scalable and maintainable — adding a new vertical meant following a pattern, not reinventing a narrative."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "FIGMA_EMBED_ECOSYSTEM_MAP",
+            "alt": "MegaMod ecosystem architecture map",
+            "caption": "Two-layer architecture: ecosystem framing layer and vertical conversion pages",
+            "variant": "diagram"
           }
         }
       ]
     },
     {
-      "title": "Design Principles",
+      "title": "Design Logic",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Segment first, unify second"
+            "text": "Three principles shaped every structural decision."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Relevance comes before brand storytelling."
+            "text": "Segment first. Relevance precedes brand storytelling. Until the user recognizes themselves in the page, everything else is noise. Each vertical page opens with the audience's specific problem — not MegaMod's capabilities."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Outcomes over features"
+            "text": "Outcomes, not features. Each vertical answers \"what changes for you\" — not what the product can technically do. This required translating product capabilities into audience-specific value language."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Focus on what changes for the user, not what the product can technically do."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Consistency through structure"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Same narrative rhythm across pages: hero → why it matters → how it works → proof → use cases → CTA"
+            "text": "Structural consistency as the unifying force. The same narrative rhythm across all pages — hero → problem framing → how it works → proof → use cases → CTA — makes the ecosystem feel coherent even when the visual tone and language vary significantly per audience."
           }
         }
       ]
@@ -213,37 +142,34 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Modular layout"
+            "text": "The design system was built to support variation within a fixed structure."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Reusable blocks across pages: consistency, faster iteration, scalability"
+            "text": "Layout modules are reusable across all pages. This isn't just a development efficiency decision — it's a communication decision. When the structural blocks are the same, audiences subconsciously recognize the system as mature and well-maintained."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Adaptive visual language"
+            "text": "Visual language adapts to audience without breaking brand identity: playful and hands-on for creators, performance-driven for streamers, polished and enterprise-ready for brands and events, structured and process-oriented for platforms and education. The identity holds; the tone shifts."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Same identity, slightly tuned per audience: playful -> creators, performance-driven -> streamers, polished -> brands/events, structured -> platforms/education"
+            "text": "Navigation functions as the primary routing mechanism. A user landing on the main page should be able to self-select and enter the right narrative within seconds — before reading a single paragraph."
           }
         },
         {
-          "discriminant": "paragraph",
+          "discriminant": "media",
           "value": {
-            "text": "Navigation as routing"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Navigation helps users self-select quickly and enter the right narrative without friction."
+            "src": "FIGMA_EMBED_SYSTEM_DESIGN",
+            "alt": "MegaMod modular layout system",
+            "caption": "Modular layout system: reusable blocks with per-audience visual tuning",
+            "variant": "desktop"
           }
         }
       ]
@@ -254,45 +180,16 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Multi-product website narrative"
+            "text": "Information architecture for the full ecosystem: main page + 7 vertical pages, each with its own narrative logic and value proposition. A modular layout system and navigation routing model. Visual language guidelines per audience segment."
           }
         },
         {
-          "discriminant": "paragraph",
+          "discriminant": "media",
           "value": {
-            "text": "Shifted MegaMod from a broad message to a structured system of offers."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The ecosystem became easier to understand as a set of focused entry points rather than a single oversized promise."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Vertical-specific value propositions"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Each audience got a clear, outcome-driven story:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Creators - build games without technical barriers, monetize inside the ecosystem",
-              "Streamers - turn passive viewers into active participants",
-              "Events / Brands - create interactive digital venues and hybrid experiences",
-              "Platforms - scale UGC content and engagement efficiently",
-              "Education - teach game design through accessible, hands-on creation",
-              "B2G - support digital economies and creative infrastructure",
-              "Developers - extend the platform via APIs and tooling"
-            ]
+            "src": "FIGMA_EMBED_VERTICAL_PAGES",
+            "alt": "MegaMod vertical pages",
+            "caption": "Vertical pages: same structure, different language — Creators, Streamers, Platforms",
+            "variant": "desktop"
           }
         }
       ]
@@ -301,14 +198,15 @@
       "title": "Outcome",
       "blocks": [
         {
-          "discriminant": "list",
+          "discriminant": "paragraph",
           "value": {
-            "items": [
-              "Clarity — users reach relevant value faster",
-              "Stronger positioning — each segment gets a sharper proposition",
-              "Productization — MegaMod reads as a system, not a collection of ideas",
-              "Scalability — new verticals can be added without breaking the structure"
-            ]
+            "text": "The redesigned communication system made MegaMod readable as a product — not a collection of features. Each audience can find the version of the story that's relevant to them without navigating through noise."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Structurally: new verticals can be added by following the established pattern. The system is scalable by design, not by accident."
           }
         }
       ]
@@ -319,19 +217,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The challenge wasn't simplifying the product — it was structuring its stories."
+            "text": "The challenge wasn't simplifying the product — it was organizing its stories without flattening them."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Instead of compressing everything into one message, I separated narratives and connected them through a shared system."
+            "text": "The instinct in these situations is to compress: find the one message that works for everyone. That instinct is wrong here. Seven audiences with fundamentally different contexts need seven entry points — held together by a shared system, not a shared message."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Complexity doesn't need to be reduced. It needs to be organized."
+            "text": "Complexity doesn't need to be reduced. It needs to be structured."
           }
         }
       ]

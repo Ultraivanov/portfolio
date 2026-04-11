@@ -35,13 +35,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "At 500+ tokens and 80+ components across 6 product teams, our design system had reached a scaling threshold. Documentation was comprehensive but enforcement was nonexistent. Teams were spending nearly a third of design time on system maintenance rather than product work, and the design system team had become a bottleneck for every significant decision."
+            "text": "The market is making a specific request: design systems are evolving from static libraries into living, code-backed infrastructure. Companies are looking for designers who think in systems and speak both design and engineering — who can bridge the widening gap between design intent and implementation reality."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The risk was clear: without structural intervention, the system would collapse under its own weight. Product teams would abandon it for local solutions, fragmenting the user experience and multiplying maintenance costs. I took ownership of transforming the system from a documentation layer into self-enforcing infrastructure."
+            "text": "This case study is a response to that request. At 500+ tokens and 80+ components across 6 product teams, our design system had reached a scaling threshold where documentation alone couldn't maintain consistency. Token drift hit 47%, handoff delays averaged 2-3 days, and teams spent nearly a third of design time on system maintenance. The risk was clear: without structural intervention, product teams would abandon the system for local solutions."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "I took ownership of the transformation from documentation into self-enforcing infrastructure — treating design rules as code and embedding validation into the development workflow."
           }
         }
       ]

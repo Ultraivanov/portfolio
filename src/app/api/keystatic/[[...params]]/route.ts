@@ -2,10 +2,20 @@ import keystaticConfig from "../../../../../keystatic.config";
 import { makeRouteHandler } from "@keystatic/next/route-handler";
 import { isKeystaticProductionWithoutGitHub } from "@/lib/keystatic";
 
-const keystaticRouteHandler = makeRouteHandler({
-  config: keystaticConfig,
-  localBaseDirectory: process.cwd(),
-});
+let keystaticRouteHandler:
+  | ReturnType<typeof makeRouteHandler>
+  | undefined;
+
+const getKeystaticRouteHandler = () => {
+  if (!keystaticRouteHandler) {
+    keystaticRouteHandler = makeRouteHandler({
+      config: keystaticConfig,
+      localBaseDirectory: process.cwd(),
+    });
+  }
+
+  return keystaticRouteHandler;
+};
 
 const notConfiguredResponse = () =>
   new Response(
@@ -18,7 +28,7 @@ export async function GET(request: Request) {
     return notConfiguredResponse();
   }
 
-  return keystaticRouteHandler.GET(request);
+  return getKeystaticRouteHandler().GET(request);
 }
 
 export async function POST(request: Request) {
@@ -26,7 +36,7 @@ export async function POST(request: Request) {
     return notConfiguredResponse();
   }
 
-  return keystaticRouteHandler.POST(request);
+  return getKeystaticRouteHandler().POST(request);
 }
 
 export const runtime = "nodejs";

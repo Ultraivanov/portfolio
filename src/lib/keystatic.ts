@@ -10,9 +10,19 @@ export const keystaticMissingGitHubEnvVars = [
 export const isKeystaticGitHubConfigured =
   keystaticMissingGitHubEnvVars.length === 0;
 
+const isDevelopment = process.env.NODE_ENV === "development";
+
+// Avoid server/client mode mismatch:
+// in production we always use GitHub storage, while dev can fall back to local.
+export const shouldUseKeystaticLocalStorage =
+  isDevelopment && !isKeystaticGitHubConfigured;
+
 export const isKeystaticProductionWithoutGitHub =
   process.env.NODE_ENV === "production" && !isKeystaticGitHubConfigured;
 
-export const keystaticStorage = isKeystaticGitHubConfigured
-  ? { kind: "github" as const, repo: githubRepo }
-  : { kind: "local" as const };
+export const keystaticStorage = shouldUseKeystaticLocalStorage
+  ? { kind: "local" as const }
+  : {
+      kind: "github" as const,
+      repo: githubRepo,
+    };

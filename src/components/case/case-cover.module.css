@@ -7,9 +7,12 @@
   border-radius: var(--radius-1);
   overflow: hidden;
   background: var(--color-bg-secondary);
+  aspect-ratio: 16 / 9;
+  max-height: 560px;
 }
 
 .image {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }

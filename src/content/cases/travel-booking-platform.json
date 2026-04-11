@@ -238,7 +238,7 @@
           "value": {
             "src": "/cases/rzd/behavior-loop.svg",
             "alt": "Behavioral loop from experience to trust, return, and habit",
-            "caption": "The service was modeled as repeat behavior, not as a one-time funnel.",
+            "caption": "I modeled the service as a trust loop rather than a booking funnel. This shifted the design target from short-term completion to repeat usage: every decision had to strengthen understanding, confidence, and the likelihood of return.",
             "variant": "diagram"
           }
         }
@@ -369,7 +369,7 @@
           "value": {
             "src": "/cases/rzd/screen-06.png",
             "alt": "Information architecture and audience-specific journeys for the sanatorium booking service",
-            "caption": "The service was decomposed into information architecture, audience-specific paths, and expectation breakdowns before interface decisions were made.",
+            "caption": "Before designing screens, I mapped the service as a decision system: information architecture, user types, and expectation failures were laid out explicitly so the interface could respond to real behavioral divergence instead of hiding it under one generic flow.",
             "variant": "diagram"
           }
         },
@@ -378,7 +378,7 @@
           "value": {
             "src": "/cases/rzd/screen-05.png",
             "alt": "Wireframe set for search, filtered results, card, and booking form",
-            "caption": "Wireframes were used to make the system stages explicit: search, comparison, selection, and booking all had to remain legible as one continuous logic.",
+            "caption": "These wireframes were not visual drafts. They were a way to test whether the service stages remained legible as one coherent logic: entry, comparison, selection, eligibility, and booking had to connect without forcing users to reinterpret the system at each step.",
             "variant": "diagram"
           }
         },
@@ -387,7 +387,7 @@
           "value": {
             "src": "/cases/rzd/flow-clean.svg",
             "alt": "Readable service flow with loops and decision points",
-            "caption": "The flow was treated as overlapping journeys rather than a single linear booking path.",
+            "caption": "I treated the service as a set of overlapping journeys with shared rules and different failure points. That made it possible to design for real loops, branch conditions, and recovery paths instead of pretending the booking process was linear.",
             "variant": "diagram"
           }
         }
@@ -425,7 +425,7 @@
           "value": {
             "src": "/cases/rzd/search-results.png",
             "alt": "Structured resort comparison interface",
-            "caption": "Comparison was made explicit so users could decide without rebuilding context on their own.",
+            "caption": "The comparison layer was designed to reduce interpretation work. Instead of making users open multiple pages and reconstruct differences manually, the system externalized the decision criteria and turned comparison into a supported action.",
             "variant": "desktop"
           }
         },
@@ -488,7 +488,7 @@
           "value": {
             "src": "/cases/rzd/application-form.png",
             "alt": "Booking flow with explicit steps and expectations",
-            "caption": "Critical conditions were surfaced earlier so the service explained the process instead of hiding it.",
+            "caption": "The booking form was used to expose system logic early: constraints, eligibility, required inputs, and next steps became part of the interface. This reduced the feeling of a black box and made submission feel like a predictable step rather than a risky guess.",
             "variant": "desktop"
           }
         },
@@ -551,7 +551,7 @@
           "value": {
             "src": "/cases/rzd/main-page.png",
             "alt": "Main page of the sanatorium booking service with structured entry points and curated selections",
-            "caption": "The main page was redesigned as a structured entry point: instead of throwing users into search immediately, it framed the service, exposed ready-made paths, and reduced the cost of entering the system.",
+            "caption": "The main page was redesigned as a structured entry point, not a decorative homepage. Its job was to orient users, shorten the path to relevant options, and reduce the cognitive cost of entering a complex service for the first time.",
             "variant": "desktop"
           }
         },
@@ -566,7 +566,7 @@
           "value": {
             "src": "/cases/rzd/design-system.png",
             "alt": "Design system foundations and component structure for the sanatorium booking service",
-            "caption": "The UI was not treated as decoration. It was supported by a component-driven system that made repeated states, steps, and content patterns consistent across the service.",
+            "caption": "I built the UI on top of a minimal but explicit system of typography, spacing, and reusable interface elements. That was important not for visual polish, but for operational consistency: repeated states, steps, and content patterns had to behave as one learnable product.",
             "variant": "desktop"
           }
         }
@@ -610,7 +610,7 @@
           "value": {
             "src": "/cases/rzd/tracking-1.png",
             "alt": "Status tracking interface for booking progress",
-            "caption": "Status visibility made the process legible after submission, not only before it.",
+            "caption": "Trust does not end at submission. This status layer was designed to keep the system legible after the user acts, so waiting, approval, and document handling remain understandable instead of becoming a silent operational gap.",
             "variant": "desktop"
           }
         },
@@ -619,7 +619,7 @@
           "value": {
             "src": "/cases/rzd/tracking-2.png",
             "alt": "Detailed booking status and outcome tracking",
-            "caption": "The service exposed progress and outcome states so users could understand where they were and what came next.",
+            "caption": "Outcome visibility was treated as part of the service itself. By making progress, decisions, and next actions explicit, the system could close the loop properly and give users a reason to rely on it again in the future.",
             "variant": "desktop"
           }
         }

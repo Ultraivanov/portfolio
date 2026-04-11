@@ -8,7 +8,8 @@ type CaseMediaProps = {
 };
 
 const isEmbedSource = (src: string) =>
-  src.startsWith("https://www.figma.com/embed");
+  src.startsWith("https://www.figma.com/embed") ||
+  src.startsWith("https://www.figma.com/proto");
 
 export default function CaseMedia({
   src,

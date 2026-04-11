@@ -1,9 +1,8 @@
-import type { ReactNode } from "react";
 import styles from "./case-facts.module.css";
 
 type CaseFact = {
   label: string;
-  value: string | string[] | ReactNode;
+  value: string | string[];
   href?: string;
 };
 

@@ -80,11 +80,6 @@
   border-radius: 0 !important;
 }
 
-.heroCta {
-  align-self: flex-start;
-  width: auto;
-}
-
 .heroCta:hover,
 .heroCta:focus-visible {
   opacity: 0.86;
@@ -134,16 +129,6 @@
   .heroHeadline {
     font-size: 24px;
     line-height: 32px;
-  }
-
-  .heroCta {
-    min-height: 48px !important;
-    height: 48px !important;
-    padding: 12px 28px !important;
-  }
-
-  .heroCtaSecondary {
-    min-height: 48px;
   }
 }
 
@@ -528,10 +513,6 @@
 }
 
 @media (max-width: 600px) {
-  .heroTitle {
-    height: 96px;
-  }
-
   .skillsTools {
     gap: var(--space-5);
   }

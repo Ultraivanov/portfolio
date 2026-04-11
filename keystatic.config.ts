@@ -1,14 +1,8 @@
 import { config, fields, collection, singleton } from "@keystatic/core";
-
-const githubRepo = (process.env.KEYSTATIC_GITHUB_REPO ||
-  "Ultraivanov/portfolio") as `${string}/${string}`;
-const useGithub =
-  !!process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
-  !!process.env.KEYSTATIC_GITHUB_CLIENT_SECRET &&
-  !!process.env.KEYSTATIC_SECRET;
+import { keystaticStorage } from "./src/lib/keystatic";
 
 export default config({
-  storage: useGithub ? { kind: "github", repo: githubRepo } : { kind: "local" },
+  storage: keystaticStorage,
   singletons: {
     home: singleton({
       label: "Home",

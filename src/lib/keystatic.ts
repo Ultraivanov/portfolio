@@ -11,14 +11,18 @@ export const isKeystaticGitHubConfigured =
   keystaticMissingGitHubEnvVars.length === 0;
 
 const isDevelopment = process.env.NODE_ENV === "development";
+const forceLocalInAnyEnv = process.env.KEYSTATIC_FORCE_LOCAL === "1";
 
 // Avoid server/client mode mismatch:
-// in production we always use GitHub storage, while dev can fall back to local.
+// by default, production uses GitHub and dev can fall back to local.
+// KEYSTATIC_FORCE_LOCAL=1 is an emergency switch to disable GitHub mode.
 export const shouldUseKeystaticLocalStorage =
-  isDevelopment && !isKeystaticGitHubConfigured;
+  forceLocalInAnyEnv || (isDevelopment && !isKeystaticGitHubConfigured);
 
 export const isKeystaticProductionWithoutGitHub =
-  process.env.NODE_ENV === "production" && !isKeystaticGitHubConfigured;
+  process.env.NODE_ENV === "production" &&
+  !forceLocalInAnyEnv &&
+  !isKeystaticGitHubConfigured;
 
 export const keystaticStorage = shouldUseKeystaticLocalStorage
   ? { kind: "local" as const }

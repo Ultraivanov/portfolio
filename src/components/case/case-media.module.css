@@ -42,6 +42,7 @@
 .frameEmbed {
   border: none;
   background: transparent;
+  padding: 0;
 }
 
 .embed {

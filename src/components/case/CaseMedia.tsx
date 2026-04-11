@@ -8,7 +8,10 @@ type CaseMediaProps = {
 };
 
 const isEmbedSource = (src: string) =>
-  src.startsWith("https://www.figma.com/embed");
+  src.startsWith("https://www.figma.com/embed") ||
+  src.startsWith("https://embed.figma.com");
+
+const isPlaceholder = (src: string) => src.startsWith("FIGMA_EMBED");
 
 export default function CaseMedia({
   src,
@@ -34,6 +37,8 @@ export default function CaseMedia({
 
   const isEmbed = isEmbedSource(src);
   if (isEmbed) frameClasses.push(styles.frameEmbed);
+
+  if (isPlaceholder(src)) return null;
 
   return (
     <figure className={styles.figure}>

@@ -6,11 +6,11 @@ import CaseSection from "@/components/case/CaseSection";
 import { cases, getCaseBySlug } from "@/content/cases";
 
 type CasePageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
-export default function CasePage({ params }: CasePageProps) {
-  const { slug } = params;
+export default async function CasePage({ params }: CasePageProps) {
+  const { slug } = await params;
   const caseStudy = getCaseBySlug(slug) ?? cases[0];
 
   return (

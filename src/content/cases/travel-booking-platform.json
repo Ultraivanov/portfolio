@@ -232,15 +232,6 @@
           "value": {
             "text": "The goal was not to complete bookings, but to make the service reusable."
           }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/behavior-loop.svg",
-            "alt": "Behavioral loop from experience to trust, return, and habit",
-            "caption": "I modeled the service as a trust loop rather than a booking funnel. This shifted the design target from short-term completion to repeat usage: every decision had to strengthen understanding, confidence, and the likelihood of return.",
-            "variant": "diagram"
-          }
         }
       ]
     },

@@ -118,8 +118,9 @@ export default function AdminPage() {
             fontFamily: "monospace",
             fontSize: 14,
             borderRadius: 4,
-            border: "1px solid #ccc",
-            background: "#f5f5f5",
+            border: "1px solid #444",
+            background: "#1a1a1a",
+            color: "#e5e5e5",
           }}
         />
       </div>

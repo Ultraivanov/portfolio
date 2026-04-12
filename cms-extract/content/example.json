@@ -1,0 +1,6 @@
+{
+  "slug": "example",
+  "title": "Example Post",
+  "content": "This is an example content item. Edit via /admin",
+  "publishedAt": "2024-01-01"
+}

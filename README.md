@@ -1,3 +1,12 @@
+**AgenticCMS** lets AI agents manage content at scale while humans stay in control. 
+No database, no vendor lock-in — just your Git repo as the single source of truth.
+ 
+- AI writes → Git versions → Humans approve
+- Event-driven webhooks for automation
+- Zero infrastructure cost
+ 
+Built for the agentic era.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

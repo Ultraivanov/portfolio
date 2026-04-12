@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
   metadataBase: new URL("https://ginzburg.work"),
   openGraph: {
-    title: "Dima Ginzburg — Product Designer",
+    title: "Product Designer",
     description:
       "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
     url: "https://ginzburg.work",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dima Ginzburg — Product Designer",
+    title: "Product Designer",
     description:
       "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
     images: [

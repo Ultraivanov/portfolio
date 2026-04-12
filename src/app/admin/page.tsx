@@ -63,10 +63,11 @@ export default function AdminPage() {
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageCaption, setImageCaption] = useState("");
+  const [draggedBlock, setDraggedBlock] = useState<{sectionIndex: number, blockIndex: number} | null>(null);
 
   // Load list of cases
   useEffect(() => {
-    fetch("/api/cases")
+    fetch("/api/cases", { cache: "no-store" })
       .then((r) => r.json())
       .then((data: CaseInfo[]) => {
         setCases(data);
@@ -84,7 +85,7 @@ export default function AdminPage() {
   // Load selected case content
   useEffect(() => {
     if (!selectedCase) return;
-    fetch(`/api/cases/${selectedCase}`)
+    fetch(`/api/cases/${selectedCase}`, { cache: "no-store" })
       .then((r) => r.json())
       .then((data: CaseStudy) => {
         setCaseData(data);
@@ -201,6 +202,45 @@ export default function AdminPage() {
     setUploading(false);
   };
 
+  // Upload image for media block
+  const handleUploadMediaImage = async (
+    sectionIndex: number,
+    blockIndex: number,
+    mediaIndex: number,
+    file: File
+  ) => {
+    if (!caseData || !file) return;
+    setMessage("");
+
+    const ext = file.name.split(".").pop();
+    const path = `public/cases/${selectedCase}/${Date.now()}.${ext}`;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("path", path);
+
+    const response = await fetch("/api/upload-image", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      const publicPath = path.replace(/^public/, "");
+      // Update media src with new path
+      const newSections = [...caseData.sections];
+      const block = newSections[sectionIndex].blocks[blockIndex];
+      const newMedia = [...(block.value.media || [])];
+      newMedia[mediaIndex] = { ...newMedia[mediaIndex], src: publicPath };
+      block.value = { ...block.value, media: newMedia };
+      updateField("sections", newSections);
+      setMessage("✅ Image uploaded to media block!");
+    } else {
+      setMessage(`❌ Upload failed: ${result.error}`);
+    }
+  };
+
   // Section management
   const updateSection = (sectionIndex: number, field: keyof Section, value: string) => {
     if (!caseData) return;
@@ -249,6 +289,16 @@ export default function AdminPage() {
     if (!caseData) return;
     const newSections = [...caseData.sections];
     newSections[sectionIndex].blocks = newSections[sectionIndex].blocks.filter((_, i) => i !== blockIndex);
+    updateField("sections", newSections);
+  };
+
+  const moveBlock = (sectionIndex: number, fromIndex: number, toIndex: number) => {
+    if (!caseData || fromIndex === toIndex) return;
+    const newSections = [...caseData.sections];
+    const blocks = [...newSections[sectionIndex].blocks];
+    const [movedBlock] = blocks.splice(fromIndex, 1);
+    blocks.splice(toIndex, 0, movedBlock);
+    newSections[sectionIndex] = { ...newSections[sectionIndex], blocks };
     updateField("sections", newSections);
   };
 
@@ -588,16 +638,35 @@ export default function AdminPage() {
             {section.blocks.map((block, blockIndex) => (
               <div
                 key={blockIndex}
+                draggable
+                onDragStart={() => setDraggedBlock({ sectionIndex, blockIndex })}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  if (!draggedBlock || draggedBlock.sectionIndex !== sectionIndex) return;
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  if (!draggedBlock || draggedBlock.sectionIndex !== sectionIndex) return;
+                  moveBlock(sectionIndex, draggedBlock.blockIndex, blockIndex);
+                  setDraggedBlock(null);
+                }}
                 style={{
                   marginBottom: 12,
                   padding: 12,
                   border: "1px dashed var(--color-border-subtle)",
                   borderRadius: "var(--radius-1)",
                   background: "var(--color-bg-secondary)",
+                  cursor: "move",
+                  opacity: draggedBlock?.sectionIndex === sectionIndex && draggedBlock?.blockIndex === blockIndex ? 0.5 : 1,
                 }}
               >
-                <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginBottom: 8, textTransform: "uppercase" }}>
-                  {block.discriminant}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                  <span style={{ fontSize: 12, color: "var(--color-text-muted)", textTransform: "uppercase", flex: 1 }}>
+                    {block.discriminant}
+                  </span>
+                  <span style={{ fontSize: 12, color: "var(--color-text-muted)", userSelect: "none" }}>
+                    ↕ Drag to reorder
+                  </span>
                 </div>
 
                 {block.discriminant === "paragraph" && (
@@ -667,18 +736,60 @@ export default function AdminPage() {
                 {block.discriminant === "media" && (
                   <div>
                     {(block.value.media || []).map((media, mediaIndex) => (
-                      <div key={mediaIndex} style={{ marginBottom: 8 }}>
+                      <div key={mediaIndex} style={{ marginBottom: 12, padding: 12, background: "var(--color-bg)", borderRadius: "var(--radius-1)" }}>
+                        {/* Path field with upload */}
+                        <div style={{ marginBottom: 8 }}>
+                          <label style={{ ...labelStyle, fontSize: 12 }}>Image path:</label>
+                          <input
+                            type="text"
+                            value={media.src}
+                            onChange={(e) => {
+                              const newMedia = [...(block.value.media || [])];
+                              newMedia[mediaIndex] = { ...media, src: e.target.value };
+                              updateBlock(sectionIndex, blockIndex, { media: newMedia });
+                            }}
+                            style={{ ...inputStyle, marginBottom: 8 }}
+                            placeholder="/cases/example/image.png"
+                          />
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleUploadMediaImage(sectionIndex, blockIndex, mediaIndex, file);
+                              }
+                              e.target.value = ""; // Reset input
+                            }}
+                            style={{ fontSize: 14, color: "var(--color-text-primary)" }}
+                          />
+                        </div>
+
+                        {/* Preview */}
+                        {media.src && (
+                          <div style={{ marginBottom: 8 }}>
+                            <img
+                              src={media.src}
+                              alt={media.alt || ""}
+                              style={{ maxWidth: 150, maxHeight: 100, borderRadius: "var(--radius-1)", objectFit: "cover" }}
+                            />
+                          </div>
+                        )}
+
+                        {/* Alt text */}
                         <input
                           type="text"
-                          value={media.src}
+                          value={media.alt || ""}
                           onChange={(e) => {
                             const newMedia = [...(block.value.media || [])];
-                            newMedia[mediaIndex] = { ...media, src: e.target.value };
+                            newMedia[mediaIndex] = { ...media, alt: e.target.value };
                             updateBlock(sectionIndex, blockIndex, { media: newMedia });
                           }}
-                          style={{ ...inputStyle, marginBottom: 4 }}
-                          placeholder="Image path..."
+                          style={{ ...inputStyle, fontSize: 14, marginBottom: 8 }}
+                          placeholder="Alt text..."
                         />
+
+                        {/* Caption */}
                         <input
                           type="text"
                           value={media.caption || ""}

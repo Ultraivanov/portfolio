@@ -3,7 +3,6 @@
 import type { ReactNode } from "react";
 import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { ThemeProvider } from "@gravity-ui/uikit";
-import { usePathname } from "next/navigation";
 
 type ThemeMode = "dark" | "light";
 type ThemeContextValue = {
@@ -28,8 +27,6 @@ type ClientProvidersProps = {
 };
 
 export default function ClientProviders({ children, initialTheme = "dark" }: ClientProvidersProps) {
-  const pathname = usePathname();
-  const isKeystatic = pathname?.startsWith("/keystatic");
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof window === "undefined") return initialTheme;
     // First check cookie
@@ -47,7 +44,6 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
     return media?.matches ? "light" : "dark";
   });
   const [isAuto, setIsAuto] = useState(() => {
-    if (isKeystatic) return true;
     if (typeof window === "undefined") return true;
     const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
       const [key, value] = cookie.split("=");
@@ -84,10 +80,6 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
       }
     };
 
-    if (isKeystatic) {
-      applyTheme();
-    }
-
     const handler = () => {
       if (isAuto) {
         applyTheme();
@@ -103,7 +95,7 @@ export default function ClientProviders({ children, initialTheme = "dark" }: Cli
       return () => media.removeListener(handler);
     }
     return undefined;
-  }, [theme, isAuto, isKeystatic, initialTheme]);
+  }, [theme, isAuto, initialTheme]);
 
   const value = useMemo<ThemeContextValue>(
     () => ({

@@ -1,8 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect } from "react";
-import { usePathname } from "next/navigation";
 import Container from "./Container";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -15,19 +13,6 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
-  const pathname = usePathname();
-  const isKeystatic = pathname?.startsWith("/keystatic");
-
-  useEffect(() => {
-    const path = pathname ?? window.location.pathname;
-    const keystatic = path.startsWith("/keystatic");
-    document.documentElement.dataset.keystatic = keystatic ? "true" : "false";
-  }, [pathname]);
-
-  if (isKeystatic) {
-    return <div className={styles.page}>{children}</div>;
-  }
-
   return (
     <div className={styles.page}>
       <Header />

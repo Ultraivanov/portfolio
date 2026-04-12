@@ -1,16 +1,10 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useThemeMode } from "@/components/ClientProviders";
 import styles from "./ThemeToggle.module.css";
 
 export default function ThemeToggle() {
   const { toggleTheme } = useThemeMode();
-  const pathname = usePathname();
-
-  if (pathname?.startsWith("/keystatic")) {
-    return null;
-  }
 
   return (
     <button

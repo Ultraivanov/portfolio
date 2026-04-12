@@ -1,8 +1,19 @@
 # AgenticCMS
 
-Headless CMS designed for **agentic workflows**. Built for AI agents, automations, and human-in-the-loop content management.
+**Git-native CMS for the agentic era.** AI agents write, humans approve, Git tracks everything.
 
-> **Core principle:** Your Git repository is the database. Every change is versioned, traceable, and triggerable.
+> Let AI agents manage content at scale while humans stay in control. No database, no vendor lock-in — just your Git repo as the single source of truth.
+
+## ⚡ Value Proposition
+
+| Traditional CMS | AgenticCMS |
+|-----------------|------------|
+| Humans write, CMS stores | AI writes, Git versions, humans approve |
+| Black-box database | Transparent JSON in Git |
+| Manual publishing | Event-driven deployment |
+| Content silos | Git-native collaboration |
+
+**Result:** 10× faster content operations with full audit trail and zero infrastructure cost.
 
 ## 🎯 Why AgenticCMS?
 

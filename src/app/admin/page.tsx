@@ -30,6 +30,12 @@ interface Section {
   blocks: Block[];
 }
 
+interface SeoData {
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: string;
+}
+
 interface CaseStudy {
   slug: string;
   title: string;
@@ -38,6 +44,7 @@ interface CaseStudy {
   coverAlt: string;
   facts: Fact[];
   sections: Section[];
+  seo?: SeoData;
 }
 
 interface CaseInfo {
@@ -97,6 +104,12 @@ export default function AdminPage() {
     const newFacts = [...caseData.facts];
     newFacts[index] = { ...newFacts[index], [field]: value };
     updateField("facts", newFacts);
+  };
+
+  const updateSeo = (field: keyof SeoData, value: string) => {
+    if (!caseData) return;
+    const newSeo = { ...(caseData.seo || {}), [field]: value };
+    updateField("seo", newSeo);
   };
 
   const addFact = () => {
@@ -298,6 +311,52 @@ export default function AdminPage() {
           onChange={(e) => updateField("coverAlt", e.target.value)}
           style={inputStyle}
         />
+      </div>
+
+      {/* SEO Section */}
+      <div style={{ marginTop: 32, marginBottom: 16, borderTop: "1px solid var(--color-border-subtle)", paddingTop: 24 }}>
+        <h2 style={{ fontSize: 18, marginBottom: 16, fontWeight: 600 }}>SEO Settings</h2>
+
+        <div style={fieldStyle}>
+          <label style={labelStyle}>Meta Title (optional):</label>
+          <input
+            type="text"
+            value={caseData.seo?.metaTitle || ""}
+            onChange={(e) => updateSeo("metaTitle", e.target.value)}
+            style={inputStyle}
+            placeholder={`${caseData.title} | Dmitry Ginzburg`}
+          />
+          <span style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 4, display: "block" }}>
+            Defaults to "{caseData.title} | Dmitry Ginzburg" if empty
+          </span>
+        </div>
+
+        <div style={fieldStyle}>
+          <label style={labelStyle}>Meta Description:</label>
+          <textarea
+            value={caseData.seo?.metaDescription || ""}
+            onChange={(e) => updateSeo("metaDescription", e.target.value)}
+            style={{ ...inputStyle, height: 80 }}
+            placeholder="Brief description for search engines..."
+          />
+          <span style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 4, display: "block" }}>
+            {(caseData.seo?.metaDescription || "").length}/160 characters
+          </span>
+        </div>
+
+        <div style={fieldStyle}>
+          <label style={labelStyle}>OG Image (optional):</label>
+          <input
+            type="text"
+            value={caseData.seo?.ogImage || ""}
+            onChange={(e) => updateSeo("ogImage", e.target.value)}
+            style={inputStyle}
+            placeholder="/cases/example/og-image.png"
+          />
+          <span style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 4, display: "block" }}>
+            Social preview image. Defaults to cover image if empty.
+          </span>
+        </div>
       </div>
 
       <div style={fieldStyle}>

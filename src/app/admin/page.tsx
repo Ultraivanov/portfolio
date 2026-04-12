@@ -1,20 +1,48 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { cases } from "@/content/cases";
+
+interface CaseInfo {
+  slug: string;
+  title: string;
+}
 
 export default function AdminPage() {
-  const [selectedCase, setSelectedCase] = useState(cases[0]?.slug || "");
+  const [cases, setCases] = useState<CaseInfo[]>([]);
+  const [selectedCase, setSelectedCase] = useState("");
   const [content, setContent] = useState<string>("");
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
+  // Load list of cases
+  useEffect(() => {
+    fetch("/api/cases")
+      .then((r) => r.json())
+      .then((data: CaseInfo[]) => {
+        setCases(data);
+        if (data.length > 0) {
+          setSelectedCase(data[0].slug);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setMessage("❌ Failed to load cases");
+        setLoading(false);
+      });
+  }, []);
+
   // Load selected case content
   useEffect(() => {
-    const caseStudy = cases.find((c) => c.slug === selectedCase);
-    if (caseStudy) {
-      setContent(JSON.stringify(caseStudy, null, 2));
-    }
+    if (!selectedCase) return;
+    fetch(`/api/cases/${selectedCase}`)
+      .then((r) => r.json())
+      .then((data) => {
+        setContent(JSON.stringify(data, null, 2));
+      })
+      .catch(() => {
+        setMessage("❌ Failed to load case content");
+      });
   }, [selectedCase]);
 
   const handleSave = async () => {
@@ -68,7 +96,7 @@ export default function AdminPage() {
             width: 300,
           }}
         >
-          {cases.map((c) => (
+          {cases.map((c: CaseInfo) => (
             <option key={c.slug} value={c.slug}>
               {c.title}
             </option>
@@ -119,6 +147,8 @@ export default function AdminPage() {
           </span>
         )}
       </div>
+
+      {loading && <p>Loading...</p>}
 
       <p style={{ marginTop: 24, fontSize: 14, color: "#666" }}>
         Changes are saved directly to GitHub and automatically deployed by Vercel.

@@ -117,10 +117,10 @@ export default function AdminPage() {
             padding: 12,
             fontFamily: "monospace",
             fontSize: 14,
-            borderRadius: 4,
-            border: "1px solid #444",
-            background: "#1a1a1a",
-            color: "#e5e5e5",
+            borderRadius: "var(--radius-1)",
+            border: "1px solid var(--color-border-subtle)",
+            background: "var(--color-bg-secondary)",
+            color: "var(--color-text-primary)",
           }}
         />
       </div>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" style="background:#151414">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4b5563"/>
+  </marker>
+  <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#10b981"/>
+  </marker>
+</defs>
+<text x="600" y="34" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="0.12em" fill="#6d6d6d">DECISION FLOW ARCHITECTURE</text>
+<line x1="600" y1="60" x2="600" y2="460" stroke="#2f2f32" stroke-dasharray="4 4" stroke-width="1"/>
+<text x="300" y="76" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#6d6d6d">CURRENT STATE — search-driven</text>
+<text x="900" y="76" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#6d6d6d">PROPOSED — decision-first</text>
+<rect x="40" y="47" width="180" height="56" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="130" y="67" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Vague Intent</text>
+<text x="130" y="84" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">I want a vacation</text>
+<line x1="130" y1="103" x2="130" y2="121" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="40" y="121" width="180" height="56" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="130" y="141" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Search</text>
+<text x="130" y="158" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">keyword / date / location</text>
+<line x1="130" y1="177" x2="130" y2="195" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="40" y="195" width="180" height="56" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="130" y="215" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Browse</text>
+<text x="130" y="232" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">scroll 100+ results</text>
+<line x1="130" y1="251" x2="130" y2="269" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="40" y="269" width="180" height="56" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="130" y="289" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Multiple Tabs</text>
+<text x="130" y="306" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">open, compare, forget</text>
+<line x1="130" y1="325" x2="130" y2="343" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="40" y="343" width="180" height="56" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="130" y="363" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">External Validation</text>
+<text x="130" y="380" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">Google / review sites</text>
+<line x1="130" y1="399" x2="130" y2="417" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="40" y="417" width="180" height="56" rx="4" fill="#252528" stroke="#ef4444" stroke-width="1.5"/>
+<text x="130" y="437" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Abandon / Delay</text>
+<text x="130" y="454" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">decision fatigue</text>
+<rect x="640" y="47" width="180" height="56" rx="4" fill="#252528" stroke="#10b981" stroke-width="1.5"/>
+<text x="730" y="67" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Intent Capture</text>
+<text x="730" y="84" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">preferences, not keywords</text>
+<line x1="730" y1="103" x2="730" y2="121" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<rect x="640" y="121" width="180" height="56" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="730" y="141" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Option Reduction</text>
+<text x="730" y="158" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">curated set, not full catalog</text>
+<line x1="730" y1="177" x2="730" y2="195" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<rect x="640" y="195" width="180" height="56" rx="4" fill="#252528" stroke="#10b981" stroke-width="1.5"/>
+<text x="730" y="215" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Curated Options</text>
+<text x="730" y="232" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">3–5 relevant results</text>
+<line x1="730" y1="251" x2="730" y2="269" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<rect x="640" y="269" width="180" height="56" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="730" y="289" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Reasoning</text>
+<text x="730" y="306" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">why this matches your criteria</text>
+<line x1="730" y1="325" x2="730" y2="343" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="640" y="343" width="180" height="56" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="730" y="363" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Iterative Loop</text>
+<text x="730" y="380" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">refine without starting over</text>
+<line x1="730" y1="399" x2="730" y2="417" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<rect x="640" y="417" width="180" height="56" rx="4" fill="#252528" stroke="#10b981" stroke-width="1.5"/>
+<text x="730" y="437" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Confident Decision</text>
+<text x="730" y="454" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">book without second-guessing</text>
+<text x="800" y="472" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">North Star: Decision Confidence Rate</text>
+
+</svg>

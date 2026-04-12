@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" style="background:#151414">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4b5563"/>
+  </marker>
+  <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#f59e0b"/>
+  </marker>
+</defs>
+<text x="600" y="34" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="0.12em" fill="#6d6d6d">SYSTEM ARCHITECTURE — LAYERED MODEL</text>
+<rect x="210" y="103" width="780" height="62" rx="4" fill="#252528" stroke="#f59e0b" stroke-width="1.5"/>
+<text x="224" y="134" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">L5</text>
+<text x="540" y="126" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600" fill="#fefaec">Interfaces</text>
+<text x="540" y="146" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Mobile  ·  Web</text>
+<line x1="600" y1="165" x2="600" y2="171" stroke="#2f2f32" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="210" y="171" width="780" height="62" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="224" y="202" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">L4</text>
+<text x="540" y="194" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600" fill="#fefaec">Notifications</text>
+<text x="540" y="214" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Push  ·  Email  ·  In-app</text>
+<line x1="600" y1="233" x2="600" y2="239" stroke="#2f2f32" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="210" y="239" width="780" height="62" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="224" y="270" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">L3</text>
+<text x="540" y="262" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600" fill="#fefaec">State Machine</text>
+<text x="540" y="282" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Draft → Sent → Received → Answered → Closed</text>
+<line x1="600" y1="301" x2="600" y2="307" stroke="#2f2f32" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="210" y="307" width="780" height="62" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="224" y="338" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">L2</text>
+<text x="540" y="330" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600" fill="#fefaec">Routing Logic</text>
+<text x="540" y="350" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Category-based  ·  Priority rules</text>
+<line x1="600" y1="369" x2="600" y2="375" stroke="#2f2f32" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="210" y="375" width="780" height="62" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="224" y="406" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">L1</text>
+<text x="540" y="398" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600" fill="#fefaec">User Input</text>
+<text x="540" y="418" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Request form  ·  Attachment  ·  Category</text>
+<text x="1020" y="134" text-anchor="start" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#f59e0b">← UI layer</text>
+<text x="1020" y="150" text-anchor="start" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">last, not first</text>
+<text x="600" y="472" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Interface reflects system logic — it does not define it</text>
+
+</svg>

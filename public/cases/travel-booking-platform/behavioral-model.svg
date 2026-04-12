@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" style="background:#151414">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4b5563"/>
+  </marker>
+  <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4b9cf5"/>
+  </marker>
+</defs>
+<text x="600" y="34" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="0.12em" fill="#6d6d6d">BEHAVIORAL MODEL — RZD SANATORIUM BOOKING</text>
+<text x="300" y="80" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#6d6d6d">BEFORE — transaction model</text>
+<text x="900" y="80" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#6d6d6d">AFTER — trust loop</text>
+<line x1="600" y1="60" x2="600" y2="460" stroke="#2f2f32" stroke-dasharray="4 4" stroke-width="1"/>
+<rect x="60" y="160" width="100" height="70" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/><text x="110" y="186" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Search</text><text x="110" y="205" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">enter with intent</text>
+<line x1="160" y1="195" x2="180" y2="195" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="180" y="160" width="100" height="70" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/><text x="230" y="186" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Browse</text><text x="230" y="205" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">lose confidence</text>
+<line x1="280" y1="195" x2="300" y2="195" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="300" y="160" width="100" height="70" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/><text x="350" y="186" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Attempt</text><text x="350" y="205" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">interpret rules</text>
+<line x1="400" y1="195" x2="420" y2="195" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="420" y="160" width="100" height="70" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/><text x="470" y="186" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Abandon</text><text x="470" y="205" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">distrust system</text>
+<text x="470" y="215" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#ef4444">✕ breaks</text>
+<text x="300" y="270" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#6d6d6d">no trust built</text>
+<line x1="900" y1="140" x2="1030" y2="270" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<circle cx="900" cy="140" r="36" fill="#1e1e20" stroke="#4b9cf5" stroke-width="1.5"/>
+<text x="900" y="140" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Experience</text>
+<line x1="1030" y1="270" x2="900" y2="400" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<circle cx="1030" cy="270" r="36" fill="#1e1e20" stroke="#4b9cf5" stroke-width="1.5"/>
+<text x="1030" y="270" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Trust</text>
+<line x1="900" y1="400" x2="770" y2="270" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<circle cx="900" cy="400" r="36" fill="#1e1e20" stroke="#4b9cf5" stroke-width="1.5"/>
+<text x="900" y="400" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Return</text>
+<line x1="770" y1="270" x2="900" y2="140" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr-a)"/>
+<circle cx="770" cy="270" r="36" fill="#1e1e20" stroke="#4b9cf5" stroke-width="1.5"/>
+<text x="770" y="270" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" font-weight="500" fill="#fefaec">Habit</text>
+<text x="900" y="456" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">North Star: Repeat Usage Share</text>
+
+</svg>

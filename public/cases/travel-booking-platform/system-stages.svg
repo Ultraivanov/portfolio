@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" style="background:#151414">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4b5563"/>
+  </marker>
+  <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4b9cf5"/>
+  </marker>
+</defs>
+<text x="600" y="34" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="0.12em" fill="#6d6d6d">SERVICE ARCHITECTURE — STAGE FLOW</text>
+<rect x="90" y="110" width="155" height="72" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="100" y="126" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">01</text>
+<text x="167" y="142" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Discovery</text>
+<text x="167" y="159" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">history / price</text>
+<text x="167" y="173" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">location / search</text>
+<line x1="245" y1="146" x2="263" y2="146" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="263" y="110" width="155" height="72" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="273" y="126" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">02</text>
+<text x="340" y="142" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Comparison</text>
+<text x="340" y="159" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">structured side-by-side</text>
+<text x="340" y="173" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">not manual tabs</text>
+<line x1="418" y1="146" x2="436" y2="146" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="436" y="110" width="155" height="72" rx="4" fill="#252528" stroke="#4b9cf5" stroke-width="1.5"/>
+<text x="446" y="126" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">03</text>
+<text x="513" y="142" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Eligibility</text>
+<text x="513" y="159" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">subsidy / quota</text>
+<text x="513" y="173" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">checked early</text>
+<line x1="591" y1="146" x2="609" y2="146" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="609" y="110" width="155" height="72" rx="4" fill="#252528" stroke="#4b9cf5" stroke-width="1.5"/>
+<text x="619" y="126" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">04</text>
+<text x="686" y="142" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Booking</text>
+<text x="686" y="159" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">form with</text>
+<text x="686" y="173" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">real-time validation</text>
+<line x1="764" y1="146" x2="782" y2="146" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="782" y="110" width="155" height="72" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="792" y="126" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">05</text>
+<text x="859" y="142" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Approval</text>
+<text x="859" y="159" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">decision</text>
+<text x="859" y="173" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">+ alternatives</text>
+<line x1="937" y1="146" x2="955" y2="146" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="955" y="110" width="155" height="72" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="965" y="126" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">06</text>
+<text x="1032" y="142" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="500" fill="#fefaec">Outcome</text>
+<text x="1032" y="159" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">confirmation</text>
+<text x="1032" y="173" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#a3a3a3">+ pre-trip info</text>
+<text x="513" y="210" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#4b9cf5">moved before booking</text>
+<text x="513" y="224" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">reduces failed attempts</text>
+<text x="686" y="210" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#4b9cf5">inline validation</text>
+<text x="686" y="224" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">no failed submissions</text>
+<text x="600" y="350" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Goal: make the system learnable — not just usable once</text>
+
+</svg>

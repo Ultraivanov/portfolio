@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" style="background:#151414">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4b5563"/>
+  </marker>
+  <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#f87171"/>
+  </marker>
+</defs>
+<text x="600" y="34" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="0.12em" fill="#6d6d6d">THREE-LAYER RUNTIME ARCHITECTURE</text>
+<rect x="104" y="130" width="320" height="120" rx="4" fill="#1e1e20" stroke="#f87171" stroke-width="1.5"/>
+<rect x="104" y="130" width="320" height="3" rx="2" fill="#f87171"/>
+<text x="116" y="150" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">L1</text>
+<text x="264" y="152" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600" fill="#fefaec">Token Normalization Engine</text>
+<text x="120" y="174" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· Figma API → pull tokens</text>
+<text x="120" y="192" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· Naming convention validation</text>
+<text x="120" y="210" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· TypeScript type generation</text>
+<text x="120" y="228" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· npm publish  ·  < 5 min pipeline</text>
+<line x1="424" y1="190" x2="440" y2="190" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="440" y="130" width="320" height="120" rx="4" fill="#1e1e20" stroke="#f59e0b" stroke-width="1.5"/>
+<rect x="440" y="130" width="320" height="3" rx="2" fill="#f59e0b"/>
+<text x="452" y="150" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">L2</text>
+<text x="600" y="152" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600" fill="#fefaec">Pattern Validation Layer</text>
+<text x="456" y="174" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· 200+ automated checks</text>
+<text x="456" y="192" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· ESLint rules at build time</text>
+<text x="456" y="210" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· Jest component tests</text>
+<text x="456" y="228" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· Non-blocking warnings</text>
+<line x1="760" y1="190" x2="776" y2="190" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="776" y="130" width="320" height="120" rx="4" fill="#1e1e20" stroke="#10b981" stroke-width="1.5"/>
+<rect x="776" y="130" width="320" height="3" rx="2" fill="#10b981"/>
+<text x="788" y="150" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="10" fill="#6d6d6d">L3</text>
+<text x="936" y="152" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" font-weight="600" fill="#fefaec">Governance Dashboard</text>
+<text x="792" y="174" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· Real-time health score: 87%</text>
+<text x="792" y="192" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· Token drift tracking</text>
+<text x="792" y="210" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· Adoption rate per team</text>
+<text x="792" y="228" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">· IDE: Figma + VS Code plugins</text>
+<rect x="500" y="60" width="200" height="44" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="600" y="82" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="12" fill="#a3a3a3">Figma Design System</text>
+<line x1="600" y1="104" x2="600" y2="130" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="250" y="300" width="160" height="40" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="330" y="320" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">CI/CD pipeline</text>
+<line x1="330" y1="250" x2="330" y2="300" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="430" y="300" width="160" height="40" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="510" y="320" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">IDE feedback</text>
+<line x1="510" y1="250" x2="510" y2="300" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="610" y="300" width="160" height="40" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="690" y="320" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Quality dashboard</text>
+<line x1="690" y1="250" x2="690" y2="300" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<rect x="790" y="300" width="160" height="40" rx="4" fill="#1e1e20" stroke="#2f2f32" stroke-width="1"/>
+<text x="870" y="320" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">npm packages</text>
+<line x1="870" y1="250" x2="870" y2="300" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arr)"/>
+<text x="600" y="492" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Design rules as code — enforcement without human bottlenecks</text>
+
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" style="background:#151414">
+<defs>
+  <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#4b5563"/>
+  </marker>
+  <marker id="arr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+    <path d="M0 0 L10 5 L0 10 z" fill="#10b981"/>
+  </marker>
+</defs>
+<text x="600" y="34" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="0.12em" fill="#6d6d6d">DESIGN TRADEOFFS</text>
+<text x="336" y="110" text-anchor="end" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" fill="#6d6d6d">Breadth</text>
+<text x="864" y="110" text-anchor="start" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" fill="#10b981" font-weight="500">Clarity</text>
+<rect x="350" y="100" width="500" height="10" rx="5" fill="#252528" stroke="#2f2f32" stroke-width="1"/>
+<rect x="350" y="100" width="400" height="10" rx="5" fill="#10b981" opacity="0.25"/>
+<circle cx="750" cy="105" r="8" fill="#10b981" stroke="#151414" stroke-width="2"/>
+<text x="600" y="130" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Limit visible options to reduce cognitive load</text>
+<text x="336" y="190" text-anchor="end" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" fill="#6d6d6d">Speed</text>
+<text x="864" y="190" text-anchor="start" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" fill="#10b981" font-weight="500">Confidence</text>
+<rect x="350" y="180" width="500" height="10" rx="5" fill="#252528" stroke="#2f2f32" stroke-width="1"/>
+<rect x="350" y="180" width="400" height="10" rx="5" fill="#10b981" opacity="0.25"/>
+<circle cx="750" cy="185" r="8" fill="#10b981" stroke="#151414" stroke-width="2"/>
+<text x="600" y="210" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Add upfront steps to increase decision quality</text>
+<text x="336" y="270" text-anchor="end" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" fill="#6d6d6d">Control</text>
+<text x="864" y="270" text-anchor="start" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" fill="#10b981" font-weight="500">Guidance</text>
+<rect x="350" y="260" width="500" height="10" rx="5" fill="#252528" stroke="#2f2f32" stroke-width="1"/>
+<rect x="350" y="260" width="400" height="10" rx="5" fill="#10b981" opacity="0.25"/>
+<circle cx="750" cy="265" r="8" fill="#10b981" stroke="#151414" stroke-width="2"/>
+<text x="600" y="290" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Reduce free exploration in favor of structured flow</text>
+<text x="336" y="350" text-anchor="end" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" fill="#6d6d6d">Funnel</text>
+<text x="864" y="350" text-anchor="start" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="13" fill="#10b981" font-weight="500">Loop</text>
+<rect x="350" y="340" width="500" height="10" rx="5" fill="#252528" stroke="#2f2f32" stroke-width="1"/>
+<rect x="350" y="340" width="400" height="10" rx="5" fill="#10b981" opacity="0.25"/>
+<circle cx="750" cy="345" r="8" fill="#10b981" stroke="#151414" stroke-width="2"/>
+<text x="600" y="370" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#a3a3a3">Support iterative refinement, not linear pressure</text>
+<text x="600" y="392" text-anchor="middle" font-family="IBM Plex Sans, system-ui, sans-serif" font-size="11" fill="#6d6d6d">Each tradeoff chosen to reduce cognitive load and increase decision confidence</text>
+
+</svg>

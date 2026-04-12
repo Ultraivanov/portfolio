@@ -18,9 +18,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og.png",
-        width: 1168,
-        height: 608,
+        url: "https://ginzburg.work/og.png",
+        width: 1200,
+        height: 630,
         alt: "Portfolio preview",
       },
     ],
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: "Dima Ginzburg — Product Designer",
     description:
       "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
-    images: ["/og.png"],
+    images: ["https://ginzburg.work/og.png"],
   },
   icons: {
     icon: [
@@ -54,10 +54,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
-          async
-          src="https://mcp.figma.com/mcp/html-to-design/capture.js"
-        />
+        {process.env.NODE_ENV === "development" && (
+          <script
+            async
+            src="https://mcp.figma.com/mcp/html-to-design/capture.js"
+          />
+        )}
       </head>
       <body>
         <ClientProviders>

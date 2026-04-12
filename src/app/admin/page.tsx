@@ -53,6 +53,9 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [showJson, setShowJson] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imageCaption, setImageCaption] = useState("");
 
   // Load list of cases
   useEffect(() => {
@@ -133,6 +136,38 @@ export default function AdminPage() {
     setSaving(false);
   };
 
+  const handleUpload = async () => {
+    if (!selectedFile || !caseData) return;
+    setUploading(true);
+    setMessage("");
+
+    const ext = selectedFile.name.split(".").pop();
+    const path = `public/cases/${selectedCase}/${Date.now()}.${ext}`;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("path", path);
+
+    const response = await fetch("/api/upload-image", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      // Update coverSrc with new path (relative to public)
+      const publicPath = path.replace(/^public/, "");
+      updateField("coverSrc", publicPath);
+      setMessage("✅ Image uploaded!");
+      setSelectedFile(null);
+      setImageCaption("");
+    } else {
+      setMessage(`❌ Upload failed: ${result.error}`);
+    }
+    setUploading(false);
+  };
+
   const inputStyle = {
     padding: "8px 12px",
     fontSize: 16,
@@ -202,6 +237,57 @@ export default function AdminPage() {
           style={inputStyle}
           placeholder="/cases/example/cover.png"
         />
+
+        {/* Upload section */}
+        <div style={{ marginTop: 12, padding: 12, border: "1px dashed var(--color-border-subtle)", borderRadius: "var(--radius-1)" }}>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+            style={{ marginBottom: 8, color: "var(--color-text-primary)" }}
+          />
+          {selectedFile && (
+            <div style={{ marginBottom: 8, fontSize: 14, color: "var(--color-text-muted)" }}>
+              Selected: {selectedFile.name}
+            </div>
+          )}
+          <div style={fieldStyle}>
+            <label style={{ ...labelStyle, fontSize: 14 }}>Caption (for media blocks):</label>
+            <input
+              type="text"
+              value={imageCaption}
+              onChange={(e) => setImageCaption(e.target.value)}
+              style={{ ...inputStyle, fontSize: 14 }}
+              placeholder="Image caption"
+            />
+          </div>
+          <button
+            onClick={handleUpload}
+            disabled={uploading || !selectedFile}
+            style={{
+              padding: "8px 16px",
+              background: uploading || !selectedFile ? "#999" : "#16a34a",
+              color: "white",
+              border: "none",
+              borderRadius: "var(--radius-1)",
+              cursor: uploading || !selectedFile ? "not-allowed" : "pointer",
+              fontSize: 14,
+            }}
+          >
+            {uploading ? "Uploading..." : "Upload Image"}
+          </button>
+        </div>
+
+        {/* Preview */}
+        {caseData.coverSrc && (
+          <div style={{ marginTop: 12 }}>
+            <img
+              src={caseData.coverSrc}
+              alt={caseData.coverAlt}
+              style={{ maxWidth: 200, maxHeight: 150, borderRadius: "var(--radius-1)", objectFit: "cover" }}
+            />
+          </div>
+        )}
       </div>
 
       <div style={fieldStyle}>

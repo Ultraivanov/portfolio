@@ -1,7 +1,7 @@
 {
   "slug": "travel-booking-platform",
-  "title": "RZD • Sanatorium Booking System",
-  "subtitle": "Turning a complex internal process into a predictable booking flow",
+  "title": "RZD • Sanatorium & Resort Booking Service",
+  "subtitle": "Turning a complex internal booking process into a predictable and repeatable system",
   "coverSrc": "/cases/rzd/cover.png",
   "coverAlt": "RZD sanatorium and resort booking service cover",
   "facts": [
@@ -49,36 +49,43 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The sanatorium & resort booking service is one of the internal services within the RZD employee ecosystem."
+            "text": "The sanatorium & resort booking service is part of the internal RZD ecosystem for employees and their families."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "It operates similarly to a booking platform, but includes additional constraints:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "subsidies and quotas",
-              "approval workflows",
-              "limited availability",
-              "internal documentation"
-            ]
+            "text": "On the surface, it resembles a standard booking platform."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service covers 500+ resorts nationwide and is available to employees and their families."
+            "text": "In reality, it operates under strict constraints: subsidies, quotas, eligibility rules, approval workflows, and limited availability."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Despite its value, it remained underutilized due to complexity and lack of trust."
+            "text": "These constraints do not complicate the system — they define it."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The service covers 500+ resorts nationwide and offers clear value."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Despite this, it remained underutilized."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Not because users didn't need it — but because they couldn't rely on it."
           }
         }
       ]
@@ -89,77 +96,56 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service was not broken in terms of functionality — it was broken in terms of predictability."
+            "text": "The system did not fail at execution."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Employees could technically complete a booking, but the process required constant interpretation."
+            "text": "It failed at the point of decision."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users had to figure out:"
+            "text": "Users were making choices before understanding whether those choices were valid."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Constraints — subsidies, quotas, eligibility rules — were resolved too late in the process."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "As a result, users committed to scenarios that could not be completed."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This turned the booking flow into a high-risk interaction:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "which resorts were available to them",
-              "what conditions applied",
-              "what would happen after submission",
-              "whether the effort would lead to a real outcome"
+              "effort could be lost at any point",
+              "outcomes were unpredictable",
+              "each attempt required starting over"
             ]
           }
         },
         {
-          "discriminant": "paragraph",
+          "discriminant": "media",
           "value": {
-            "text": "This created a specific behavioral pattern."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Users entered with intent, but quickly lost confidence:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "selection loops forced them to restart",
-              "eligibility rules appeared too late",
-              "system behavior was unclear",
-              "the process felt like a \"black box\""
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Even successful bookings did not build trust."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The system did not answer: “Can I rely on this next time?”"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The failure was not in conversion — it was in retention."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Users treated the service as a one-time, risky interaction."
+            "src": "/cases/rzd/validation-shift.svg",
+            "alt": "Validation point shift: from late constraint resolution to early eligibility check",
+            "caption": "Decisions were made before constraints were known. Constraints resolved too late, creating invalid scenarios and forcing restarts.",
+            "variant": "diagram"
           }
         }
       ]
@@ -177,118 +163,99 @@
           "discriminant": "list",
           "value": {
             "items": [
-              "fixed business rules (subsidies, approvals, quotas)",
+              "fixed business rules (subsidies, quotas, approvals)",
               "multiple backend systems",
               "no control over core logic",
               "legacy structure",
-              "manual approval processes",
-              "multiple audience types within one flow"
+              "manual approval processes"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The challenge was not to reduce complexity, but to make it understandable."
+            "text": "The challenge was not to reduce complexity, but to reposition it."
           }
         }
       ]
     },
     {
-      "title": "Behavioral model",
+      "title": "Behavioral Model",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service was reframed as a behavioral system."
+            "text": "User behavior in this system is not linear."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Not:"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "search → book → done"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "But:"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "experience → trust → return → habit"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The goal was not to complete bookings, but to make the service reusable."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Key insight",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The issue was not that the process was complex."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "It was that the system did not help users understand that complexity."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The experience varied depending on:"
+            "text": "It follows a loop:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "user type",
-              "eligibility",
-              "availability",
-              "approval outcomes"
+              "explore options",
+              "attempt a scenario",
+              "encounter constraints",
+              "return and re-evaluate"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "From the user’s perspective, the system behaved unpredictably."
+            "text": "Previously, this loop required a full restart."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This made every interaction feel like a one-time attempt."
+            "text": "The system did not preserve context, making each attempt costly."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The problem became behavioral: the system failed to build trust."
+            "text": "The goal was not to eliminate loops — but to make them safe and predictable."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Key Insight",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The issue was not complexity itself."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The solution required making system logic visible and structured."
+            "text": "It was the position of that complexity in the flow."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Constraints existed, but they were resolved after the user had already committed to a decision."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This meant that decision-making happened in an invalid space."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system needed to shift where decisions are made — from booking to eligibility."
           }
         }
       ]
@@ -299,68 +266,45 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Once the problem was reframed, the focus shifted from UI to system behavior."
+            "text": "Instead of optimizing a single flow, the system was restructured around control points."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Instead of designing a single flow, the service was mapped as overlapping journeys."
+            "text": "The key question became:"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Each journey represented a different user type:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "price-sensitive",
-              "unsure users",
-              "location-first",
-              "returning users"
-            ]
+            "text": "Where does the system determine what is valid?"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This revealed:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "divergence points",
-              "loops",
-              "shared logic",
-              "breakdowns in expectation"
-            ]
+            "text": "This led to identifying a critical layer — eligibility — where constraints can be resolved before booking begins."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The goal was not simplification, but legibility."
+            "text": "All entry points — search, comparison, and repeat usage — converge into this layer."
           }
         },
         {
-          "discriminant": "link",
+          "discriminant": "paragraph",
           "value": {
-            "label": "Detailed service logic in FigJam",
-            "href": "https://www.figma.com/board/2KDFWzfes5bvWg3gY63pPo/RZD-%E2%80%A2-CJM-%E2%80%A2-J2BD-%E2%80%A2-Personas?node-id=0-1"
+            "text": "From that point, the system operates only on valid scenarios."
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/rzd/screen-06.png",
-            "alt": "Information architecture and audience-specific journeys for the sanatorium booking service",
-            "caption": "Before designing screens, I mapped the service as a decision system: information architecture, user types, and expectation failures were laid out explicitly so the interface could respond to real behavioral divergence instead of hiding it under one generic flow.",
+            "src": "/cases/rzd/decision-layers.svg",
+            "alt": "System architecture: where decisions are actually made",
+            "caption": "Where decisions are actually made",
             "variant": "diagram"
           }
         },
@@ -369,196 +313,118 @@
           "value": {
             "src": "/cases/rzd/screen-05.png",
             "alt": "Wireframe set for search, filtered results, card, and booking form",
-            "caption": "These wireframes were not visual drafts. They were a way to test whether the service stages remained legible as one coherent logic: entry, comparison, selection, eligibility, and booking had to connect without forcing users to reinterpret the system at each step.",
-            "variant": "diagram"
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/flow-clean.svg",
-            "alt": "Readable service flow with loops and decision points",
-            "caption": "I treated the service as a set of overlapping journeys with shared rules and different failure points. That made it possible to design for real loops, branch conditions, and recovery paths instead of pretending the booking process was linear.",
+            "caption": "Wireframes testing service stage legibility: entry, comparison, selection, eligibility, and booking as one coherent logic.",
             "variant": "diagram"
           }
         }
       ]
     },
     {
-      "title": "Design decisions",
+      "title": "Design Decisions",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Each decision reduces uncertainty and supports repeat behavior."
+            "text": "These decisions are not isolated improvements."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Comparison"
+            "text": "They are all aimed at shifting the decision point in the system."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Replaced manual tab comparison with structured comparison."
+            "text": "Eligibility is moved earlier, constraints become visible, and invalid scenarios are prevented before they are constructed."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Improves decision confidence (Experience)."
+            "text": "As a result, the system no longer validates decisions — it shapes them."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Eligibility before booking"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Eligibility is resolved before the user enters the booking flow."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users no longer explore the full catalog. They operate within a set of valid scenarios."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Outcome before submission"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system calculates the result before submission."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users do not submit to validate — they submit a known scenario."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Loop without reset"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users can re-evaluate decisions without restarting."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system preserves state and allows iteration without losing progress."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "System as source of truth"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Constraints, rules, and expectations are embedded in the interface."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Users no longer rely on external interpretation."
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/rzd/search-results.png",
-            "alt": "Structured resort comparison interface",
-            "caption": "The comparison layer was designed to reduce interpretation work. Instead of making users open multiple pages and reconstruct differences manually, the system externalized the decision criteria and turned comparison into a supported action.",
-            "variant": "desktop"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Early eligibility"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Moved eligibility logic before booking."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Reduces failed attempts (Trust)."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Loop handling"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Made loops explicit and recoverable."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Removes frustration (Experience + Trust)."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "System transparency"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Introduced clear states, steps, and expectations."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Enables predictability (Trust → Return)."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/application-form.png",
-            "alt": "Booking flow with explicit steps and expectations",
-            "caption": "The booking form was used to expose system logic early: constraints, eligibility, required inputs, and next steps became part of the interface. This reduced the feeling of a black box and made submission feel like a predictable step rather than a risky guess.",
-            "variant": "desktop"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Reduced external dependency"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Moved critical info into UI."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Reduces calls, increases reliance on system (Trust)."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Repeat usage"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Added re-entry via history and simplified flows."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Enables Return → Habit."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "System structure"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Defined consistent stages: discovery → comparison → eligibility → booking → approval → outcome."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Makes system learnable."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/main-page.png",
-            "alt": "Main page of the sanatorium booking service with structured entry points and curated selections",
-            "caption": "The main page was redesigned as a structured entry point, not a decorative homepage. Its job was to orient users, shorten the path to relevant options, and reduce the cognitive cost of entering a complex service for the first time.",
-            "variant": "desktop"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "To support the UI layer, I also built a minimal viable design system with typography, spacing, and core interface elements. It was structured using Atomic Design principles so that the service could stay visually consistent while the interaction model remained scalable."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/design-system.png",
-            "alt": "Design system foundations and component structure for the sanatorium booking service",
-            "caption": "I built the UI on top of a minimal but explicit system of typography, spacing, and reusable interface elements. That was important not for visual polish, but for operational consistency: repeated states, steps, and content patterns had to behave as one learnable product.",
-            "variant": "desktop"
+            "src": "/cases/rzd/predictability-comparison.svg",
+            "alt": "From uncertain attempt to predictable reuse: comparing old and new user flows",
+            "caption": "From uncertain attempt to predictable reuse",
+            "variant": "diagram"
           }
         }
       ]
@@ -569,49 +435,35 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service became a structured system that explains itself."
+            "text": "The service was restructured so that constraints are resolved before booking begins."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users can:"
+            "text": "Users no longer explore the full space of possibilities. They operate within a constrained, valid set of scenarios."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Eligibility becomes part of the decision-making process, not a validation step at the end."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This changes how the system is used:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "compare options clearly",
-              "understand eligibility early",
-              "follow predictable steps",
-              "track booking status",
-              "recover from failures"
+              "decisions are made with known constraints",
+              "outcomes are predictable before submission",
+              "invalid scenarios are prevented, not corrected"
             ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The system no longer requires interpretation."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/tracking-1.png",
-            "alt": "Status tracking interface for booking progress",
-            "caption": "Trust does not end at submission. This status layer was designed to keep the system legible after the user acts, so waiting, approval, and document handling remain understandable instead of becoming a silent operational gap.",
-            "variant": "desktop"
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/tracking-2.png",
-            "alt": "Detailed booking status and outcome tracking",
-            "caption": "Outcome visibility was treated as part of the service itself. By making progress, decisions, and next actions explicit, the system could close the loop properly and give users a reason to rely on it again in the future.",
-            "variant": "desktop"
           }
         }
       ]
@@ -622,31 +474,44 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The service shifted from a one-time interaction to repeatable behavior."
+            "text": "The impact of these changes is not only in task completion, but in behavior over time."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users move from: “I don’t want to deal with this again” to: “I can use this next year”."
+            "text": "When constraints are resolved early, users can make decisions with predictable outcomes."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Results:"
+            "text": "This builds trust in the system — not as an interface, but as a reliable process."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "As a result:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "increased clarity",
-              "reduced friction",
-              "fewer support calls",
-              "improved trust",
-              "higher repeat usage"
+              "users no longer approach the service as a one-time attempt",
+              "they return without needing to relearn the system",
+              "repeated usage becomes a stable pattern"
             ]
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/repeat-behavior-loop.svg",
+            "alt": "How the system builds repeat behavior through predictable outcomes and trust",
+            "caption": "How the system builds repeat behavior",
+            "variant": "diagram"
           }
         }
       ]
@@ -669,7 +534,63 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This reflects trust, value, and long-term adoption."
+            "text": "Repeat usage reflects not only successful bookings, but the user's willingness to re-engage with the system."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "A user returns only when:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "the outcome was predictable",
+              "the process was understandable",
+              "the effort was not wasted"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Summary"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The redesign did not simplify the system."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "It changed where decisions are made."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "By resolving constraints earlier, the system:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "prevents invalid scenarios",
+              "enables predictable outcomes",
+              "builds trust over time"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This transforms the service from a one-time interaction into a repeatable behavior."
           }
         }
       ]

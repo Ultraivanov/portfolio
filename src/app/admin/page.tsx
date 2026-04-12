@@ -358,7 +358,8 @@ export default function AdminPage() {
         <textarea
           value={caseData.subtitle}
           onChange={(e) => updateField("subtitle", e.target.value)}
-          style={{ ...inputStyle, height: 80, fontFamily: "inherit" }}
+          style={{ ...inputStyle, minHeight: 80, height: "auto", resize: "vertical", fontFamily: "inherit" }}
+          rows={3}
         />
       </div>
 
@@ -657,6 +658,7 @@ export default function AdminPage() {
                   borderRadius: "var(--radius-1)",
                   background: "var(--color-bg-secondary)",
                   cursor: "move",
+                  overflow: "visible",
                   opacity: draggedBlock?.sectionIndex === sectionIndex && draggedBlock?.blockIndex === blockIndex ? 0.5 : 1,
                 }}
               >
@@ -673,8 +675,9 @@ export default function AdminPage() {
                   <textarea
                     value={block.value.text || ""}
                     onChange={(e) => updateBlock(sectionIndex, blockIndex, { text: e.target.value })}
-                    style={{ ...inputStyle, height: 100 }}
+                    style={{ ...inputStyle, minHeight: 100, height: "auto", resize: "vertical" }}
                     placeholder="Paragraph text..."
+                    rows={4}
                   />
                 )}
 

@@ -122,8 +122,28 @@ export default function AdminPage() {
     updateField("facts", caseData.facts.filter((_, i) => i !== index));
   };
 
+  const validateCase = (data: CaseStudy): string | null => {
+    if (!data.title.trim()) return "Title is required";
+    if (!data.slug.trim()) return "Slug is required";
+    if (!data.coverAlt.trim()) return "Cover alt text is required";
+    // Check for empty fact labels
+    const emptyFact = data.facts.find(f => !f.label.trim());
+    if (emptyFact) return "All fact labels must be filled";
+    // Check for empty section titles
+    const emptySection = data.sections.find(s => !s.title.trim());
+    if (emptySection) return "All section titles must be filled";
+    return null;
+  };
+
   const handleSave = async () => {
     if (!caseData) return;
+
+    const error = validateCase(caseData);
+    if (error) {
+      setMessage(`❌ ${error}`);
+      return;
+    }
+
     setSaving(true);
     setMessage("");
 
@@ -421,13 +441,42 @@ export default function AdminPage() {
               style={{ ...inputStyle, width: 150 }}
               placeholder="label"
             />
-            <input
-              type="text"
-              value={Array.isArray(fact.value) ? fact.value.join(", ") : fact.value}
-              onChange={(e) => updateFact(index, "value", e.target.value)}
-              style={{ ...inputStyle, flex: 1 }}
-              placeholder="value"
-            />
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <label style={{ fontSize: 12, color: "var(--color-text-muted)" }}>
+                  <input
+                    type="checkbox"
+                    checked={Array.isArray(fact.value)}
+                    onChange={(e) => {
+                      const newValue = e.target.checked
+                        ? fact.value ? [fact.value as string] : [""]
+                        : Array.isArray(fact.value) && fact.value.length > 0
+                          ? fact.value[0]
+                          : "";
+                      updateFact(index, "value", newValue);
+                    }}
+                    style={{ marginRight: 4 }}
+                  />
+                  Multiple values
+                </label>
+              </div>
+              {Array.isArray(fact.value) ? (
+                <textarea
+                  value={fact.value.join("\n")}
+                  onChange={(e) => updateFact(index, "value", e.target.value.split("\n").filter(Boolean))}
+                  style={{ ...inputStyle, minHeight: 60, fontFamily: "inherit" }}
+                  placeholder="Enter values, one per line"
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={fact.value}
+                  onChange={(e) => updateFact(index, "value", e.target.value)}
+                  style={inputStyle}
+                  placeholder="value"
+                />
+              )}
+            </div>
             <button
               onClick={() => removeFact(index)}
               style={{

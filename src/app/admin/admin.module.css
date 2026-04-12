@@ -1,0 +1,369 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.input {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: var(--radius-1, 4px);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  width: 100%;
+}
+
+.textarea {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: var(--radius-1, 4px);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  width: 100%;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.select {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: var(--radius-1, 4px);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  width: 100%;
+}
+
+/* Facts section */
+.factsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.factRow {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.factLabel {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: var(--radius-1, 4px);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.factValueWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.factTypeToggle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--color-text-muted, #666);
+}
+
+.factTypeToggle input {
+  margin-right: 4px;
+}
+
+.factValue {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: var(--radius-1, 4px);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  width: 100%;
+}
+
+.factValueArray {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: var(--radius-1, 4px);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  width: 100%;
+  min-height: 60px;
+  font-family: inherit;
+}
+
+.removeButton {
+  padding: 8px 12px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: var(--radius-1, 4px);
+  cursor: pointer;
+}
+
+.addButton {
+  padding: 8px 16px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: var(--radius-1, 4px);
+  cursor: pointer;
+}
+
+/* Upload section */
+.uploadZone {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px dashed var(--color-border-subtle, #ccc);
+  border-radius: var(--radius-1, 4px);
+}
+
+.fileInput {
+  margin-bottom: 8px;
+  color: var(--color-text-primary, #000);
+}
+
+.fileName {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--color-text-muted, #666);
+}
+
+.uploadButton {
+  padding: 8px 16px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: var(--radius-1, 4px);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.uploadButton:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Image preview */
+.preview {
+  margin-top: 12px;
+}
+
+.previewImage {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: var(--radius-1, 4px);
+  object-fit: cover;
+}
+
+/* SEO section */
+.seoSection {
+  margin-top: 32px;
+  margin-bottom: 16px;
+  border-top: 1px solid var(--color-border-subtle, #ccc);
+  padding-top: 24px;
+}
+
+.seoTitle {
+  font-size: 18px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.charCount {
+  font-size: 12px;
+  color: var(--color-text-muted, #666);
+  margin-top: 4px;
+  display: block;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--color-text-muted, #666);
+  margin-top: 4px;
+  display: block;
+}
+
+/* Action buttons */
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.saveButton {
+  padding: 12px 24px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: var(--radius-1, 4px);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.saveButton:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  padding: 12px 24px;
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  border-radius: var(--radius-1, 4px);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.message {
+  font-size: 14px;
+}
+
+.messageSuccess {
+  font-size: 14px;
+  color: green;
+}
+
+.messageError {
+  font-size: 14px;
+  color: red;
+}
+
+/* Sections editor */
+.sectionsEditor {
+  margin-top: 32px;
+  border-top: 1px solid var(--color-border-subtle, #ccc);
+  padding-top: 24px;
+}
+
+.sectionEditor {
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid var(--color-border-subtle, #ccc);
+  border-radius: var(--radius-1, 4px);
+  background: var(--color-bg, #fff);
+}
+
+.sectionHeader {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.blockEditor {
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px solid var(--color-border-subtle, #ccc);
+  border-radius: var(--radius-1, 4px);
+  background: var(--color-bg-secondary, #f5f5f5);
+}
+
+.blockType {
+  font-size: 12px;
+  color: var(--color-text-muted, #666);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.blockActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.smallButton {
+  padding: 4px 8px;
+  font-size: 12px;
+  background: var(--color-bg-secondary, #f5f5f5);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  border-radius: var(--radius-1, 4px);
+  cursor: pointer;
+}
+
+.smallButtonDanger {
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #dc2626;
+  color: white;
+  border: 1px solid #dc2626;
+  border-radius: var(--radius-1, 4px);
+  cursor: pointer;
+}
+
+/* Block type selector */
+.blockTypeSelector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* JSON preview */
+.jsonPreview {
+  margin-top: 24px;
+  padding: 16px;
+  background: var(--color-bg-secondary, #f5f5f5);
+  border-radius: var(--radius-1, 4px);
+  overflow: auto;
+}
+
+.jsonCode {
+  font-family: monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Loading state */
+.loading {
+  padding: 24px;
+}
+
+/* Inline input styles */
+.inputSmall {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: var(--radius-1, 4px);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  width: 100%;
+}
+
+.inputInline {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: var(--radius-1, 4px);
+  border: 1px solid var(--color-border-subtle, #ccc);
+  background: var(--color-bg-secondary, #f5f5f5);
+  color: var(--color-text-primary, #000);
+  width: 100%;
+  margin-bottom: 8px;
+}

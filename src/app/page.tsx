@@ -2,6 +2,10 @@ import HomePage from "@/components/home/HomePage";
 import { cases } from "@/content/cases";
 import { home } from "@/content/home";
 
+// Static generation with 1 hour revalidation
+export const revalidate = 3600;
+export const dynamic = "force-static";
+
 const normalizeFeaturedCaseSlug = (value: string | { slug?: string | null }) =>
   typeof value === "string" ? value : value.slug ?? null;
 

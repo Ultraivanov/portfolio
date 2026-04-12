@@ -181,6 +181,57 @@ export default function AdminPage() {
     setUploading(false);
   };
 
+  // Section management
+  const updateSection = (sectionIndex: number, field: keyof Section, value: string) => {
+    if (!caseData) return;
+    const newSections = [...caseData.sections];
+    newSections[sectionIndex] = { ...newSections[sectionIndex], [field]: value };
+    updateField("sections", newSections);
+  };
+
+  const addSection = () => {
+    if (!caseData) return;
+    updateField("sections", [
+      ...caseData.sections,
+      { title: "", blocks: [{ discriminant: "paragraph", value: { text: "" } }] },
+    ]);
+  };
+
+  const removeSection = (index: number) => {
+    if (!caseData) return;
+    updateField("sections", caseData.sections.filter((_, i) => i !== index));
+  };
+
+  // Block management
+  const updateBlock = (sectionIndex: number, blockIndex: number, value: Partial<Block["value"]>) => {
+    if (!caseData) return;
+    const newSections = [...caseData.sections];
+    const newBlocks = [...newSections[sectionIndex].blocks];
+    newBlocks[blockIndex] = { ...newBlocks[blockIndex], value: { ...newBlocks[blockIndex].value, ...value } };
+    newSections[sectionIndex] = { ...newSections[sectionIndex], blocks: newBlocks };
+    updateField("sections", newSections);
+  };
+
+  const addBlock = (sectionIndex: number, type: Block["discriminant"]) => {
+    if (!caseData) return;
+    const newSections = [...caseData.sections];
+    const defaultValue: Record<Block["discriminant"], Block["value"]> = {
+      paragraph: { text: "" },
+      list: { items: [""] },
+      link: { label: "", url: "" },
+      media: { media: [{ type: "image", src: "", alt: "", caption: "" }] },
+    };
+    newSections[sectionIndex].blocks.push({ discriminant: type, value: defaultValue[type] });
+    updateField("sections", newSections);
+  };
+
+  const removeBlock = (sectionIndex: number, blockIndex: number) => {
+    if (!caseData) return;
+    const newSections = [...caseData.sections];
+    newSections[sectionIndex].blocks = newSections[sectionIndex].blocks.filter((_, i) => i !== blockIndex);
+    updateField("sections", newSections);
+  };
+
   const inputStyle = {
     padding: "8px 12px",
     fontSize: 16,
@@ -444,6 +495,212 @@ export default function AdminPage() {
             {message}
           </span>
         )}
+      </div>
+
+      {/* Sections Editor */}
+      <div style={{ marginTop: 32, borderTop: "1px solid var(--color-border-subtle)", paddingTop: 24 }}>
+        <h2 style={{ fontSize: 18, marginBottom: 16, fontWeight: 600 }}>Sections</h2>
+
+        {caseData.sections.map((section, sectionIndex) => (
+          <div
+            key={sectionIndex}
+            style={{
+              marginBottom: 24,
+              padding: 16,
+              border: "1px solid var(--color-border-subtle)",
+              borderRadius: "var(--radius-1)",
+              background: "var(--color-bg)",
+            }}
+          >
+            <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+              <input
+                type="text"
+                value={section.title}
+                onChange={(e) => updateSection(sectionIndex, "title", e.target.value)}
+                style={{ ...inputStyle, flex: 1, fontWeight: 600 }}
+                placeholder="Section title"
+              />
+              <button
+                onClick={() => removeSection(sectionIndex)}
+                style={{
+                  padding: "8px 12px",
+                  background: "#dc2626",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "var(--radius-1)",
+                  cursor: "pointer",
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Blocks */}
+            {section.blocks.map((block, blockIndex) => (
+              <div
+                key={blockIndex}
+                style={{
+                  marginBottom: 12,
+                  padding: 12,
+                  border: "1px dashed var(--color-border-subtle)",
+                  borderRadius: "var(--radius-1)",
+                  background: "var(--color-bg-secondary)",
+                }}
+              >
+                <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginBottom: 8, textTransform: "uppercase" }}>
+                  {block.discriminant}
+                </div>
+
+                {block.discriminant === "paragraph" && (
+                  <textarea
+                    value={block.value.text || ""}
+                    onChange={(e) => updateBlock(sectionIndex, blockIndex, { text: e.target.value })}
+                    style={{ ...inputStyle, height: 100 }}
+                    placeholder="Paragraph text..."
+                  />
+                )}
+
+                {block.discriminant === "list" && (
+                  <div>
+                    {(block.value.items || []).map((item, itemIndex) => (
+                      <input
+                        key={itemIndex}
+                        type="text"
+                        value={item}
+                        onChange={(e) => {
+                          const newItems = [...(block.value.items || [])];
+                          newItems[itemIndex] = e.target.value;
+                          updateBlock(sectionIndex, blockIndex, { items: newItems });
+                        }}
+                        style={{ ...inputStyle, marginBottom: 4 }}
+                        placeholder={`Item ${itemIndex + 1}`}
+                      />
+                    ))}
+                    <button
+                      onClick={() => {
+                        const newItems = [...(block.value.items || []), ""];
+                        updateBlock(sectionIndex, blockIndex, { items: newItems });
+                      }}
+                      style={{
+                        padding: "4px 12px",
+                        background: "transparent",
+                        color: "var(--color-text-muted)",
+                        border: "1px solid var(--color-border-subtle)",
+                        borderRadius: "var(--radius-1)",
+                        cursor: "pointer",
+                        fontSize: 12,
+                      }}
+                    >
+                      + Add item
+                    </button>
+                  </div>
+                )}
+
+                {block.discriminant === "link" && (
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <input
+                      type="text"
+                      value={block.value.label || ""}
+                      onChange={(e) => updateBlock(sectionIndex, blockIndex, { label: e.target.value })}
+                      style={{ ...inputStyle, flex: 1 }}
+                      placeholder="Link label"
+                    />
+                    <input
+                      type="text"
+                      value={block.value.url || ""}
+                      onChange={(e) => updateBlock(sectionIndex, blockIndex, { url: e.target.value })}
+                      style={{ ...inputStyle, flex: 2 }}
+                      placeholder="https://..."
+                    />
+                  </div>
+                )}
+
+                {block.discriminant === "media" && (
+                  <div>
+                    {(block.value.media || []).map((media, mediaIndex) => (
+                      <div key={mediaIndex} style={{ marginBottom: 8 }}>
+                        <input
+                          type="text"
+                          value={media.src}
+                          onChange={(e) => {
+                            const newMedia = [...(block.value.media || [])];
+                            newMedia[mediaIndex] = { ...media, src: e.target.value };
+                            updateBlock(sectionIndex, blockIndex, { media: newMedia });
+                          }}
+                          style={{ ...inputStyle, marginBottom: 4 }}
+                          placeholder="Image path..."
+                        />
+                        <input
+                          type="text"
+                          value={media.caption || ""}
+                          onChange={(e) => {
+                            const newMedia = [...(block.value.media || [])];
+                            newMedia[mediaIndex] = { ...media, caption: e.target.value };
+                            updateBlock(sectionIndex, blockIndex, { media: newMedia });
+                          }}
+                          style={{ ...inputStyle, fontSize: 14 }}
+                          placeholder="Caption..."
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <button
+                  onClick={() => removeBlock(sectionIndex, blockIndex)}
+                  style={{
+                    marginTop: 8,
+                    padding: "4px 12px",
+                    background: "transparent",
+                    color: "#dc2626",
+                    border: "1px solid #dc2626",
+                    borderRadius: "var(--radius-1)",
+                    cursor: "pointer",
+                    fontSize: 12,
+                  }}
+                >
+                  Remove block
+                </button>
+              </div>
+            ))}
+
+            {/* Add block buttons */}
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {(["paragraph", "list", "link", "media"] as const).map((type) => (
+                <button
+                  key={type}
+                  onClick={() => addBlock(sectionIndex, type)}
+                  style={{
+                    padding: "6px 12px",
+                    background: "var(--color-bg-secondary)",
+                    color: "var(--color-text-primary)",
+                    border: "1px solid var(--color-border-subtle)",
+                    borderRadius: "var(--radius-1)",
+                    cursor: "pointer",
+                    fontSize: 12,
+                    textTransform: "capitalize",
+                  }}
+                >
+                  + {type}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <button
+          onClick={addSection}
+          style={{
+            padding: "12px 24px",
+            background: "#2563eb",
+            color: "white",
+            border: "none",
+            borderRadius: "var(--radius-1)",
+            cursor: "pointer",
+          }}
+        >
+          + Add Section
+        </button>
       </div>
 
       {showJson && (

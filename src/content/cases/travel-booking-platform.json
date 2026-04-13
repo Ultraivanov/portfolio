@@ -356,6 +356,15 @@
           }
         },
         {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/ui-before-after.png",
+            "alt": "UI Before / After — Decision moved from user interpretation to system-structured scenarios",
+            "caption": "Decision moved from user interpretation → to system-structured scenarios",
+            "variant": "diagram"
+          }
+        },
+        {
           "discriminant": "paragraph",
           "value": {
             "text": "Outcome before submission"
@@ -371,6 +380,15 @@
           "discriminant": "paragraph",
           "value": {
             "text": "Users do not submit to validate — they submit a known scenario."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/application-summary.png",
+            "alt": "Application / booking summary screen",
+            "caption": "Outcome is defined before submission",
+            "variant": "diagram"
           }
         },
         {

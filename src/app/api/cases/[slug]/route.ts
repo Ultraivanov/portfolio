@@ -1,20 +1,17 @@
 import { NextResponse } from "next/server";
-import fs from "node:fs";
-import path from "node:path";
+import { isCaseSlug, readCaseBySlug } from "@/lib/content/case-files";
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-
-  // Read directly from disk to avoid cache issues
-  const casesDirectory = path.join(process.cwd(), "src", "content", "cases");
-  const filePath = path.join(casesDirectory, `${slug}.json`);
+  if (!isCaseSlug(slug)) {
+    return NextResponse.json({ error: "Invalid case slug" }, { status: 400 });
+  }
 
   try {
-    const raw = fs.readFileSync(filePath, "utf-8");
-    const caseStudy = JSON.parse(raw);
+    const caseStudy = await readCaseBySlug(slug);
     return NextResponse.json(caseStudy);
   } catch {
     return NextResponse.json({ error: "Case not found" }, { status: 404 });

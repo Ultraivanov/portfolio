@@ -10,19 +10,19 @@
 
 | Field      | Value                      |
 |------------|----------------------------|
-| Phase      | Alpha                      |
-| Goal       | Case system + CMS content  |
-| Started    | 2026-04-10                 |
+| Phase      | Release                    |
+| Goal       | Stabilization + content governance |
+| Started    | 2026-04-13                 |
 | Target     | TBD                        |
 
 ## Active Block
 
 | Field      | Value                          |
 |------------|--------------------------------|
-| Block ID   | A-01                           |
-| Title      | Case system + content          |
+| Block ID   | R-02                           |
+| Title      | Documentation and workflow consistency |
 | Status     | in-progress                    |
-| File       | `.codex/blocks/A-01.md`         |
+| File       | `.codex/blocks/BLOCK-TEMPLATE.md` |
 
 ---
 
@@ -41,17 +41,17 @@
 
 | ID   | Block                         | Status      |
 |------|-------------------------------|-------------|
-| A-01 | Case system + content          | in-progress |
-| A-02 | CMS wiring + admin fields      | pending     |
-| A-03 | Media embeds + case assets     | pending     |
+| A-01 | Case system + content          | done        |
+| A-02 | CMS wiring + admin fields      | done        |
+| A-03 | Media embeds + case assets     | done        |
 
 ### Phase 3 — Beta
 > Goal: complete supporting pages + integrations
 
 | ID   | Block                         | Status  |
 |------|-------------------------------|---------|
-| B-01 | Pages: contact, CV, legal      | pending |
-| B-02 | Forms + integrations           | pending |
+| B-01 | Pages: contact, CV, legal      | done    |
+| B-02 | Forms + integrations           | in-progress |
 | B-03 | Accessibility + SEO            | pending |
 
 ### Phase 4 — Release
@@ -59,8 +59,8 @@
 
 | ID   | Block                         | Status  |
 |------|-------------------------------|---------|
-| R-01 | Visual polish + regression     | pending |
-| R-02 | Performance + QA               | pending |
+| R-01 | Visual polish + regression     | in-progress |
+| R-02 | Performance + QA               | in-progress |
 | R-03 | Launch checklist               | pending |
 
 ---
@@ -73,4 +73,4 @@
 
 ---
 
-_Last updated: 2026-04-10_
+_Last updated: 2026-04-13_

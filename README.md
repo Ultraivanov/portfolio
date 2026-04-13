@@ -1,45 +1,66 @@
-**AgenticCMS** lets AI agents manage content at scale while humans stay in control. 
-No database, no vendor lock-in — just your Git repo as the single source of truth.
- 
-- AI writes → Git versions → Humans approve
-- Event-driven webhooks for automation
-- Zero infrastructure cost
- 
-Built for the agentic era.
+# Portfolio — Dima Ginzburg
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Minimal, product-oriented portfolio built with Next.js App Router and TypeScript.
 
-## Getting Started
+## Product Direction
+- Product-first, not visual-first
+- Minimal/brutalist visual language
+- Content-driven architecture (JSON as source of content)
+- Gravity UI as base UI kit with restrained customization
 
-First, run the development server:
+## Stack
+- Next.js 16.2.1
+- React 19
+- TypeScript 5
+- `@gravity-ui/uikit`
+- CSS Modules
+- Jest + Testing Library
 
+## Routes
+- `/` — homepage
+- `/work` — case listing
+- `/work/[slug]` — case detail
+- `/contact`, `/cv`, `/privacy`, `/terms`
+- `/admin` — custom CMS
+- `/perf-test` — runtime/performance diagnostics
+
+## Content
+- Home content: `src/content/home.json`
+- Cases: `src/content/cases/*.json`
+- Case loading/types: `src/content/cases.ts`
+
+Current case slugs:
+1. `travel-booking-platform`
+2. `railway-booking-flow`
+3. `megamod`
+4. `my-perfect-greek-vacation`
+5. `design-system-runtime`
+
+## CMS
+Custom GitHub-backed CMS on `/admin`:
+- `GET /api/cases`
+- `GET /api/cases/[slug]`
+- `POST /api/save-content`
+- `POST /api/upload-image`
+
+Required env vars:
+- `GITHUB_PAT`
+- `GITHUB_REPO`
+- `CMS_ADMIN_USER`
+- `CMS_ADMIN_PASSWORD`
+
+## Development
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run test
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Single Source of Truth (Workflow State)
+Use only `.codex/*` for project status and phase tracking:
+- `.codex/SNAPSHOT.md`
+- `.codex/PHASES.md`
+- `.codex/blocks/*.md`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`.assistant/*` is legacy and kept for compatibility only.

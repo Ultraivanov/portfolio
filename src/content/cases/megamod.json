@@ -86,19 +86,35 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The issue wasn't that MegaMod lacked positioning. It had too much of it, distributed unevenly across a single surface."
+            "text": "The existing communication model assumed that the product had one meaning."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A creator arriving at the homepage needed to know if they could build and monetize here. A streaming platform needed to assess integration potential and retention impact. A public institution was asking about strategic and infrastructure value. All of them landed on the same page — and left with the same diluted message."
+            "text": "It attempted to explain the system through a single entry point, forcing different audiences into the same interpretation. "
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The deeper structural problem: the product's visual identity was strong, but the communication architecture wasn't built for this many audiences. The brand projected ambition; the website didn't yet support it with clarity."
+            "text": "As a result, users had to translate the product into their own context — instead of recognizing it immediately."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This created three issues:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "the value proposition felt vague  ",
+              "the product appeared less mature than it actually was  ",
+              "the system did not scale as new use cases were added"
+            ]
           }
         }
       ]
@@ -109,25 +125,43 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "I reframed the problem from \"how do we describe MegaMod\" to \"how do we route different audiences through a single ecosystem without losing coherence.\""
+            "text": "The issue wasn’t messaging. It was the model behind it."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This led to a two-layer architecture. The ecosystem layer — the main page — doesn't try to convert. Its job is framing: what MegaMod is, why it matters as a platform, and how the parts connect. It routes, not sells."
+            "text": "A traditional product assumes a fixed meaning:"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The vertical layer is where conversion happens. Each audience gets its own page with distinct logic — not different copy over the same structure, but a different narrative built around their specific outcome: Creators, Streamers, Events & Brands, Platforms, Education, B2G, Developers."
+            "text": "Product → Features → Value → same for all users"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The constraint I imposed: same structural rhythm across all vertical pages, different language. This made the system scalable and maintainable — adding a new vertical meant following a pattern, not reinventing a narrative."
+            "text": "But MegaMod no longer behaves like a single product."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "It behaves like a system where meaning is constructed at the point of entry."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Core system → user context → interpretation → perceived value"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Different users don’t see different features.  \nThey construct different products from the same system."
           }
         },
         {

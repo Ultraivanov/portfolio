@@ -16,16 +16,16 @@
     {
       "label": "scope",
       "value": [
-        "Information architecture",
-        "Narrative system",
-        "Modular design system",
-        "Navigation routing"
+        "Restructuring the website into a multi-entry system",
+        "Defining audience-specific narratives",
+        "Designing a reusable structural framework",
+        "Aligning how the product is presented with how it’s actually used"
       ]
     },
     {
       "label": "audiences",
       "value": [
-        "Creators, Streamers, Platforms, Events & Brands, EduTech, B2G, Developers, Investors, Media"
+        "creators building games, streamers engaging their audience, platforms looking for scalable content, event teams creating digital experiences, educational and institutional programs, developers, investors, media. Each of them comes in with a different goal — and expects to see a different product"
       ]
     }
   ],

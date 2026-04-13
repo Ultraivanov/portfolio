@@ -307,7 +307,7 @@
             "src": "/cases/rzd/ui-before-after.png",
             "alt": "UI Before / After — Decision moved from user interpretation to system-structured scenarios",
             "caption": "Decision moved from user interpretation → to system-structured scenarios",
-            "variant": "full"
+            "variant": "diagram"
           }
         },
         {
@@ -334,7 +334,7 @@
             "src": "/cases/rzd/application-summary.png",
             "alt": "Application / booking summary screen",
             "caption": "Outcome is defined before submission",
-            "variant": "full"
+            "variant": "diagram"
           }
         },
         {

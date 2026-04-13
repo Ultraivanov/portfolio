@@ -48,6 +48,35 @@
           "value": {
             "text": "The challenge wasn’t to redesign a website.  \nIt was to design a way the product could be understood."
           }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "At its core, MegaMod is a system for creating, distributing, and monetizing interactive worlds."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The problem is that this system means different things depending on who interacts with it."
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "A creator sees a tool.",
+              "A streamer sees an engagement layer.  ",
+              "A platform sees content supply. ",
+              "An event organizer sees an experience medium. "
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "All of these interpretations are valid — but they cannot coexist within a single narrative without losing clarity."
+          }
         }
       ]
     },

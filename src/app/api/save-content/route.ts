@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cmsErrorResponse } from "@/lib/cms/errors";
+import { getRepositoryFileMeta, putRepositoryFile } from "@/lib/cms/github";
+import { validateCaseContentPath, validateCaseStudyPayload } from "@/lib/cms/validation";
 
 const GITHUB_TOKEN = process.env.GITHUB_PAT;
 const GITHUB_REPO = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
@@ -6,71 +9,86 @@ const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
 
 export async function POST(request: NextRequest) {
   if (!GITHUB_TOKEN) {
-    return NextResponse.json(
-      { error: "GitHub PAT not configured" },
-      { status: 500 }
+    return cmsErrorResponse(
+      500,
+      "github_not_configured",
+      "GitHub PAT not configured",
     );
   }
 
   try {
-    const { path, content, message } = await request.json();
+    const payload = await request.json();
+    const pathValidation = validateCaseContentPath(payload.path);
+    if (!pathValidation.ok) {
+      return cmsErrorResponse(400, "path_not_allowed", pathValidation.error, pathValidation.details);
+    }
 
-    if (!path || !content) {
-      return NextResponse.json(
-        { error: "Missing path or content" },
-        { status: 400 }
-      );
+    const caseValidation = validateCaseStudyPayload(payload.content);
+    if (!caseValidation.ok) {
+      return cmsErrorResponse(400, "validation_error", caseValidation.error, caseValidation.details);
+    }
+
+    if (pathValidation.data.slug !== caseValidation.data.slug) {
+      return cmsErrorResponse(400, "validation_error", "Path slug and payload slug mismatch", {
+        pathSlug: pathValidation.data.slug,
+        payloadSlug: caseValidation.data.slug,
+      });
     }
 
     // Get current file SHA (if exists)
-    const getResponse = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${GITHUB_BRANCH}`,
-      {
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          Accept: "application/vnd.github+json",
-        },
-      }
-    );
+    const getResponse = await getRepositoryFileMeta({
+      repo: GITHUB_REPO,
+      branch: GITHUB_BRANCH,
+      path: pathValidation.data.path,
+      token: GITHUB_TOKEN,
+    });
 
     let sha: string | undefined;
-    if (getResponse.status === 200) {
-      const fileData = await getResponse.json();
-      sha = fileData.sha;
+    if (getResponse.ok) {
+      sha = getResponse.data.sha;
+    } else if (getResponse.status !== 404) {
+      const code = getResponse.status === 429 ? "github_rate_limited" : "github_error";
+      return cmsErrorResponse(getResponse.status || 502, code, getResponse.message);
     }
 
     // Update or create file
-    const updateResponse = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          Accept: "application/vnd.github+json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: message || `Update ${path} via CMS`,
-          content: Buffer.from(JSON.stringify(content, null, 2)).toString("base64"),
-          branch: GITHUB_BRANCH,
-          sha,
-        }),
-      }
-    );
+    const updateResponse = await putRepositoryFile({
+      repo: GITHUB_REPO,
+      branch: GITHUB_BRANCH,
+      path: pathValidation.data.path,
+      token: GITHUB_TOKEN,
+      message:
+        typeof payload.message === "string" && payload.message.trim().length > 0
+          ? payload.message
+          : `Update ${pathValidation.data.path} via CMS`,
+      base64Content: Buffer.from(
+        JSON.stringify(caseValidation.data, null, 2),
+      ).toString("base64"),
+      sha,
+    });
 
     if (!updateResponse.ok) {
-      const error = await updateResponse.json();
-      return NextResponse.json(
-        { error: error.message || "Failed to save" },
-        { status: updateResponse.status }
-      );
+      const code =
+        updateResponse.status === 409 || updateResponse.status === 422
+          ? "github_conflict"
+          : updateResponse.status === 429
+            ? "github_rate_limited"
+            : "github_error";
+
+      const status = updateResponse.status || 502;
+      return cmsErrorResponse(status, code, updateResponse.message);
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      slug: caseValidation.data.slug,
+      path: pathValidation.data.path,
+    });
   } catch (error) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Unknown error" },
-      { status: 500 }
+    return cmsErrorResponse(
+      500,
+      "internal_error",
+      error instanceof Error ? error.message : "Unknown error",
     );
   }
 }

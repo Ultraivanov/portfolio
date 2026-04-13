@@ -4,6 +4,7 @@ import CaseFacts from "@/components/case/CaseFacts";
 import CaseMedia from "@/components/case/CaseMedia";
 import CaseSection from "@/components/case/CaseSection";
 import { cases, getCaseBySlug } from "@/content/cases";
+import { notFound } from "next/navigation";
 
 type CasePageProps = {
   params: Promise<{ slug: string }>;
@@ -11,7 +12,10 @@ type CasePageProps = {
 
 export default async function CasePage({ params }: CasePageProps) {
   const { slug } = await params;
-  const caseStudy = getCaseBySlug(slug) ?? cases[0];
+  const caseStudy = getCaseBySlug(slug);
+  if (!caseStudy) {
+    notFound();
+  }
 
   return (
     <article>

@@ -270,14 +270,16 @@ export default function AdminPage() {
       link: { label: "", href: "" },
       media: { src: "", alt: "", caption: "", variant: "diagram" },
     };
-    newSections[sectionIndex].blocks.push({ discriminant: type, value: defaultValue[type] });
+    const newBlocks = [...newSections[sectionIndex].blocks, { discriminant: type, value: defaultValue[type] }];
+    newSections[sectionIndex] = { ...newSections[sectionIndex], blocks: newBlocks };
     updateField("sections", newSections);
   };
 
   const removeBlock = (sectionIndex: number, blockIndex: number) => {
     if (!caseData) return;
     const newSections = [...caseData.sections];
-    newSections[sectionIndex].blocks = newSections[sectionIndex].blocks.filter((_, i) => i !== blockIndex);
+    const newBlocks = newSections[sectionIndex].blocks.filter((_, i) => i !== blockIndex);
+    newSections[sectionIndex] = { ...newSections[sectionIndex], blocks: newBlocks };
     updateField("sections", newSections);
   };
 

@@ -1,7 +1,7 @@
 {
   "slug": "megamod",
-  "title": "Megamod • Structuring a Multi-Product Narrative",
-  "subtitle": "Scaling product complexity through a unified communication layer",
+  "title": "Megamod • Structuring a Multi-Product Narrative",
+  "subtitle": "Scaling product complexity through a unified communication layer",
   "coverSrc": "/cases/megamod/cover.png",
   "coverAlt": "MegaMod multi-product ecosystem",
   "facts": [
@@ -24,7 +24,9 @@
     },
     {
       "label": "audiences",
-      "value": "Creators, Streamers, Platforms, Events & Brands, EduTech, B2G, Developers, Investors, Media"
+      "value": [
+        "Creators, Streamers, Platforms, Events & Brands, EduTech, B2G, Developers, Investors, Media"
+      ]
     }
   ],
   "sections": [
@@ -34,48 +36,48 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "MegaMod evolved into a product that no longer fits into a single story."
+            "text": "MegaMod evolved into a product that no longer fits into a single story."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "What started as a game creation tool became a broader system: creators, streamers, platforms, events, education, and public-sector use cases. The product gained power — but lost clarity in how it was presented."
+            "text": "What started as a game creation tool became a broader system: creators, streamers, platforms, events, education, and public-sector use cases. The product gained power — but lost clarity in how it was presented."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The challenge wasn’t to redesign a website.  \nIt was to design a way the product could be understood."
+            "text": "The challenge wasn’t to redesign a website.\nIt was to design a way the product could be understood."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "At its core, MegaMod is a system for creating, distributing, and monetizing interactive worlds."
+            "text": "At its core, MegaMod is a system for creating, distributing, and monetizing interactive worlds."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The problem is that this system means different things depending on who interacts with it."
+            "text": "The problem is that this system means different things depending on who interacts with it."
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "A creator sees a tool.",
-              "A streamer sees an engagement layer.  ",
-              "A platform sees content supply. ",
-              "An event organizer sees an experience medium. "
+              "A creator sees a tool.",
+              "A streamer sees an engagement layer.",
+              "A platform sees content supply.",
+              "An event organizer sees an experience medium."
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "All of these interpretations are valid — but they cannot coexist within a single narrative without losing clarity."
+            "text": "All of these interpretations are valid — but they cannot coexist within a single narrative without losing clarity."
           }
         }
       ]
@@ -92,13 +94,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "It attempted to explain the system through a single entry point, forcing different audiences into the same interpretation. "
+            "text": "It attempted to explain the system through a single entry point, forcing different audiences into the same interpretation."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "As a result, users had to translate the product into their own context — instead of recognizing it immediately."
+            "text": "As a result, users had to translate the product into their own context — instead of recognizing it immediately."
           }
         },
         {
@@ -111,9 +113,9 @@
           "discriminant": "list",
           "value": {
             "items": [
-              "the value proposition felt vague  ",
-              "the product appeared less mature than it actually was  ",
-              "the system did not scale as new use cases were added"
+              "the value proposition felt vague",
+              "the product appeared less mature than it actually was",
+              "the system did not scale as new use cases were added"
             ]
           }
         }
@@ -125,13 +127,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The issue wasn’t messaging. It was the model behind it."
+            "text": "The issue wasn’t messaging. It was the model behind it."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A traditional product assumes a fixed meaning:"
+            "text": "A traditional product assumes a fixed meaning:"
           }
         },
         {
@@ -143,13 +145,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "But MegaMod no longer behaves like a single product."
+            "text": "But MegaMod no longer behaves like a single product."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "It behaves like a system where meaning is constructed at the point of entry."
+            "text": "It behaves like a system where meaning is constructed at the point of entry."
           }
         },
         {
@@ -170,19 +172,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Different users don’t see different features.  \nThey construct different products from the same system."
+            "text": "Different users don’t see different features.\nThey construct different products from the same system."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Meaning is not defined by features, but by the user’s entry point."
+            "text": "Meaning is not defined by features, but by the user’s entry point."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Each audience interprets the same system through its own intent — and that interpretation defines the product they experience."
+            "text": "Each audience interprets the same system through its own intent — and that interpretation defines the product they experience."
           }
         },
         {
@@ -208,19 +210,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Segment first. Relevance precedes brand storytelling. Until the user recognizes themselves in the page, everything else is noise. Each vertical page opens with the audience's specific problem — not MegaMod's capabilities."
+            "text": "Segment first. Relevance precedes brand storytelling. Until the user recognizes themselves in the page, everything else is noise. Each vertical page opens with the audience’s specific problem — not MegaMod’s capabilities."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Outcomes, not features. Each vertical answers \"what changes for you\" — not what the product can technically do. This required translating product capabilities into audience-specific value language."
+            "text": "Outcomes, not features. Each vertical answers «what changes for you» — not what the product can technically do. This required translating product capabilities into audience-specific value language."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Structural consistency as the unifying force. The same narrative rhythm across all pages — hero → problem framing → how it works → proof → use cases → CTA — makes the ecosystem feel coherent even when the visual tone and language vary significantly per audience."
+            "text": "Structural consistency as the unifying force. The same narrative rhythm across all pages — hero → problem framing → how it works → proof → use cases → CTA — makes the ecosystem feel coherent even when the visual tone and language vary significantly per audience."
           }
         }
       ]
@@ -231,25 +233,25 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The design system was built to support variation within a fixed structure."
+            "text": "The design system was built to support variation within a fixed structure."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Layout modules are reusable across all pages. This isn't just a development efficiency decision — it's a communication decision. When the structural blocks are the same, audiences subconsciously recognize the system as mature and well-maintained."
+            "text": "Layout modules are reusable across all pages. This isn’t just a development efficiency decision — it’s a communication decision. When the structural blocks are the same, audiences subconsciously recognize the system as mature and well-maintained."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Visual language adapts to audience without breaking brand identity: playful and hands-on for creators, performance-driven for streamers, polished and enterprise-ready for brands and events, structured and process-oriented for platforms and education. The identity holds; the tone shifts."
+            "text": "Visual language adapts to audience without breaking brand identity: playful and hands-on for creators, performance-driven for streamers, polished and enterprise-ready for brands and events, structured and process-oriented for platforms and education. The identity holds; the tone shifts."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Navigation functions as the primary routing mechanism. A user landing on the main page should be able to self-select and enter the right narrative within seconds — before reading a single paragraph."
+            "text": "Navigation functions as the primary routing mechanism. A user landing on the main page should be able to self-select and enter the right narrative within seconds — before reading a single paragraph."
           }
         },
         {
@@ -264,12 +266,12 @@
       ]
     },
     {
-      "title": "What I Designed",
+      "title": "What I Designed",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Information architecture for the full ecosystem: main page + 7 vertical pages, each with its own narrative logic and value proposition. A modular layout system and navigation routing model. Visual language guidelines per audience segment."
+            "text": "Information architecture for the full ecosystem: main page + 7 vertical pages, each with its own narrative logic and value proposition. A modular layout system and navigation routing model. Visual language guidelines per audience segment."
           }
         }
       ]
@@ -280,13 +282,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The redesigned communication system made MegaMod readable as a product — not a collection of features. Each audience can find the version of the story that's relevant to them without navigating through noise."
+            "text": "The redesigned communication system made MegaMod readable as a product — not a collection of features. Each audience can find the version of the story that’s relevant to them without navigating through noise."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Structurally: new verticals can be added by following the established pattern. The system is scalable by design, not by accident."
+            "text": "Structurally: new verticals can be added by following the established pattern. The system is scalable by design, not by accident."
           }
         }
       ]
@@ -297,19 +299,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The challenge wasn't simplifying the product — it was organizing its stories without flattening them."
+            "text": "The challenge wasn’t simplifying the product — it was organizing its stories without flattening them."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The instinct in these situations is to compress: find the one message that works for everyone. That instinct is wrong here. Seven audiences with fundamentally different contexts need seven entry points — held together by a shared system, not a shared message."
+            "text": "The instinct in these situations is to compress: find the one message that works for everyone. That instinct is wrong here. Seven audiences with fundamentally different contexts need seven entry points — held together by a shared system, not a shared message."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Complexity doesn't need to be reduced. It needs to be structured."
+            "text": "Complexity doesn’t need to be reduced. It needs to be structured."
           }
         }
       ]

@@ -27,8 +27,6 @@
 
 .frameDiagram {
   width: 100%;
-  max-width: 1100px;
-  aspect-ratio: 16 / 9;
   padding: var(--space-3);
   background: var(--color-surface);
 }

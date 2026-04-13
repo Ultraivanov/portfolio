@@ -1,52 +1,30 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-interface Fact {
-  label: string;
-  value: string | string[];
-}
-
-interface Block {
-  discriminant: "paragraph" | "list" | "link" | "media";
-  value: {
-    text?: string;
-    items?: string[];
-    label?: string;
-    href?: string;
-    src?: string;
-    alt?: string;
-    caption?: string;
-    variant?: "phone" | "desktop" | "diagram";
-  };
-}
-
-interface Section {
-  title: string;
-  blocks: Block[];
-}
-
-interface SeoData {
-  metaTitle?: string;
-  metaDescription?: string;
-  ogImage?: string;
-}
-
-interface CaseStudy {
-  slug: string;
-  title: string;
-  subtitle: string;
-  coverSrc: string;
-  coverAlt: string;
-  facts: Fact[];
-  sections: Section[];
-  seo?: SeoData;
-}
-
-interface CaseInfo {
-  slug: string;
-  title: string;
-}
+import {
+  addBlock as addCaseBlock,
+  addFact as addCaseFact,
+  addSection as addCaseSection,
+  createUploadPath,
+  moveBlock as moveCaseBlock,
+  removeBlock as removeCaseBlock,
+  removeFact as removeCaseFact,
+  removeSection as removeCaseSection,
+  toPublicPath,
+  updateBlockValue,
+  updateCaseField,
+  updateFactField,
+  updateSectionField,
+  updateSeoField,
+  validateCaseForSave,
+} from "./lib/case-editor";
+import {
+  fetchCaseData,
+  fetchCasesList,
+  saveCaseContent,
+  uploadCaseImage,
+} from "./lib/cms-client";
+import type { Block, CaseInfo, CaseStudy, Fact, SeoData, Section } from "./types";
 
 export default function AdminPage() {
   const [cases, setCases] = useState<CaseInfo[]>([]);
@@ -61,11 +39,14 @@ export default function AdminPage() {
   const [imageCaption, setImageCaption] = useState("");
   const [draggedBlock, setDraggedBlock] = useState<{sectionIndex: number, blockIndex: number} | null>(null);
 
+  const updateCase = (updater: (current: CaseStudy) => CaseStudy) => {
+    setCaseData((current) => (current ? updater(current) : current));
+  };
+
   // Load list of cases
   useEffect(() => {
-    fetch("/api/cases", { cache: "no-store" })
-      .then((r) => r.json())
-      .then((data: CaseInfo[]) => {
+    fetchCasesList()
+      .then((data) => {
         setCases(data);
         if (data.length > 0) {
           setSelectedCase(data[0].slug);
@@ -81,9 +62,8 @@ export default function AdminPage() {
   // Load selected case content
   useEffect(() => {
     if (!selectedCase) return;
-    fetch(`/api/cases/${selectedCase}`, { cache: "no-store" })
-      .then((r) => r.json())
-      .then((data: CaseStudy) => {
+    fetchCaseData(selectedCase)
+      .then((data) => {
         setCaseData(data);
       })
       .catch(() => {
@@ -92,50 +72,25 @@ export default function AdminPage() {
   }, [selectedCase]);
 
   const updateField = <K extends keyof CaseStudy>(field: K, value: CaseStudy[K]) => {
-    if (!caseData) return;
-    setCaseData({ ...caseData, [field]: value });
+    updateCase((current) => updateCaseField(current, field, value));
   };
 
   const updateFact = (index: number, field: keyof Fact, value: string | string[]) => {
-    if (!caseData) return;
-    const newFacts = [...caseData.facts];
-    newFacts[index] = { ...newFacts[index], [field]: value };
-    updateField("facts", newFacts);
+    updateCase((current) => updateFactField(current, index, field, value));
   };
 
   const updateSeo = (field: keyof SeoData, value: string) => {
-    if (!caseData) return;
-    const newSeo = { ...(caseData.seo || {}), [field]: value };
-    updateField("seo", newSeo);
+    updateCase((current) => updateSeoField(current, field, value));
   };
 
-  const addFact = () => {
-    if (!caseData) return;
-    updateField("facts", [...caseData.facts, { label: "", value: "" }]);
-  };
+  const addFact = () => updateCase((current) => addCaseFact(current));
 
-  const removeFact = (index: number) => {
-    if (!caseData) return;
-    updateField("facts", caseData.facts.filter((_, i) => i !== index));
-  };
-
-  const validateCase = (data: CaseStudy): string | null => {
-    if (!data.title.trim()) return "Title is required";
-    if (!data.slug.trim()) return "Slug is required";
-    if (!data.coverAlt.trim()) return "Cover alt text is required";
-    // Check for empty fact labels
-    const emptyFact = data.facts.find(f => !f.label.trim());
-    if (emptyFact) return "All fact labels must be filled";
-    // Check for empty section titles
-    const emptySection = data.sections.find(s => !s.title.trim());
-    if (emptySection) return "All section titles must be filled";
-    return null;
-  };
+  const removeFact = (index: number) => updateCase((current) => removeCaseFact(current, index));
 
   const handleSave = async () => {
     if (!caseData) return;
 
-    const error = validateCase(caseData);
+    const error = validateCaseForSave(caseData);
     if (error) {
       setMessage(`❌ ${error}`);
       return;
@@ -144,24 +99,14 @@ export default function AdminPage() {
     setSaving(true);
     setMessage("");
 
-    const path = `src/content/cases/${selectedCase}.json`;
-
-    const response = await fetch("/api/save-content", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        path,
+    try {
+      await saveCaseContent({
+        slug: selectedCase,
         content: caseData,
-        message: `Update ${selectedCase} case`,
-      }),
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
+      });
       setMessage("✅ Saved! Changes will deploy in ~1 minute.");
-    } else {
-      setMessage(`❌ Error: ${result.error}`);
+    } catch (error) {
+      setMessage(`❌ Error: ${error instanceof Error ? error.message : "Failed to save"}`);
     }
     setSaving(false);
   };
@@ -171,29 +116,20 @@ export default function AdminPage() {
     setUploading(true);
     setMessage("");
 
-    const ext = selectedFile.name.split(".").pop();
-    const path = `public/cases/${selectedCase}/${Date.now()}.${ext}`;
+    const path = createUploadPath(selectedCase, selectedFile.name);
 
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("path", path);
-
-    const response = await fetch("/api/upload-image", {
-      method: "POST",
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
+    try {
+      await uploadCaseImage({
+        file: selectedFile,
+        path,
+      });
       // Update coverSrc with new path (relative to public)
-      const publicPath = path.replace(/^public/, "");
-      updateField("coverSrc", publicPath);
+      updateField("coverSrc", toPublicPath(path));
       setMessage("✅ Image uploaded!");
       setSelectedFile(null);
       setImageCaption("");
-    } else {
-      setMessage(`❌ Upload failed: ${result.error}`);
+    } catch (error) {
+      setMessage(`❌ Upload failed: ${error instanceof Error ? error.message : "Upload failed"}`);
     }
     setUploading(false);
   };
@@ -207,88 +143,45 @@ export default function AdminPage() {
     if (!caseData || !file) return;
     setMessage("");
 
-    const ext = file.name.split(".").pop();
-    const path = `public/cases/${selectedCase}/${Date.now()}.${ext}`;
+    const path = createUploadPath(selectedCase, file.name);
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("path", path);
-
-    const response = await fetch("/api/upload-image", {
-      method: "POST",
-      body: formData,
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      const publicPath = path.replace(/^public/, "");
-      updateBlock(sectionIndex, blockIndex, { src: publicPath });
+    try {
+      await uploadCaseImage({
+        file,
+        path,
+      });
+      updateBlock(sectionIndex, blockIndex, { src: toPublicPath(path) });
       setMessage("✅ Image uploaded to media block!");
-    } else {
-      setMessage(`❌ Upload failed: ${result.error}`);
+    } catch (error) {
+      setMessage(`❌ Upload failed: ${error instanceof Error ? error.message : "Upload failed"}`);
     }
   };
 
   // Section management
   const updateSection = (sectionIndex: number, field: keyof Section, value: string) => {
-    if (!caseData) return;
-    const newSections = [...caseData.sections];
-    newSections[sectionIndex] = { ...newSections[sectionIndex], [field]: value };
-    updateField("sections", newSections);
+    updateCase((current) => updateSectionField(current, sectionIndex, field, value));
   };
 
-  const addSection = () => {
-    if (!caseData) return;
-    updateField("sections", [
-      ...caseData.sections,
-      { title: "", blocks: [{ discriminant: "paragraph", value: { text: "" } }] },
-    ]);
-  };
+  const addSection = () => updateCase((current) => addCaseSection(current));
 
-  const removeSection = (index: number) => {
-    if (!caseData) return;
-    updateField("sections", caseData.sections.filter((_, i) => i !== index));
-  };
+  const removeSection = (index: number) => updateCase((current) => removeCaseSection(current, index));
 
   // Block management
   const updateBlock = (sectionIndex: number, blockIndex: number, value: Partial<Block["value"]>) => {
-    if (!caseData) return;
-    const newSections = [...caseData.sections];
-    const newBlocks = [...newSections[sectionIndex].blocks];
-    newBlocks[blockIndex] = { ...newBlocks[blockIndex], value: { ...newBlocks[blockIndex].value, ...value } };
-    newSections[sectionIndex] = { ...newSections[sectionIndex], blocks: newBlocks };
-    updateField("sections", newSections);
+    updateCase((current) => updateBlockValue(current, sectionIndex, blockIndex, value));
   };
 
   const addBlock = (sectionIndex: number, type: Block["discriminant"]) => {
-    if (!caseData) return;
-    const newSections = [...caseData.sections];
-    const defaultValue: Record<Block["discriminant"], Block["value"]> = {
-      paragraph: { text: "" },
-      list: { items: [""] },
-      link: { label: "", href: "" },
-      media: { src: "", alt: "", caption: "", variant: "diagram" },
-    };
-    newSections[sectionIndex].blocks.push({ discriminant: type, value: defaultValue[type] });
-    updateField("sections", newSections);
+    updateCase((current) => addCaseBlock(current, sectionIndex, type));
   };
 
   const removeBlock = (sectionIndex: number, blockIndex: number) => {
-    if (!caseData) return;
-    const newSections = [...caseData.sections];
-    newSections[sectionIndex].blocks = newSections[sectionIndex].blocks.filter((_, i) => i !== blockIndex);
-    updateField("sections", newSections);
+    updateCase((current) => removeCaseBlock(current, sectionIndex, blockIndex));
   };
 
   const moveBlock = (sectionIndex: number, fromIndex: number, toIndex: number) => {
-    if (!caseData || fromIndex === toIndex) return;
-    const newSections = [...caseData.sections];
-    const blocks = [...newSections[sectionIndex].blocks];
-    const [movedBlock] = blocks.splice(fromIndex, 1);
-    blocks.splice(toIndex, 0, movedBlock);
-    newSections[sectionIndex] = { ...newSections[sectionIndex], blocks };
-    updateField("sections", newSections);
+    if (fromIndex === toIndex) return;
+    updateCase((current) => moveCaseBlock(current, sectionIndex, fromIndex, toIndex));
   };
 
   const inputStyle = {

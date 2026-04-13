@@ -27,11 +27,19 @@ export default async function CasePage({ params }: CasePageProps) {
                     ? ({ type: block.discriminant, ...block.value } as const)
                     : block;
                 if (normalized.type === "paragraph" && "text" in normalized) {
-                  return (
-                    <p key={`${normalized.type}-${index}`}>
-                      {normalized.text}
+                  const paragraphs = normalized.text
+                    .split(/\n\n+/)
+                    .filter((s: string) => s.trim());
+                  return paragraphs.map((para: string, pIdx: number) => (
+                    <p key={`${normalized.type}-${index}-${pIdx}`}>
+                      {para.split("\n").map((line: string, lIdx: number, arr: string[]) => (
+                        <span key={lIdx}>
+                          {line}
+                          {lIdx < arr.length - 1 && <br />}
+                        </span>
+                      ))}
                     </p>
-                  );
+                  ));
                 }
                 if (normalized.type === "list" && "items" in normalized) {
                   return (

@@ -307,15 +307,6 @@
             "caption": "Where decisions are actually made",
             "variant": "diagram"
           }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/screen-05.png",
-            "alt": "Wireframe set for search, filtered results, card, and booking form",
-            "caption": "Wireframes testing service stage legibility: entry, comparison, selection, eligibility, and booking as one coherent logic.",
-            "variant": "diagram"
-          }
         }
       ]
     },

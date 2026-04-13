@@ -298,6 +298,54 @@
         {
           "discriminant": "paragraph",
           "value": {
+            "text": "### Eligibility before booking"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/ui-before-after.png",
+            "alt": "UI Before / After — Decision moved from user interpretation to system-structured scenarios",
+            "caption": "Decision moved from user interpretation → to system-structured scenarios",
+            "variant": "full"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Before the redesign, availability was presented as raw data. Users had to interpret room types, conditions, and constraints manually, without understanding whether a scenario was actually valid. This created a gap between selection and eligibility."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "After the redesign, availability is structured as decision-ready scenarios. The system incorporates user context — including constraints and conditions — into the way options are presented. Users no longer construct scenarios themselves. They select from options that are already aligned with system rules."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "### Outcome before submission"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/rzd/application-summary.png",
+            "alt": "Application / booking summary screen",
+            "caption": "Outcome is defined before submission",
+            "variant": "full"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The system does not use submission as a validation step anymore. Instead, it constructs a complete scenario before the user commits. All key elements — guests, dates, room type, and pricing — are resolved in advance. Subsidies are applied, constraints are accounted for, and the final outcome is visible. Submission becomes a confirmation, not a test."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
             "text": "1. Explicit State System"
           }
         },

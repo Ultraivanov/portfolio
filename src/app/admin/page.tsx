@@ -7,21 +7,17 @@ interface Fact {
   value: string | string[];
 }
 
-interface MediaBlock {
-  type: "image" | "video" | "embed";
-  src: string;
-  alt?: string;
-  caption?: string;
-}
-
 interface Block {
   discriminant: "paragraph" | "list" | "link" | "media";
   value: {
     text?: string;
     items?: string[];
     label?: string;
-    url?: string;
-    media?: MediaBlock[];
+    href?: string;
+    src?: string;
+    alt?: string;
+    caption?: string;
+    variant?: "phone" | "desktop" | "diagram";
   };
 }
 
@@ -206,7 +202,6 @@ export default function AdminPage() {
   const handleUploadMediaImage = async (
     sectionIndex: number,
     blockIndex: number,
-    mediaIndex: number,
     file: File
   ) => {
     if (!caseData || !file) return;
@@ -228,13 +223,7 @@ export default function AdminPage() {
 
     if (response.ok) {
       const publicPath = path.replace(/^public/, "");
-      // Update media src with new path
-      const newSections = [...caseData.sections];
-      const block = newSections[sectionIndex].blocks[blockIndex];
-      const newMedia = [...(block.value.media || [])];
-      newMedia[mediaIndex] = { ...newMedia[mediaIndex], src: publicPath };
-      block.value = { ...block.value, media: newMedia };
-      updateField("sections", newSections);
+      updateBlock(sectionIndex, blockIndex, { src: publicPath });
       setMessage("✅ Image uploaded to media block!");
     } else {
       setMessage(`❌ Upload failed: ${result.error}`);
@@ -278,8 +267,8 @@ export default function AdminPage() {
     const defaultValue: Record<Block["discriminant"], Block["value"]> = {
       paragraph: { text: "" },
       list: { items: [""] },
-      link: { label: "", url: "" },
-      media: { media: [{ type: "image", src: "", alt: "", caption: "" }] },
+      link: { label: "", href: "" },
+      media: { src: "", alt: "", caption: "", variant: "diagram" },
     };
     newSections[sectionIndex].blocks.push({ discriminant: type, value: defaultValue[type] });
     updateField("sections", newSections);
@@ -728,8 +717,8 @@ export default function AdminPage() {
                     />
                     <input
                       type="text"
-                      value={block.value.url || ""}
-                      onChange={(e) => updateBlock(sectionIndex, blockIndex, { url: e.target.value })}
+                      value={block.value.href || ""}
+                      onChange={(e) => updateBlock(sectionIndex, blockIndex, { href: e.target.value })}
                       style={{ ...inputStyle, flex: 2 }}
                       placeholder="https://..."
                     />
@@ -737,75 +726,65 @@ export default function AdminPage() {
                 )}
 
                 {block.discriminant === "media" && (
-                  <div>
-                    {(block.value.media || []).map((media, mediaIndex) => (
-                      <div key={mediaIndex} style={{ marginBottom: 12, padding: 12, background: "var(--color-bg)", borderRadius: "var(--radius-1)" }}>
-                        {/* Path field with upload */}
-                        <div style={{ marginBottom: 8 }}>
-                          <label style={{ ...labelStyle, fontSize: 12 }}>Image path:</label>
-                          <input
-                            type="text"
-                            value={media.src}
-                            onChange={(e) => {
-                              const newMedia = [...(block.value.media || [])];
-                              newMedia[mediaIndex] = { ...media, src: e.target.value };
-                              updateBlock(sectionIndex, blockIndex, { media: newMedia });
-                            }}
-                            style={{ ...inputStyle, marginBottom: 8 }}
-                            placeholder="/cases/example/image.png"
-                          />
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                handleUploadMediaImage(sectionIndex, blockIndex, mediaIndex, file);
-                              }
-                              e.target.value = ""; // Reset input
-                            }}
-                            style={{ fontSize: 14, color: "var(--color-text-primary)" }}
-                          />
-                        </div>
+                  <div style={{ padding: 12, background: "var(--color-bg)", borderRadius: "var(--radius-1)" }}>
+                    <div style={{ marginBottom: 8 }}>
+                      <label style={{ ...labelStyle, fontSize: 12 }}>Image path:</label>
+                      <input
+                        type="text"
+                        value={block.value.src || ""}
+                        onChange={(e) => updateBlock(sectionIndex, blockIndex, { src: e.target.value })}
+                        style={{ ...inputStyle, marginBottom: 8 }}
+                        placeholder="/cases/example/image.png"
+                      />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            handleUploadMediaImage(sectionIndex, blockIndex, file);
+                          }
+                          e.target.value = "";
+                        }}
+                        style={{ fontSize: 14, color: "var(--color-text-primary)" }}
+                      />
+                    </div>
 
-                        {/* Preview */}
-                        {media.src && (
-                          <div style={{ marginBottom: 8 }}>
-                            <img
-                              src={media.src}
-                              alt={media.alt || ""}
-                              style={{ maxWidth: 150, maxHeight: 100, borderRadius: "var(--radius-1)", objectFit: "cover" }}
-                            />
-                          </div>
-                        )}
-
-                        {/* Alt text */}
-                        <input
-                          type="text"
-                          value={media.alt || ""}
-                          onChange={(e) => {
-                            const newMedia = [...(block.value.media || [])];
-                            newMedia[mediaIndex] = { ...media, alt: e.target.value };
-                            updateBlock(sectionIndex, blockIndex, { media: newMedia });
-                          }}
-                          style={{ ...inputStyle, fontSize: 14, marginBottom: 8 }}
-                          placeholder="Alt text..."
-                        />
-
-                        {/* Caption */}
-                        <input
-                          type="text"
-                          value={media.caption || ""}
-                          onChange={(e) => {
-                            const newMedia = [...(block.value.media || [])];
-                            newMedia[mediaIndex] = { ...media, caption: e.target.value };
-                            updateBlock(sectionIndex, blockIndex, { media: newMedia });
-                          }}
-                          style={{ ...inputStyle, fontSize: 14 }}
-                          placeholder="Caption..."
+                    {block.value.src && (
+                      <div style={{ marginBottom: 8 }}>
+                        <img
+                          src={block.value.src}
+                          alt={block.value.alt || ""}
+                          style={{ maxWidth: 150, maxHeight: 100, borderRadius: "var(--radius-1)", objectFit: "cover" }}
                         />
                       </div>
-                    ))}
+                    )}
+
+                    <input
+                      type="text"
+                      value={block.value.alt || ""}
+                      onChange={(e) => updateBlock(sectionIndex, blockIndex, { alt: e.target.value })}
+                      style={{ ...inputStyle, fontSize: 14, marginBottom: 8 }}
+                      placeholder="Alt text..."
+                    />
+
+                    <input
+                      type="text"
+                      value={block.value.caption || ""}
+                      onChange={(e) => updateBlock(sectionIndex, blockIndex, { caption: e.target.value })}
+                      style={{ ...inputStyle, fontSize: 14, marginBottom: 8 }}
+                      placeholder="Caption..."
+                    />
+
+                    <select
+                      value={block.value.variant || "diagram"}
+                      onChange={(e) => updateBlock(sectionIndex, blockIndex, { variant: e.target.value as Block["value"]["variant"] })}
+                      style={{ ...inputStyle, fontSize: 14 }}
+                    >
+                      <option value="diagram">Diagram</option>
+                      <option value="phone">Phone</option>
+                      <option value="desktop">Desktop</option>
+                    </select>
                   </div>
                 )}
 

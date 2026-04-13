@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { typografCase } from "@/lib/typograf";
 
 const GITHUB_TOKEN = process.env.GITHUB_PAT;
 const GITHUB_REPO = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
@@ -21,6 +22,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Apply typograf to all text content before saving
+    const processedContent = typografCase(content);
 
     // Get current file SHA (if exists)
     const getResponse = await fetch(
@@ -51,7 +55,7 @@ export async function POST(request: NextRequest) {
         },
         body: JSON.stringify({
           message: message || `Update ${path} via CMS`,
-          content: Buffer.from(JSON.stringify(content, null, 2)).toString("base64"),
+          content: Buffer.from(JSON.stringify(processedContent, null, 2)).toString("base64"),
           branch: GITHUB_BRANCH,
           sha,
         }),

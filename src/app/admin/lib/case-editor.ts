@@ -86,7 +86,8 @@ export const addBlock = (
   type: Block["discriminant"],
 ): CaseStudy => {
   const sections = [...data.sections];
-  sections[sectionIndex].blocks.push({ discriminant: type, value: defaultBlockValue[type] });
+  const blocks = [...sections[sectionIndex].blocks, { discriminant: type, value: defaultBlockValue[type] }];
+  sections[sectionIndex] = { ...sections[sectionIndex], blocks };
   return updateCaseField(data, "sections", sections);
 };
 
@@ -96,7 +97,8 @@ export const removeBlock = (
   blockIndex: number,
 ): CaseStudy => {
   const sections = [...data.sections];
-  sections[sectionIndex].blocks = sections[sectionIndex].blocks.filter((_, i) => i !== blockIndex);
+  const blocks = sections[sectionIndex].blocks.filter((_, i) => i !== blockIndex);
+  sections[sectionIndex] = { ...sections[sectionIndex], blocks };
   return updateCaseField(data, "sections", sections);
 };
 

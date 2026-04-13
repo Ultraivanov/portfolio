@@ -74,6 +74,19 @@ describe("case-editor", () => {
     expect(removed.sections[0].blocks).toHaveLength(2);
   });
 
+  it("does not mutate input when adding or removing blocks", () => {
+    const original = buildCase();
+    const originalBlockCount = original.sections[0].blocks.length;
+
+    const withBlock = addBlock(original, 0, "list");
+    expect(withBlock.sections[0].blocks).toHaveLength(originalBlockCount + 1);
+    expect(original.sections[0].blocks).toHaveLength(originalBlockCount);
+
+    const removed = removeBlock(withBlock, 0, 0);
+    expect(removed.sections[0].blocks).toHaveLength(originalBlockCount);
+    expect(withBlock.sections[0].blocks).toHaveLength(originalBlockCount + 1);
+  });
+
   it("builds upload and public paths", () => {
     const uploadPath = createUploadPath("demo-case", "image.webp", 123456);
     expect(uploadPath).toBe("public/cases/demo-case/123456.webp");

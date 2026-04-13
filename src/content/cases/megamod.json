@@ -36,48 +36,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "MegaMod evolved into a product that no longer fits into a single story."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "What started as a game creation tool became a broader system: creators, streamers, platforms, events, education, and public-sector use cases. The product gained power — but lost clarity in how it was presented."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The challenge wasn’t to redesign a website.\nIt was to design a way the product could be understood."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "At its core, MegaMod is a system for creating, distributing, and monetizing interactive worlds."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The problem is that this system means different things depending on who interacts with it."
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "A creator sees a tool.",
-              "A streamer sees an engagement layer.",
-              "A platform sees content supply.",
-              "An event organizer sees an experience medium."
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "All of these interpretations are valid — but they cannot coexist within a single narrative without losing clarity."
+            "text": "MegaMod didn’t start this way.\n\nIt began as a game creation tool, then gradually expanded — new features, new use cases, new audiences.\n\nThe product evolved into a system.\nThe website didn’t.\n\nAt some point, it became easier to build new capabilities than to explain what the product actually is."
           }
         }
       ]
@@ -88,35 +47,33 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The existing communication model assumed that the product had one meaning."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "It attempted to explain the system through a single entry point, forcing different audiences into the same interpretation."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "As a result, users had to translate the product into their own context — instead of recognizing it immediately."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "This created three issues:"
+            "text": "The product was already being understood in different ways — but it was still presented as if it meant the same thing to everyone."
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "the value proposition felt vague",
-              "the product appeared less mature than it actually was",
-              "the system did not scale as new use cases were added"
+              "A creator saw a tool.",
+              "A streamer saw a way to engage viewers.",
+              "A platform saw a content pipeline.",
+              "An event team saw a digital venue."
             ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "All valid interpretations — forced into one narrative.\n\nWhich meant one thing in practice:\nusers had to do the translation themselves."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "",
+            "alt": "Diagram - model shift",
+            "caption": "",
+            "variant": "diagram"
           }
         }
       ]

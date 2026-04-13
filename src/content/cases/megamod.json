@@ -1,13 +1,13 @@
 {
   "slug": "megamod",
-  "title": "Megamod • Multi-Product Communication System",
+  "title": "Megamod • Structuring a Multi-Product Narrative",
   "subtitle": "Scaling product complexity through a unified communication layer",
   "coverSrc": "/cases/megamod/cover.png",
   "coverAlt": "MegaMod multi-product ecosystem",
   "facts": [
     {
       "label": "domain",
-      "value": "UGC Gaming Platform / Multi-product ecosystem"
+      "value": "Multi-product ecosystem"
     },
     {
       "label": "role",
@@ -15,11 +15,16 @@
     },
     {
       "label": "scope",
-      "value": ["Information architecture", "Narrative system", "Modular design system", "Navigation routing"]
+      "value": [
+        "Information architecture",
+        "Narrative system",
+        "Modular design system",
+        "Navigation routing"
+      ]
     },
     {
       "label": "audiences",
-      "value": "Creators, Streamers, Platforms, Events & Brands, Education, B2G, Developers"
+      "value": "Creators, Streamers, Platforms, Events & Brands, EduTech, B2G, Developers, Investors, Media"
     }
   ],
   "sections": [
@@ -29,19 +34,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "MegaMod started as a single product and expanded into a layered ecosystem: creators, streamers, platforms, events, education, and public-sector verticals. Seven distinct audiences with different business models, different success metrics, and fundamentally different questions they arrive with."
+            "text": "MegaMod evolved into a product that no longer fits into a single story."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The product was expanding faster than its communication could support. The website was trying to speak to everyone simultaneously — and reaching no one specifically."
+            "text": "What started as a game creation tool became a broader system: creators, streamers, platforms, events, education, and public-sector use cases. The product gained power — but lost clarity in how it was presented."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "My role was to design the information architecture and narrative system that would make this complexity legible: one coherent ecosystem, seven distinct entry points."
+            "text": "The challenge wasn’t to redesign a website.  \nIt was to design a way the product could be understood."
           }
         }
       ]

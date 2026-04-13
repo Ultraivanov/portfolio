@@ -88,7 +88,7 @@ export default async function CasePage({ params }: CasePageProps) {
 }
 
 export const dynamicParams = true;
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return cases.map((item) => ({ slug: item.slug }));

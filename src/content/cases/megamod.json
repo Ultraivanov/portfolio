@@ -153,6 +153,15 @@
           }
         },
         {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/megamod/1776098741255.svg",
+            "alt": "",
+            "caption": "",
+            "variant": "diagram"
+          }
+        },
+        {
           "discriminant": "paragraph",
           "value": {
             "text": "Core system → user context → interpretation → perceived value"
@@ -162,6 +171,18 @@
           "discriminant": "paragraph",
           "value": {
             "text": "Different users don’t see different features.  \nThey construct different products from the same system."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Meaning is not defined by features, but by the user’s entry point."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Each audience interprets the same system through its own intent — and that interpretation defines the product they experience."
           }
         },
         {
@@ -249,15 +270,6 @@
           "discriminant": "paragraph",
           "value": {
             "text": "Information architecture for the full ecosystem: main page + 7 vertical pages, each with its own narrative logic and value proposition. A modular layout system and navigation routing model. Visual language guidelines per audience segment."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "FIGMA_EMBED_VERTICAL_PAGES",
-            "alt": "MegaMod vertical pages",
-            "caption": "Vertical pages: same structure, different language — Creators, Streamers, Platforms",
-            "variant": "desktop"
           }
         }
       ]

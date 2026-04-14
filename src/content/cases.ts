@@ -11,7 +11,6 @@ export type CaseSectionContent =
         src: string;
         alt: string;
         caption?: string;
-        variant?: "phone" | "desktop" | "diagram";
       };
     };
 

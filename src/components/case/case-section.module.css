@@ -1,6 +1,7 @@
 .section {
+  --case-section-label-width: clamp(160px, 18vw, 220px);
   display: grid;
-  grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
+  grid-template-columns: var(--case-section-label-width) minmax(0, 1fr);
   grid-template-areas: "label content";
   gap: var(--space-4);
   padding: var(--space-4) 0;
@@ -21,6 +22,7 @@
 
 .content {
   grid-area: content;
+  --case-media-bleed: calc(var(--case-section-label-width) + var(--space-4));
   font-size: var(--text-body);
   line-height: var(--leading-normal);
   color: var(--color-text-primary);
@@ -45,11 +47,20 @@
   color: var(--color-text-primary);
 }
 
+.content :global(.case-media-figure) {
+  width: calc(100% + var(--case-media-bleed));
+  margin-left: calc(-1 * var(--case-media-bleed));
+}
+
 @media (max-width: 900px) {
   .section {
     grid-template-columns: 1fr;
     grid-template-areas:
       "label"
       "content";
+  }
+
+  .content {
+    --case-media-bleed: 0px;
   }
 }

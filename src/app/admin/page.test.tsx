@@ -1,0 +1,99 @@
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import AdminPage from "./page";
+
+type MockResponsePayload = Record<string, unknown>;
+
+const mockJsonResponse = (payload: MockResponsePayload, ok = true): Response =>
+  ({
+    ok,
+    json: async () => payload,
+  } as Response);
+
+const mediaCase = {
+  slug: "megamod",
+  title: "Megamod",
+  subtitle: "Subtitle",
+  coverSrc: "/cases/megamod/cover.png",
+  coverAlt: "Cover",
+  facts: [],
+  sections: [
+    {
+      title: "Approach",
+      blocks: [{ discriminant: "media", value: { src: "", alt: "", caption: "" } }],
+    },
+  ],
+};
+
+describe("AdminPage media upload input state", () => {
+  const originalFetch = globalThis.fetch;
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+    if (originalFetch) {
+      Object.defineProperty(globalThis, "fetch", {
+        configurable: true,
+        writable: true,
+        value: originalFetch,
+      });
+      return;
+    }
+    // jsdom in this repo does not provide fetch by default.
+    delete (globalThis as { fetch?: unknown }).fetch;
+  });
+
+  it("shows explicit uploaded file status even after file input is reset", async () => {
+    const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
+        const url = typeof input === "string" ? input : input.toString();
+
+        if (url === "/api/cases") {
+          return mockJsonResponse({
+            items: [{ slug: "megamod", title: "Megamod" }],
+          });
+        }
+
+        if (url === "/api/cases/megamod") {
+          return mockJsonResponse({ item: mediaCase });
+        }
+
+        if (url === "/api/upload-image") {
+          return mockJsonResponse({
+            size: { beforeBytes: 2048, afterBytes: 1024 },
+            svgOptimization: {
+              optimized: true,
+              originalBytes: 2048,
+              optimizedBytes: 1024,
+              usedAggressivePass: false,
+            },
+          });
+        }
+
+        return mockJsonResponse({ error: "Unexpected url" }, false);
+      });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    const { container } = render(<AdminPage />);
+
+    await screen.findByText("Sections");
+
+    const fileInputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
+    expect(fileInputs.length).toBeGreaterThan(1);
+
+    const mediaInput = fileInputs[1];
+    const file = new File(["<svg></svg>"], "diagram.svg", { type: "image/svg+xml" });
+
+    fireEvent.change(mediaInput, { target: { files: [file] } });
+
+    await waitFor(() => {
+      expect(screen.getByText("✅ Загружен: diagram.svg")).toBeInTheDocument();
+      expect(screen.getByText("✅ Вес: 2.0 KB → 1.0 KB")).toBeInTheDocument();
+      expect(screen.getByText("✅ Обработан: SVG оптимизирован")).toBeInTheDocument();
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith("/api/upload-image", expect.any(Object));
+  });
+});

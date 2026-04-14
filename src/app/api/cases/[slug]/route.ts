@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
+import { apiError, apiSuccess } from "@/lib/api-response";
 
 export async function GET(
   request: Request,
@@ -15,8 +15,12 @@ export async function GET(
   try {
     const raw = fs.readFileSync(filePath, "utf-8");
     const caseStudy = JSON.parse(raw);
-    return NextResponse.json(caseStudy);
-  } catch {
-    return NextResponse.json({ error: "Case not found" }, { status: 404 });
+    return apiSuccess({ item: caseStudy });
+  } catch (error) {
+    return apiError(
+      404,
+      "CASE_NOT_FOUND",
+      error instanceof Error ? error.message : "Case not found"
+    );
   }
 }

@@ -1,15 +1,28 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import {
+  DEFAULT_SVG_TARGET_BYTES,
+  GITHUB_FILE_WARNING_BYTES,
+  PLATFORM_MAX_FILE_BYTES,
+  SvgUploadError,
+  isSvgUpload,
+  optimizeSvgForUpload,
+  parseByteLimit,
+} from "@/lib/svg-upload";
+import { fetchGitHubWithRetry } from "@/lib/github-api";
+import { apiError, apiSuccess } from "@/lib/api-response";
 
-const GITHUB_TOKEN = process.env.GITHUB_PAT;
-const GITHUB_REPO = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
 
 export async function POST(request: NextRequest) {
-  if (!GITHUB_TOKEN) {
-    return NextResponse.json(
-      { error: "GitHub PAT not configured" },
-      { status: 500 }
-    );
+  const githubToken = process.env.GITHUB_PAT;
+  const githubRepo = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
+  const githubBranch = process.env.GITHUB_BRANCH || "main";
+  const svgTargetBytes = parseByteLimit(
+    process.env.SVG_TARGET_MAX_BYTES,
+    DEFAULT_SVG_TARGET_BYTES
+  );
+
+  if (!githubToken) {
+    return apiError(500, "CONFIG_ERROR", "GitHub PAT not configured");
   }
 
   try {
@@ -18,22 +31,68 @@ export async function POST(request: NextRequest) {
     const path = formData.get("path") as string;
 
     if (!file || !path) {
-      return NextResponse.json(
-        { error: "Missing file or path" },
-        { status: 400 }
+      return apiError(400, "INVALID_REQUEST", "Missing file or path");
+    }
+
+    // Convert file and normalize SVG uploads before saving to GitHub.
+    const bytes = await file.arrayBuffer();
+    let uploadBuffer = Buffer.from(bytes);
+    const originalBytes = uploadBuffer.byteLength;
+    let svgOptimization:
+      | {
+          optimized: boolean;
+          originalBytes: number;
+          optimizedBytes: number;
+          usedAggressivePass: boolean;
+        }
+      | undefined;
+
+    if (uploadBuffer.byteLength > PLATFORM_MAX_FILE_BYTES) {
+      return apiError(
+        413,
+        "FILE_TOO_LARGE",
+        `File is too large (${uploadBuffer.byteLength} bytes). Max allowed is ${PLATFORM_MAX_FILE_BYTES} bytes.`
       );
     }
 
-    // Convert file to base64
-    const bytes = await file.arrayBuffer();
-    const base64Content = Buffer.from(bytes).toString("base64");
+    if (isSvgUpload(file)) {
+      try {
+        const optimized = optimizeSvgForUpload(
+          uploadBuffer.toString("utf-8"),
+          svgTargetBytes
+        );
+        uploadBuffer = Buffer.from(optimized.content, "utf-8");
+        svgOptimization = {
+          optimized: optimized.optimizedBytes < optimized.originalBytes,
+          originalBytes: optimized.originalBytes,
+          optimizedBytes: optimized.optimizedBytes,
+          usedAggressivePass: optimized.usedAggressivePass,
+        };
+      } catch (error) {
+        if (error instanceof SvgUploadError) {
+          return apiError(error.status, "SVG_VALIDATION_ERROR", error.message);
+        }
+        throw error;
+      }
+    }
+
+    const finalBytes = uploadBuffer.byteLength;
+    if (finalBytes > PLATFORM_MAX_FILE_BYTES) {
+      return apiError(
+        413,
+        "FILE_TOO_LARGE",
+        `File is too large after processing (${finalBytes} bytes). Max allowed is ${PLATFORM_MAX_FILE_BYTES} bytes.`
+      );
+    }
+
+    const base64Content = uploadBuffer.toString("base64");
 
     // Check if file exists
-    const getResponse = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${GITHUB_BRANCH}`,
+    const getResponse = await fetchGitHubWithRetry(
+      `https://api.github.com/repos/${githubRepo}/contents/${path}?ref=${githubBranch}`,
       {
         headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          Authorization: `Bearer ${githubToken}`,
           Accept: "application/vnd.github+json",
         },
       }
@@ -46,43 +105,63 @@ export async function POST(request: NextRequest) {
     }
 
     // Upload to GitHub
-    const updateResponse = await fetch(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`,
+    const updateResponse = await fetchGitHubWithRetry(
+      `https://api.github.com/repos/${githubRepo}/contents/${path}`,
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          Authorization: `Bearer ${githubToken}`,
           Accept: "application/vnd.github+json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           message: `Upload ${path} via CMS`,
           content: base64Content,
-          branch: GITHUB_BRANCH,
+          branch: githubBranch,
           sha,
         }),
       }
     );
 
     if (!updateResponse.ok) {
-      const error = await updateResponse.json();
-      return NextResponse.json(
-        { error: error.message || "Failed to upload" },
-        { status: updateResponse.status }
+      const error = await safeReadError(updateResponse);
+      return apiError(
+        updateResponse.status,
+        "GITHUB_WRITE_FAILED",
+        error || "Failed to upload"
       );
     }
 
     const result = await updateResponse.json();
 
-    return NextResponse.json({
+    return apiSuccess({
       success: true,
       url: result.content?.download_url || result.content?.url,
       path: path,
+      size: {
+        beforeBytes: originalBytes,
+        afterBytes: finalBytes,
+      },
+      svgOptimization,
+      warning:
+        finalBytes > GITHUB_FILE_WARNING_BYTES
+          ? `File is larger than GitHub's 50 MiB warning threshold (${finalBytes} bytes).`
+          : undefined,
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Unknown error" },
-      { status: 500 }
+    return apiError(
+      500,
+      "INTERNAL_ERROR",
+      error instanceof Error ? error.message : "Unknown error"
     );
+  }
+}
+
+async function safeReadError(response: Response): Promise<string | undefined> {
+  try {
+    const body = (await response.json()) as { message?: string };
+    return body.message;
+  } catch {
+    return undefined;
   }
 }

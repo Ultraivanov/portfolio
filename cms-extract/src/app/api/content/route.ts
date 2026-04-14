@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { readdir, readFile } from "fs/promises";
 import { join } from "path";
+import { apiError, apiSuccess } from "@/lib/api-response";
 
 const CONTENT_DIR = process.env.CMS_CONTENT_DIR || "content";
 
@@ -19,8 +19,19 @@ export async function GET() {
       })
     );
 
-    return NextResponse.json(items);
-  } catch {
-    return NextResponse.json([], { status: 200 });
+    return apiSuccess({ items });
+  } catch (error) {
+    if (isErrnoException(error) && error.code === "ENOENT") {
+      return apiSuccess({ items: [] });
+    }
+    return apiError(
+      500,
+      "CONTENT_READ_FAILED",
+      error instanceof Error ? error.message : "Failed to read content list"
+    );
   }
+}
+
+function isErrnoException(error: unknown): error is NodeJS.ErrnoException {
+  return typeof error === "object" && error !== null && "code" in error;
 }

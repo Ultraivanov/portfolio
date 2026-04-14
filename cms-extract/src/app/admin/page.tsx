@@ -7,42 +7,81 @@ interface ContentItem {
   [key: string]: unknown;
 }
 
+function getApiErrorMessage(payload: unknown): string {
+  if (typeof payload !== "object" || payload === null) return "Unknown error";
+  const error = (payload as Record<string, unknown>).error;
+  if (typeof error === "string") return error;
+  if (typeof error === "object" && error !== null) {
+    const message = (error as Record<string, unknown>).message;
+    if (typeof message === "string" && message) return message;
+  }
+  return "Unknown error";
+}
+
 export default function AdminPage() {
   const [items, setItems] = useState<ContentItem[]>([]);
   const [selectedSlug, setSelectedSlug] = useState("");
   const [itemData, setItemData] = useState<ContentItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [reloadingLatest, setReloadingLatest] = useState(false);
+  const [hasContentConflict, setHasContentConflict] = useState(false);
   const [message, setMessage] = useState("");
 
   // Load list
   useEffect(() => {
     fetch("/api/content")
       .then((r) => r.json())
-      .then((data: ContentItem[]) => {
+      .then((payload: { items?: ContentItem[] }) => {
+        const data = Array.isArray(payload.items) ? payload.items : [];
         setItems(data);
         if (data.length > 0) setSelectedSlug(data[0].slug);
         setLoading(false);
       })
-      .catch(() => {
-        setMessage("❌ Failed to load");
+      .catch((error: unknown) => {
+        setMessage(`❌ Failed to load: ${error instanceof Error ? error.message : "Unknown error"}`);
         setLoading(false);
       });
   }, []);
+
+  const loadContentItem = async (slug: string): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/content/${slug}`);
+      const payload = (await response.json()) as { item?: ContentItem };
+      if (response.ok && payload.item) {
+        setItemData(payload.item);
+        return true;
+      }
+      setMessage("❌ Failed to load item");
+      return false;
+    } catch (error: unknown) {
+      setMessage(`❌ Failed to load item: ${error instanceof Error ? error.message : "Unknown error"}`);
+      return false;
+    }
+  };
 
   // Load item
   useEffect(() => {
     if (!selectedSlug) return;
     fetch(`/api/content/${selectedSlug}`)
       .then((r) => r.json())
-      .then((data: ContentItem) => setItemData(data))
-      .catch(() => setMessage("❌ Failed to load item"));
+      .then((payload: { item?: ContentItem }) => {
+        if (payload.item) {
+          setItemData(payload.item);
+          return;
+        }
+        setMessage("❌ Failed to load item");
+      })
+      .catch((error: unknown) =>
+        setMessage(`❌ Failed to load item: ${error instanceof Error ? error.message : "Unknown error"}`)
+      );
   }, [selectedSlug]);
 
   const handleSave = async () => {
     if (!itemData) return;
     setSaving(true);
     setMessage("");
+    setHasContentConflict(false);
 
     const response = await fetch("/api/save-content", {
       method: "POST",
@@ -54,9 +93,35 @@ export default function AdminPage() {
       }),
     });
 
-    const result = await response.json();
-    setMessage(response.ok ? "✅ Saved!" : `❌ Error: ${result.error}`);
+    const result = (await response.json()) as Record<string, unknown>;
+    if (response.ok) {
+      setMessage("✅ Saved!");
+    } else {
+      const error = result.error;
+      const errorCode =
+        typeof error === "object" && error !== null
+          ? (error as { code?: string }).code
+          : undefined;
+      if (errorCode === "CONTENT_CONFLICT") {
+        setHasContentConflict(true);
+        setMessage("⚠️ Conflict: content changed in repository. Reload latest version and retry.");
+      } else {
+        const errorMessage = getApiErrorMessage(result);
+        setMessage(`❌ Error: ${errorMessage}`);
+      }
+    }
     setSaving(false);
+  };
+
+  const handleReloadLatest = async () => {
+    if (!selectedSlug) return;
+    setReloadingLatest(true);
+    const loaded = await loadContentItem(selectedSlug);
+    if (loaded) {
+      setHasContentConflict(false);
+      setMessage("✅ Loaded latest content from repository. Review and save again.");
+    }
+    setReloadingLatest(false);
   };
 
   const inputStyle = {
@@ -120,6 +185,22 @@ export default function AdminPage() {
         >
           {saving ? "Saving..." : "Save Changes"}
         </button>
+        {hasContentConflict && (
+          <button
+            onClick={handleReloadLatest}
+            disabled={reloadingLatest}
+            style={{
+              padding: "12px 24px",
+              background: reloadingLatest ? "#999" : "#d97706",
+              color: "white",
+              border: "none",
+              borderRadius: 8,
+              cursor: reloadingLatest ? "not-allowed" : "pointer",
+            }}
+          >
+            {reloadingLatest ? "Reloading..." : "Reload Latest"}
+          </button>
+        )}
         {message && <span style={{ alignSelf: "center" }}>{message}</span>}
       </div>
     </div>

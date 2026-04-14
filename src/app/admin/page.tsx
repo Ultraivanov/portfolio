@@ -17,7 +17,6 @@ interface Block {
     src?: string;
     alt?: string;
     caption?: string;
-    variant?: "phone" | "desktop" | "diagram";
   };
 }
 
@@ -48,6 +47,32 @@ interface CaseInfo {
   title: string;
 }
 
+interface UploadSizeInfo {
+  beforeBytes: number;
+  afterBytes: number;
+}
+
+interface UploadApiResponse {
+  error?: string | { message?: string };
+  warning?: string;
+  size?: UploadSizeInfo;
+  svgOptimization?: {
+    optimized: boolean;
+    originalBytes: number;
+    optimizedBytes: number;
+    usedAggressivePass: boolean;
+  };
+}
+
+interface MediaUploadFeedback {
+  fileName?: string;
+  uploading?: boolean;
+  uploaded?: boolean;
+  sizeText?: string;
+  processedText?: string;
+  errorText?: string;
+}
+
 export default function AdminPage() {
   const [cases, setCases] = useState<CaseInfo[]>([]);
   const [selectedCase, setSelectedCase] = useState("");
@@ -57,15 +82,24 @@ export default function AdminPage() {
   const [message, setMessage] = useState("");
   const [showJson, setShowJson] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [reloadingLatest, setReloadingLatest] = useState(false);
+  const [hasContentConflict, setHasContentConflict] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageCaption, setImageCaption] = useState("");
   const [draggedBlock, setDraggedBlock] = useState<{sectionIndex: number, blockIndex: number} | null>(null);
+  const [mediaUploadFeedbackByBlock, setMediaUploadFeedbackByBlock] = useState<
+    Record<string, MediaUploadFeedback>
+  >({});
+
+  const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
+    `${sectionIndex}:${blockIndex}`;
 
   // Load list of cases
   useEffect(() => {
     fetch("/api/cases", { cache: "no-store" })
       .then((r) => r.json())
-      .then((data: CaseInfo[]) => {
+      .then((payload: { items?: CaseInfo[] }) => {
+        const data = Array.isArray(payload.items) ? payload.items : [];
         setCases(data);
         if (data.length > 0) {
           setSelectedCase(data[0].slug);
@@ -78,17 +112,27 @@ export default function AdminPage() {
       });
   }, []);
 
+  const loadCaseContent = async (slug: string): Promise<boolean> => {
+    try {
+      const response = await fetch(`/api/cases/${slug}`, { cache: "no-store" });
+      const payload = (await response.json()) as { item?: CaseStudy };
+      if (response.ok && payload.item) {
+        setCaseData(payload.item);
+        return true;
+      }
+      setMessage("❌ Failed to load case content");
+      return false;
+    } catch {
+      setMessage("❌ Failed to load case content");
+      return false;
+    }
+  };
+
   // Load selected case content
   useEffect(() => {
     if (!selectedCase) return;
-    fetch(`/api/cases/${selectedCase}`, { cache: "no-store" })
-      .then((r) => r.json())
-      .then((data: CaseStudy) => {
-        setCaseData(data);
-      })
-      .catch(() => {
-        setMessage("❌ Failed to load case content");
-      });
+    setMediaUploadFeedbackByBlock({});
+    void loadCaseContent(selectedCase);
   }, [selectedCase]);
 
   const updateField = <K extends keyof CaseStudy>(field: K, value: CaseStudy[K]) => {
@@ -119,6 +163,52 @@ export default function AdminPage() {
     updateField("facts", caseData.facts.filter((_, i) => i !== index));
   };
 
+  const formatBytes = (bytes: number): string => {
+    if (bytes >= 1024 * 1024) {
+      return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    }
+    return `${(bytes / 1024).toFixed(1)} KB`;
+  };
+
+  const formatUploadSizeDelta = (size?: UploadSizeInfo): string => {
+    if (!size) return "";
+    return `${formatBytes(size.beforeBytes)} → ${formatBytes(size.afterBytes)}`;
+  };
+
+  const formatSingleFileSize = (bytes: number): string => formatBytes(bytes);
+
+  const getApiErrorMessage = (payload: unknown): string => {
+    if (typeof payload !== "object" || payload === null) {
+      return "Unknown error";
+    }
+    const record = payload as Record<string, unknown>;
+    const error = record.error;
+    if (typeof error === "string" && error) {
+      return error;
+    }
+    if (typeof error === "object" && error !== null) {
+      const message = (error as Record<string, unknown>).message;
+      if (typeof message === "string" && message) {
+        return message;
+      }
+    }
+    return "Unknown error";
+  };
+
+  const getApiErrorCode = (payload: unknown): string | undefined => {
+    if (typeof payload !== "object" || payload === null) {
+      return undefined;
+    }
+    const error = (payload as Record<string, unknown>).error;
+    if (typeof error === "object" && error !== null) {
+      const code = (error as Record<string, unknown>).code;
+      if (typeof code === "string" && code) {
+        return code;
+      }
+    }
+    return undefined;
+  };
+
   const validateCase = (data: CaseStudy): string | null => {
     if (!data.title.trim()) return "Title is required";
     if (!data.slug.trim()) return "Slug is required";
@@ -143,6 +233,7 @@ export default function AdminPage() {
 
     setSaving(true);
     setMessage("");
+    setHasContentConflict(false);
 
     const path = `src/content/cases/${selectedCase}.json`;
 
@@ -156,14 +247,31 @@ export default function AdminPage() {
       }),
     });
 
-    const result = await response.json();
+    const result = (await response.json()) as Record<string, unknown>;
 
     if (response.ok) {
       setMessage("✅ Saved! Changes will deploy in ~1 minute.");
     } else {
-      setMessage(`❌ Error: ${result.error}`);
+      const errorCode = getApiErrorCode(result);
+      if (errorCode === "CONTENT_CONFLICT") {
+        setHasContentConflict(true);
+        setMessage("⚠️ Conflict: content changed in repository. Reload latest version, review, then save again.");
+      } else {
+        setMessage(`❌ Error: ${getApiErrorMessage(result)}`);
+      }
     }
     setSaving(false);
+  };
+
+  const handleReloadLatestCase = async () => {
+    if (!selectedCase) return;
+    setReloadingLatest(true);
+    const loaded = await loadCaseContent(selectedCase);
+    if (loaded) {
+      setHasContentConflict(false);
+      setMessage("✅ Loaded latest content from repository. Review and save again.");
+    }
+    setReloadingLatest(false);
   };
 
   const handleUpload = async () => {
@@ -183,17 +291,18 @@ export default function AdminPage() {
       body: formData,
     });
 
-    const result = await response.json();
+    const result = (await response.json()) as UploadApiResponse;
 
     if (response.ok) {
       // Update coverSrc with new path (relative to public)
       const publicPath = path.replace(/^public/, "");
       updateField("coverSrc", publicPath);
-      setMessage("✅ Image uploaded!");
+      const sizeDelta = formatUploadSizeDelta(result.size);
+      setMessage(`✅ Image uploaded${sizeDelta ? ` (${sizeDelta})` : ""}`);
       setSelectedFile(null);
       setImageCaption("");
     } else {
-      setMessage(`❌ Upload failed: ${result.error}`);
+      setMessage(`❌ Upload failed: ${getApiErrorMessage(result)}`);
     }
     setUploading(false);
   };
@@ -206,6 +315,14 @@ export default function AdminPage() {
   ) => {
     if (!caseData || !file) return;
     setMessage("");
+    const blockKey = getBlockKey(sectionIndex, blockIndex);
+    setMediaUploadFeedbackByBlock((prev) => ({
+      ...prev,
+      [blockKey]: {
+        fileName: file.name,
+        uploading: true,
+      },
+    }));
 
     const ext = file.name.split(".").pop();
     const path = `public/cases/${selectedCase}/${Date.now()}.${ext}`;
@@ -219,14 +336,39 @@ export default function AdminPage() {
       body: formData,
     });
 
-    const result = await response.json();
+    const result = (await response.json()) as UploadApiResponse;
 
     if (response.ok) {
       const publicPath = path.replace(/^public/, "");
       updateBlock(sectionIndex, blockIndex, { src: publicPath });
-      setMessage("✅ Image uploaded to media block!");
+      const sizeDelta = formatUploadSizeDelta(result.size);
+      setMessage(`✅ Image uploaded to media block${sizeDelta ? ` (${sizeDelta})` : ""}`);
+      const processedText = result.svgOptimization
+        ? result.svgOptimization.optimized
+          ? "SVG оптимизирован"
+          : "SVG проверен без изменений"
+        : "Файл обработан";
+      setMediaUploadFeedbackByBlock((prev) => ({
+        ...prev,
+        [blockKey]: {
+          fileName: file.name,
+          uploading: false,
+          uploaded: true,
+          sizeText: sizeDelta || formatSingleFileSize(file.size),
+          processedText,
+        },
+      }));
     } else {
-      setMessage(`❌ Upload failed: ${result.error}`);
+      setMessage(`❌ Upload failed: ${getApiErrorMessage(result)}`);
+      setMediaUploadFeedbackByBlock((prev) => ({
+        ...prev,
+        [blockKey]: {
+          fileName: file.name,
+          uploading: false,
+          uploaded: false,
+          errorText: getApiErrorMessage(result),
+        },
+      }));
     }
   };
 
@@ -268,7 +410,7 @@ export default function AdminPage() {
       paragraph: { text: "" },
       list: { items: [""] },
       link: { label: "", href: "" },
-      media: { src: "", alt: "", caption: "", variant: "diagram" },
+      media: { src: "", alt: "", caption: "" },
     };
     const newBlocks = [...newSections[sectionIndex].blocks, { discriminant: type, value: defaultValue[type] }];
     newSections[sectionIndex] = { ...newSections[sectionIndex], blocks: newBlocks };
@@ -566,6 +708,24 @@ export default function AdminPage() {
           {saving ? "Saving..." : "Save Changes"}
         </button>
 
+        {hasContentConflict && (
+          <button
+            onClick={handleReloadLatestCase}
+            disabled={reloadingLatest}
+            style={{
+              padding: "12px 24px",
+              background: reloadingLatest ? "#999" : "#f59e0b",
+              color: "white",
+              border: "none",
+              borderRadius: "var(--radius-1)",
+              cursor: reloadingLatest ? "not-allowed" : "pointer",
+              fontSize: 16,
+            }}
+          >
+            {reloadingLatest ? "Reloading..." : "Reload Latest"}
+          </button>
+        )}
+
         <button
           onClick={() => setShowJson(!showJson)}
           style={{
@@ -744,12 +904,52 @@ export default function AdminPage() {
                         onChange={(e) => {
                           const file = e.target.files?.[0];
                           if (file) {
-                            handleUploadMediaImage(sectionIndex, blockIndex, file);
+                            const blockKey = getBlockKey(sectionIndex, blockIndex);
+                            setMediaUploadFeedbackByBlock((prev) => ({
+                              ...prev,
+                              [blockKey]: {
+                                fileName: file.name,
+                                uploading: false,
+                                uploaded: false,
+                              },
+                            }));
+                            void handleUploadMediaImage(sectionIndex, blockIndex, file);
                           }
-                          e.target.value = "";
                         }}
                         style={{ fontSize: 14, color: "var(--color-text-primary)" }}
                       />
+                      {(() => {
+                        const feedback = mediaUploadFeedbackByBlock[getBlockKey(sectionIndex, blockIndex)];
+                        if (!feedback) return null;
+
+                        return (
+                          <div
+                            style={{
+                              marginTop: 8,
+                              fontSize: 12,
+                              color: "var(--color-text-muted)",
+                              display: "grid",
+                              gap: 4,
+                            }}
+                          >
+                            <div>
+                              {feedback.uploaded ? "✅" : feedback.uploading ? "⏳" : "⬜"}{" "}
+                              Загружен{feedback.fileName ? `: ${feedback.fileName}` : ""}
+                            </div>
+                            <div>
+                              {feedback.sizeText ? "✅" : "⬜"} Вес
+                              {feedback.sizeText ? `: ${feedback.sizeText}` : ""}
+                            </div>
+                            <div>
+                              {feedback.processedText ? "✅" : "⬜"} Обработан
+                              {feedback.processedText ? `: ${feedback.processedText}` : ""}
+                            </div>
+                            {feedback.errorText ? (
+                              <div style={{ color: "#f87171" }}>❌ Ошибка: {feedback.errorText}</div>
+                            ) : null}
+                          </div>
+                        );
+                      })()}
                     </div>
 
                     {block.value.src && (
@@ -778,15 +978,6 @@ export default function AdminPage() {
                       placeholder="Caption..."
                     />
 
-                    <select
-                      value={block.value.variant || "diagram"}
-                      onChange={(e) => updateBlock(sectionIndex, blockIndex, { variant: e.target.value as Block["value"]["variant"] })}
-                      style={{ ...inputStyle, fontSize: 14 }}
-                    >
-                      <option value="diagram">Diagram</option>
-                      <option value="phone">Phone</option>
-                      <option value="desktop">Desktop</option>
-                    </select>
                   </div>
                 )}
 

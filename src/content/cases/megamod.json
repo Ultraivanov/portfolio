@@ -152,7 +152,7 @@
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/megamod/1776160491309.png",
+            "src": "/cases/megamod/1776160200926.svg",
             "alt": "DIAGRAM — Context defines meaning",
             "caption": "Table — Context defines meaning",
             "variant": "diagram"
@@ -166,7 +166,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Entry-based narratives\n\nInstead of a single landing, the system is entered through different perspectives.\n\nEach one frames the product around a specific outcome — creation, engagement, content, or experience."
+            "text": "> Entry-based narratives\n\nInstead of a single landing, the system is entered through different perspectives.\n\nEach one frames the product around a specific outcome — creation, engagement, content, or experience."
           }
         },
         {
@@ -181,13 +181,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Shared structural system\n\nUnderneath those narratives, the structure remains consistent.\n\nSame building blocks, same hierarchy, same logic — just assembled differently."
+            "text": "> Shared structural system\n\nUnderneath those narratives, the structure remains consistent.\n\nSame building blocks, same hierarchy, same logic — just assembled differently."
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/megamod/1776161019943.png",
+            "src": "/cases/megamod/1776161480687.png",
             "alt": "UI — System consistency",
             "caption": "UI — System consistency",
             "variant": "diagram"
@@ -196,23 +196,16 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Outcome-oriented framing\n\nOnce the interpretation shifts, the outcomes shift with it.\n\nThe same system leads to very different results, depending on how it’s understood."
+            "text": "> Outcome-oriented framing\n\nOnce the interpretation shifts, the outcomes shift with it.\n\nThe same system leads to very different results, depending on how it’s understood."
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/megamod/1776161129656.png",
+            "src": "/cases/megamod/1776161575799.png",
             "alt": "UI — Outcomes",
             "caption": "UI — Outcomes",
             "variant": "diagram"
-          }
-        },
-        {
-          "discriminant": "link",
-          "value": {
-            "label": "Link to Figma",
-            "href": "https://www.figma.com/design/s5IGirsROfjaoxL4eAzwYX/MegaMod?node-id=8698-15228&t=VQoUhhYzjmqheSN7-4"
           }
         }
       ]

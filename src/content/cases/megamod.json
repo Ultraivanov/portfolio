@@ -84,73 +84,23 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The issue wasn’t messaging. It was the model behind it."
+            "text": "Instead of trying to simplify the message, I focused on separating how the product is interpreted.\n\nThe shift was subtle but important:\n\nnot «one product with many use cases»,\nbut «one system that means different things depending on context»"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A traditional product assumes a fixed meaning:"
+            "text": "From there, the goal became:"
           }
         },
         {
-          "discriminant": "paragraph",
+          "discriminant": "list",
           "value": {
-            "text": "Product → Features → Value → same for all users"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "But MegaMod no longer behaves like a single product."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "It behaves like a system where meaning is constructed at the point of entry."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/megamod/1776098741255.svg",
-            "alt": "",
-            "caption": "",
-            "variant": "diagram"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Core system → user context → interpretation → perceived value"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Different users don’t see different features.\nThey construct different products from the same system."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Meaning is not defined by features, but by the user’s entry point."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Each audience interprets the same system through its own intent — and that interpretation defines the product they experience."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "FIGMA_EMBED_ECOSYSTEM_MAP",
-            "alt": "MegaMod ecosystem architecture map",
-            "caption": "Two-layer architecture: ecosystem framing layer and vertical conversion pages",
-            "variant": "diagram"
+            "items": [
+              "let different interpretations exist",
+              "make them accessible at the point of entry",
+              "keep everything grounded in a single underlying system"
+            ]
           }
         }
       ]
@@ -161,25 +111,16 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Three principles shaped every structural decision."
+            "text": "Traditional product communication assumes fixed meaning:\n\nProduct → Features → Value\n\nIt works when there’s one clear use case.\n\nBut MegaMod doesn’t behave like that anymore.\n\nMeaning isn’t something you deliver.\nIt’s something the user constructs.\n\nBased on who they are — and why they’re here."
           }
         },
         {
-          "discriminant": "paragraph",
+          "discriminant": "media",
           "value": {
-            "text": "Segment first. Relevance precedes brand storytelling. Until the user recognizes themselves in the page, everything else is noise. Each vertical page opens with the audience’s specific problem — not MegaMod’s capabilities."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Outcomes, not features. Each vertical answers «what changes for you» — not what the product can technically do. This required translating product capabilities into audience-specific value language."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Structural consistency as the unifying force. The same narrative rhythm across all pages — hero → problem framing → how it works → proof → use cases → CTA — makes the ecosystem feel coherent even when the visual tone and language vary significantly per audience."
+            "src": "/cases/megamod/1776159804676.svg",
+            "alt": "Reframing the Product Model",
+            "caption": "Sheme — Model shift",
+            "variant": "diagram"
           }
         }
       ]

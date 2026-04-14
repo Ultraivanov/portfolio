@@ -207,6 +207,13 @@
             "caption": "UI — Outcomes",
             "variant": "diagram"
           }
+        },
+        {
+          "discriminant": "link",
+          "value": {
+            "label": "Link to Figma",
+            "href": "https://www.figma.com/design/s5IGirsROfjaoxL4eAzwYX/MegaMod?node-id=8698-15228&t=VQoUhhYzjmqheSN7-4"
+          }
         }
       ]
     },

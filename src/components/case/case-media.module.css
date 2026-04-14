@@ -20,17 +20,3 @@
   height: auto;
   display: block;
 }
-
-.caption {
-  position: absolute;
-  right: var(--space-1);
-  bottom: var(--space-1);
-  margin: 0;
-  padding: 3px 6px;
-  font-size: 11px;
-  color: var(--color-text-muted);
-  text-align: right;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: 6px;
-  pointer-events: none;
-}

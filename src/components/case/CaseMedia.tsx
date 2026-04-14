@@ -6,12 +6,11 @@ type CaseMediaProps = {
   caption?: string;
 };
 
-export default function CaseMedia({ src, alt, caption }: CaseMediaProps) {
+export default function CaseMedia({ src, alt }: CaseMediaProps) {
   return (
     <figure className={`${styles.figure} case-media-figure`}>
       <div className={styles.frame}>
         <img className={styles.image} src={src} alt={alt} />
-        {caption ? <figcaption className={styles.caption}>{caption}</figcaption> : null}
       </div>
     </figure>
   );

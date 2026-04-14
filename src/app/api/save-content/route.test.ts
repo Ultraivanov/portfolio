@@ -245,4 +245,52 @@ describe("POST /api/save-content", () => {
     expect(body.success).toBe(true);
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
+
+  it("strips legacy media.variant before validation and save", async () => {
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce(createGitHubResponse({}, 404))
+      .mockResolvedValueOnce(createGitHubResponse({ content: { sha: "new-sha" } }, 200));
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const contentWithLegacyVariant = {
+      ...validCaseContent(),
+      sections: [
+        {
+          title: "Context",
+          blocks: [
+            {
+              discriminant: "media",
+              value: {
+                src: "/cases/test/diagram.svg",
+                alt: "Diagram",
+                caption: "Caption",
+                variant: "diagram",
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    const response = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content: contentWithLegacyVariant,
+      })
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.success).toBe(true);
+
+    const updateCall = fetchMock.mock.calls[1];
+    const options = updateCall[1] as RequestInit;
+    const requestBody = JSON.parse(String(options.body));
+    const decoded = JSON.parse(Buffer.from(requestBody.content, "base64").toString("utf-8"));
+    const mediaValue = decoded.sections[0].blocks[0].value;
+
+    expect(mediaValue.variant).toBeUndefined();
+    expect(mediaValue.src).toBe("/cases/test/diagram.svg");
+  });
 });

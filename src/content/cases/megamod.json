@@ -185,8 +185,7 @@
           "value": {
             "src": "/cases/megamod/1776161480687.png",
             "alt": "UI — System consistency",
-            "caption": "UI — System consistency",
-            "variant": "diagram"
+            "caption": "UI — System consistency"
           }
         },
         {
@@ -200,8 +199,7 @@
           "value": {
             "src": "/cases/megamod/1776161575799.png",
             "alt": "UI — Outcomes",
-            "caption": "UI — Outcomes",
-            "variant": "diagram"
+            "caption": "UI — Outcomes"
           }
         }
       ]

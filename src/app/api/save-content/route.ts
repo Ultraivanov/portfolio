@@ -29,13 +29,15 @@ export async function POST(request: NextRequest) {
       return apiError(400, "INVALID_REQUEST", "Missing path or content");
     }
 
-    const validation = validateContentByPath(path, content);
+    const normalizedContent = stripLegacyCaseMediaFields(path, content);
+
+    const validation = validateContentByPath(path, normalizedContent);
     if (!validation.ok) {
       return apiError(422, "VALIDATION_ERROR", validation.error);
     }
 
     // Apply typograf to all text content before saving
-    const processedContent = typografCase(content);
+    const processedContent = typografCase(normalizedContent);
     const serializedContent = JSON.stringify(processedContent, null, 2);
     const encodedContent = Buffer.from(serializedContent).toString("base64");
 
@@ -131,4 +133,46 @@ async function safeReadError(response: Response): Promise<string | undefined> {
   } catch {
     return undefined;
   }
+}
+
+function stripLegacyCaseMediaFields(path: string, content: unknown): unknown {
+  if (!/^src\/content\/cases\/[a-z0-9-]+\.json$/i.test(path)) {
+    return content;
+  }
+
+  if (!isRecord(content) || !Array.isArray(content.sections)) {
+    return content;
+  }
+
+  const sections = content.sections.map((section) => {
+    if (!isRecord(section) || !Array.isArray(section.blocks)) {
+      return section;
+    }
+
+    const blocks = section.blocks.map((block) => {
+      if (!isRecord(block) || block.discriminant !== "media" || !isRecord(block.value)) {
+        return block;
+      }
+
+      const { variant: _legacyVariant, ...restValue } = block.value;
+      return {
+        ...block,
+        value: restValue,
+      };
+    });
+
+    return {
+      ...section,
+      blocks,
+    };
+  });
+
+  return {
+    ...content,
+    sections,
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }

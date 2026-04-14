@@ -43,8 +43,7 @@
           "value": {
             "src": "/cases/design-system-runtime/market-demand.png",
             "alt": "Market demand for design system designers",
-            "caption": "Real market signal: VP of Design at Xsolla describing exactly this profile",
-            "variant": "desktop"
+            "caption": "Real market signal: VP of Design at Xsolla describing exactly this profile"
           }
         },
         {
@@ -154,8 +153,7 @@
           "value": {
             "src": "/cases/design-system-runtime/architecture.svg",
             "alt": "Product Validator system architecture",
-            "caption": "Five-layer architecture: Spec → Execution → Detection → Validation → Reporting",
-            "variant": "diagram"
+            "caption": "Five-layer architecture: Spec → Execution → Detection → Validation → Reporting"
           }
         },
         {
@@ -169,8 +167,7 @@
           "value": {
             "src": "/cases/design-system-runtime/engine-flow.svg",
             "alt": "Engine interaction flow in n8n style",
-            "caption": "Engine interaction flow: Input → Parser → Flow Runner → State Detector → Rule Engine → Report",
-            "variant": "diagram"
+            "caption": "Engine interaction flow: Input → Parser → Flow Runner → State Detector → Rule Engine → Report"
           }
         },
         {

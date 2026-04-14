@@ -144,8 +144,7 @@
           "value": {
             "src": "/cases/rzd/validation-shift.svg",
             "alt": "Validation point shift: from late constraint resolution to early eligibility check",
-            "caption": "Decisions were made before constraints were known. Constraints resolved too late, creating invalid scenarios and forcing restarts.",
-            "variant": "diagram"
+            "caption": "Decisions were made before constraints were known. Constraints resolved too late, creating invalid scenarios and forcing restarts."
           }
         }
       ]
@@ -304,8 +303,7 @@
           "value": {
             "src": "/cases/rzd/decision-layers.svg",
             "alt": "System architecture: where decisions are actually made",
-            "caption": "Where decisions are actually made",
-            "variant": "diagram"
+            "caption": "Where decisions are actually made"
           }
         }
       ]
@@ -360,8 +358,7 @@
           "value": {
             "src": "/cases/rzd/ui-before-after.png",
             "alt": "UI Before / After — Decision moved from user interpretation to system-structured scenarios",
-            "caption": "Decision moved from user interpretation → to system-structured scenarios",
-            "variant": "diagram"
+            "caption": "Decision moved from user interpretation → to system-structured scenarios"
           }
         },
         {
@@ -387,8 +384,7 @@
           "value": {
             "src": "/cases/rzd/application-summary.png",
             "alt": "Application / booking summary screen",
-            "caption": "Outcome is defined before submission",
-            "variant": "diagram"
+            "caption": "Outcome is defined before submission"
           }
         },
         {
@@ -432,8 +428,7 @@
           "value": {
             "src": "/cases/rzd/predictability-comparison.svg",
             "alt": "From uncertain attempt to predictable reuse: comparing old and new user flows",
-            "caption": "From uncertain attempt to predictable reuse",
-            "variant": "diagram"
+            "caption": "From uncertain attempt to predictable reuse"
           }
         }
       ]
@@ -519,8 +514,7 @@
           "value": {
             "src": "/cases/rzd/repeat-behavior-loop.svg",
             "alt": "How the system builds repeat behavior through predictable outcomes and trust",
-            "caption": "How the system builds repeat behavior",
-            "variant": "diagram"
+            "caption": "How the system builds repeat behavior"
           }
         }
       ]

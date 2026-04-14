@@ -211,8 +211,7 @@
           "value": {
             "src": "/cases/rzd/behavior-loop.svg",
             "alt": "Behavior loop diagram — closed communication cycle",
-            "caption": "Closed-loop communication model: request → status → review → response → evaluation → optional escalation.",
-            "variant": "diagram"
+            "caption": "Closed-loop communication model: request → status → review → response → evaluation → optional escalation."
           }
         }
       ]
@@ -240,8 +239,7 @@
           "value": {
             "src": "/cases/rzd/user-flow-operational.svg",
             "alt": "Operational user flow with branching",
-            "caption": "Operational flow: from request entry through category selection, submission, manager review, and resolution or escalation.",
-            "variant": "diagram"
+            "caption": "Operational flow: from request entry through category selection, submission, manager review, and resolution or escalation."
           }
         }
       ]
@@ -260,8 +258,7 @@
           "value": {
             "src": "/cases/rzd/state-machine.svg",
             "alt": "State machine — request lifecycle with escalation branch",
-            "caption": "Explicit state system: every request has a predictable path. Escalation is part of the system, not a workaround.",
-            "variant": "diagram"
+            "caption": "Explicit state system: every request has a predictable path. Escalation is part of the system, not a workaround."
           }
         }
       ]
@@ -286,8 +283,7 @@
           "value": {
             "src": "/cases/rzd/system-logic.svg",
             "alt": "System architecture — layered control model",
-            "caption": "Layered architecture showing that UI is the output of system logic, not its starting point.",
-            "variant": "diagram"
+            "caption": "Layered architecture showing that UI is the output of system logic, not its starting point."
           }
         }
       ]
@@ -306,8 +302,7 @@
           "value": {
             "src": "/cases/rzd/ui-before-after.png",
             "alt": "UI Before / After — Decision moved from user interpretation to system-structured scenarios",
-            "caption": "Decision moved from user interpretation → to system-structured scenarios",
-            "variant": "diagram"
+            "caption": "Decision moved from user interpretation → to system-structured scenarios"
           }
         },
         {
@@ -333,8 +328,7 @@
           "value": {
             "src": "/cases/rzd/application-summary.png",
             "alt": "Application / booking summary screen",
-            "caption": "Outcome is defined before submission",
-            "variant": "diagram"
+            "caption": "Outcome is defined before submission"
           }
         },
         {

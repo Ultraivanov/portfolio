@@ -93,4 +93,36 @@ describe("content validation contract", () => {
       expect(badPath.error).toMatch(/Allowed paths/i);
     }
   });
+
+  it("rejects legacy media fields such as variant", () => {
+    const result = validateCaseContent({
+      slug: "test-case",
+      title: "Case title",
+      subtitle: "Case subtitle",
+      coverSrc: "/cases/test/cover.png",
+      coverAlt: "Cover",
+      facts: [{ label: "role", value: "Designer" }],
+      sections: [
+        {
+          title: "Context",
+          blocks: [
+            {
+              discriminant: "media",
+              value: {
+                src: "/cases/test/diagram.svg",
+                alt: "Diagram",
+                variant: "diagram",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error).toMatch(/unsupported key/i);
+      expect(result.error).toMatch(/variant/i);
+    }
+  });
 });

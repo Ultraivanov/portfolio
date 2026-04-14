@@ -264,6 +264,16 @@ function validateBlock(
       if (value.caption !== undefined && !isNonEmptyString(value.caption)) {
         return { ok: false, error: `${location}.value.caption must be a non-empty string if provided.` };
       }
+      {
+        const allowedKeys = new Set(["src", "alt", "caption"]);
+        const unsupportedKeys = Object.keys(value).filter((key) => !allowedKeys.has(key));
+        if (unsupportedKeys.length > 0) {
+          return {
+            ok: false,
+            error: `${location}.value contains unsupported key(s): ${unsupportedKeys.join(", ")}.`,
+          };
+        }
+      }
       return { ok: true };
     default:
       return {

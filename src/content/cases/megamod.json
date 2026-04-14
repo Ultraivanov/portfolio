@@ -72,7 +72,7 @@
           "value": {
             "src": "/cases/megamod/1776105524964.svg",
             "alt": "Diagram - core conflict",
-            "caption": "",
+            "caption": "Scheme — Core conflict",
             "variant": "diagram"
           }
         }
@@ -119,7 +119,7 @@
           "value": {
             "src": "/cases/megamod/1776159804676.svg",
             "alt": "Reframing the Product Model",
-            "caption": "Sheme — Model shift",
+            "caption": "Scheme — Model shift",
             "variant": "diagram"
           }
         }
@@ -131,34 +131,31 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The design system was built to support variation within a fixed structure."
+            "text": "Once you accept that meaning is context-dependent, the design problem changes.\n\nYou’re no longer trying to explain the product once.\nYou’re designing how it’s understood from different angles.\n\nThe solution was to separate two layers:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "interpretation — what the product appears to be",
+              "structure — how the system is actually built"
+            ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Layout modules are reusable across all pages. This isn’t just a development efficiency decision — it’s a communication decision. When the structural blocks are the same, audiences subconsciously recognize the system as mature and well-maintained."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Visual language adapts to audience without breaking brand identity: playful and hands-on for creators, performance-driven for streamers, polished and enterprise-ready for brands and events, structured and process-oriented for platforms and education. The identity holds; the tone shifts."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Navigation functions as the primary routing mechanism. A user landing on the main page should be able to self-select and enter the right narrative within seconds — before reading a single paragraph."
+            "text": "Interpretation changes.\nStructure stays stable."
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "FIGMA_EMBED_SYSTEM_DESIGN",
-            "alt": "MegaMod modular layout system",
-            "caption": "Modular layout system: reusable blocks with per-audience visual tuning",
-            "variant": "desktop"
+            "src": "/cases/megamod/1776160200926.svg",
+            "alt": "DIAGRAM — Context defines meaning",
+            "caption": "Table — Context defines meaning",
+            "variant": "diagram"
           }
         }
       ]
@@ -169,7 +166,16 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Information architecture for the full ecosystem: main page + 7 vertical pages, each with its own narrative logic and value proposition. A modular layout system and navigation routing model. Visual language guidelines per audience segment."
+            "text": "### Entry-based narratives\n\nInstead of a single landing, the system is entered through different perspectives.\n\nEach one frames the product around a specific outcome — creation, engagement, content, or experience."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/megamod/1776160421829.png",
+            "alt": "UI — Entry points",
+            "caption": "UI — Entry points",
+            "variant": "diagram"
           }
         }
       ]

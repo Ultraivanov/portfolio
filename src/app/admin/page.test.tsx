@@ -104,9 +104,9 @@ describe("AdminPage media upload input state", () => {
     fireEvent.change(mediaInput, { target: { files: [file] } });
 
     await waitFor(() => {
-      expect(screen.getByText("✅ Загружен: diagram.svg")).toBeInTheDocument();
-      expect(screen.getByText("✅ Вес: 2.0 KB → 1.0 KB")).toBeInTheDocument();
-      expect(screen.getByText("✅ Обработан: SVG оптимизирован")).toBeInTheDocument();
+      expect(screen.getByText("✅ Uploaded: diagram.svg")).toBeInTheDocument();
+      expect(screen.getByText("✅ Size: 2.0 KB → 1.0 KB")).toBeInTheDocument();
+      expect(screen.getByText("✅ Processed: SVG optimized")).toBeInTheDocument();
       expect(screen.getByPlaceholderText("Alt text...")).toHaveValue("diagram");
     });
 
@@ -261,7 +261,7 @@ describe("AdminPage media upload input state", () => {
 
     await waitFor(() => {
       expect(screen.getByText("❌ Upload failed: Request body too large")).toBeInTheDocument();
-      expect(screen.getByText("❌ Ошибка: Request body too large")).toBeInTheDocument();
+      expect(screen.getByText("❌ Error: Request body too large")).toBeInTheDocument();
     });
   });
 });

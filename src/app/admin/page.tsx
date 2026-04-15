@@ -264,7 +264,7 @@ export default function AdminPage() {
       (feedback) => feedback.uploading
     );
     if (hasUploadingMedia || uploading) {
-      setMessage("⏳ Дождитесь завершения загрузки медиа перед сохранением.");
+      setMessage("⏳ Please wait for media uploads to finish before saving.");
       return;
     }
 
@@ -414,9 +414,9 @@ export default function AdminPage() {
         setMessage(`✅ Image uploaded to media block${sizeDelta ? ` (${sizeDelta})` : ""}`);
         const processedText = result.svgOptimization
           ? result.svgOptimization.optimized
-            ? "SVG оптимизирован"
-            : "SVG проверен без изменений"
-          : "Файл обработан";
+            ? "SVG optimized"
+            : "SVG checked (no changes)"
+          : "File processed";
         setMediaUploadFeedbackByBlock((prev) => ({
           ...prev,
           [blockKey]: {
@@ -1031,18 +1031,18 @@ export default function AdminPage() {
                           >
                             <div>
                               {feedback.uploaded ? "✅" : feedback.uploading ? "⏳" : "⬜"}{" "}
-                              Загружен{feedback.fileName ? `: ${feedback.fileName}` : ""}
+                              Uploaded{feedback.fileName ? `: ${feedback.fileName}` : ""}
                             </div>
                             <div>
-                              {feedback.sizeText ? "✅" : "⬜"} Вес
+                              {feedback.sizeText ? "✅" : "⬜"} Size
                               {feedback.sizeText ? `: ${feedback.sizeText}` : ""}
                             </div>
                             <div>
-                              {feedback.processedText ? "✅" : "⬜"} Обработан
+                              {feedback.processedText ? "✅" : "⬜"} Processed
                               {feedback.processedText ? `: ${feedback.processedText}` : ""}
                             </div>
                             {feedback.errorText ? (
-                              <div style={{ color: "#f87171" }}>❌ Ошибка: {feedback.errorText}</div>
+                              <div style={{ color: "#f87171" }}>❌ Error: {feedback.errorText}</div>
                             ) : null}
                           </div>
                         );

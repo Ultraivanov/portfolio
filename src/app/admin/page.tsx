@@ -73,8 +73,66 @@ interface MediaUploadFeedback {
   errorText?: string;
 }
 
+interface CaseDraftEnvelope {
+  version: 1;
+  updatedAt: string;
+  data: CaseStudy;
+}
+
 const MEDIA_UPLOAD_TIMEOUT_MS = 90_000;
 const MAX_CLIENT_UPLOAD_BYTES = 3_500_000; // Keep request below Vercel function payload ceiling.
+const DRAFT_STORAGE_PREFIX = "cms-case-draft:";
+
+function getDraftStorageKey(slug: string): string {
+  return `${DRAFT_STORAGE_PREFIX}${slug}`;
+}
+
+function readCaseDraft(slug: string): CaseDraftEnvelope | null {
+  if (typeof window === "undefined" || !slug) return null;
+  try {
+    const raw = window.localStorage.getItem(getDraftStorageKey(slug));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<CaseDraftEnvelope>;
+    if (parsed?.version !== 1 || !parsed.updatedAt || !parsed.data) {
+      return null;
+    }
+    return parsed as CaseDraftEnvelope;
+  } catch {
+    return null;
+  }
+}
+
+function writeCaseDraft(slug: string, data: CaseStudy): CaseDraftEnvelope | null {
+  if (typeof window === "undefined" || !slug) return null;
+  const envelope: CaseDraftEnvelope = {
+    version: 1,
+    updatedAt: new Date().toISOString(),
+    data,
+  };
+  try {
+    window.localStorage.setItem(getDraftStorageKey(slug), JSON.stringify(envelope));
+    return envelope;
+  } catch {
+    return null;
+  }
+}
+
+function clearCaseDraft(slug: string): void {
+  if (typeof window === "undefined" || !slug) return;
+  try {
+    window.localStorage.removeItem(getDraftStorageKey(slug));
+  } catch {
+    // ignore localStorage failures
+  }
+}
+
+function formatDraftTimestamp(iso: string): string {
+  try {
+    return new Date(iso).toLocaleString();
+  } catch {
+    return iso;
+  }
+}
 
 export default function AdminPage() {
   const [cases, setCases] = useState<CaseInfo[]>([]);
@@ -93,6 +151,8 @@ export default function AdminPage() {
   const [mediaUploadFeedbackByBlock, setMediaUploadFeedbackByBlock] = useState<
     Record<string, MediaUploadFeedback>
   >({});
+  const [availableDraft, setAvailableDraft] = useState<CaseDraftEnvelope | null>(null);
+  const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null);
 
   const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
     `${sectionIndex}:${blockIndex}`;
@@ -121,6 +181,13 @@ export default function AdminPage() {
       const payload = (await response.json()) as { item?: CaseStudy };
       if (response.ok && payload.item) {
         setCaseData(payload.item);
+        const draft = readCaseDraft(slug);
+        setDraftSavedAt(draft?.updatedAt ?? null);
+        if (draft && JSON.stringify(draft.data) !== JSON.stringify(payload.item)) {
+          setAvailableDraft(draft);
+        } else {
+          setAvailableDraft(null);
+        }
         return true;
       }
       setMessage("❌ Failed to load case content");
@@ -135,12 +202,20 @@ export default function AdminPage() {
   useEffect(() => {
     if (!selectedCase) return;
     setMediaUploadFeedbackByBlock({});
+    setAvailableDraft(null);
+    setDraftSavedAt(null);
     void loadCaseContent(selectedCase);
   }, [selectedCase]);
 
   const updateField = <K extends keyof CaseStudy>(field: K, value: CaseStudy[K]) => {
     if (!caseData) return;
-    setCaseData({ ...caseData, [field]: value });
+    const nextCaseData = { ...caseData, [field]: value };
+    setCaseData(nextCaseData);
+    const savedDraft = writeCaseDraft(selectedCase, nextCaseData);
+    if (savedDraft) {
+      setDraftSavedAt(savedDraft.updatedAt);
+      setAvailableDraft(null);
+    }
   };
 
   const updateFact = (index: number, field: keyof Fact, value: string | string[]) => {
@@ -311,6 +386,9 @@ export default function AdminPage() {
 
     if (response.ok) {
       setMessage("✅ Saved! Changes will deploy in ~1 minute.");
+      clearCaseDraft(selectedCase);
+      setAvailableDraft(null);
+      setDraftSavedAt(null);
     } else {
       const errorCode = getApiErrorCode(result);
       if (errorCode === "CONTENT_CONFLICT") {
@@ -321,6 +399,21 @@ export default function AdminPage() {
       }
     }
     setSaving(false);
+  };
+
+  const handleRestoreDraft = () => {
+    if (!availableDraft) return;
+    setCaseData(availableDraft.data);
+    setDraftSavedAt(availableDraft.updatedAt);
+    setAvailableDraft(null);
+    setMessage(`✅ Restored local draft from ${formatDraftTimestamp(availableDraft.updatedAt)}.`);
+  };
+
+  const handleDiscardDraft = () => {
+    clearCaseDraft(selectedCase);
+    setAvailableDraft(null);
+    setDraftSavedAt(null);
+    setMessage("🗑️ Local draft discarded.");
   };
 
   const handleReloadLatestCase = async () => {
@@ -860,6 +953,39 @@ export default function AdminPage() {
           </button>
         )}
 
+        {availableDraft && (
+          <>
+            <button
+              onClick={handleRestoreDraft}
+              style={{
+                padding: "12px 24px",
+                background: "#16a34a",
+                color: "white",
+                border: "none",
+                borderRadius: "var(--radius-1)",
+                cursor: "pointer",
+                fontSize: 16,
+              }}
+            >
+              Restore Draft
+            </button>
+            <button
+              onClick={handleDiscardDraft}
+              style={{
+                padding: "12px 24px",
+                background: "var(--color-bg-secondary)",
+                color: "var(--color-text-primary)",
+                border: "1px solid var(--color-border-subtle)",
+                borderRadius: "var(--radius-1)",
+                cursor: "pointer",
+                fontSize: 16,
+              }}
+            >
+              Discard Draft
+            </button>
+          </>
+        )}
+
         <button
           onClick={() => setShowJson(!showJson)}
           style={{
@@ -881,6 +1007,12 @@ export default function AdminPage() {
           </span>
         )}
       </div>
+
+      {draftSavedAt && (
+        <p style={{ marginTop: -8, marginBottom: 20, fontSize: 13, color: "var(--color-text-muted)" }}>
+          Draft saved locally at {formatDraftTimestamp(draftSavedAt)}.
+        </p>
+      )}
 
       {/* Sections Editor */}
       <div style={{ marginTop: 32, borderTop: "1px solid var(--color-border-subtle)", paddingTop: 24 }}>

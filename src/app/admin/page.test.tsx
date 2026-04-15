@@ -44,6 +44,7 @@ describe("AdminPage media upload input state", () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+    window.localStorage.clear();
     if (originalFetch) {
       Object.defineProperty(globalThis, "fetch", {
         configurable: true,
@@ -317,5 +318,51 @@ describe("AdminPage media upload input state", () => {
 
     const uploadCalls = fetchMock.mock.calls.filter((call) => call[0] === "/api/upload-image");
     expect(uploadCalls).toHaveLength(0);
+  });
+
+  it("offers restore for local draft and applies it", async () => {
+    const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
+      const url = typeof input === "string" ? input : input.toString();
+
+      if (url === "/api/cases") {
+        return mockJsonResponse({
+          items: [{ slug: "megamod", title: "Megamod" }],
+        });
+      }
+
+      if (url === "/api/cases/megamod") {
+        return mockJsonResponse({ item: mediaCase });
+      }
+
+      return mockJsonResponse({ error: "Unexpected url" }, false);
+    });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    window.localStorage.setItem(
+      "cms-case-draft:megamod",
+      JSON.stringify({
+        version: 1,
+        updatedAt: "2026-04-15T10:00:00.000Z",
+        data: {
+          ...mediaCase,
+          title: "Megamod Draft Title",
+        },
+      })
+    );
+
+    render(<AdminPage />);
+
+    await screen.findByRole("button", { name: "Restore Draft" });
+    fireEvent.click(screen.getByRole("button", { name: "Restore Draft" }));
+
+    await waitFor(() => {
+      expect(screen.getByDisplayValue("Megamod Draft Title")).toBeInTheDocument();
+      expect(screen.getByText(/Restored local draft/i)).toBeInTheDocument();
+    });
   });
 });

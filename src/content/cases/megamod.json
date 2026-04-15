@@ -201,6 +201,13 @@
             "alt": "UI — Outcomes",
             "caption": "UI — Outcomes"
           }
+        },
+        {
+          "discriminant": "link",
+          "value": {
+            "label": "Explore the UI in Figma",
+            "href": "https://fig.page/Megamod-mob-flow"
+          }
         }
       ]
     },

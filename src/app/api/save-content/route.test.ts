@@ -340,4 +340,51 @@ describe("POST /api/save-content", () => {
     expect(mediaValue.alt).toBe("iPhone 13");
     expect(mediaValue.src).toBe("/cases/megamod/iPhone-13.svg");
   });
+
+  it("removes empty media.caption before validation and save", async () => {
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce(createGitHubResponse({}, 404))
+      .mockResolvedValueOnce(createGitHubResponse({ content: { sha: "new-sha" } }, 200));
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const contentWithEmptyCaption = {
+      ...validCaseContent(),
+      sections: [
+        {
+          title: "Context",
+          blocks: [
+            {
+              discriminant: "media",
+              value: {
+                src: "/cases/megamod/diagram.svg",
+                alt: "Diagram",
+                caption: "   ",
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    const response = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content: contentWithEmptyCaption,
+      })
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.success).toBe(true);
+
+    const updateCall = fetchMock.mock.calls[1];
+    const options = updateCall[1] as RequestInit;
+    const requestBody = JSON.parse(String(options.body));
+    const decoded = JSON.parse(Buffer.from(requestBody.content, "base64").toString("utf-8"));
+    const mediaValue = decoded.sections[0].blocks[0].value;
+
+    expect(mediaValue.caption).toBeUndefined();
+    expect(mediaValue.src).toBe("/cases/megamod/diagram.svg");
+  });
 });

@@ -167,14 +167,19 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
         return block;
       }
 
-      const { variant: _legacyVariant, ...restValue } = block.value;
+      const { variant: _legacyVariant, caption, ...restValue } = block.value;
       const src = typeof restValue.src === "string" ? restValue.src.trim() : "";
       const alt = typeof restValue.alt === "string" ? restValue.alt.trim() : "";
+      const normalizedCaption = typeof caption === "string" ? caption.trim() : caption;
+      const includeCaption =
+        normalizedCaption !== undefined &&
+        !(typeof normalizedCaption === "string" && normalizedCaption.length === 0);
       return {
         ...block,
         value: {
           ...restValue,
           ...(src && !alt ? { alt: deriveAltFromPath(src) } : {}),
+          ...(includeCaption ? { caption: normalizedCaption } : {}),
         },
       };
     });

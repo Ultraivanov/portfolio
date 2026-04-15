@@ -1,19 +1,15 @@
 import { apiError, apiSuccess } from "@/lib/api-response";
-import { fetchGitHubWithRetry } from "@/lib/github-api";
-
-type RuntimeScreenshotInput = {
-  route?: unknown;
-  pageUrl?: unknown;
-  screenshotUrl?: unknown;
-};
+import {
+  executeExtractorCommands,
+  normalizeExtractorCommands,
+  type ExtractorCommand,
+} from "@/lib/github-case-extractor";
 
 type RuntimeImportPayload = {
   slug?: unknown;
   screenshots?: unknown;
+  commands?: unknown;
 };
-
-const MAX_SCREENSHOT_BYTES = 8 * 1024 * 1024; // 8 MiB per screenshot
-const FETCH_TIMEOUT_MS = 20_000;
 
 export async function POST(request: Request) {
   const githubToken = process.env.GITHUB_PAT;
@@ -27,85 +23,31 @@ export async function POST(request: Request) {
   try {
     const payload = (await request.json()) as RuntimeImportPayload;
     const slug = typeof payload.slug === "string" ? payload.slug.trim() : "";
-    const screenshots = normalizeScreenshots(payload.screenshots);
+    const commands = normalizeRuntimeImportCommands(payload);
 
     if (!slug || !isSafeSlug(slug)) {
       return apiError(400, "INVALID_REQUEST", "slug must be a safe non-empty string.");
     }
 
-    if (screenshots.length === 0) {
-      return apiError(400, "INVALID_REQUEST", "screenshots must be a non-empty array.");
+    if (commands.length === 0) {
+      return apiError(
+        400,
+        "INVALID_REQUEST",
+        "Provide at least one extractor command or screenshot input."
+      );
     }
 
-    const imported: Array<{
-      route: string;
-      pageUrl: string;
-      src: string;
-      bytes: number;
-    }> = [];
-    const failed: Array<{
-      route: string;
-      pageUrl: string;
-      screenshotUrl: string;
-      reason: string;
-    }> = [];
-
-    for (let i = 0; i < screenshots.length; i += 1) {
-      const shot = screenshots[i];
-      try {
-        const buffer = await fetchImageBuffer(shot.screenshotUrl);
-        if (buffer.byteLength > MAX_SCREENSHOT_BYTES) {
-          throw new Error(
-            `Screenshot is too large (${buffer.byteLength} bytes). Max ${MAX_SCREENSHOT_BYTES} bytes.`
-          );
-        }
-
-        const filePath = `public/cases/${slug}/runtime-${Date.now()}-${i + 1}.png`;
-        const base64Content = buffer.toString("base64");
-
-        const updateResponse = await fetchGitHubWithRetry(
-          `https://api.github.com/repos/${githubRepo}/contents/${filePath}`,
-          {
-            method: "PUT",
-            headers: {
-              Authorization: `Bearer ${githubToken}`,
-              Accept: "application/vnd.github+json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              message: `Import runtime screenshot ${slug} ${shot.route}`,
-              content: base64Content,
-              branch: githubBranch,
-            }),
-          }
-        );
-
-        if (!updateResponse.ok) {
-          throw new Error(
-            (await safeReadGitHubMessage(updateResponse)) ||
-              `GitHub upload failed with ${updateResponse.status}`
-          );
-        }
-
-        imported.push({
-          route: shot.route,
-          pageUrl: shot.pageUrl,
-          src: filePath.replace(/^public/, ""),
-          bytes: buffer.byteLength,
-        });
-      } catch (error) {
-        failed.push({
-          route: shot.route,
-          pageUrl: shot.pageUrl,
-          screenshotUrl: shot.screenshotUrl,
-          reason: error instanceof Error ? error.message : "Unknown import error",
-        });
-      }
-    }
+    const result = await executeExtractorCommands({
+      slug,
+      commands,
+      githubToken,
+      githubRepo,
+      githubBranch,
+    });
 
     return apiSuccess({
-      imported,
-      failed,
+      imported: result.imported,
+      failed: result.failed,
       slug,
     });
   } catch (error) {
@@ -117,82 +59,33 @@ export async function POST(request: Request) {
   }
 }
 
-function normalizeScreenshots(value: unknown): Array<{
-  route: string;
-  pageUrl: string;
-  screenshotUrl: string;
-}> {
-  if (!Array.isArray(value)) {
+function normalizeRuntimeImportCommands(payload: RuntimeImportPayload): ExtractorCommand[] {
+  const direct = normalizeExtractorCommands(payload.commands);
+  if (direct.length > 0) {
+    return direct;
+  }
+
+  if (!Array.isArray(payload.screenshots)) {
     return [];
   }
 
-  const result: Array<{ route: string; pageUrl: string; screenshotUrl: string }> = [];
-  for (const row of value as RuntimeScreenshotInput[]) {
-    const route = typeof row.route === "string" ? row.route.trim() : "";
-    const pageUrl = typeof row.pageUrl === "string" ? row.pageUrl.trim() : "";
-    const screenshotUrl =
-      typeof row.screenshotUrl === "string" ? row.screenshotUrl.trim() : "";
-
-    if (!route || !pageUrl || !screenshotUrl) {
-      continue;
-    }
-
-    if (!isHttpUrl(pageUrl) || !isHttpUrl(screenshotUrl)) {
-      continue;
-    }
-
-    result.push({ route, pageUrl, screenshotUrl });
-  }
-  return result.slice(0, 12);
+  return normalizeExtractorCommands(
+    payload.screenshots.map((row) => {
+      if (typeof row !== "object" || row === null) {
+        return null;
+      }
+      const record = row as Record<string, unknown>;
+      return {
+        type: "import_runtime_screenshot",
+        route: record.route,
+        pageUrl: record.pageUrl,
+        screenshotUrl: record.screenshotUrl,
+      };
+    })
+  );
 }
 
 function isSafeSlug(value: string): boolean {
   return /^[a-z0-9-]+$/i.test(value);
-}
-
-function isHttpUrl(value: string): boolean {
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
-
-async function fetchImageBuffer(url: string): Promise<Buffer> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      signal: controller.signal,
-      headers: {
-        Accept: "image/*",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Screenshot fetch failed with HTTP ${response.status}`);
-    }
-
-    const contentType = response.headers.get("content-type") || "";
-    if (!contentType.startsWith("image/")) {
-      throw new Error(`Unexpected content type: ${contentType || "unknown"}`);
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-    return Buffer.from(arrayBuffer);
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
-async function safeReadGitHubMessage(response: Response): Promise<string | undefined> {
-  try {
-    const payload = (await response.json()) as { message?: string };
-    return payload.message;
-  } catch {
-    return undefined;
-  }
 }
 

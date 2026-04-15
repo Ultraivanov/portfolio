@@ -100,6 +100,27 @@ interface GitHubIntakeApiResponse {
       completionTokens?: number;
       totalTokens?: number;
     };
+    commandCount?: number;
+  } | null;
+  extractor?: {
+    requested?: boolean;
+    executed?: boolean;
+    commandCount?: number;
+    imported?: Array<{
+      route: string;
+      pageUrl: string;
+      src: string;
+      bytes: number;
+      reason?: string;
+    }>;
+    failed?: Array<{
+      route: string;
+      pageUrl: string;
+      screenshotUrl: string;
+      reason?: string;
+      error: string;
+    }>;
+    skippedReason?: string | null;
   } | null;
   error?: string | { message?: string };
 }
@@ -115,7 +136,8 @@ interface RuntimeImportApiResponse {
     route: string;
     pageUrl: string;
     screenshotUrl: string;
-    reason: string;
+    reason?: string;
+    error: string;
   }>;
   error?: string | { message?: string };
 }
@@ -691,6 +713,7 @@ export default function AdminPage() {
           repoUrl: githubRepoUrl.trim(),
           focus: githubFocus,
           analysisMode: githubAnalysisMode,
+          runExtractor: true,
           runtimeBaseUrl: githubRuntimeBaseUrl.trim() || undefined,
           screenshotLimit: githubScreenshotLimit,
         }),
@@ -721,7 +744,25 @@ export default function AdminPage() {
       }
 
       applyGeneratedDraft(payload.draft);
-      setMessage("✅ GitHub draft generated and applied. Review sections, then save.");
+      const extractorImportedCount = Array.isArray(payload.extractor?.imported)
+        ? payload.extractor?.imported.length
+        : 0;
+      const extractorFailedCount = Array.isArray(payload.extractor?.failed)
+        ? payload.extractor?.failed.length
+        : 0;
+      const extractorStatus = payload.extractor?.requested
+        ? payload.extractor.executed
+          ? ` Extractor imported ${extractorImportedCount}${
+              extractorFailedCount ? ` (${extractorFailedCount} failed)` : ""
+            }.`
+          : payload.extractor.skippedReason
+            ? ` Extractor skipped: ${payload.extractor.skippedReason}`
+            : ""
+        : "";
+
+      setMessage(
+        `✅ GitHub draft generated and applied. Review sections, then save.${extractorStatus}`
+      );
     } catch (error) {
       setMessage(
         `❌ Draft generation failed: ${

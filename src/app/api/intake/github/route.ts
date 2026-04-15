@@ -5,6 +5,10 @@ import {
   parseGitHubRepoUrl,
   type IntakeFocus,
 } from "@/lib/github-case-intake";
+import {
+  applyImportedArtifactsToDraft,
+  executeExtractorCommands,
+} from "@/lib/github-case-extractor";
 import { synthesizeCaseDraftWithLlm } from "@/lib/github-case-intake-llm";
 
 type GitHubIntakePayload = {
@@ -13,6 +17,7 @@ type GitHubIntakePayload = {
   runtimeBaseUrl?: unknown;
   screenshotLimit?: unknown;
   analysisMode?: unknown;
+  runExtractor?: unknown;
 };
 
 const ALLOWED_FOCUS: ReadonlySet<IntakeFocus> = new Set([
@@ -21,6 +26,8 @@ const ALLOWED_FOCUS: ReadonlySet<IntakeFocus> = new Set([
   "agentic-flow",
 ]);
 const ALLOWED_ANALYSIS_MODES = new Set(["llm", "heuristic"]);
+const DEFAULT_UPLOAD_REPO = "Ultraivanov/portfolio";
+const DEFAULT_UPLOAD_BRANCH = "main";
 
 export async function POST(request: Request) {
   try {
@@ -31,6 +38,7 @@ export async function POST(request: Request) {
       typeof payload.runtimeBaseUrl === "string" ? payload.runtimeBaseUrl.trim() : "";
     const screenshotLimit = normalizeScreenshotLimit(payload.screenshotLimit);
     const analysisMode = normalizeAnalysisMode(payload.analysisMode);
+    const runExtractor = normalizeRunExtractor(payload.runExtractor);
 
     if (!repoUrl) {
       return apiError(400, "INVALID_REQUEST", "repoUrl is required.");
@@ -78,8 +86,45 @@ export async function POST(request: Request) {
           })
         : null;
 
-    const draft = llmResult?.draft ?? heuristic.draft;
+    let draft = llmResult?.draft ?? heuristic.draft;
     const evidence = heuristic.evidence;
+    const extractor = {
+      requested: shouldUseLlm && runExtractor,
+      executed: false,
+      commandCount: llmResult?.commands.length ?? 0,
+      imported: [] as Awaited<ReturnType<typeof executeExtractorCommands>>["imported"],
+      failed: [] as Awaited<ReturnType<typeof executeExtractorCommands>>["failed"],
+      skippedReason: null as string | null,
+    };
+
+    if (extractor.requested) {
+      const commands = llmResult?.commands ?? [];
+      if (commands.length === 0) {
+        extractor.skippedReason = "LLM returned no extractor commands.";
+      } else if (!isSafeSlug(draft.slug)) {
+        extractor.skippedReason = "Draft slug is not safe for repository upload path.";
+      } else {
+        const githubToken = process.env.GITHUB_PAT;
+        const githubRepo = process.env.GITHUB_REPO || DEFAULT_UPLOAD_REPO;
+        const githubBranch = process.env.GITHUB_BRANCH || DEFAULT_UPLOAD_BRANCH;
+
+        if (!githubToken) {
+          extractor.skippedReason = "GITHUB_PAT is required to execute extractor commands.";
+        } else {
+          const extraction = await executeExtractorCommands({
+            slug: draft.slug,
+            commands,
+            githubToken,
+            githubRepo,
+            githubBranch,
+          });
+          extractor.executed = true;
+          extractor.imported = extraction.imported;
+          extractor.failed = extraction.failed;
+          draft = applyImportedArtifactsToDraft(draft, extraction.imported);
+        }
+      }
+    }
 
     return apiSuccess({
       draft,
@@ -90,13 +135,16 @@ export async function POST(request: Request) {
         focus,
         runtimeBaseUrl: runtimeBaseUrl || null,
         analysisMode,
+        runExtractor,
       },
       routeCandidates: signals.routeCandidates,
       runtimeScreenshots: signals.runtimeScreenshots,
+      extractor,
       llm: llmResult
         ? {
             model: llmResult.model,
             usage: llmResult.usage,
+            commandCount: llmResult.commands.length,
           }
         : null,
     });
@@ -131,4 +179,15 @@ function normalizeAnalysisMode(value: unknown): "llm" | "heuristic" {
     return value as "llm" | "heuristic";
   }
   return "llm";
+}
+
+function normalizeRunExtractor(value: unknown): boolean {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  return true;
+}
+
+function isSafeSlug(value: string): boolean {
+  return /^[a-z0-9-]+$/i.test(value);
 }

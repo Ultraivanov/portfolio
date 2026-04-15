@@ -4,6 +4,7 @@ import type {
   GitHubSignals,
   IntakeFocus,
 } from "@/lib/github-case-intake";
+import { normalizeExtractorCommands, type ExtractorCommand } from "@/lib/github-case-extractor";
 
 type OpenAiChatCompletionsResponse = {
   choices?: Array<{
@@ -20,6 +21,7 @@ type OpenAiChatCompletionsResponse = {
 
 export type LlmDraftResult = {
   draft: CaseDraft;
+  commands: ExtractorCommand[];
   model: string;
   usage?: {
     promptTokens: number;
@@ -78,9 +80,11 @@ export async function synthesizeCaseDraftWithLlm(params: {
   }
 
   const draft = normalizeLlmDraft(parsed, params.fallbackDraft, params.signals, params.repoUrl);
+  const commands = normalizeExtractorCommands(asRecord(parsed)?.commands);
 
   return {
     draft,
+    commands,
     model,
     usage: payload.usage
       ? {
@@ -113,7 +117,15 @@ function buildPromptPayload(params: {
         "Outcome",
       ],
       doNotInventMetricsWithoutEvidence: true,
-      format: "Return JSON object with a single key `draft` matching CaseDraft schema.",
+      format:
+        "Return JSON object with keys `draft` and `commands`. `commands` must be an array of extractor commands.",
+      extractorCommandShape: {
+        type: "import_runtime_screenshot",
+        route: "/path",
+        pageUrl: "https://runtime-host/path",
+        screenshotUrl: "https://.../image.png",
+        reason: "Why this artifact matters",
+      },
     },
     repo: {
       url: repoUrl,
@@ -331,11 +343,11 @@ function truncate(value: string, max: number): string {
 
 const SYSTEM_PROMPT = [
   "You are a senior UX and product design case-writer.",
-  "Given repository artifacts, generate an evidence-grounded case draft.",
+  "Given repository artifacts, generate an evidence-grounded case draft and extractor commands.",
   "Important:",
   "- Do not invent metrics if not explicitly present in sources.",
   "- Keep language specific and concrete, avoid generic fluff.",
   "- Preserve the required section structure.",
-  "- Output valid JSON with key `draft` only.",
+  "- Output valid JSON with keys `draft` and `commands` only.",
+  "- `commands` should contain only executable artifact extraction actions.",
 ].join("\n");
-

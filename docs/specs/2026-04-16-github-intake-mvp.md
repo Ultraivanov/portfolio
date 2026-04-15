@@ -38,19 +38,26 @@ Out of scope:
    - fetches repository data through GitHub API
    - returns generated draft + evidence links
 
-2. `src/lib/github-case-intake.ts`
+2. `POST /api/intake/github/runtime-import`
+   - takes screenshot plan + case slug
+   - downloads remote screenshot images
+   - stores screenshots into `public/cases/<slug>/...` through GitHub API
+   - returns imported/failed items for UI reconciliation
+
+3. `src/lib/github-case-intake.ts`
    - URL parsing
    - repository signal fetching (README, merged PRs, closed issues)
    - heuristic mapping into case schema
    - route extraction from repository tree
    - runtime screenshot URL planning
 
-3. Admin UI integration
+4. Admin UI integration
    - new AI intake block
    - draft generation trigger
    - user confirmation before replacing current form data
    - evidence list for transparency
    - route and screenshot-plan preview
+   - import action to convert planned runtime screenshots into local case assets
 
 ## Data Sources (MVP)
 
@@ -71,7 +78,7 @@ Out of scope:
 - Heuristic extraction may miss nuanced design decisions
 - Repository text quality strongly affects output quality
 - No automatic screenshots from runtime UI yet
-- Screenshot artifacts are generated as planned URLs (deterministic crawl plan), not binary storage in this phase.
+- Runtime import relies on external screenshot provider availability and remote URL reachability.
 
 ## Next Iterations
 

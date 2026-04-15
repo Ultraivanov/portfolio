@@ -95,6 +95,22 @@ interface GitHubIntakeApiResponse {
   error?: string | { message?: string };
 }
 
+interface RuntimeImportApiResponse {
+  imported?: Array<{
+    route: string;
+    pageUrl: string;
+    src: string;
+    bytes: number;
+  }>;
+  failed?: Array<{
+    route: string;
+    pageUrl: string;
+    screenshotUrl: string;
+    reason: string;
+  }>;
+  error?: string | { message?: string };
+}
+
 const MEDIA_UPLOAD_TIMEOUT_MS = 90_000;
 const MAX_CLIENT_UPLOAD_BYTES = 3_500_000; // Keep request below Vercel function payload ceiling.
 const DRAFT_STORAGE_PREFIX = "cms-case-draft:";
@@ -184,6 +200,7 @@ export default function AdminPage() {
       status: "planned";
     }>
   >([]);
+  const [importingRuntimeScreenshots, setImportingRuntimeScreenshots] = useState(false);
 
   const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
     `${sectionIndex}:${blockIndex}`;
@@ -703,6 +720,93 @@ export default function AdminPage() {
     }
   };
 
+  const handleImportRuntimeScreenshots = async () => {
+    if (!caseData || githubRuntimeScreenshots.length === 0) {
+      setMessage("❌ No runtime screenshots to import.");
+      return;
+    }
+
+    setImportingRuntimeScreenshots(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/intake/github/runtime-import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug: selectedCase,
+          screenshots: githubRuntimeScreenshots,
+        }),
+      });
+
+      const payload = (await response.json()) as RuntimeImportApiResponse;
+      if (!response.ok) {
+        setMessage(`❌ Runtime import failed: ${getApiErrorMessage(payload)}`);
+        return;
+      }
+
+      const imported = Array.isArray(payload.imported) ? payload.imported : [];
+      const failed = Array.isArray(payload.failed) ? payload.failed : [];
+
+      if (imported.length === 0) {
+        setMessage(
+          `❌ Runtime import finished with no imported screenshots.${failed.length ? " See failed list." : ""}`
+        );
+        return;
+      }
+
+      const byRoute = new Map(imported.map((item) => [item.route, item.src]));
+      const nextSections = caseData.sections.map((section) => {
+        if (section.title !== "Visual Artifacts") {
+          return section;
+        }
+
+        return {
+          ...section,
+          blocks: section.blocks.map((block) => {
+            if (block.discriminant !== "media") {
+              return block;
+            }
+
+            const routeMatch = (block.value.alt || "").match(/runtime screenshot\s+(.+)$/i);
+            const route = routeMatch?.[1]?.trim();
+            if (!route) {
+              return block;
+            }
+
+            const src = byRoute.get(route);
+            if (!src) {
+              return block;
+            }
+
+            return {
+              ...block,
+              value: {
+                ...block.value,
+                src,
+                caption: `Runtime screenshot ${route} (imported)`,
+              },
+            };
+          }),
+        };
+      });
+
+      updateField("sections", nextSections);
+      setMessage(
+        `✅ Imported ${imported.length} runtime screenshots${
+          failed.length ? ` (${failed.length} failed)` : ""
+        }.`
+      );
+    } catch (error) {
+      setMessage(
+        `❌ Runtime import failed: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
+    } finally {
+      setImportingRuntimeScreenshots(false);
+    }
+  };
+
   // Section management
   const updateSection = (sectionIndex: number, field: keyof Section, value: string) => {
     if (!caseData) return;
@@ -911,28 +1015,48 @@ export default function AdminPage() {
           </details>
         ) : null}
         {githubRuntimeScreenshots.length > 0 ? (
-          <details style={{ marginTop: 8 }}>
-            <summary style={{ cursor: "pointer", fontSize: 13 }}>
-              Runtime screenshot plan ({githubRuntimeScreenshots.length})
-            </summary>
-            <ul style={{ marginTop: 6, paddingLeft: 18 }}>
-              {githubRuntimeScreenshots.slice(0, 8).map((shot) => (
-                <li key={`${shot.route}-${shot.pageUrl}`} style={{ marginBottom: 6 }}>
-                  <div>
-                    <code>{shot.route}</code>
-                    {" -> "}
-                    <a href={shot.pageUrl} target="_blank" rel="noreferrer">
-                      page
-                    </a>{" "}
-                    /{" "}
-                    <a href={shot.screenshotUrl} target="_blank" rel="noreferrer">
-                      screenshot
-                    </a>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </details>
+          <div style={{ marginTop: 8 }}>
+            <details>
+              <summary style={{ cursor: "pointer", fontSize: 13 }}>
+                Runtime screenshot plan ({githubRuntimeScreenshots.length})
+              </summary>
+              <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+                {githubRuntimeScreenshots.slice(0, 8).map((shot) => (
+                  <li key={`${shot.route}-${shot.pageUrl}`} style={{ marginBottom: 6 }}>
+                    <div>
+                      <code>{shot.route}</code>
+                      {" -> "}
+                      <a href={shot.pageUrl} target="_blank" rel="noreferrer">
+                        page
+                      </a>{" "}
+                      /{" "}
+                      <a href={shot.screenshotUrl} target="_blank" rel="noreferrer">
+                        screenshot
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </details>
+            <button
+              onClick={handleImportRuntimeScreenshots}
+              disabled={importingRuntimeScreenshots}
+              style={{
+                marginTop: 8,
+                padding: "8px 12px",
+                background: importingRuntimeScreenshots ? "#999" : "#16a34a",
+                color: "white",
+                border: "none",
+                borderRadius: "var(--radius-1)",
+                cursor: importingRuntimeScreenshots ? "not-allowed" : "pointer",
+                fontSize: 13,
+              }}
+            >
+              {importingRuntimeScreenshots
+                ? "Importing Runtime Screenshots..."
+                : "Import Runtime Screenshots"}
+            </button>
+          </div>
         ) : null}
       </div>
 

@@ -46,7 +46,24 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "My Perfect Greek Vacation is a concept for a travel booking platform designed for users who want to go on a vacation but cannot yet define what exactly they are looking for.\n\nInstead of optimizing for search and inventory exposure, the product focuses on structuring user intent before presenting options.\n\nThe goal was to transform vague travel desire into a clear, decision-ready state — and only then move to booking."
+            "text": "My Perfect Greek Vacation is a concept for a travel booking platform designed for users who want to go on a vacation but cannot yet define what exactly they are looking for.\n\nMost booking experiences assume that users arrive with a clear query. This project starts earlier — at the point where intent is still vague.\n\nThe goal was not to improve search, but to redesign how intent is formed before booking.\n\nInstead of exposing a large space of options, the system helps users:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "externalize preferences",
+              "structure them into decision criteria",
+              "evaluate a small set of relevant options",
+              "reach a confident decision before entering booking"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The result is a product model where booking becomes confirmation of a decision — not a tool for figuring it out."
           }
         }
       ]
@@ -57,29 +74,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users cannot confidently choose a travel option. Symptoms include opening multiple tabs, inconsistent comparison, lack of criteria, and postponed decisions."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Constraints",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Large inventory space, no initial user clarity, high emotional + financial stakes, and limited decision time."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Behavior Model",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Users approach travel booking as a risk-heavy decision under uncertainty. Behavior patterns include over-scrolling, fragmented comparison, reliance on external validation, and inability to commit. They are not solving a search problem — they are solving a decision problem."
+            "text": "Traditional travel platforms assume that users can define what they want.\n\nIn reality, many users:\n    • do not have a clear destination\n    • cannot articulate preferences\n    • struggle to compare options\n    • delay decisions due to uncertainty\n\nThis results in:\n    • excessive browsing\n    • fragmented comparison\n    • reliance on external research\n    • postponed decisions\n\nTravel booking is not just a search problem.\nIt is a decision problem under uncertainty."
           }
         }
       ]
@@ -90,18 +85,59 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The core problem in travel booking is not lack of options. It is lack of decision clarity."
+            "text": "Users do not need better search.\n\nThey need help forming intent before search becomes meaningful."
           }
         }
       ]
     },
     {
-      "title": "Approach",
+      "title": "Concept Shift",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Introduce a decision-first architecture: capture user preferences early, convert them into structured input, map preferences to relevant options, provide reasoning for each option, enable confident decision before booking."
+            "text": "The product reframes how booking works."
+          }
+        }
+      ]
+    },
+    {
+      "title": "UX Mechanics — How It Works",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Framing intent before users can define it\n\nWhat decision this supports\nHelps users begin forming a direction without needing a precise query.\n\nBehavioral impact\nUsers stop trying to «guess the right search» and instead react to structured prompts, turning vague желания into explicit signals.\n\nWhy this works\nThe interface replaces empty input with constrained choices (scenarios, preferences), allowing users to externalize intent through recognition rather than recall."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Step 2 — Structuring Intent\n\nUser input is transformed into a structured profile.\n\nThe system identifies priorities and organizes preferences into usable criteria."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Step 3 — Curated Options\n\nThe system presents a small set of relevant options instead of full inventory.\n\nThe goal is to reduce comparison complexity."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Step 4 — Decision Support\n\nEach option includes explanation and context.\n\nUsers understand why an option is relevant."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Step 5 — Iteration Loop\n\nUsers can refine their preferences at any point.\n\nThe system supports iterative behavior."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Step 6 — Transition to Booking\n\nBooking happens after a decision is made.\n\nThe transition preserves context and confidence."
           }
         }
       ]
@@ -112,29 +148,262 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Replace search with preference capture, limit visible options, add reasoning to each option, separate decision from booking, introduce iterative loop."
+            "text": "1. Replace search with guided intent capture\n\nDecision\nRemove search as the primary entry point and replace it with preference-based input.\n\nBehavioral Impact\nUsers stop trying to define a precise query too early and instead externalize vague preferences through interaction.\n\nThey move from:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Breadth vs Clarity — Limit options to improve decision-making",
-              "Speed vs Confidence — Add upfront steps to increase decision quality",
-              "Control vs Guidance — Reduce free exploration in favor of structured flow",
-              "Funnel vs Loop — Support iterative behavior instead of forcing linear flow"
+              "«I need to figure out what to search»"
             ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "to:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "«I can react to options and shape what I want»"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "UI Proof"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "no search bar on entry",
+              "scenario-based choices (relax / explore / family)",
+              "lightweight selection cards instead of input fields"
+            ]
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776282650641.png",
+            "alt": "Hero MPGV"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "2. Structure user intent before showing options\n\nDecision\nIntroduce an intermediate step that translates raw preferences into a structured intent profile.\n\nBehavioral Impact\nUsers stop jumping directly into options without criteria.\n\nInstead, they:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "see their preferences summarized",
+              "understand what matters before evaluating options"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This stabilizes decision-making early."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "UI Proof"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "summary screen with labeled intent (e.g. «Relaxed coastal vacation»)",
+              "visible parameters (budget, pace, environment)",
+              "editable criteria before proceeding"
+            ]
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776282811379.png",
+            "alt": "summary screen"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "3. Limit options to a curated set\n\nDecision\nShow a small number of relevant options (3–7) instead of exposing full inventory.\n\nBehavioral Impact\nUsers stop browsing dozens of options and instead:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "evaluate a manageable set",
+              "compare options directly within one context"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This reduces tab-switching and fragmented comparison."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "UI Proof"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "short, bounded list",
+              "no infinite scroll",
+              "visible sense of «selection» rather than «catalog»"
+            ]
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776283204427.png",
+            "alt": "short bounded list"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "4. Attach reasoning to every option\n\nDecision\nAdd a «why this fits you» layer to each option.\n\nBehavioral Impact\nUsers no longer need to reverse-engineer why an option is relevant.\n\nThey:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "rely less on external validation",
+              "understand trade-offs directly",
+              "build trust in the system"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "UI Proof"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "explanation block on each card",
+              "explicit mapping between user input and option attributes",
+              "short, contextual reasoning near decision point"
+            ]
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776283907004.png",
+            "alt": "explanation block on each card"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "5. Separate decision from booking\n\nDecision\nDesign the flow so that decision-making is completed before entering the booking process.\n\nBehavioral Impact\nUsers stop using booking as part of exploration.\n\nInstead:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "they enter booking with a chosen option",
+              "they confirm rather than continue evaluating"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This reduces drop-off at the transaction stage."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "UI Proof"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "сlear confirmation state («You selected X»)",
+              "booking flow preserves user context",
+              "prevents users from re-evaluating large option sets"
+            ]
+          }
+        },
+        {
+          "discriminant": "link",
+          "value": {
+            "label": "How clear transitions and context-driven cues lead users to booking",
+            "href": "https://myperfectgreekvacation.com"
           }
         }
       ]
     },
     {
-      "title": "Solution",
+      "title": "Trade-offs",
       "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "breadth vs clarity",
+              "speed vs confidence",
+              "control vs guidance",
+              "simplicity vs transparency"
+            ]
+          }
+        },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A travel booking platform that captures user intent early, reduces option space, provides curated recommendations, explains each option, and enables confident booking."
+            "text": "The system prioritizes decision quality over exploration."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Failure Modes",
+      "blocks": [
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "incorrect intent modeling",
+              "over-filtering",
+              "weak explanation",
+              "forced onboarding",
+              "broken booking transition"
+            ]
           }
         }
       ]
@@ -145,19 +414,42 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "North Star Metric: Decision Confidence Rate — percentage of users who proceed to booking without returning to exploration. Supporting metrics include Time to Decision, Option Exploration Depth, Preference Refinement Rate, Decision Drop-off Rate, and Booking Conversion Rate."
+            "text": "This project results in a complete product model for a decision-driven travel booking experience.\n\nWhile traditional platforms focus on search and inventory exposure, this system defines how a product can operate earlier in the user journey — before intent is fully formed.\n\nThe key outcome is a shift in how the interface creates value:\n\nInstead of helping users navigate options, it helps them construct intent.\n\nThis is reflected in the system design:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Reduced cognitive load",
-              "Fewer irrelevant options viewed",
-              "Faster decision-making",
-              "Higher confidence before booking",
-              "Improved trust in recommendations"
+              "intent is captured before options are shown",
+              "preferences are structured into stable decision criteria",
+              "options are limited and contextualized",
+              "evaluation is supported through explanation",
+              "booking is triggered only after a decision is reached"
             ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "As a result, the product no longer relies on browsing as the primary mechanism.\n\nIt operates as a decision system — turning vague user desire into a structured, decision-ready state.\n\nWhile no production metrics were collected, the design defines a clear and testable hypothesis:\n\nUsers will reach decisions faster and with less reliance on external exploration when intent formation is embedded into the interface."
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This reframes the role of the interface from a browsing tool to a decision system.\n\nWhile no production metrics were collected, the design defines a clear, testable product hypothesis:\n\nUsers will be more likely to reach a decision — and reach it faster — when the platform helps them structure intent before exposing full booking complexity."
+          }
+        }
+      ]
+    },
+    {
+      "title": "Closing Line",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This project demonstrates that in complex domains like travel, the primary product challenge is not exposing options — but structuring intent before choice becomes possible."
           }
         }
       ]

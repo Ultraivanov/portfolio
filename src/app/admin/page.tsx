@@ -73,6 +73,8 @@ interface MediaUploadFeedback {
   errorText?: string;
 }
 
+const MEDIA_UPLOAD_TIMEOUT_MS = 90_000;
+
 export default function AdminPage() {
   const [cases, setCases] = useState<CaseInfo[]>([]);
   const [selectedCase, setSelectedCase] = useState("");
@@ -344,11 +346,16 @@ export default function AdminPage() {
     formData.append("file", file);
     formData.append("path", path);
 
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
     try {
+      const controller = new AbortController();
+      timeoutId = setTimeout(() => controller.abort(), MEDIA_UPLOAD_TIMEOUT_MS);
       const response = await fetch("/api/upload-image", {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
       let result: UploadApiResponse = {};
       try {
@@ -394,8 +401,17 @@ export default function AdminPage() {
         },
       }));
     } catch (error) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      const isTimeout =
+        error instanceof DOMException && error.name === "AbortError";
       const message =
-        error instanceof Error && error.message ? error.message : "Network error";
+        isTimeout
+          ? `Upload timeout after ${Math.round(MEDIA_UPLOAD_TIMEOUT_MS / 1000)}s`
+          : error instanceof Error && error.message
+            ? error.message
+            : "Network error";
       setMessage(`❌ Upload failed: ${message}`);
       setMediaUploadFeedbackByBlock((prev) => ({
         ...prev,

@@ -167,4 +167,45 @@ describe("AdminPage media upload input state", () => {
       expect(screen.getByRole("button", { name: "Save Changes" })).toBeEnabled();
     });
   });
+
+  it("recovers from failed media upload and re-enables save", async () => {
+    const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
+      const url = typeof input === "string" ? input : input.toString();
+
+      if (url === "/api/cases") {
+        return mockJsonResponse({
+          items: [{ slug: "megamod", title: "Megamod" }],
+        });
+      }
+
+      if (url === "/api/cases/megamod") {
+        return mockJsonResponse({ item: mediaCase });
+      }
+
+      if (url === "/api/upload-image") {
+        throw new Error("boom");
+      }
+
+      return mockJsonResponse({ error: "Unexpected url" }, false);
+    });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    const { container } = render(<AdminPage />);
+    await screen.findByText("Sections");
+
+    const fileInputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
+    const mediaInput = fileInputs[1];
+    const file = new File(["<svg></svg>"], "broken.svg", { type: "image/svg+xml" });
+    fireEvent.change(mediaInput, { target: { files: [file] } });
+
+    await waitFor(() => {
+      expect(screen.getByText("❌ Upload failed: boom")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Save Changes" })).toBeEnabled();
+    });
+  });
 });

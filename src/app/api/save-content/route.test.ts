@@ -387,4 +387,54 @@ describe("POST /api/save-content", () => {
     expect(mediaValue.caption).toBeUndefined();
     expect(mediaValue.src).toBe("/cases/megamod/diagram.svg");
   });
+
+  it("drops untouched empty media blocks before validation", async () => {
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce(createGitHubResponse({}, 404))
+      .mockResolvedValueOnce(createGitHubResponse({ content: { sha: "new-sha" } }, 200));
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const contentWithEmptyMediaBlock = {
+      ...validCaseContent(),
+      sections: [
+        {
+          title: "Context",
+          blocks: [
+            {
+              discriminant: "paragraph",
+              value: { text: "Text block" },
+            },
+            {
+              discriminant: "media",
+              value: {
+                src: "   ",
+                alt: "",
+                caption: " ",
+              },
+            },
+          ],
+        },
+      ],
+    };
+
+    const response = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content: contentWithEmptyMediaBlock,
+      })
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.success).toBe(true);
+
+    const updateCall = fetchMock.mock.calls[1];
+    const options = updateCall[1] as RequestInit;
+    const requestBody = JSON.parse(String(options.body));
+    const decoded = JSON.parse(Buffer.from(requestBody.content, "base64").toString("utf-8"));
+
+    expect(decoded.sections[0].blocks).toHaveLength(1);
+    expect(decoded.sections[0].blocks[0].discriminant).toBe("paragraph");
+  });
 });

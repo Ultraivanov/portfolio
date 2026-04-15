@@ -162,27 +162,35 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
       return section;
     }
 
-    const blocks = section.blocks.map((block) => {
-      if (!isRecord(block) || block.discriminant !== "media" || !isRecord(block.value)) {
-        return block;
-      }
+    const blocks = section.blocks
+      .map((block) => {
+        if (!isRecord(block) || block.discriminant !== "media" || !isRecord(block.value)) {
+          return block;
+        }
 
-      const { variant: _legacyVariant, caption, ...restValue } = block.value;
-      const src = typeof restValue.src === "string" ? restValue.src.trim() : "";
-      const alt = typeof restValue.alt === "string" ? restValue.alt.trim() : "";
-      const normalizedCaption = typeof caption === "string" ? caption.trim() : caption;
-      const includeCaption =
-        normalizedCaption !== undefined &&
-        !(typeof normalizedCaption === "string" && normalizedCaption.length === 0);
-      return {
-        ...block,
-        value: {
-          ...restValue,
-          ...(src && !alt ? { alt: deriveAltFromPath(src) } : {}),
-          ...(includeCaption ? { caption: normalizedCaption } : {}),
-        },
-      };
-    });
+        const { variant: _legacyVariant, caption, ...restValue } = block.value;
+        const src = typeof restValue.src === "string" ? restValue.src.trim() : "";
+        const alt = typeof restValue.alt === "string" ? restValue.alt.trim() : "";
+        const normalizedCaption = typeof caption === "string" ? caption.trim() : caption;
+        const includeCaption =
+          normalizedCaption !== undefined &&
+          !(typeof normalizedCaption === "string" && normalizedCaption.length === 0);
+
+        // Allow saving while editing by discarding untouched placeholder media blocks.
+        if (!src && !alt && !includeCaption) {
+          return null;
+        }
+
+        return {
+          ...block,
+          value: {
+            ...restValue,
+            ...(src && !alt ? { alt: deriveAltFromPath(src) } : {}),
+            ...(includeCaption ? { caption: normalizedCaption } : {}),
+          },
+        };
+      })
+      .filter((block): block is NonNullable<typeof block> => block !== null);
 
     return {
       ...section,

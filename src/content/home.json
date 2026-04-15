@@ -76,11 +76,13 @@
         ]
       },
       {
-        "title": "Dev",
+        "title": "AI IDE",
         "items": [
           "Codex",
           "Claude Code",
-          "Cursor"
+          "Cursor",
+          "Windsurf",
+          "1Code"
         ]
       }
     ]

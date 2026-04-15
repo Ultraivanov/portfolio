@@ -208,7 +208,7 @@
 }
 
 .tools {
-  width: 194px;
+  width: 260px;
 }
 
 .skills,
@@ -462,11 +462,16 @@
 }
 
 @media (min-width: 901px) {
-  .skillList li,
-  .toolList li {
+  .skillList li {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .toolList li {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
 }
 

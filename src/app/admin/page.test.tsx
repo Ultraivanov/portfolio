@@ -97,4 +97,74 @@ describe("AdminPage media upload input state", () => {
 
     expect(fetchMock).toHaveBeenCalledWith("/api/upload-image", expect.any(Object));
   });
+
+  it("disables save while media upload is in progress", async () => {
+    let resolveUpload: ((value: Response) => void) | undefined;
+    const uploadPromise = new Promise<Response>((resolve) => {
+      resolveUpload = resolve;
+    });
+
+    const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
+      const url = typeof input === "string" ? input : input.toString();
+
+      if (url === "/api/cases") {
+        return mockJsonResponse({
+          items: [{ slug: "megamod", title: "Megamod" }],
+        });
+      }
+
+      if (url === "/api/cases/megamod") {
+        return mockJsonResponse({ item: mediaCase });
+      }
+
+      if (url === "/api/upload-image") {
+        return uploadPromise;
+      }
+
+      if (url === "/api/save-content") {
+        return mockJsonResponse({ success: true });
+      }
+
+      return mockJsonResponse({ error: "Unexpected url" }, false);
+    });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    const { container } = render(<AdminPage />);
+
+    await screen.findByText("Sections");
+
+    const fileInputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
+    expect(fileInputs.length).toBeGreaterThan(1);
+
+    const mediaInput = fileInputs[1];
+    const file = new File(["<svg></svg>"], "hero.svg", { type: "image/svg+xml" });
+
+    fireEvent.change(mediaInput, { target: { files: [file] } });
+
+    await waitFor(() => {
+      const saveButton = screen.getByRole("button", { name: "Uploading media..." });
+      expect(saveButton).toBeDisabled();
+    });
+
+    resolveUpload?.(
+      mockJsonResponse({
+        size: { beforeBytes: 1024, afterBytes: 512 },
+        svgOptimization: {
+          optimized: true,
+          originalBytes: 1024,
+          optimizedBytes: 512,
+          usedAggressivePass: false,
+        },
+      })
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "Save Changes" })).toBeEnabled();
+    });
+  });
 });

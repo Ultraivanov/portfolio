@@ -230,6 +230,13 @@ export default function AdminPage() {
 
   const handleSave = async () => {
     if (!caseData) return;
+    const hasUploadingMedia = Object.values(mediaUploadFeedbackByBlock).some(
+      (feedback) => feedback.uploading
+    );
+    if (hasUploadingMedia || uploading) {
+      setMessage("⏳ Дождитесь завершения загрузки медиа перед сохранением.");
+      return;
+    }
 
     const error = validateCase(caseData);
     if (error) {
@@ -337,44 +344,66 @@ export default function AdminPage() {
     formData.append("file", file);
     formData.append("path", path);
 
-    const response = await fetch("/api/upload-image", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const response = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
 
-    const result = (await response.json()) as UploadApiResponse;
+      let result: UploadApiResponse = {};
+      try {
+        result = (await response.json()) as UploadApiResponse;
+      } catch {
+        result = {};
+      }
 
-    if (response.ok) {
-      const publicPath = path.replace(/^public/, "");
-      const currentAlt = caseData.sections[sectionIndex]?.blocks[blockIndex]?.value.alt?.trim();
-      const nextAlt = currentAlt || deriveAltFromFileName(file.name);
-      updateBlock(sectionIndex, blockIndex, { src: publicPath, alt: nextAlt });
-      const sizeDelta = formatUploadSizeDelta(result.size);
-      setMessage(`✅ Image uploaded to media block${sizeDelta ? ` (${sizeDelta})` : ""}`);
-      const processedText = result.svgOptimization
-        ? result.svgOptimization.optimized
-          ? "SVG оптимизирован"
-          : "SVG проверен без изменений"
-        : "Файл обработан";
-      setMediaUploadFeedbackByBlock((prev) => ({
-        ...prev,
-        [blockKey]: {
-          fileName: file.name,
-          uploading: false,
-          uploaded: true,
-          sizeText: sizeDelta || formatSingleFileSize(file.size),
-          processedText,
-        },
-      }));
-    } else {
-      setMessage(`❌ Upload failed: ${getApiErrorMessage(result)}`);
+      if (response.ok) {
+        const publicPath = path.replace(/^public/, "");
+        const currentAlt = caseData.sections[sectionIndex]?.blocks[blockIndex]?.value.alt?.trim();
+        const nextAlt = currentAlt || deriveAltFromFileName(file.name);
+        updateBlock(sectionIndex, blockIndex, { src: publicPath, alt: nextAlt });
+        const sizeDelta = formatUploadSizeDelta(result.size);
+        setMessage(`✅ Image uploaded to media block${sizeDelta ? ` (${sizeDelta})` : ""}`);
+        const processedText = result.svgOptimization
+          ? result.svgOptimization.optimized
+            ? "SVG оптимизирован"
+            : "SVG проверен без изменений"
+          : "Файл обработан";
+        setMediaUploadFeedbackByBlock((prev) => ({
+          ...prev,
+          [blockKey]: {
+            fileName: file.name,
+            uploading: false,
+            uploaded: true,
+            sizeText: sizeDelta || formatSingleFileSize(file.size),
+            processedText,
+          },
+        }));
+        return;
+      }
+
+      const apiError = getApiErrorMessage(result);
+      setMessage(`❌ Upload failed: ${apiError}`);
       setMediaUploadFeedbackByBlock((prev) => ({
         ...prev,
         [blockKey]: {
           fileName: file.name,
           uploading: false,
           uploaded: false,
-          errorText: getApiErrorMessage(result),
+          errorText: apiError,
+        },
+      }));
+    } catch (error) {
+      const message =
+        error instanceof Error && error.message ? error.message : "Network error";
+      setMessage(`❌ Upload failed: ${message}`);
+      setMediaUploadFeedbackByBlock((prev) => ({
+        ...prev,
+        [blockKey]: {
+          fileName: file.name,
+          uploading: false,
+          uploaded: false,
+          errorText: message,
         },
       }));
     }
@@ -455,6 +484,9 @@ export default function AdminPage() {
 
   const labelStyle = { display: "block", marginBottom: 8, fontWeight: 600 };
   const fieldStyle = { marginBottom: 16 };
+  const hasUploadingMedia = Object.values(mediaUploadFeedbackByBlock).some(
+    (feedback) => feedback.uploading
+  );
 
   if (loading || !caseData) {
     return (
@@ -702,18 +734,18 @@ export default function AdminPage() {
       <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 32, marginBottom: 16 }}>
         <button
           onClick={handleSave}
-          disabled={saving}
+          disabled={saving || uploading || hasUploadingMedia}
           style={{
             padding: "12px 24px",
-            background: saving ? "#999" : "#2563eb",
+            background: saving || uploading || hasUploadingMedia ? "#999" : "#2563eb",
             color: "white",
             border: "none",
             borderRadius: "var(--radius-1)",
-            cursor: saving ? "not-allowed" : "pointer",
+            cursor: saving || uploading || hasUploadingMedia ? "not-allowed" : "pointer",
             fontSize: 16,
           }}
         >
-          {saving ? "Saving..." : "Save Changes"}
+          {saving ? "Saving..." : hasUploadingMedia ? "Uploading media..." : "Save Changes"}
         </button>
 
         {hasContentConflict && (

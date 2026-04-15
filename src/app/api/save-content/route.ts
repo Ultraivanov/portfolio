@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       return apiError(400, "INVALID_REQUEST", "Missing path or content");
     }
 
-    const normalizedContent = stripLegacyCaseMediaFields(path, content);
+    const normalizedContent = normalizeCaseMediaFields(path, content);
 
     const validation = validateContentByPath(path, normalizedContent);
     if (!validation.ok) {
@@ -148,7 +148,7 @@ async function safeReadError(response: Response): Promise<string | undefined> {
   }
 }
 
-function stripLegacyCaseMediaFields(path: string, content: unknown): unknown {
+function normalizeCaseMediaFields(path: string, content: unknown): unknown {
   if (!/^src\/content\/cases\/[a-z0-9-]+\.json$/i.test(path)) {
     return content;
   }
@@ -168,9 +168,14 @@ function stripLegacyCaseMediaFields(path: string, content: unknown): unknown {
       }
 
       const { variant: _legacyVariant, ...restValue } = block.value;
+      const src = typeof restValue.src === "string" ? restValue.src.trim() : "";
+      const alt = typeof restValue.alt === "string" ? restValue.alt.trim() : "";
       return {
         ...block,
-        value: restValue,
+        value: {
+          ...restValue,
+          ...(src && !alt ? { alt: deriveAltFromPath(src) } : {}),
+        },
       };
     });
 
@@ -188,4 +193,21 @@ function stripLegacyCaseMediaFields(path: string, content: unknown): unknown {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
+}
+
+function deriveAltFromPath(src: string): string {
+  const cleanSrc = src.split("?")[0]?.split("#")[0] ?? src;
+  const fileName = cleanSrc.split("/").pop() ?? "";
+  const decodedName = safeDecodeURIComponent(fileName);
+  const baseName = decodedName.replace(/\.[^/.]+$/, "");
+  const normalized = baseName.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+  return normalized || "Image";
+}
+
+function safeDecodeURIComponent(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 }

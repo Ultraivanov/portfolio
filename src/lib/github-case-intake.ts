@@ -28,6 +28,13 @@ export type GitHubRepoRef = {
   repo: string;
 };
 
+export type RuntimeScreenshot = {
+  route: string;
+  pageUrl: string;
+  screenshotUrl: string;
+  status: "planned";
+};
+
 type GitHubRepoInfo = {
   name: string;
   full_name: string;
@@ -54,11 +61,28 @@ type GitHubIssue = {
   pull_request?: unknown;
 };
 
+type GitHubBranch = {
+  commit?: {
+    sha?: string;
+  };
+};
+
+type GitHubTreeEntry = {
+  path?: string;
+  type?: string;
+};
+
+type GitHubTreeResponse = {
+  tree?: GitHubTreeEntry[];
+};
+
 export type GitHubSignals = {
   repo: GitHubRepoInfo;
   readme: string;
   mergedPulls: GitHubPullRequest[];
   closedIssues: GitHubIssue[];
+  routeCandidates: string[];
+  runtimeScreenshots: RuntimeScreenshot[];
 };
 
 export function parseGitHubRepoUrl(value: string): GitHubRepoRef | null {
@@ -99,6 +123,9 @@ export async function fetchGitHubSignals(params: {
   owner: string;
   repo: string;
   token?: string;
+  runtimeBaseUrl?: string;
+  screenshotLimit?: number;
+  screenshotTemplate?: string;
 }): Promise<GitHubSignals> {
   const { owner, repo, token } = params;
   const base = `https://api.github.com/repos/${owner}/${repo}`;
@@ -149,11 +176,30 @@ export async function fetchGitHubSignals(params: {
     .filter((issue) => !issue.pull_request)
     .slice(0, 12);
 
+  const routeCandidates = await fetchRepoRouteCandidates({
+    owner,
+    repo,
+    defaultBranch: repoJson.default_branch,
+    token,
+  });
+
+  const runtimeScreenshots = buildRuntimeScreenshots({
+    runtimeBaseUrl: params.runtimeBaseUrl,
+    routes: routeCandidates,
+    limit: params.screenshotLimit ?? 6,
+    screenshotTemplate:
+      params.screenshotTemplate ||
+      process.env.GITHUB_INTAKE_SCREENSHOT_TEMPLATE ||
+      "https://image.thum.io/get/png/noanimate/width/1600/crop/900/{url}",
+  });
+
   return {
     repo: repoJson,
     readme,
     mergedPulls,
     closedIssues,
+    routeCandidates,
+    runtimeScreenshots,
   };
 }
 
@@ -161,7 +207,14 @@ export function buildCaseDraftFromSignals(
   signals: GitHubSignals,
   focus: IntakeFocus = "ux-driven"
 ): { draft: CaseDraft; evidence: string[] } {
-  const { repo, readme, mergedPulls, closedIssues } = signals;
+  const {
+    repo,
+    readme,
+    mergedPulls,
+    closedIssues,
+    routeCandidates,
+    runtimeScreenshots,
+  } = signals;
   const repoSlug = slugify(repo.name || repo.full_name.split("/").pop() || "case");
   const title = toCaseTitle(repo.name || repoSlug);
   const repoUrl = repo.html_url;
@@ -172,6 +225,10 @@ export function buildCaseDraftFromSignals(
   }
   for (const issue of closedIssues.slice(0, 5)) {
     evidenceLinks.push(issue.html_url);
+  }
+  for (const screenshot of runtimeScreenshots) {
+    evidenceLinks.push(screenshot.pageUrl);
+    evidenceLinks.push(screenshot.screenshotUrl);
   }
 
   const textPool = [
@@ -185,7 +242,8 @@ export function buildCaseDraftFromSignals(
   const solutionItems = extractSignalItems(textPool, SOLUTION_KEYWORDS_BY_FOCUS[focus], 5);
 
   const subtitle = focusSubtitle(focus);
-  const contextIntro = firstMeaningfulParagraph(readme) ||
+  const contextIntro =
+    firstMeaningfulParagraph(readme) ||
     repo.description ||
     "Repository artifacts indicate an actively evolving product system with design-impacting decisions.";
 
@@ -264,6 +322,9 @@ export function buildCaseDraftFromSignals(
               "Mapped user-facing changes from merged pull requests.",
               "Grouped decisions by flow, interaction behavior, and system constraints.",
               `Framed the case through the selected angle: ${focus}.`,
+              routeCandidates.length
+                ? `Discovered ${routeCandidates.length} runtime route candidates from app router files.`
+                : "No static app routes were automatically discovered in repository tree.",
             ],
           },
         },
@@ -286,30 +347,57 @@ export function buildCaseDraftFromSignals(
         },
       ],
     },
-    {
-      title: "Outcome",
-      blocks: [
-        {
-          discriminant: "list",
-          value: {
-            items: [
-              `Repository stars: ${repo.stargazers_count}`,
-              `Repository forks: ${repo.forks_count}`,
-              `Open issues at analysis time: ${repo.open_issues_count}`,
-              `${mergedPulls.length} merged PRs were used as implementation evidence.`,
-            ],
-          },
-        },
-        {
-          discriminant: "link",
-          value: {
-            label: "Primary source repository",
-            href: repoUrl,
-          },
-        },
-      ],
-    },
   ];
+
+  if (runtimeScreenshots.length > 0) {
+    sections.push({
+      title: "Visual Artifacts",
+      blocks: runtimeScreenshots.flatMap((shot, index) => {
+        const label = `Runtime route ${index + 1}: ${shot.route}`;
+        return [
+          {
+            discriminant: "media",
+            value: {
+              src: shot.screenshotUrl,
+              alt: `${title} runtime screenshot ${shot.route}`,
+              caption: `${label} (planned capture)`,
+            },
+          } as CaseBlock,
+          {
+            discriminant: "link",
+            value: {
+              label: `Open route ${shot.route}`,
+              href: shot.pageUrl,
+            },
+          } as CaseBlock,
+        ];
+      }),
+    });
+  }
+
+  sections.push({
+    title: "Outcome",
+    blocks: [
+      {
+        discriminant: "list",
+        value: {
+          items: [
+            `Repository stars: ${repo.stargazers_count}`,
+            `Repository forks: ${repo.forks_count}`,
+            `Open issues at analysis time: ${repo.open_issues_count}`,
+            `${mergedPulls.length} merged PRs were used as implementation evidence.`,
+          ],
+        },
+      },
+      {
+        discriminant: "link",
+        value: {
+          label: "Primary source repository",
+          href: repoUrl,
+        },
+      },
+    ],
+  });
 
   const draft: CaseDraft = {
     slug: repoSlug,
@@ -337,6 +425,7 @@ export function buildCaseDraftFromSignals(
           "README/docs interpretation",
           `${mergedPulls.length} merged PRs reviewed`,
           `${closedIssues.length} closed issues reviewed`,
+          `${routeCandidates.length} app routes discovered`,
         ],
       },
     ],
@@ -351,6 +440,136 @@ export function buildCaseDraftFromSignals(
     draft,
     evidence: Array.from(new Set(evidenceLinks)),
   };
+}
+
+export function extractNextAppRoutesFromPaths(paths: string[]): string[] {
+  const routes = new Set<string>();
+
+  for (const inputPath of paths) {
+    const path = inputPath.replace(/\\/g, "/");
+    let relative: string | null = null;
+
+    if (path.startsWith("src/app/")) {
+      relative = path.slice("src/app/".length);
+    } else if (path.startsWith("app/")) {
+      relative = path.slice("app/".length);
+    }
+
+    if (!relative) {
+      continue;
+    }
+
+    if (!/(^|\/)page\.(t|j)sx?$/.test(relative)) {
+      continue;
+    }
+
+    if (relative.startsWith("api/") || relative.includes("/api/")) {
+      continue;
+    }
+
+    const routePart = relative.replace(/(^|\/)page\.(t|j)sx?$/, "");
+    const rawSegments = routePart.split("/").filter(Boolean);
+
+    if (rawSegments.some((segment) => segment.startsWith("[") || segment.startsWith("@"))) {
+      continue;
+    }
+
+    const segments = rawSegments.filter(
+      (segment) => !(segment.startsWith("(") && segment.endsWith(")"))
+    );
+
+    const route = segments.length > 0 ? `/${segments.join("/")}` : "/";
+    routes.add(route);
+  }
+
+  const priority = ["/", "/work", "/contact", "/pricing", "/docs", "/dashboard"];
+
+  return Array.from(routes).sort((a, b) => {
+    const ai = priority.indexOf(a);
+    const bi = priority.indexOf(b);
+
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1;
+    if (bi !== -1) return 1;
+
+    return a.localeCompare(b);
+  });
+}
+
+function buildRuntimeScreenshots(params: {
+  runtimeBaseUrl?: string;
+  routes: string[];
+  limit: number;
+  screenshotTemplate: string;
+}): RuntimeScreenshot[] {
+  const base = (params.runtimeBaseUrl || "").trim();
+  if (!base) {
+    return [];
+  }
+
+  let parsed: URL;
+  try {
+    parsed = new URL(base);
+  } catch {
+    return [];
+  }
+
+  return params.routes.slice(0, Math.max(1, params.limit)).map((route) => {
+    const pageUrl = new URL(route, withTrailingSlash(parsed.toString())).toString();
+    const screenshotUrl = params.screenshotTemplate.replace(
+      /\{url\}/g,
+      encodeURIComponent(pageUrl)
+    );
+
+    return {
+      route,
+      pageUrl,
+      screenshotUrl,
+      status: "planned",
+    };
+  });
+}
+
+async function fetchRepoRouteCandidates(params: {
+  owner: string;
+  repo: string;
+  defaultBranch: string;
+  token?: string;
+}): Promise<string[]> {
+  const { owner, repo, defaultBranch, token } = params;
+  const base = `https://api.github.com/repos/${owner}/${repo}`;
+
+  const branchResponse = await fetchGitHubWithRetry(`${base}/branches/${defaultBranch}`, {
+    headers: buildHeaders(token),
+  });
+
+  if (!branchResponse.ok) {
+    return [];
+  }
+
+  const branchJson = (await branchResponse.json()) as GitHubBranch;
+  const commitSha = branchJson.commit?.sha;
+  if (!commitSha) {
+    return [];
+  }
+
+  const treeResponse = await fetchGitHubWithRetry(
+    `${base}/git/trees/${commitSha}?recursive=1`,
+    {
+      headers: buildHeaders(token),
+    }
+  );
+
+  if (!treeResponse.ok) {
+    return [];
+  }
+
+  const treeJson = (await treeResponse.json()) as GitHubTreeResponse;
+  const filePaths = (treeJson.tree || [])
+    .filter((entry) => entry.type === "blob" && typeof entry.path === "string")
+    .map((entry) => entry.path as string);
+
+  return extractNextAppRoutesFromPaths(filePaths).slice(0, 12);
 }
 
 function buildHeaders(token?: string): Record<string, string> {
@@ -376,7 +595,7 @@ function firstMeaningfulParagraph(markdown: string): string {
   const cleaned = markdown
     .split("\n")
     .map((line) => line.trim())
-    .filter((line) => line && !line.startsWith("#") && !line.startsWith("![")) // remove headings/images
+    .filter((line) => line && !line.startsWith("#") && !line.startsWith("!["))
     .join("\n");
 
   const paragraph = cleaned.split(/\n{2,}/).find((chunk) => chunk.trim().length > 60);
@@ -445,6 +664,10 @@ function toCaseTitle(value: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
+function withTrailingSlash(value: string): string {
+  return value.endsWith("/") ? value : `${value}/`;
+}
+
 const PROBLEM_KEYWORDS = [
   "problem",
   "issue",
@@ -499,4 +722,3 @@ const SOLUTION_KEYWORDS_BY_FOCUS: Record<IntakeFocus, readonly string[]> = {
     "assistant",
   ],
 };
-

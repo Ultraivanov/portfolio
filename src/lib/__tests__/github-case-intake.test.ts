@@ -1,5 +1,6 @@
 import {
   buildCaseDraftFromSignals,
+  extractNextAppRoutesFromPaths,
   parseGitHubRepoUrl,
   type GitHubSignals,
 } from "@/lib/github-case-intake";
@@ -56,6 +57,8 @@ describe("buildCaseDraftFromSignals", () => {
         html_url: "https://github.com/acme/agent-workbench/issues/89",
       },
     ],
+    routeCandidates: ["/", "/work", "/contact"],
+    runtimeScreenshots: [],
   };
 
   it("produces a valid draft with expected structural sections", () => {
@@ -80,5 +83,37 @@ describe("buildCaseDraftFromSignals", () => {
     const { draft } = buildCaseDraftFromSignals(signals, "agentic-flow");
     expect(draft.subtitle.toLowerCase()).toContain("agentic flow");
   });
+
+  it("adds visual artifacts section when runtime screenshots are provided", () => {
+    const withScreenshots: GitHubSignals = {
+      ...signals,
+      runtimeScreenshots: [
+        {
+          route: "/",
+          pageUrl: "https://example.com/",
+          screenshotUrl:
+            "https://image.thum.io/get/png/noanimate/width/1600/crop/900/https%3A%2F%2Fexample.com%2F",
+          status: "planned",
+        },
+      ],
+    };
+
+    const { draft } = buildCaseDraftFromSignals(withScreenshots, "ux-driven");
+    expect(draft.sections.some((section) => section.title === "Visual Artifacts")).toBe(true);
+  });
 });
 
+describe("extractNextAppRoutesFromPaths", () => {
+  it("extracts static routes from Next app-router paths", () => {
+    const routes = extractNextAppRoutesFromPaths([
+      "src/app/page.tsx",
+      "src/app/work/page.tsx",
+      "src/app/work/[slug]/page.tsx",
+      "src/app/(marketing)/pricing/page.tsx",
+      "src/app/api/intake/github/route.ts",
+      "app/contact/page.jsx",
+    ]);
+
+    expect(routes).toEqual(["/", "/work", "/contact", "/pricing"]);
+  });
+});

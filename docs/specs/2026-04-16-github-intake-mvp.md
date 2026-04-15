@@ -23,6 +23,8 @@ Output:
   - Solution
   - Outcome
 - Evidence links (repo + selected PR/issue URLs)
+- Route candidates discovered from `app/**/page.*` or `src/app/**/page.*`
+- Runtime screenshot plan (if runtime base URL is provided)
 
 Out of scope:
 - Auto-publish
@@ -40,12 +42,15 @@ Out of scope:
    - URL parsing
    - repository signal fetching (README, merged PRs, closed issues)
    - heuristic mapping into case schema
+   - route extraction from repository tree
+   - runtime screenshot URL planning
 
 3. Admin UI integration
    - new AI intake block
    - draft generation trigger
    - user confirmation before replacing current form data
    - evidence list for transparency
+   - route and screenshot-plan preview
 
 ## Data Sources (MVP)
 
@@ -66,6 +71,7 @@ Out of scope:
 - Heuristic extraction may miss nuanced design decisions
 - Repository text quality strongly affects output quality
 - No automatic screenshots from runtime UI yet
+- Screenshot artifacts are generated as planned URLs (deterministic crawl plan), not binary storage in this phase.
 
 ## Next Iterations
 
@@ -73,4 +79,3 @@ Out of scope:
 2. Add commit-to-feature clustering to isolate UX-impacting changes.
 3. Add confidence scoring per generated section.
 4. Add “quality gate” checklist before save.
-

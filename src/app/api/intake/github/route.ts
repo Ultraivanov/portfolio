@@ -9,6 +9,8 @@ import {
 type GitHubIntakePayload = {
   repoUrl?: unknown;
   focus?: unknown;
+  runtimeBaseUrl?: unknown;
+  screenshotLimit?: unknown;
 };
 
 const ALLOWED_FOCUS: ReadonlySet<IntakeFocus> = new Set([
@@ -22,6 +24,9 @@ export async function POST(request: Request) {
     const payload = (await request.json()) as GitHubIntakePayload;
     const repoUrl = typeof payload.repoUrl === "string" ? payload.repoUrl.trim() : "";
     const focus = normalizeFocus(payload.focus);
+    const runtimeBaseUrl =
+      typeof payload.runtimeBaseUrl === "string" ? payload.runtimeBaseUrl.trim() : "";
+    const screenshotLimit = normalizeScreenshotLimit(payload.screenshotLimit);
 
     if (!repoUrl) {
       return apiError(400, "INVALID_REQUEST", "repoUrl is required.");
@@ -40,6 +45,9 @@ export async function POST(request: Request) {
       owner: repoRef.owner,
       repo: repoRef.repo,
       token: process.env.GITHUB_PAT,
+      runtimeBaseUrl: runtimeBaseUrl || undefined,
+      screenshotLimit,
+      screenshotTemplate: process.env.GITHUB_INTAKE_SCREENSHOT_TEMPLATE,
     });
 
     const { draft, evidence } = buildCaseDraftFromSignals(signals, focus);
@@ -51,7 +59,10 @@ export async function POST(request: Request) {
         owner: repoRef.owner,
         repo: repoRef.repo,
         focus,
+        runtimeBaseUrl: runtimeBaseUrl || null,
       },
+      routeCandidates: signals.routeCandidates,
+      runtimeScreenshots: signals.runtimeScreenshots,
     });
   } catch (error) {
     return apiError(
@@ -69,3 +80,12 @@ function normalizeFocus(value: unknown): IntakeFocus {
   return "ux-driven";
 }
 
+function normalizeScreenshotLimit(value: unknown): number {
+  if (typeof value !== "number") {
+    return 6;
+  }
+  if (!Number.isFinite(value)) {
+    return 6;
+  }
+  return Math.max(1, Math.min(12, Math.round(value)));
+}

@@ -85,6 +85,13 @@ interface GitHubIntakeApiResponse {
   ok?: boolean;
   draft?: CaseStudy;
   evidence?: string[];
+  routeCandidates?: string[];
+  runtimeScreenshots?: Array<{
+    route: string;
+    pageUrl: string;
+    screenshotUrl: string;
+    status: "planned";
+  }>;
   error?: string | { message?: string };
 }
 
@@ -164,8 +171,19 @@ export default function AdminPage() {
   const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null);
   const [githubRepoUrl, setGitHubRepoUrl] = useState("");
   const [githubFocus, setGitHubFocus] = useState<IntakeFocus>("ux-driven");
+  const [githubRuntimeBaseUrl, setGitHubRuntimeBaseUrl] = useState("");
+  const [githubScreenshotLimit, setGitHubScreenshotLimit] = useState(6);
   const [generatingGitHubDraft, setGeneratingGitHubDraft] = useState(false);
   const [githubEvidence, setGitHubEvidence] = useState<string[]>([]);
+  const [githubRouteCandidates, setGitHubRouteCandidates] = useState<string[]>([]);
+  const [githubRuntimeScreenshots, setGitHubRuntimeScreenshots] = useState<
+    Array<{
+      route: string;
+      pageUrl: string;
+      screenshotUrl: string;
+      status: "planned";
+    }>
+  >([]);
 
   const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
     `${sectionIndex}:${blockIndex}`;
@@ -644,6 +662,8 @@ export default function AdminPage() {
         body: JSON.stringify({
           repoUrl: githubRepoUrl.trim(),
           focus: githubFocus,
+          runtimeBaseUrl: githubRuntimeBaseUrl.trim() || undefined,
+          screenshotLimit: githubScreenshotLimit,
         }),
       });
 
@@ -654,6 +674,12 @@ export default function AdminPage() {
       }
 
       setGitHubEvidence(Array.isArray(payload.evidence) ? payload.evidence : []);
+      setGitHubRouteCandidates(
+        Array.isArray(payload.routeCandidates) ? payload.routeCandidates : []
+      );
+      setGitHubRuntimeScreenshots(
+        Array.isArray(payload.runtimeScreenshots) ? payload.runtimeScreenshots : []
+      );
 
       const shouldApply = window.confirm(
         "Replace current case form with generated draft? Local draft is still available via browser storage."
@@ -828,8 +854,31 @@ export default function AdminPage() {
             {generatingGitHubDraft ? "Generating..." : "Generate Draft"}
           </button>
         </div>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
+          <input
+            type="text"
+            value={githubRuntimeBaseUrl}
+            onChange={(e) => setGitHubRuntimeBaseUrl(e.target.value)}
+            style={{ ...inputStyle, flex: 1, minWidth: 320 }}
+            placeholder="Runtime URL for screenshot crawl (optional), e.g. https://my-app.vercel.app"
+          />
+          <input
+            type="number"
+            min={1}
+            max={12}
+            value={githubScreenshotLimit}
+            onChange={(e) =>
+              setGitHubScreenshotLimit(
+                Math.max(1, Math.min(12, Number.parseInt(e.target.value || "6", 10) || 6))
+              )
+            }
+            style={{ ...inputStyle, width: 140, flex: "0 0 140px" }}
+            placeholder="Shots"
+          />
+        </div>
         <p style={{ fontSize: 12, marginTop: 8, color: "var(--color-text-muted)" }}>
-          Generates a draft from README + issues + merged PRs. Review carefully before saving.
+          Generates a draft from README + issues + merged PRs. If runtime URL is provided, it
+          also discovers app routes and prepares screenshot-crawl artifacts.
         </p>
         {githubEvidence.length > 0 ? (
           <details style={{ marginTop: 8 }}>
@@ -842,6 +891,44 @@ export default function AdminPage() {
                   <a href={href} target="_blank" rel="noreferrer">
                     {href}
                   </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ) : null}
+        {githubRouteCandidates.length > 0 ? (
+          <details style={{ marginTop: 8 }}>
+            <summary style={{ cursor: "pointer", fontSize: 13 }}>
+              Route candidates ({githubRouteCandidates.length})
+            </summary>
+            <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+              {githubRouteCandidates.slice(0, 12).map((route) => (
+                <li key={route} style={{ marginBottom: 4 }}>
+                  <code>{route}</code>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ) : null}
+        {githubRuntimeScreenshots.length > 0 ? (
+          <details style={{ marginTop: 8 }}>
+            <summary style={{ cursor: "pointer", fontSize: 13 }}>
+              Runtime screenshot plan ({githubRuntimeScreenshots.length})
+            </summary>
+            <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+              {githubRuntimeScreenshots.slice(0, 8).map((shot) => (
+                <li key={`${shot.route}-${shot.pageUrl}`} style={{ marginBottom: 6 }}>
+                  <div>
+                    <code>{shot.route}</code>
+                    {" -> "}
+                    <a href={shot.pageUrl} target="_blank" rel="noreferrer">
+                      page
+                    </a>{" "}
+                    /{" "}
+                    <a href={shot.screenshotUrl} target="_blank" rel="noreferrer">
+                      screenshot
+                    </a>
+                  </div>
                 </li>
               ))}
             </ul>

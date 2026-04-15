@@ -10,6 +10,19 @@ type SaveContentPayload = {
   message?: unknown;
 };
 
+type TypografCaseInput = {
+  title?: string;
+  subtitle?: string;
+  facts?: Array<{ label: string; value: string | string[] }>;
+  sections?: Array<{
+    title: string;
+    blocks: Array<{
+      discriminant: string;
+      value: Record<string, unknown>;
+    }>;
+  }>;
+};
+
 export async function POST(request: NextRequest) {
   const githubToken = process.env.GITHUB_PAT;
   const githubRepo = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
@@ -37,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Apply typograf to all text content before saving
-    const processedContent = typografCase(normalizedContent);
+    const processedContent = typografCase(normalizedContent as TypografCaseInput);
     const serializedContent = JSON.stringify(processedContent, null, 2);
     const encodedContent = Buffer.from(serializedContent).toString("base64");
 

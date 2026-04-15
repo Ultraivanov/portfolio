@@ -38,6 +38,14 @@
           "value": {
             "text": "MegaMod didn’t start this way.\n\nIt began as a game creation tool, then gradually expanded — new features, new use cases, new audiences.\n\nThe product evolved into a system.\nThe website didn’t.\n\nAt some point, it became easier to build new capabilities than to explain what the product actually is."
           }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/megamod/1776243886131.svg",
+            "alt": "founder's chat",
+            "caption": " Boom — startup"
+          }
         }
       ]
     },

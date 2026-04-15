@@ -217,6 +217,34 @@ export default function AdminPage() {
     return undefined;
   };
 
+  const readUploadErrorMessage = async (response: Response): Promise<string> => {
+    try {
+      const text = (await response.text()).trim();
+      if (text) {
+        try {
+          const parsed = JSON.parse(text) as unknown;
+          const parsedMessage = getApiErrorMessage(parsed);
+          if (parsedMessage !== "Unknown error") {
+            return parsedMessage;
+          }
+        } catch {
+          // Non-JSON error payload (e.g. HTML or plain text from platform/runtime)
+        }
+        return text;
+      }
+    } catch {
+      // ignore and fallback to status message
+    }
+
+    if (response.status) {
+      return response.statusText
+        ? `HTTP ${response.status} ${response.statusText}`
+        : `HTTP ${response.status}`;
+    }
+
+    return "Unknown error";
+  };
+
   const validateCase = (data: CaseStudy): string | null => {
     if (!data.title.trim()) return "Title is required";
     if (!data.slug.trim()) return "Slug is required";
@@ -301,25 +329,38 @@ export default function AdminPage() {
     formData.append("file", selectedFile);
     formData.append("path", path);
 
-    const response = await fetch("/api/upload-image", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const response = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
 
-    const result = (await response.json()) as UploadApiResponse;
+      if (response.ok) {
+        let result: UploadApiResponse = {};
+        try {
+          result = (await response.json()) as UploadApiResponse;
+        } catch {
+          result = {};
+        }
 
-    if (response.ok) {
-      // Update coverSrc with new path (relative to public)
-      const publicPath = path.replace(/^public/, "");
-      updateField("coverSrc", publicPath);
-      const sizeDelta = formatUploadSizeDelta(result.size);
-      setMessage(`✅ Image uploaded${sizeDelta ? ` (${sizeDelta})` : ""}`);
-      setSelectedFile(null);
-      setImageCaption("");
-    } else {
-      setMessage(`❌ Upload failed: ${getApiErrorMessage(result)}`);
+        // Update coverSrc with new path (relative to public)
+        const publicPath = path.replace(/^public/, "");
+        updateField("coverSrc", publicPath);
+        const sizeDelta = formatUploadSizeDelta(result.size);
+        setMessage(`✅ Image uploaded${sizeDelta ? ` (${sizeDelta})` : ""}`);
+        setSelectedFile(null);
+        setImageCaption("");
+      } else {
+        const apiError = await readUploadErrorMessage(response);
+        setMessage(`❌ Upload failed: ${apiError}`);
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error && error.message ? error.message : "Network error";
+      setMessage(`❌ Upload failed: ${message}`);
+    } finally {
+      setUploading(false);
     }
-    setUploading(false);
   };
 
   // Upload image for media block
@@ -357,14 +398,14 @@ export default function AdminPage() {
       });
       clearTimeout(timeoutId);
 
-      let result: UploadApiResponse = {};
-      try {
-        result = (await response.json()) as UploadApiResponse;
-      } catch {
-        result = {};
-      }
-
       if (response.ok) {
+        let result: UploadApiResponse = {};
+        try {
+          result = (await response.json()) as UploadApiResponse;
+        } catch {
+          result = {};
+        }
+
         const publicPath = path.replace(/^public/, "");
         const currentAlt = caseData.sections[sectionIndex]?.blocks[blockIndex]?.value.alt?.trim();
         const nextAlt = currentAlt || deriveAltFromFileName(file.name);
@@ -389,7 +430,7 @@ export default function AdminPage() {
         return;
       }
 
-      const apiError = getApiErrorMessage(result);
+      const apiError = await readUploadErrorMessage(response);
       setMessage(`❌ Upload failed: ${apiError}`);
       setMediaUploadFeedbackByBlock((prev) => ({
         ...prev,

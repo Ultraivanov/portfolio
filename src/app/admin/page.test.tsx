@@ -9,6 +9,21 @@ const mockJsonResponse = (payload: MockResponsePayload, ok = true): Response =>
     json: async () => payload,
   } as Response);
 
+const mockTextErrorResponse = (
+  text: string,
+  status = 413,
+  statusText = "Payload Too Large"
+): Response =>
+  ({
+    ok: false,
+    status,
+    statusText,
+    json: async () => {
+      throw new Error("Invalid JSON");
+    },
+    text: async () => text,
+  } as unknown as Response);
+
 const mediaCase = {
   slug: "megamod",
   title: "Megamod",
@@ -206,6 +221,47 @@ describe("AdminPage media upload input state", () => {
     await waitFor(() => {
       expect(screen.getByText("❌ Upload failed: boom")).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Save Changes" })).toBeEnabled();
+    });
+  });
+
+  it("shows plain-text upload error instead of Unknown error", async () => {
+    const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
+      const url = typeof input === "string" ? input : input.toString();
+
+      if (url === "/api/cases") {
+        return mockJsonResponse({
+          items: [{ slug: "megamod", title: "Megamod" }],
+        });
+      }
+
+      if (url === "/api/cases/megamod") {
+        return mockJsonResponse({ item: mediaCase });
+      }
+
+      if (url === "/api/upload-image") {
+        return mockTextErrorResponse("Request body too large");
+      }
+
+      return mockJsonResponse({ error: "Unexpected url" }, false);
+    });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    const { container } = render(<AdminPage />);
+    await screen.findByText("Sections");
+
+    const fileInputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
+    const mediaInput = fileInputs[1];
+    const file = new File(["<svg></svg>"], "broken.svg", { type: "image/svg+xml" });
+    fireEvent.change(mediaInput, { target: { files: [file] } });
+
+    await waitFor(() => {
+      expect(screen.getByText("❌ Upload failed: Request body too large")).toBeInTheDocument();
+      expect(screen.getByText("❌ Ошибка: Request body too large")).toBeInTheDocument();
     });
   });
 });

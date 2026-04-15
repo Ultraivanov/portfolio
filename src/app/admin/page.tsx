@@ -79,6 +79,15 @@ interface CaseDraftEnvelope {
   data: CaseStudy;
 }
 
+type IntakeFocus = "ux-driven" | "behavioral-model" | "agentic-flow";
+
+interface GitHubIntakeApiResponse {
+  ok?: boolean;
+  draft?: CaseStudy;
+  evidence?: string[];
+  error?: string | { message?: string };
+}
+
 const MEDIA_UPLOAD_TIMEOUT_MS = 90_000;
 const MAX_CLIENT_UPLOAD_BYTES = 3_500_000; // Keep request below Vercel function payload ceiling.
 const DRAFT_STORAGE_PREFIX = "cms-case-draft:";
@@ -153,6 +162,10 @@ export default function AdminPage() {
   >({});
   const [availableDraft, setAvailableDraft] = useState<CaseDraftEnvelope | null>(null);
   const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null);
+  const [githubRepoUrl, setGitHubRepoUrl] = useState("");
+  const [githubFocus, setGitHubFocus] = useState<IntakeFocus>("ux-driven");
+  const [generatingGitHubDraft, setGeneratingGitHubDraft] = useState(false);
+  const [githubEvidence, setGitHubEvidence] = useState<string[]>([]);
 
   const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
     `${sectionIndex}:${blockIndex}`;
@@ -596,6 +609,74 @@ export default function AdminPage() {
     }
   };
 
+  const applyGeneratedDraft = (draft: CaseStudy) => {
+    const normalizedDraft: CaseStudy = {
+      ...draft,
+      slug: selectedCase,
+      title: draft.title || caseData?.title || selectedCase,
+      subtitle: draft.subtitle || caseData?.subtitle || "",
+      coverSrc: draft.coverSrc || "/cases/example/cover.png",
+      coverAlt: draft.coverAlt || `${draft.title || selectedCase} cover`,
+      facts: Array.isArray(draft.facts) ? draft.facts : [],
+      sections: Array.isArray(draft.sections) ? draft.sections : [],
+    };
+
+    setCaseData(normalizedDraft);
+    const savedDraft = writeCaseDraft(selectedCase, normalizedDraft);
+    if (savedDraft) {
+      setDraftSavedAt(savedDraft.updatedAt);
+      setAvailableDraft(null);
+    }
+  };
+
+  const handleGenerateGitHubDraft = async () => {
+    if (!githubRepoUrl.trim()) {
+      setMessage("❌ GitHub repository URL is required.");
+      return;
+    }
+
+    setGeneratingGitHubDraft(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/intake/github", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          repoUrl: githubRepoUrl.trim(),
+          focus: githubFocus,
+        }),
+      });
+
+      const payload = (await response.json()) as GitHubIntakeApiResponse;
+      if (!response.ok || !payload.draft) {
+        setMessage(`❌ Draft generation failed: ${getApiErrorMessage(payload)}`);
+        return;
+      }
+
+      setGitHubEvidence(Array.isArray(payload.evidence) ? payload.evidence : []);
+
+      const shouldApply = window.confirm(
+        "Replace current case form with generated draft? Local draft is still available via browser storage."
+      );
+
+      if (!shouldApply) {
+        setMessage("ℹ️ Draft generated. Apply cancelled.");
+        return;
+      }
+
+      applyGeneratedDraft(payload.draft);
+      setMessage("✅ GitHub draft generated and applied. Review sections, then save.");
+    } catch (error) {
+      setMessage(
+        `❌ Draft generation failed: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
+    } finally {
+      setGeneratingGitHubDraft(false);
+    }
+  };
+
   // Section management
   const updateSection = (sectionIndex: number, field: keyof Section, value: string) => {
     if (!caseData) return;
@@ -701,6 +782,71 @@ export default function AdminPage() {
             </option>
           ))}
         </select>
+      </div>
+
+      <div
+        style={{
+          ...fieldStyle,
+          padding: 12,
+          border: "1px solid var(--color-border-subtle)",
+          borderRadius: "var(--radius-1)",
+          background: "var(--color-bg-secondary)",
+        }}
+      >
+        <label style={labelStyle}>AI Intake (GitHub)</label>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+          <input
+            type="text"
+            value={githubRepoUrl}
+            onChange={(e) => setGitHubRepoUrl(e.target.value)}
+            style={{ ...inputStyle, flex: 1, minWidth: 320 }}
+            placeholder="https://github.com/owner/repo"
+          />
+          <select
+            value={githubFocus}
+            onChange={(e) => setGitHubFocus(e.target.value as IntakeFocus)}
+            style={{ ...inputStyle, width: 200, flex: "0 0 200px" }}
+          >
+            <option value="ux-driven">UX-driven</option>
+            <option value="behavioral-model">Behavioral model</option>
+            <option value="agentic-flow">Agentic flow</option>
+          </select>
+          <button
+            onClick={handleGenerateGitHubDraft}
+            disabled={generatingGitHubDraft}
+            style={{
+              padding: "10px 14px",
+              background: generatingGitHubDraft ? "#999" : "#2563eb",
+              color: "white",
+              border: "none",
+              borderRadius: "var(--radius-1)",
+              cursor: generatingGitHubDraft ? "not-allowed" : "pointer",
+              fontSize: 14,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {generatingGitHubDraft ? "Generating..." : "Generate Draft"}
+          </button>
+        </div>
+        <p style={{ fontSize: 12, marginTop: 8, color: "var(--color-text-muted)" }}>
+          Generates a draft from README + issues + merged PRs. Review carefully before saving.
+        </p>
+        {githubEvidence.length > 0 ? (
+          <details style={{ marginTop: 8 }}>
+            <summary style={{ cursor: "pointer", fontSize: 13 }}>
+              Evidence links ({githubEvidence.length})
+            </summary>
+            <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+              {githubEvidence.slice(0, 8).map((href) => (
+                <li key={href} style={{ marginBottom: 4, overflowWrap: "anywhere" }}>
+                  <a href={href} target="_blank" rel="noreferrer">
+                    {href}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ) : null}
       </div>
 
       <div style={fieldStyle}>

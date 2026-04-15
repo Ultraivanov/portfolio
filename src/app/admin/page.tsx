@@ -74,6 +74,7 @@ interface MediaUploadFeedback {
 }
 
 const MEDIA_UPLOAD_TIMEOUT_MS = 90_000;
+const MAX_CLIENT_UPLOAD_BYTES = 3_500_000; // Keep request below Vercel function payload ceiling.
 
 export default function AdminPage() {
   const [cases, setCases] = useState<CaseInfo[]>([]);
@@ -185,6 +186,9 @@ export default function AdminPage() {
     return normalized || "Image";
   };
 
+  const getUploadSizeLimitError = (fileSizeBytes: number): string =>
+    `File is too large (${formatSingleFileSize(fileSizeBytes)}). CMS upload limit is approximately ${formatSingleFileSize(MAX_CLIENT_UPLOAD_BYTES)} per file. Please export a smaller asset and retry.`;
+
   const getApiErrorMessage = (payload: unknown): string => {
     if (typeof payload !== "object" || payload === null) {
       return "Unknown error";
@@ -243,6 +247,19 @@ export default function AdminPage() {
     }
 
     return "Unknown error";
+  };
+
+  const normalizeUploadErrorMessage = (rawMessage: string): string => {
+    const normalized = rawMessage.trim();
+    const lower = normalized.toLowerCase();
+    if (
+      lower.includes("function_payload_too_large") ||
+      lower.includes("request entity too large") ||
+      lower.includes("payload too large")
+    ) {
+      return `Upload payload exceeds platform limit. Keep files below approximately ${formatSingleFileSize(MAX_CLIENT_UPLOAD_BYTES)} and retry.`;
+    }
+    return normalized || "Unknown error";
   };
 
   const validateCase = (data: CaseStudy): string | null => {
@@ -319,6 +336,10 @@ export default function AdminPage() {
 
   const handleUpload = async () => {
     if (!selectedFile || !caseData) return;
+    if (selectedFile.size > MAX_CLIENT_UPLOAD_BYTES) {
+      setMessage(`❌ Upload failed: ${getUploadSizeLimitError(selectedFile.size)}`);
+      return;
+    }
     setUploading(true);
     setMessage("");
 
@@ -351,13 +372,13 @@ export default function AdminPage() {
         setSelectedFile(null);
         setImageCaption("");
       } else {
-        const apiError = await readUploadErrorMessage(response);
+        const apiError = normalizeUploadErrorMessage(await readUploadErrorMessage(response));
         setMessage(`❌ Upload failed: ${apiError}`);
       }
     } catch (error) {
       const message =
         error instanceof Error && error.message ? error.message : "Network error";
-      setMessage(`❌ Upload failed: ${message}`);
+      setMessage(`❌ Upload failed: ${normalizeUploadErrorMessage(message)}`);
     } finally {
       setUploading(false);
     }
@@ -370,6 +391,21 @@ export default function AdminPage() {
     file: File
   ) => {
     if (!caseData || !file) return;
+    if (file.size > MAX_CLIENT_UPLOAD_BYTES) {
+      const sizeError = getUploadSizeLimitError(file.size);
+      setMessage(`❌ Upload failed: ${sizeError}`);
+      const blockKey = getBlockKey(sectionIndex, blockIndex);
+      setMediaUploadFeedbackByBlock((prev) => ({
+        ...prev,
+        [blockKey]: {
+          fileName: file.name,
+          uploading: false,
+          uploaded: false,
+          errorText: sizeError,
+        },
+      }));
+      return;
+    }
     setMessage("");
     const blockKey = getBlockKey(sectionIndex, blockIndex);
     setMediaUploadFeedbackByBlock((prev) => ({
@@ -430,7 +466,7 @@ export default function AdminPage() {
         return;
       }
 
-      const apiError = await readUploadErrorMessage(response);
+      const apiError = normalizeUploadErrorMessage(await readUploadErrorMessage(response));
       setMessage(`❌ Upload failed: ${apiError}`);
       setMediaUploadFeedbackByBlock((prev) => ({
         ...prev,
@@ -453,14 +489,15 @@ export default function AdminPage() {
           : error instanceof Error && error.message
             ? error.message
             : "Network error";
-      setMessage(`❌ Upload failed: ${message}`);
+      const normalizedMessage = normalizeUploadErrorMessage(message);
+      setMessage(`❌ Upload failed: ${normalizedMessage}`);
       setMediaUploadFeedbackByBlock((prev) => ({
         ...prev,
         [blockKey]: {
           fileName: file.name,
           uploading: false,
           uploaded: false,
-          errorText: message,
+          errorText: normalizedMessage,
         },
       }));
     }

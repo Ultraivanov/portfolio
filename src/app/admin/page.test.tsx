@@ -239,7 +239,7 @@ describe("AdminPage media upload input state", () => {
       }
 
       if (url === "/api/upload-image") {
-        return mockTextErrorResponse("Request body too large");
+        return mockTextErrorResponse("Request Entity Too Large");
       }
 
       return mockJsonResponse({ error: "Unexpected url" }, false);
@@ -260,8 +260,62 @@ describe("AdminPage media upload input state", () => {
     fireEvent.change(mediaInput, { target: { files: [file] } });
 
     await waitFor(() => {
-      expect(screen.getByText("❌ Upload failed: Request body too large")).toBeInTheDocument();
-      expect(screen.getByText("❌ Error: Request body too large")).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "❌ Upload failed: Upload payload exceeds platform limit. Keep files below approximately 3.34 MB and retry."
+        )
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "❌ Error: Upload payload exceeds platform limit. Keep files below approximately 3.34 MB and retry."
+        )
+      ).toBeInTheDocument();
     });
+  });
+
+  it("blocks oversized media files before calling upload API", async () => {
+    const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
+      const url = typeof input === "string" ? input : input.toString();
+
+      if (url === "/api/cases") {
+        return mockJsonResponse({
+          items: [{ slug: "megamod", title: "Megamod" }],
+        });
+      }
+
+      if (url === "/api/cases/megamod") {
+        return mockJsonResponse({ item: mediaCase });
+      }
+
+      if (url === "/api/upload-image") {
+        return mockJsonResponse({ success: true });
+      }
+
+      return mockJsonResponse({ error: "Unexpected url" }, false);
+    });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    const { container } = render(<AdminPage />);
+    await screen.findByText("Sections");
+
+    const fileInputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
+    const mediaInput = fileInputs[1];
+    const largeFile = new File([new Uint8Array(3_700_000)], "too-big.svg", {
+      type: "image/svg+xml",
+    });
+    fireEvent.change(mediaInput, { target: { files: [largeFile] } });
+
+    await waitFor(() => {
+      expect(screen.getByText(/❌ Upload failed: File is too large/)).toBeInTheDocument();
+      expect(screen.getAllByText(/CMS upload limit is approximately 3\.34 MB/).length).toBeGreaterThan(0);
+    });
+
+    const uploadCalls = fetchMock.mock.calls.filter((call) => call[0] === "/api/upload-image");
+    expect(uploadCalls).toHaveLength(0);
   });
 });

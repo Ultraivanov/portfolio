@@ -12,6 +12,7 @@ Generate an editable case-study draft in CMS from a GitHub repository URL, espec
 Input:
 - GitHub repository URL
 - Focus angle: `ux-driven` | `behavioral-model` | `agentic-flow`
+- Analysis mode: `llm` (default) | `heuristic` (fallback/debug)
 
 Output:
 - Draft case JSON mapped into CMS structure:
@@ -37,6 +38,7 @@ Out of scope:
    - validates repository URL
    - fetches repository data through GitHub API
    - returns generated draft + evidence links
+   - supports LLM synthesis layer (`OPENAI_API_KEY`) over extracted repo artifacts
 
 2. `POST /api/intake/github/runtime-import`
    - takes screenshot plan + case slug
@@ -72,6 +74,7 @@ Out of scope:
 - Clear error propagation for invalid URL / GitHub failures
 - Evidence links exposed in UI for human verification
 - Existing local draft behavior retained
+- LLM mode requires explicit server key (`OPENAI_API_KEY`) and remains server-side only.
 
 ## Limitations
 

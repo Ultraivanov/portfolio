@@ -5,12 +5,14 @@ import {
   parseGitHubRepoUrl,
   type IntakeFocus,
 } from "@/lib/github-case-intake";
+import { synthesizeCaseDraftWithLlm } from "@/lib/github-case-intake-llm";
 
 type GitHubIntakePayload = {
   repoUrl?: unknown;
   focus?: unknown;
   runtimeBaseUrl?: unknown;
   screenshotLimit?: unknown;
+  analysisMode?: unknown;
 };
 
 const ALLOWED_FOCUS: ReadonlySet<IntakeFocus> = new Set([
@@ -18,6 +20,7 @@ const ALLOWED_FOCUS: ReadonlySet<IntakeFocus> = new Set([
   "behavioral-model",
   "agentic-flow",
 ]);
+const ALLOWED_ANALYSIS_MODES = new Set(["llm", "heuristic"]);
 
 export async function POST(request: Request) {
   try {
@@ -27,6 +30,7 @@ export async function POST(request: Request) {
     const runtimeBaseUrl =
       typeof payload.runtimeBaseUrl === "string" ? payload.runtimeBaseUrl.trim() : "";
     const screenshotLimit = normalizeScreenshotLimit(payload.screenshotLimit);
+    const analysisMode = normalizeAnalysisMode(payload.analysisMode);
 
     if (!repoUrl) {
       return apiError(400, "INVALID_REQUEST", "repoUrl is required.");
@@ -50,7 +54,32 @@ export async function POST(request: Request) {
       screenshotTemplate: process.env.GITHUB_INTAKE_SCREENSHOT_TEMPLATE,
     });
 
-    const { draft, evidence } = buildCaseDraftFromSignals(signals, focus);
+    const heuristic = buildCaseDraftFromSignals(signals, focus);
+
+    const llmApiKey = process.env.OPENAI_API_KEY;
+    const shouldUseLlm = analysisMode === "llm";
+    if (shouldUseLlm && !llmApiKey) {
+      return apiError(
+        500,
+        "LLM_CONFIG_ERROR",
+        "OPENAI_API_KEY is required for LLM analysis mode."
+      );
+    }
+
+    const llmResult =
+      shouldUseLlm && llmApiKey
+        ? await synthesizeCaseDraftWithLlm({
+            signals,
+            focus,
+            fallbackDraft: heuristic.draft,
+            repoUrl,
+            apiKey: llmApiKey,
+            model: process.env.GITHUB_INTAKE_LLM_MODEL,
+          })
+        : null;
+
+    const draft = llmResult?.draft ?? heuristic.draft;
+    const evidence = heuristic.evidence;
 
     return apiSuccess({
       draft,
@@ -60,9 +89,16 @@ export async function POST(request: Request) {
         repo: repoRef.repo,
         focus,
         runtimeBaseUrl: runtimeBaseUrl || null,
+        analysisMode,
       },
       routeCandidates: signals.routeCandidates,
       runtimeScreenshots: signals.runtimeScreenshots,
+      llm: llmResult
+        ? {
+            model: llmResult.model,
+            usage: llmResult.usage,
+          }
+        : null,
     });
   } catch (error) {
     return apiError(
@@ -88,4 +124,11 @@ function normalizeScreenshotLimit(value: unknown): number {
     return 6;
   }
   return Math.max(1, Math.min(12, Math.round(value)));
+}
+
+function normalizeAnalysisMode(value: unknown): "llm" | "heuristic" {
+  if (typeof value === "string" && ALLOWED_ANALYSIS_MODES.has(value)) {
+    return value as "llm" | "heuristic";
+  }
+  return "llm";
 }

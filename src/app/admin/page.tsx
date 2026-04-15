@@ -80,6 +80,7 @@ interface CaseDraftEnvelope {
 }
 
 type IntakeFocus = "ux-driven" | "behavioral-model" | "agentic-flow";
+type AnalysisMode = "llm" | "heuristic";
 
 interface GitHubIntakeApiResponse {
   ok?: boolean;
@@ -92,6 +93,14 @@ interface GitHubIntakeApiResponse {
     screenshotUrl: string;
     status: "planned";
   }>;
+  llm?: {
+    model?: string;
+    usage?: {
+      promptTokens?: number;
+      completionTokens?: number;
+      totalTokens?: number;
+    };
+  } | null;
   error?: string | { message?: string };
 }
 
@@ -187,6 +196,7 @@ export default function AdminPage() {
   const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null);
   const [githubRepoUrl, setGitHubRepoUrl] = useState("");
   const [githubFocus, setGitHubFocus] = useState<IntakeFocus>("ux-driven");
+  const [githubAnalysisMode, setGitHubAnalysisMode] = useState<AnalysisMode>("llm");
   const [githubRuntimeBaseUrl, setGitHubRuntimeBaseUrl] = useState("");
   const [githubScreenshotLimit, setGitHubScreenshotLimit] = useState(6);
   const [generatingGitHubDraft, setGeneratingGitHubDraft] = useState(false);
@@ -201,6 +211,7 @@ export default function AdminPage() {
     }>
   >([]);
   const [importingRuntimeScreenshots, setImportingRuntimeScreenshots] = useState(false);
+  const [githubLlmInfo, setGitHubLlmInfo] = useState<GitHubIntakeApiResponse["llm"]>(null);
 
   const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
     `${sectionIndex}:${blockIndex}`;
@@ -679,6 +690,7 @@ export default function AdminPage() {
         body: JSON.stringify({
           repoUrl: githubRepoUrl.trim(),
           focus: githubFocus,
+          analysisMode: githubAnalysisMode,
           runtimeBaseUrl: githubRuntimeBaseUrl.trim() || undefined,
           screenshotLimit: githubScreenshotLimit,
         }),
@@ -697,6 +709,7 @@ export default function AdminPage() {
       setGitHubRuntimeScreenshots(
         Array.isArray(payload.runtimeScreenshots) ? payload.runtimeScreenshots : []
       );
+      setGitHubLlmInfo(payload.llm ?? null);
 
       const shouldApply = window.confirm(
         "Replace current case form with generated draft? Local draft is still available via browser storage."
@@ -941,6 +954,14 @@ export default function AdminPage() {
             <option value="behavioral-model">Behavioral model</option>
             <option value="agentic-flow">Agentic flow</option>
           </select>
+          <select
+            value={githubAnalysisMode}
+            onChange={(e) => setGitHubAnalysisMode(e.target.value as AnalysisMode)}
+            style={{ ...inputStyle, width: 170, flex: "0 0 170px" }}
+          >
+            <option value="llm">LLM analysis</option>
+            <option value="heuristic">Heuristic</option>
+          </select>
           <button
             onClick={handleGenerateGitHubDraft}
             disabled={generatingGitHubDraft}
@@ -981,9 +1002,17 @@ export default function AdminPage() {
           />
         </div>
         <p style={{ fontSize: 12, marginTop: 8, color: "var(--color-text-muted)" }}>
-          Generates a draft from README + issues + merged PRs. If runtime URL is provided, it
-          also discovers app routes and prepares screenshot-crawl artifacts.
+          Generates a draft from README + issues + merged PRs. LLM mode uses model synthesis;
+          heuristic mode uses deterministic mapping. Runtime URL optionally enables route and screenshot planning.
         </p>
+        {githubLlmInfo?.model ? (
+          <p style={{ fontSize: 12, marginTop: 6, color: "var(--color-text-muted)" }}>
+            LLM: {githubLlmInfo.model}
+            {githubLlmInfo.usage?.totalTokens
+              ? ` • tokens: ${githubLlmInfo.usage.totalTokens}`
+              : ""}
+          </p>
+        ) : null}
         {githubEvidence.length > 0 ? (
           <details style={{ marginTop: 8 }}>
             <summary style={{ cursor: "pointer", fontSize: 13 }}>

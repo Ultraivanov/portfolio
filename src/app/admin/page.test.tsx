@@ -92,6 +92,7 @@ describe("AdminPage media upload input state", () => {
       expect(screen.getByText("✅ Загружен: diagram.svg")).toBeInTheDocument();
       expect(screen.getByText("✅ Вес: 2.0 KB → 1.0 KB")).toBeInTheDocument();
       expect(screen.getByText("✅ Обработан: SVG оптимизирован")).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("Alt text...")).toHaveValue("diagram");
     });
 
     expect(fetchMock).toHaveBeenCalledWith("/api/upload-image", expect.any(Object));

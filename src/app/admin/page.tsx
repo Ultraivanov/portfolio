@@ -177,6 +177,12 @@ export default function AdminPage() {
 
   const formatSingleFileSize = (bytes: number): string => formatBytes(bytes);
 
+  const deriveAltFromFileName = (fileName: string): string => {
+    const baseName = fileName.replace(/\.[^/.]+$/, "");
+    const normalized = baseName.replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+    return normalized || "Image";
+  };
+
   const getApiErrorMessage = (payload: unknown): string => {
     if (typeof payload !== "object" || payload === null) {
       return "Unknown error";
@@ -340,7 +346,9 @@ export default function AdminPage() {
 
     if (response.ok) {
       const publicPath = path.replace(/^public/, "");
-      updateBlock(sectionIndex, blockIndex, { src: publicPath });
+      const currentAlt = caseData.sections[sectionIndex]?.blocks[blockIndex]?.value.alt?.trim();
+      const nextAlt = currentAlt || deriveAltFromFileName(file.name);
+      updateBlock(sectionIndex, blockIndex, { src: publicPath, alt: nextAlt });
       const sizeDelta = formatUploadSizeDelta(result.size);
       setMessage(`✅ Image uploaded to media block${sizeDelta ? ` (${sizeDelta})` : ""}`);
       const processedText = result.svgOptimization

@@ -74,7 +74,48 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Traditional travel platforms assume that users can define what they want.\n\nIn reality, many users:\n    • do not have a clear destination\n    • cannot articulate preferences\n    • struggle to compare options\n    • delay decisions due to uncertainty\n\nThis results in:\n    • excessive browsing\n    • fragmented comparison\n    • reliance on external research\n    • postponed decisions\n\nTravel booking is not just a search problem.\nIt is a decision problem under uncertainty."
+            "text": "Traditional travel platforms assume that users can define what they want.\n\nIn reality, many users:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "do not have a clear destination",
+              "cannot articulate preferences",
+              "struggle to compare options",
+              "delay decisions due to uncertainty"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This results in:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "excessive browsing",
+              "fragmented comparison",
+              "reliance on external research",
+              "postponed decisions"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Travel booking is not just a search problem.\nIt is a decision problem under uncertainty."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776291872787.svg",
+            "alt": "Users loop"
           }
         }
       ]
@@ -98,6 +139,13 @@
           "value": {
             "text": "The product reframes how booking works."
           }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776292222383.svg",
+            "alt": "From search first to intent"
+          }
         }
       ]
     },
@@ -107,7 +155,21 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Framing intent before users can define it\n\nWhat decision this supports\nHelps users begin forming a direction without needing a precise query.\n\nBehavioral impact\nUsers stop trying to «guess the right search» and instead react to structured prompts, turning vague желания into explicit signals.\n\nWhy this works\nThe interface replaces empty input with constrained choices (scenarios, preferences), allowing users to externalize intent through recognition rather than recall."
+            "text": "Step 1 — Intent Capture\n\nThe experience starts with expressing preferences, not entering a query.\n\nUsers interact with lightweight inputs that translate vague desires into signals."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776292677454.png",
+            "alt": "сards 0"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776293017025.svg",
+            "alt": "Translating vague desire"
           }
         },
         {
@@ -117,9 +179,37 @@
           }
         },
         {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776293112905.png",
+            "alt": "summary screen"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776293148250.svg",
+            "alt": "Converting raw inputs"
+          }
+        },
+        {
           "discriminant": "paragraph",
           "value": {
             "text": "Step 3 — Curated Options\n\nThe system presents a small set of relevant options instead of full inventory.\n\nThe goal is to reduce comparison complexity."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776293212107.png",
+            "alt": "features cards"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776293242326.svg",
+            "alt": "Reducing option space"
           }
         },
         {
@@ -129,15 +219,43 @@
           }
         },
         {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776293759812.svg",
+            "alt": "Supporting decisions through"
+          }
+        },
+        {
           "discriminant": "paragraph",
           "value": {
             "text": "Step 5 — Iteration Loop\n\nUsers can refine their preferences at any point.\n\nThe system supports iterative behavior."
           }
         },
         {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776293903310.svg",
+            "alt": "Allowing users to refine intent"
+          }
+        },
+        {
           "discriminant": "paragraph",
           "value": {
             "text": "Step 6 — Transition to Booking\n\nBooking happens after a decision is made.\n\nThe transition preserves context and confidence."
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776293933226.svg",
+            "alt": "Moving from decision to transac"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/my-perfect-greek-vacation/1776294225571.svg",
+            "alt": "UI as a Decision Tool"
           }
         }
       ]

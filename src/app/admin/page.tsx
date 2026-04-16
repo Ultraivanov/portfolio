@@ -1,6 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  analyzeCaseDraftQuality,
+  type DraftQualityIssue,
+  type DraftQualityReport,
+} from "@/lib/case-draft-quality";
 
 interface Fact {
   label: string;
@@ -237,6 +242,10 @@ export default function AdminPage() {
   >([]);
   const [importingRuntimeScreenshots, setImportingRuntimeScreenshots] = useState(false);
   const [githubLlmInfo, setGitHubLlmInfo] = useState<GitHubIntakeApiResponse["llm"]>(null);
+  const draftQualityReport: DraftQualityReport | null = useMemo(() => {
+    if (!caseData) return null;
+    return analyzeCaseDraftQuality(caseData, { evidenceLinks: githubEvidence });
+  }, [caseData, githubEvidence]);
 
   const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
     `${sectionIndex}:${blockIndex}`;
@@ -448,6 +457,16 @@ export default function AdminPage() {
     if (error) {
       setMessage(`❌ ${error}`);
       return;
+    }
+
+    if ((draftQualityReport?.summary.critical || 0) > 0) {
+      const shouldSaveAnyway = window.confirm(
+        `Detected ${draftQualityReport?.summary.critical} critical quality issue(s). Save anyway?`
+      );
+      if (!shouldSaveAnyway) {
+        setMessage("⚠️ Save cancelled. Resolve critical quality issues first.");
+        return;
+      }
     }
 
     setSaving(true);
@@ -1051,6 +1070,10 @@ export default function AdminPage() {
   const hasUploadingMedia = Object.values(mediaUploadFeedbackByBlock).some(
     (feedback) => feedback.uploading
   );
+  const sortedDraftIssues = (draftQualityReport?.issues || []).slice().sort((a, b) => {
+    return severityRank(a.severity) - severityRank(b.severity);
+  });
+  const topDraftIssues = sortedDraftIssues.slice(0, 8);
 
   if (loading || !caseData) {
     return (
@@ -1100,6 +1123,52 @@ export default function AdminPage() {
           </button>
         </div>
       </div>
+
+      {draftQualityReport ? (
+        <div
+          style={{
+            ...fieldStyle,
+            padding: 12,
+            border: "1px solid var(--color-border-subtle)",
+            borderRadius: "var(--radius-1)",
+            background: "var(--color-bg-secondary)",
+          }}
+        >
+          <label style={labelStyle}>Draft Quality Checklist</label>
+          <p style={{ marginTop: 0, fontSize: 13 }}>
+            Score: <strong>{draftQualityReport.score}/100</strong>
+            {" • "}
+            Critical: <strong>{draftQualityReport.summary.critical}</strong>
+            {" • "}
+            Warnings: <strong>{draftQualityReport.summary.warning}</strong>
+          </p>
+          {topDraftIssues.length > 0 ? (
+            <ul style={{ marginTop: 0, paddingLeft: 18 }}>
+              {topDraftIssues.map((issue, index) => (
+                <li key={`${issue.id}-${index}`} style={{ marginBottom: 4 }}>
+                  <strong>{issue.severity.toUpperCase()}</strong>: {issue.message}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p style={{ marginTop: 0, fontSize: 13 }}>No quality issues detected.</p>
+          )}
+          <details style={{ marginTop: 8 }}>
+            <summary style={{ cursor: "pointer", fontSize: 13 }}>
+              Checklist ({draftQualityReport.checklist.filter((item) => item.passed).length}/
+              {draftQualityReport.checklist.length} passed)
+            </summary>
+            <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+              {draftQualityReport.checklist.map((item) => (
+                <li key={item.id} style={{ marginBottom: 4 }}>
+                  {item.passed ? "✅" : "⚠️"} {item.label}
+                  {item.details ? ` — ${item.details}` : ""}
+                </li>
+              ))}
+            </ul>
+          </details>
+        </div>
+      ) : null}
 
       <div style={fieldStyle}>
         <label style={labelStyle}>Select case:</label>
@@ -1384,7 +1453,7 @@ export default function AdminPage() {
             placeholder={`${caseData.title} | Dmitry Ginzburg`}
           />
           <span style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 4, display: "block" }}>
-            Defaults to "{caseData.title} | Dmitry Ginzburg" if empty
+            Defaults to &quot;{caseData.title} | Dmitry Ginzburg&quot; if empty
           </span>
         </div>
 
@@ -1901,4 +1970,17 @@ export default function AdminPage() {
       </p>
     </div>
   );
+}
+
+function severityRank(severity: DraftQualityIssue["severity"]): number {
+  switch (severity) {
+    case "critical":
+      return 0;
+    case "warning":
+      return 1;
+    case "info":
+      return 2;
+    default:
+      return 3;
+  }
 }

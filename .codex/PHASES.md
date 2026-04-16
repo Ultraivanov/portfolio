@@ -20,9 +20,9 @@
 | Field      | Value                          |
 |------------|--------------------------------|
 | Block ID   | R-02                           |
-| Title      | Documentation and workflow consistency |
+| Title      | Performance + QA               |
 | Status     | in-progress                    |
-| File       | `.codex/blocks/BLOCK-TEMPLATE.md` |
+| File       | `.codex/blocks/R-02.md`        |
 
 ---
 
@@ -73,4 +73,4 @@
 
 ---
 
-_Last updated: 2026-04-13_
+_Last updated: 2026-04-16_

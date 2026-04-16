@@ -1,5 +1,6 @@
 import {
   analyzeCaseDraftQuality,
+  buildDraftIntakeConfidence,
   REQUIRED_CASE_SECTIONS,
   type CaseDraftLike,
 } from "@/lib/case-draft-quality";
@@ -137,5 +138,31 @@ describe("analyzeCaseDraftQuality", () => {
     expect(
       report.checklist.find((item) => item.id === "constraints-signal")?.passed
     ).toBe(false);
+  });
+});
+
+describe("buildDraftIntakeConfidence", () => {
+  it("returns section-level confidence for all required sections", () => {
+    const confidence = buildDraftIntakeConfidence(createBaseDraft(), {
+      evidenceLinks: ["https://github.com/example/repo/pull/1"],
+    });
+
+    expect(confidence.sections).toHaveLength(REQUIRED_CASE_SECTIONS.length);
+    expect(confidence.overallScore).toBeGreaterThanOrEqual(70);
+    expect(confidence.overallLevel).toBe("strong");
+  });
+
+  it("marks missing sections as missing level", () => {
+    const draft = createBaseDraft();
+    draft.sections = draft.sections.filter((section) => section.title !== "Outcome");
+
+    const confidence = buildDraftIntakeConfidence(draft, {
+      evidenceLinks: ["https://github.com/example/repo/issues/1"],
+    });
+
+    const outcome = confidence.sections.find((section) => section.section === "Outcome");
+    expect(outcome?.level).toBe("missing");
+    expect(outcome?.score).toBe(0);
+    expect(confidence.summary.critical).toBeGreaterThan(0);
   });
 });

@@ -10,6 +10,7 @@ import {
   executeExtractorCommands,
 } from "@/lib/github-case-extractor";
 import { synthesizeCaseDraftWithLlm } from "@/lib/github-case-intake-llm";
+import { buildDraftIntakeConfidence } from "@/lib/case-draft-quality";
 
 type GitHubIntakePayload = {
   repoUrl?: unknown;
@@ -126,9 +127,12 @@ export async function POST(request: Request) {
       }
     }
 
+    const confidence = buildDraftIntakeConfidence(draft, { evidenceLinks: evidence });
+
     return apiSuccess({
       draft,
       evidence,
+      confidence,
       source: {
         owner: repoRef.owner,
         repo: repoRef.repo,

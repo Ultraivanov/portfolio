@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   analyzeCaseDraftQuality,
+  type DraftIntakeConfidence,
   type DraftQualityIssue,
   type DraftQualityReport,
 } from "@/lib/case-draft-quality";
@@ -107,6 +108,7 @@ interface GitHubIntakeApiResponse {
     };
     commandCount?: number;
   } | null;
+  confidence?: DraftIntakeConfidence | null;
   extractor?: {
     requested?: boolean;
     executed?: boolean;
@@ -242,6 +244,7 @@ export default function AdminPage() {
   >([]);
   const [importingRuntimeScreenshots, setImportingRuntimeScreenshots] = useState(false);
   const [githubLlmInfo, setGitHubLlmInfo] = useState<GitHubIntakeApiResponse["llm"]>(null);
+  const [githubConfidence, setGitHubConfidence] = useState<DraftIntakeConfidence | null>(null);
   const draftQualityReport: DraftQualityReport | null = useMemo(() => {
     if (!caseData) return null;
     return analyzeCaseDraftQuality(caseData, { evidenceLinks: githubEvidence });
@@ -836,6 +839,7 @@ export default function AdminPage() {
 
     setGeneratingGitHubDraft(true);
     setMessage("");
+    setGitHubConfidence(null);
     try {
       const response = await fetch("/api/intake/github", {
         method: "POST",
@@ -852,6 +856,7 @@ export default function AdminPage() {
 
       const payload = (await response.json()) as GitHubIntakeApiResponse;
       if (!response.ok || !payload.draft) {
+        setGitHubConfidence(null);
         setMessage(`❌ Draft generation failed: ${getApiErrorMessage(payload)}`);
         return;
       }
@@ -864,6 +869,7 @@ export default function AdminPage() {
         Array.isArray(payload.runtimeScreenshots) ? payload.runtimeScreenshots : []
       );
       setGitHubLlmInfo(payload.llm ?? null);
+      setGitHubConfidence(payload.confidence ?? null);
 
       const shouldApply = window.confirm(
         "Replace current case form with generated draft? Local draft is still available via browser storage."
@@ -895,6 +901,7 @@ export default function AdminPage() {
         `✅ GitHub draft generated and applied. Review sections, then save.${extractorStatus}`
       );
     } catch (error) {
+      setGitHubConfidence(null);
       setMessage(
         `❌ Draft generation failed: ${
           error instanceof Error ? error.message : "Unknown error"
@@ -1270,6 +1277,46 @@ export default function AdminPage() {
               ? ` • tokens: ${githubLlmInfo.usage.totalTokens}`
               : ""}
           </p>
+        ) : null}
+        {githubConfidence ? (
+          <div
+            style={{
+              marginTop: 8,
+              padding: 8,
+              borderRadius: "var(--radius-1)",
+              border: "1px solid var(--color-border-subtle)",
+              background: "var(--color-bg)",
+            }}
+          >
+            <p style={{ fontSize: 12, marginTop: 0, marginBottom: 6 }}>
+              Confidence:{" "}
+              <strong style={{ color: confidenceLevelColor(githubConfidence.overallLevel) }}>
+                {githubConfidence.overallScore}/100 ({githubConfidence.overallLevel})
+              </strong>
+              {" • "}
+              checklist {githubConfidence.checklistPassed}/{githubConfidence.checklistTotal}
+              {" • "}
+              critical {githubConfidence.summary.critical}
+              {" • "}
+              warnings {githubConfidence.summary.warning}
+            </p>
+            <details>
+              <summary style={{ cursor: "pointer", fontSize: 12 }}>
+                Section confidence ({githubConfidence.sections.length})
+              </summary>
+              <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+                {githubConfidence.sections.map((section) => (
+                  <li key={section.section} style={{ marginBottom: 4 }}>
+                    <strong>{section.section}</strong>:{" "}
+                    <span style={{ color: confidenceLevelColor(section.level) }}>
+                      {section.score}/100 ({section.level})
+                    </span>
+                    {section.notes.length > 0 ? ` — ${section.notes.join(" ")}` : ""}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </div>
         ) : null}
         {githubEvidence.length > 0 ? (
           <details style={{ marginTop: 8 }}>
@@ -1982,5 +2029,20 @@ function severityRank(severity: DraftQualityIssue["severity"]): number {
       return 2;
     default:
       return 3;
+  }
+}
+
+function confidenceLevelColor(level: DraftIntakeConfidence["overallLevel"] | "missing"): string {
+  switch (level) {
+    case "strong":
+      return "#16a34a";
+    case "medium":
+      return "#ca8a04";
+    case "weak":
+      return "#dc2626";
+    case "missing":
+      return "#7f1d1d";
+    default:
+      return "var(--color-text-primary)";
   }
 }

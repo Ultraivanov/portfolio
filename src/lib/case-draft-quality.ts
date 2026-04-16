@@ -55,6 +55,34 @@ export type DraftQualityReport = {
   };
 };
 
+export type IntakeConfidenceLevel = "strong" | "medium" | "weak" | "missing";
+
+export type DraftSectionConfidence = {
+  section: (typeof REQUIRED_CASE_SECTIONS)[number];
+  score: number;
+  level: IntakeConfidenceLevel;
+  summary: {
+    critical: number;
+    warning: number;
+    info: number;
+  };
+  notes: string[];
+};
+
+export type DraftIntakeConfidence = {
+  overallScore: number;
+  overallLevel: Exclude<IntakeConfidenceLevel, "missing">;
+  checklistPassed: number;
+  checklistTotal: number;
+  summary: {
+    critical: number;
+    warning: number;
+    info: number;
+  };
+  sections: DraftSectionConfidence[];
+  topIssues: DraftQualityIssue[];
+};
+
 export function analyzeCaseDraftQuality(
   draft: CaseDraftLike,
   options?: { evidenceLinks?: string[] }
@@ -179,6 +207,94 @@ export function analyzeCaseDraftQuality(
   };
 }
 
+export function buildDraftIntakeConfidence(
+  draft: CaseDraftLike,
+  options?: { evidenceLinks?: string[] }
+): DraftIntakeConfidence {
+  const quality = analyzeCaseDraftQuality(draft, options);
+  const checklistPassed = quality.checklist.filter((item) => item.passed).length;
+  const checklistTotal = quality.checklist.length;
+  const checklistMap = new Map(quality.checklist.map((item) => [item.id, item]));
+
+  const sections = REQUIRED_CASE_SECTIONS.map((sectionName) => {
+    const sectionIssues = quality.issues.filter(
+      (issue) => normalizeTitle(issue.section || "") === normalizeTitle(sectionName)
+    );
+    const hasMissingIssue = sectionIssues.some((issue) => issue.id === `missing-${sectionName.toLowerCase()}`);
+
+    if (hasMissingIssue) {
+      return {
+        section: sectionName,
+        score: 0,
+        level: "missing",
+        summary: {
+          critical: sectionIssues.filter((issue) => issue.severity === "critical").length,
+          warning: sectionIssues.filter((issue) => issue.severity === "warning").length,
+          info: sectionIssues.filter((issue) => issue.severity === "info").length,
+        },
+        notes: sectionIssues.map((issue) => issue.message).slice(0, 2),
+      } satisfies DraftSectionConfidence;
+    }
+
+    const summary = {
+      critical: sectionIssues.filter((issue) => issue.severity === "critical").length,
+      warning: sectionIssues.filter((issue) => issue.severity === "warning").length,
+      info: sectionIssues.filter((issue) => issue.severity === "info").length,
+    };
+
+    let score = 78;
+    score -= summary.critical * 35;
+    score -= summary.warning * 18;
+    score -= summary.info * 8;
+
+    if (sectionName === "Outcome") {
+      if (checklistMap.get("outcome-metric")?.passed) {
+        score += 12;
+      } else {
+        score -= 10;
+      }
+    }
+    if (sectionName === "Constraints") {
+      if (checklistMap.get("constraints-signal")?.passed) {
+        score += 8;
+      } else {
+        score -= 10;
+      }
+    }
+
+    score = clampScore(score);
+    return {
+      section: sectionName,
+      score,
+      level: scoreToLevel(score),
+      summary,
+      notes: sectionIssues.map((issue) => issue.message).slice(0, 2),
+    } satisfies DraftSectionConfidence;
+  });
+
+  const averageSectionScore =
+    sections.length === 0
+      ? 0
+      : Math.round(sections.reduce((sum, section) => sum + section.score, 0) / sections.length);
+  const issuePenalty = quality.summary.critical * 12 + quality.summary.warning * 4;
+  const overallScore = clampScore(
+    Math.round(averageSectionScore * 0.6 + quality.score * 0.4 - issuePenalty)
+  );
+
+  return {
+    overallScore,
+    overallLevel: scoreToOverallLevel(overallScore),
+    checklistPassed,
+    checklistTotal,
+    summary: quality.summary,
+    sections,
+    topIssues: quality.issues
+      .slice()
+      .sort((a, b) => severityRank(a.severity) - severityRank(b.severity))
+      .slice(0, 6),
+  };
+}
+
 function normalizeTitle(value: string): string {
   return value.trim().toLowerCase();
 }
@@ -240,4 +356,34 @@ function isHttpUrl(value: string): boolean {
   } catch {
     return false;
   }
+}
+
+function scoreToLevel(score: number): IntakeConfidenceLevel {
+  if (score <= 0) return "missing";
+  if (score >= 80) return "strong";
+  if (score >= 55) return "medium";
+  return "weak";
+}
+
+function scoreToOverallLevel(score: number): Exclude<IntakeConfidenceLevel, "missing"> {
+  if (score >= 75) return "strong";
+  if (score >= 50) return "medium";
+  return "weak";
+}
+
+function severityRank(severity: QualitySeverity): number {
+  switch (severity) {
+    case "critical":
+      return 0;
+    case "warning":
+      return 1;
+    case "info":
+      return 2;
+    default:
+      return 3;
+  }
+}
+
+function clampScore(value: number): number {
+  return Math.max(0, Math.min(100, value));
 }

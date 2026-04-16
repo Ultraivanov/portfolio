@@ -150,7 +150,10 @@ export function applyImportedArtifactsToDraft(
     return draft;
   }
 
-  const importedByRoute = new Map(imported.map((row) => [row.route, row]));
+  const dedupedImported = dedupeImportedArtifactsByRoute(imported);
+  const importedByRoute = new Map(
+    dedupedImported.map((row) => [normalizeRouteKey(row.route), row] as const)
+  );
   const nextSections = draft.sections.map((section) => {
     if (section.title !== "Visual Artifacts") {
       return section;
@@ -161,11 +164,10 @@ export function applyImportedArtifactsToDraft(
         return block;
       }
 
-      const routeMatch = (block.value.alt || "").match(/runtime screenshot\s+(.+)$/i);
-      const route = routeMatch?.[1]?.trim();
+      const route = extractRouteFromAlt(block.value.alt);
       if (!route) return block;
 
-      const importedRow = importedByRoute.get(route);
+      const importedRow = importedByRoute.get(normalizeRouteKey(route));
       if (!importedRow) return block;
 
       return {
@@ -184,8 +186,9 @@ export function applyImportedArtifactsToDraft(
     };
   });
 
-  const missingMediaBlocks: CaseBlock[] = imported
+  const missingMediaBlocks: CaseBlock[] = dedupedImported
     .filter((row) => !hasMediaForRoute(nextSections, row.route))
+    .sort((a, b) => normalizeRouteKey(a.route).localeCompare(normalizeRouteKey(b.route)))
     .flatMap((row) => [
       {
         discriminant: "media",
@@ -237,16 +240,40 @@ export function applyImportedArtifactsToDraft(
 }
 
 function hasMediaForRoute(sections: CaseDraft["sections"], route: string): boolean {
+  const targetKey = normalizeRouteKey(route);
   return sections.some(
     (section) =>
       section.title === "Visual Artifacts" &&
       section.blocks.some(
         (block) =>
           block.discriminant === "media" &&
-          typeof block.value.alt === "string" &&
-          block.value.alt.toLowerCase().includes(`runtime screenshot ${route}`.toLowerCase())
+          normalizeRouteKey(extractRouteFromAlt(block.value.alt) || "") === targetKey
       )
   );
+}
+
+function dedupeImportedArtifactsByRoute(imported: ImportedArtifact[]): ImportedArtifact[] {
+  const deduped = new Map<string, ImportedArtifact>();
+  for (const row of imported) {
+    deduped.set(normalizeRouteKey(row.route), row);
+  }
+  return [...deduped.values()];
+}
+
+function extractRouteFromAlt(alt: string | undefined): string | null {
+  if (typeof alt !== "string") return null;
+  const routeMatch = alt.match(/runtime screenshot\s+(.+)$/i);
+  return routeMatch?.[1]?.trim() || null;
+}
+
+function normalizeRouteKey(route: string): string {
+  const trimmed = route.trim();
+  if (!trimmed) return "";
+  const withSingleSlashes = trimmed.replace(/\/{2,}/g, "/");
+  const normalizedPrefix = withSingleSlashes.startsWith("/")
+    ? withSingleSlashes
+    : `/${withSingleSlashes}`;
+  return normalizedPrefix.replace(/\/+$/g, "").toLowerCase();
 }
 
 async function fetchImageBuffer(url: string): Promise<Buffer> {
@@ -304,4 +331,3 @@ function isHttpUrl(value: string): boolean {
     return false;
   }
 }
-

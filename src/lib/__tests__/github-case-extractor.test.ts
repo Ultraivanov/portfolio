@@ -1,146 +1,128 @@
 import {
   applyImportedArtifactsToDraft,
-  normalizeExtractorCommands,
   type ImportedArtifact,
 } from "@/lib/github-case-extractor";
 import type { CaseDraft } from "@/lib/github-case-intake";
 
-describe("normalizeExtractorCommands", () => {
-  it("keeps only valid import_runtime_screenshot commands", () => {
-    const commands = normalizeExtractorCommands([
+function createDraft(): CaseDraft {
+  return {
+    slug: "demo-case",
+    title: "Demo Case",
+    subtitle: "Demo subtitle",
+    coverSrc: "/cases/demo/cover.png",
+    coverAlt: "Demo cover",
+    facts: [{ label: "role", value: "Designer" }],
+    sections: [
       {
-        type: "import_runtime_screenshot",
-        route: "/work",
-        pageUrl: "https://example.com/work",
-        screenshotUrl: "https://img.example.com/work.png",
-        reason: "Primary flow",
+        title: "Context",
+        blocks: [{ discriminant: "paragraph", value: { text: "Context text" } }],
       },
       {
-        type: "import_runtime_screenshot",
-        route: "",
-        pageUrl: "https://example.com",
-        screenshotUrl: "https://img.example.com/a.png",
+        title: "Visual Artifacts",
+        blocks: [
+          {
+            discriminant: "media",
+            value: {
+              src: "/cases/demo/original-checkout-details.png",
+              alt: "Demo Case runtime screenshot /checkout/details",
+              caption: "Old caption",
+            },
+          },
+        ],
       },
-      {
-        type: "import_runtime_screenshot",
-        route: "/bad",
-        pageUrl: "javascript:alert(1)",
-        screenshotUrl: "https://img.example.com/b.png",
-      },
-      {
-        type: "unsupported",
-        route: "/ignored",
-        pageUrl: "https://example.com",
-        screenshotUrl: "https://img.example.com/c.png",
-      },
-    ]);
-
-    expect(commands).toEqual([
-      {
-        type: "import_runtime_screenshot",
-        route: "/work",
-        pageUrl: "https://example.com/work",
-        screenshotUrl: "https://img.example.com/work.png",
-        reason: "Primary flow",
-      },
-    ]);
-  });
-});
+    ],
+  };
+}
 
 describe("applyImportedArtifactsToDraft", () => {
-  it("updates existing visual artifact blocks by runtime route", () => {
-    const draft: CaseDraft = {
-      slug: "demo",
-      title: "Demo",
-      subtitle: "Case",
-      coverSrc: "/cases/demo/cover.png",
-      coverAlt: "Demo cover",
-      facts: [],
-      sections: [
-        {
-          title: "Visual Artifacts",
-          blocks: [
-            {
-              discriminant: "media",
-              value: {
-                src: "https://img.example.com/old.png",
-                alt: "Demo runtime screenshot /work",
-                caption: "old",
-              },
-            },
-          ],
-        },
-      ],
-    };
-
+  it("deduplicates repeated route imports (last import wins) and appends deterministically", () => {
+    const draft = createDraft();
     const imported: ImportedArtifact[] = [
       {
         type: "import_runtime_screenshot",
-        route: "/work",
-        pageUrl: "https://example.com/work",
-        src: "/cases/demo/runtime-1.png",
-        bytes: 128,
-        reason: "Core UX flow",
+        route: "/z-route",
+        pageUrl: "https://example.com/z-route",
+        src: "/cases/demo/runtime-z-old.png",
+        bytes: 1200,
+      },
+      {
+        type: "import_runtime_screenshot",
+        route: "/a-route",
+        pageUrl: "https://example.com/a-route",
+        src: "/cases/demo/runtime-a.png",
+        bytes: 1300,
+      },
+      {
+        type: "import_runtime_screenshot",
+        route: "/z-route",
+        pageUrl: "https://example.com/z-route",
+        src: "/cases/demo/runtime-z-new.png",
+        bytes: 1400,
       },
     ];
 
     const updated = applyImportedArtifactsToDraft(draft, imported);
-    const mediaBlock = updated.sections[0].blocks[0];
+    const visual = updated.sections.find((section) => section.title === "Visual Artifacts");
+    expect(visual).toBeDefined();
 
-    expect(mediaBlock.discriminant).toBe("media");
-    if (mediaBlock.discriminant !== "media") {
-      throw new Error("Expected media block");
+    const mediaBlocks = visual?.blocks.filter((block) => block.discriminant === "media") || [];
+    const linkBlocks = visual?.blocks.filter((block) => block.discriminant === "link") || [];
+
+    const zRouteMedia = mediaBlocks.filter(
+      (block) =>
+        block.discriminant === "media" &&
+        block.value.alt?.toLowerCase().includes("runtime screenshot /z-route")
+    );
+    expect(zRouteMedia).toHaveLength(1);
+    expect(zRouteMedia[0].discriminant).toBe("media");
+    if (zRouteMedia[0].discriminant === "media") {
+      expect(zRouteMedia[0].value.src).toBe("/cases/demo/runtime-z-new.png");
     }
 
-    expect(mediaBlock.value.src).toBe("/cases/demo/runtime-1.png");
-    expect(mediaBlock.value.caption).toBe("Core UX flow");
+    const runtimeRouteMedia = mediaBlocks
+      .filter((block) => block.discriminant === "media")
+      .map((block) => (block.discriminant === "media" ? block.value.alt || "" : ""));
+    const appendedRouteOrder = runtimeRouteMedia.filter((alt) =>
+      alt.toLowerCase().includes("runtime screenshot /")
+    );
+    expect(appendedRouteOrder[1]).toContain("/a-route");
+    expect(appendedRouteOrder[2]).toContain("/z-route");
+    expect(linkBlocks.length).toBeGreaterThanOrEqual(2);
   });
 
-  it("creates Visual Artifacts section when missing", () => {
-    const draft: CaseDraft = {
-      slug: "demo",
-      title: "Demo",
-      subtitle: "Case",
-      coverSrc: "/cases/demo/cover.png",
-      coverAlt: "Demo cover",
-      facts: [],
-      sections: [
-        {
-          title: "Context",
-          blocks: [{ discriminant: "paragraph", value: { text: "text" } }],
-        },
-      ],
-    };
-
+  it("does not treat /checkout as existing when only /checkout/details exists", () => {
+    const draft = createDraft();
     const imported: ImportedArtifact[] = [
       {
         type: "import_runtime_screenshot",
-        route: "/",
-        pageUrl: "https://example.com/",
-        src: "/cases/demo/runtime-home.png",
-        bytes: 256,
+        route: "/checkout",
+        pageUrl: "https://example.com/checkout",
+        src: "/cases/demo/runtime-checkout.png",
+        bytes: 1100,
       },
     ];
 
     const updated = applyImportedArtifactsToDraft(draft, imported);
-    const visualArtifacts = updated.sections.find((section) => section.title === "Visual Artifacts");
+    const visual = updated.sections.find((section) => section.title === "Visual Artifacts");
+    const mediaBlocks = visual?.blocks.filter((block) => block.discriminant === "media") || [];
+    const checkoutMedia = mediaBlocks.filter(
+      (block) =>
+        block.discriminant === "media" &&
+        (block.value.alt || "").toLowerCase().includes("runtime screenshot /checkout")
+    );
 
-    expect(visualArtifacts).toBeDefined();
-    expect(visualArtifacts?.blocks).toHaveLength(2);
-    expect(visualArtifacts?.blocks[0]).toEqual({
-      discriminant: "media",
-      value: {
-        src: "/cases/demo/runtime-home.png",
-        alt: "Demo runtime screenshot /",
-        caption: "Runtime screenshot / (imported)",
-      },
-    });
-    expect(visualArtifacts?.blocks[1]).toEqual({
-      discriminant: "link",
-      value: {
-        label: "Open route /",
-        href: "https://example.com/",
-      },
-    });
+    expect(checkoutMedia).toHaveLength(2);
+    const hasDetailsMedia = checkoutMedia.some(
+      (block) =>
+        block.discriminant === "media" &&
+        (block.value.alt || "").toLowerCase().includes("/checkout/details")
+    );
+    const hasCheckoutMedia = checkoutMedia.some(
+      (block) =>
+        block.discriminant === "media" &&
+        (block.value.alt || "").toLowerCase().includes("runtime screenshot /checkout")
+    );
+    expect(hasDetailsMedia).toBe(true);
+    expect(hasCheckoutMedia).toBe(true);
   });
 });

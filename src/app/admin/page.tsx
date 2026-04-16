@@ -138,6 +138,7 @@ interface RuntimeImportApiResponse {
     pageUrl: string;
     src: string;
     bytes: number;
+    reason?: string;
   }>;
   failed?: Array<{
     route: string;
@@ -946,7 +947,10 @@ export default function AdminPage() {
         return;
       }
 
-      const byRoute = new Map(imported.map((item) => [item.route, item.src]));
+      const dedupedImported = dedupeRuntimeImportedArtifacts(imported);
+      const byRoute = new Map(
+        dedupedImported.map((item) => [normalizeRuntimeRouteKey(item.route), item] as const)
+      );
       const nextSections = caseData.sections.map((section) => {
         if (section.title !== "Visual Artifacts") {
           return section;
@@ -959,14 +963,13 @@ export default function AdminPage() {
               return block;
             }
 
-            const routeMatch = (block.value.alt || "").match(/runtime screenshot\s+(.+)$/i);
-            const route = routeMatch?.[1]?.trim();
+            const route = extractRuntimeRouteFromAlt(block.value.alt);
             if (!route) {
               return block;
             }
 
-            const src = byRoute.get(route);
-            if (!src) {
+            const importedArtifact = byRoute.get(normalizeRuntimeRouteKey(route));
+            if (!importedArtifact) {
               return block;
             }
 
@@ -974,15 +977,51 @@ export default function AdminPage() {
               ...block,
               value: {
                 ...block.value,
-                src,
-                caption: `Runtime screenshot ${route} (imported)`,
+                src: importedArtifact.src,
+                caption:
+                  importedArtifact.reason || `Runtime screenshot ${importedArtifact.route} (imported)`,
               },
             };
           }),
         };
       });
 
-      updateField("sections", nextSections);
+      const missingBlocks: Block[] = dedupedImported
+        .filter((item) => !hasRuntimeMediaForRoute(nextSections, item.route))
+        .sort((a, b) =>
+          normalizeRuntimeRouteKey(a.route).localeCompare(normalizeRuntimeRouteKey(b.route))
+        )
+        .flatMap((item) => [
+          {
+            discriminant: "media" as const,
+            value: {
+              src: item.src,
+              alt: `${caseData.title} runtime screenshot ${item.route}`,
+              caption: item.reason || `Runtime screenshot ${item.route} (imported)`,
+            },
+          },
+          {
+            discriminant: "link" as const,
+            value: {
+              label: `Open route ${item.route}`,
+              href: item.pageUrl,
+            },
+          },
+        ]);
+
+      const sectionIndex = nextSections.findIndex((section) => section.title === "Visual Artifacts");
+      const finalSections =
+        missingBlocks.length === 0
+          ? nextSections
+          : sectionIndex >= 0
+            ? nextSections.map((section, index) =>
+                index === sectionIndex
+                  ? { ...section, blocks: [...section.blocks, ...missingBlocks] }
+                  : section
+              )
+            : [...nextSections, { title: "Visual Artifacts", blocks: missingBlocks }];
+
+      updateField("sections", finalSections);
       setMessage(
         `✅ Imported ${imported.length} runtime screenshots${
           failed.length ? ` (${failed.length} failed)` : ""
@@ -2045,4 +2084,46 @@ function confidenceLevelColor(level: DraftIntakeConfidence["overallLevel"] | "mi
     default:
       return "var(--color-text-primary)";
   }
+}
+
+function dedupeRuntimeImportedArtifacts(
+  imported: Array<{ route: string; pageUrl: string; src: string; bytes: number; reason?: string }>
+): Array<{ route: string; pageUrl: string; src: string; bytes: number; reason?: string }> {
+  const deduped = new Map<
+    string,
+    { route: string; pageUrl: string; src: string; bytes: number; reason?: string }
+  >();
+  for (const item of imported) {
+    deduped.set(normalizeRuntimeRouteKey(item.route), item);
+  }
+  return [...deduped.values()];
+}
+
+function hasRuntimeMediaForRoute(sections: Section[], route: string): boolean {
+  const targetKey = normalizeRuntimeRouteKey(route);
+  return sections.some(
+    (section) =>
+      section.title === "Visual Artifacts" &&
+      section.blocks.some(
+        (block) =>
+          block.discriminant === "media" &&
+          normalizeRuntimeRouteKey(extractRuntimeRouteFromAlt(block.value.alt) || "") === targetKey
+      )
+  );
+}
+
+function extractRuntimeRouteFromAlt(alt: string | undefined): string | null {
+  if (typeof alt !== "string") return null;
+  const routeMatch = alt.match(/runtime screenshot\s+(.+)$/i);
+  return routeMatch?.[1]?.trim() || null;
+}
+
+function normalizeRuntimeRouteKey(route: string): string {
+  const trimmed = route.trim();
+  if (!trimmed) return "";
+  const withSingleSlashes = trimmed.replace(/\/{2,}/g, "/");
+  const normalizedPrefix = withSingleSlashes.startsWith("/")
+    ? withSingleSlashes
+    : `/${withSingleSlashes}`;
+  return normalizedPrefix.replace(/\/+$/g, "").toLowerCase();
 }

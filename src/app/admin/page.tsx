@@ -8,6 +8,7 @@ import {
   type DraftQualityIssue,
   type DraftQualityReport,
 } from "@/lib/case-draft-quality";
+import type { StarterVariant } from "@/lib/case-starter";
 
 interface Fact {
   label: string;
@@ -111,6 +112,7 @@ interface GitHubIntakeApiResponse {
   } | null;
   confidence?: DraftIntakeConfidence | null;
   consistency?: DraftConsistencyReport | null;
+  starterVariants?: StarterVariant[];
   extractor?: {
     requested?: boolean;
     executed?: boolean;
@@ -249,6 +251,10 @@ export default function AdminPage() {
   const [githubLlmInfo, setGitHubLlmInfo] = useState<GitHubIntakeApiResponse["llm"]>(null);
   const [githubConfidence, setGitHubConfidence] = useState<DraftIntakeConfidence | null>(null);
   const [githubConsistency, setGitHubConsistency] = useState<DraftConsistencyReport | null>(null);
+  const [githubStarterDraft, setGitHubStarterDraft] = useState<CaseStudy | null>(null);
+  const [githubStarterVariants, setGitHubStarterVariants] = useState<StarterVariant[]>([]);
+  const [selectedStarterVariantId, setSelectedStarterVariantId] = useState("");
+  const [githubExtractorSummary, setGitHubExtractorSummary] = useState("");
   const draftQualityReport: DraftQualityReport | null = useMemo(() => {
     if (!caseData) return null;
     return analyzeCaseDraftQuality(caseData, { evidenceLinks: githubEvidence });
@@ -304,6 +310,10 @@ export default function AdminPage() {
     setMediaUploadFeedbackByBlock({});
     setAvailableDraft(null);
     setDraftSavedAt(null);
+    setGitHubStarterDraft(null);
+    setGitHubStarterVariants([]);
+    setSelectedStarterVariantId("");
+    setGitHubExtractorSummary("");
     void loadCaseContent(selectedCase);
   }, [selectedCase]);
 
@@ -845,6 +855,10 @@ export default function AdminPage() {
     setMessage("");
     setGitHubConfidence(null);
     setGitHubConsistency(null);
+    setGitHubStarterDraft(null);
+    setGitHubStarterVariants([]);
+    setSelectedStarterVariantId("");
+    setGitHubExtractorSummary("");
     try {
       const response = await fetch("/api/intake/github", {
         method: "POST",
@@ -877,17 +891,10 @@ export default function AdminPage() {
       setGitHubLlmInfo(payload.llm ?? null);
       setGitHubConfidence(payload.confidence ?? null);
       setGitHubConsistency(payload.consistency ?? null);
-
-      const shouldApply = window.confirm(
-        "Replace current case form with generated draft? Local draft is still available via browser storage."
-      );
-
-      if (!shouldApply) {
-        setMessage("ℹ️ Draft generated. Apply cancelled.");
-        return;
-      }
-
-      applyGeneratedDraft(payload.draft);
+      setGitHubStarterDraft(payload.draft);
+      const starterVariants = normalizeStarterVariants(payload.starterVariants, payload.draft);
+      setGitHubStarterVariants(starterVariants);
+      setSelectedStarterVariantId(starterVariants[0]?.id ?? "");
       const extractorImportedCount = Array.isArray(payload.extractor?.imported)
         ? payload.extractor?.imported.length
         : 0;
@@ -903,13 +910,18 @@ export default function AdminPage() {
             ? ` Extractor skipped: ${payload.extractor.skippedReason}`
             : ""
         : "";
+      setGitHubExtractorSummary(extractorStatus.trim());
 
       setMessage(
-        `✅ GitHub draft generated and applied. Review sections, then save.${extractorStatus}`
+        `✅ GitHub draft generated. Choose starter variant and click Apply Starter Draft before save.${extractorStatus}`
       );
     } catch (error) {
       setGitHubConfidence(null);
       setGitHubConsistency(null);
+      setGitHubStarterDraft(null);
+      setGitHubStarterVariants([]);
+      setSelectedStarterVariantId("");
+      setGitHubExtractorSummary("");
       setMessage(
         `❌ Draft generation failed: ${
           error instanceof Error ? error.message : "Unknown error"
@@ -918,6 +930,48 @@ export default function AdminPage() {
     } finally {
       setGeneratingGitHubDraft(false);
     }
+  };
+
+  const handleApplyStarterDraft = () => {
+    if (!githubStarterDraft) {
+      setMessage("❌ Generate a draft first.");
+      return;
+    }
+
+    const shouldApply = window.confirm(
+      "Apply starter draft and replace current form values? Local browser draft stays available."
+    );
+    if (!shouldApply) {
+      setMessage("ℹ️ Starter draft apply cancelled.");
+      return;
+    }
+
+    const selectedVariant =
+      githubStarterVariants.find((variant) => variant.id === selectedStarterVariantId) ??
+      githubStarterVariants[0];
+    const nextDraft: CaseStudy = selectedVariant
+      ? {
+          ...githubStarterDraft,
+          title: selectedVariant.title,
+          subtitle: selectedVariant.subtitle,
+          coverAlt: githubStarterDraft.coverAlt || `${selectedVariant.title} cover`,
+          seo: {
+            ...githubStarterDraft.seo,
+            metaTitle:
+              githubStarterDraft.seo?.metaTitle ||
+              `${selectedVariant.title} | Case Study`,
+            metaDescription:
+              githubStarterDraft.seo?.metaDescription || selectedVariant.subtitle,
+          },
+        }
+      : githubStarterDraft;
+
+    applyGeneratedDraft(nextDraft);
+    setMessage(
+      `✅ Starter draft applied. Review sections, then save.${
+        githubExtractorSummary ? ` ${githubExtractorSummary}` : ""
+      }`
+    );
   };
 
   const handleImportRuntimeScreenshots = async () => {
@@ -1323,6 +1377,65 @@ export default function AdminPage() {
               ? ` • tokens: ${githubLlmInfo.usage.totalTokens}`
               : ""}
           </p>
+        ) : null}
+        {githubStarterDraft ? (
+          <div
+            style={{
+              marginTop: 8,
+              padding: 8,
+              borderRadius: "var(--radius-1)",
+              border: "1px solid var(--color-border-subtle)",
+              background: "var(--color-bg)",
+            }}
+          >
+            <p style={{ fontSize: 12, marginTop: 0, marginBottom: 8 }}>
+              Starter draft ready. Select title/subtitle variant, then apply to replace current form.
+            </p>
+            <div style={{ display: "grid", gap: 8 }}>
+              {githubStarterVariants.map((variant) => (
+                <label
+                  key={variant.id}
+                  style={{
+                    display: "block",
+                    border: "1px solid var(--color-border-subtle)",
+                    borderRadius: "var(--radius-1)",
+                    padding: 8,
+                    cursor: "pointer",
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="starterVariant"
+                    value={variant.id}
+                    checked={selectedStarterVariantId === variant.id}
+                    onChange={() => setSelectedStarterVariantId(variant.id)}
+                    style={{ marginRight: 8 }}
+                  />
+                  <strong>{variant.title}</strong>
+                  <div style={{ fontSize: 12, marginTop: 4 }}>{variant.subtitle}</div>
+                  <div style={{ fontSize: 11, marginTop: 4, color: "var(--color-text-muted)" }}>
+                    {variant.reason}
+                  </div>
+                </label>
+              ))}
+            </div>
+            <button
+              onClick={handleApplyStarterDraft}
+              disabled={githubStarterVariants.length === 0}
+              style={{
+                marginTop: 8,
+                padding: "8px 12px",
+                background: githubStarterVariants.length === 0 ? "#999" : "#0f766e",
+                color: "white",
+                border: "none",
+                borderRadius: "var(--radius-1)",
+                cursor: githubStarterVariants.length === 0 ? "not-allowed" : "pointer",
+                fontSize: 13,
+              }}
+            >
+              Apply Starter Draft
+            </button>
+          </div>
         ) : null}
         {githubConfidence ? (
           <div
@@ -2123,6 +2236,65 @@ function severityRank(severity: DraftQualityIssue["severity"]): number {
     default:
       return 3;
   }
+}
+
+function normalizeStarterVariants(value: unknown, draft: CaseStudy): StarterVariant[] {
+  const fallbackTitle = (draft.title || draft.slug || "Case Study").trim();
+  const fallbackSubtitle = (draft.subtitle || "Structured case draft ready for review.").trim();
+
+  if (!Array.isArray(value)) {
+    return [
+      {
+        id: "baseline",
+        title: fallbackTitle,
+        subtitle: fallbackSubtitle,
+        reason: "Generated baseline variant.",
+      },
+    ];
+  }
+
+  const unique = new Map<string, StarterVariant>();
+
+  value.forEach((row, index) => {
+    if (!isRecord(row)) {
+      return;
+    }
+
+    const id = typeof row.id === "string" && row.id.trim() ? row.id.trim() : `variant-${index + 1}`;
+    const title =
+      typeof row.title === "string" && row.title.trim() ? row.title.trim() : fallbackTitle;
+    const subtitle =
+      typeof row.subtitle === "string" && row.subtitle.trim()
+        ? row.subtitle.trim()
+        : fallbackSubtitle;
+    const reason =
+      typeof row.reason === "string" && row.reason.trim()
+        ? row.reason.trim()
+        : "Generated starter variant.";
+    const dedupeKey = `${title.toLowerCase()}::${subtitle.toLowerCase()}`;
+    if (unique.has(dedupeKey)) {
+      return;
+    }
+
+    unique.set(dedupeKey, { id, title, subtitle, reason });
+  });
+
+  if (unique.size === 0) {
+    return [
+      {
+        id: "baseline",
+        title: fallbackTitle,
+        subtitle: fallbackSubtitle,
+        reason: "Generated baseline variant.",
+      },
+    ];
+  }
+
+  return [...unique.values()];
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }
 
 function confidenceLevelColor(level: DraftIntakeConfidence["overallLevel"] | "missing"): string {

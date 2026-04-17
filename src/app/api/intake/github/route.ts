@@ -14,6 +14,7 @@ import {
   buildDraftIntakeConfidence,
   buildDraftConsistencyReport,
 } from "@/lib/case-draft-quality";
+import { buildStarterVariants } from "@/lib/case-starter";
 
 type GitHubIntakePayload = {
   repoUrl?: unknown;
@@ -132,12 +133,18 @@ export async function POST(request: Request) {
 
     const confidence = buildDraftIntakeConfidence(draft, { evidenceLinks: evidence });
     const consistency = buildDraftConsistencyReport(draft, { evidenceLinks: evidence });
+    const starterVariants = buildStarterVariants({
+      draft,
+      repoFullName: `${repoRef.owner}/${repoRef.repo}`,
+      focus,
+    });
 
     return apiSuccess({
       draft,
       evidence,
       confidence,
       consistency,
+      starterVariants,
       source: {
         owner: repoRef.owner,
         repo: repoRef.repo,

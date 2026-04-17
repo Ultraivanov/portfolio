@@ -9,6 +9,7 @@ import {
   type DraftQualityReport,
 } from "@/lib/case-draft-quality";
 import type { StarterVariant } from "@/lib/case-starter";
+import type { SectionEvidenceReport } from "@/lib/case-section-evidence";
 
 interface Fact {
   label: string;
@@ -112,6 +113,7 @@ interface GitHubIntakeApiResponse {
   } | null;
   confidence?: DraftIntakeConfidence | null;
   consistency?: DraftConsistencyReport | null;
+  evidenceBySection?: SectionEvidenceReport | null;
   starterVariants?: StarterVariant[];
   extractor?: {
     requested?: boolean;
@@ -251,6 +253,8 @@ export default function AdminPage() {
   const [githubLlmInfo, setGitHubLlmInfo] = useState<GitHubIntakeApiResponse["llm"]>(null);
   const [githubConfidence, setGitHubConfidence] = useState<DraftIntakeConfidence | null>(null);
   const [githubConsistency, setGitHubConsistency] = useState<DraftConsistencyReport | null>(null);
+  const [githubEvidenceBySection, setGitHubEvidenceBySection] =
+    useState<SectionEvidenceReport | null>(null);
   const [githubStarterDraft, setGitHubStarterDraft] = useState<CaseStudy | null>(null);
   const [githubStarterVariants, setGitHubStarterVariants] = useState<StarterVariant[]>([]);
   const [selectedStarterVariantId, setSelectedStarterVariantId] = useState("");
@@ -314,6 +318,7 @@ export default function AdminPage() {
     setGitHubStarterVariants([]);
     setSelectedStarterVariantId("");
     setGitHubExtractorSummary("");
+    setGitHubEvidenceBySection(null);
     void loadCaseContent(selectedCase);
   }, [selectedCase]);
 
@@ -855,6 +860,7 @@ export default function AdminPage() {
     setMessage("");
     setGitHubConfidence(null);
     setGitHubConsistency(null);
+    setGitHubEvidenceBySection(null);
     setGitHubStarterDraft(null);
     setGitHubStarterVariants([]);
     setSelectedStarterVariantId("");
@@ -891,6 +897,7 @@ export default function AdminPage() {
       setGitHubLlmInfo(payload.llm ?? null);
       setGitHubConfidence(payload.confidence ?? null);
       setGitHubConsistency(payload.consistency ?? null);
+      setGitHubEvidenceBySection(payload.evidenceBySection ?? null);
       setGitHubStarterDraft(payload.draft);
       const starterVariants = normalizeStarterVariants(payload.starterVariants, payload.draft);
       setGitHubStarterVariants(starterVariants);
@@ -918,6 +925,7 @@ export default function AdminPage() {
     } catch (error) {
       setGitHubConfidence(null);
       setGitHubConsistency(null);
+      setGitHubEvidenceBySection(null);
       setGitHubStarterDraft(null);
       setGitHubStarterVariants([]);
       setSelectedStarterVariantId("");
@@ -1522,6 +1530,65 @@ export default function AdminPage() {
             ) : (
               <p style={{ marginTop: 0, fontSize: 12 }}>No consistency findings.</p>
             )}
+          </div>
+        ) : null}
+        {githubEvidenceBySection ? (
+          <div
+            style={{
+              marginTop: 8,
+              padding: 8,
+              borderRadius: "var(--radius-1)",
+              border: "1px solid var(--color-border-subtle)",
+              background: "var(--color-bg)",
+            }}
+          >
+            <p style={{ fontSize: 12, marginTop: 0, marginBottom: 6 }}>
+              Section evidence coverage:{" "}
+              <strong
+                style={{
+                  color: evidenceCoverageColor(
+                    githubEvidenceBySection.coveredSections,
+                    githubEvidenceBySection.totalSections
+                  ),
+                }}
+              >
+                {githubEvidenceBySection.coveredSections}/{githubEvidenceBySection.totalSections}
+              </strong>
+            </p>
+            <details>
+              <summary style={{ cursor: "pointer", fontSize: 12 }}>
+                Coverage by section ({githubEvidenceBySection.sections.length})
+              </summary>
+              <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+                {githubEvidenceBySection.sections.map((section) => (
+                  <li key={section.section} style={{ marginBottom: 4 }}>
+                    <strong>{section.section}</strong>:{" "}
+                    <span style={{ color: sectionEvidenceStatusColor(section.coverage) }}>
+                      {section.coverage}
+                    </span>
+                    {section.links.length > 0
+                      ? ` • ${section.links.length} link(s) • ${section.sourceTypes.join(", ")}`
+                      : ""}
+                  </li>
+                ))}
+              </ul>
+            </details>
+            {githubEvidenceBySection.unassignedLinks.length > 0 ? (
+              <details style={{ marginTop: 6 }}>
+                <summary style={{ cursor: "pointer", fontSize: 12 }}>
+                  Unassigned links ({githubEvidenceBySection.unassignedLinks.length})
+                </summary>
+                <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+                  {githubEvidenceBySection.unassignedLinks.slice(0, 8).map((href) => (
+                    <li key={href} style={{ marginBottom: 4, overflowWrap: "anywhere" }}>
+                      <a href={href} target="_blank" rel="noreferrer">
+                        {href}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : null}
           </div>
         ) : null}
         {githubEvidence.length > 0 ? (
@@ -2295,6 +2362,25 @@ function normalizeStarterVariants(value: unknown, draft: CaseStudy): StarterVari
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
+}
+
+function evidenceCoverageColor(covered: number, total: number): string {
+  if (total <= 0) {
+    return "var(--color-text-primary)";
+  }
+
+  const ratio = covered / total;
+  if (ratio >= 0.85) {
+    return "#16a34a";
+  }
+  if (ratio >= 0.5) {
+    return "#ca8a04";
+  }
+  return "#dc2626";
+}
+
+function sectionEvidenceStatusColor(status: "present" | "missing"): string {
+  return status === "present" ? "#16a34a" : "#dc2626";
 }
 
 function confidenceLevelColor(level: DraftIntakeConfidence["overallLevel"] | "missing"): string {

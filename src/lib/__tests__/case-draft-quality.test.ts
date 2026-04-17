@@ -1,5 +1,6 @@
 import {
   analyzeCaseDraftQuality,
+  buildDraftConsistencyReport,
   buildDraftIntakeConfidence,
   REQUIRED_CASE_SECTIONS,
   type CaseDraftLike,
@@ -164,5 +165,40 @@ describe("buildDraftIntakeConfidence", () => {
     expect(outcome?.level).toBe("missing");
     expect(outcome?.score).toBe(0);
     expect(confidence.summary.critical).toBeGreaterThan(0);
+  });
+});
+
+describe("buildDraftConsistencyReport", () => {
+  it("returns pass for ordered draft with evidence", () => {
+    const report = buildDraftConsistencyReport(createBaseDraft(), {
+      evidenceLinks: ["https://github.com/example/repo/pull/12"],
+    });
+
+    expect(report.overall).toBe("pass");
+    expect(report.summary.critical).toBe(0);
+    expect(report.checks.sectionOrder).toBe(true);
+    expect(report.checks.evidence).toBe(true);
+  });
+
+  it("flags out-of-order required sections", () => {
+    const draft = createBaseDraft();
+    draft.sections = [draft.sections[1], draft.sections[0], ...draft.sections.slice(2)];
+
+    const report = buildDraftConsistencyReport(draft, {
+      evidenceLinks: ["https://github.com/example/repo/issues/22"],
+    });
+
+    expect(report.overall).toBe("warn");
+    expect(report.findings.some((finding) => finding.rule === "section-order")).toBe(true);
+  });
+
+  it("fails when quantitative claims have no evidence", () => {
+    const report = buildDraftConsistencyReport(createBaseDraft(), {
+      evidenceLinks: [],
+    });
+
+    expect(report.overall).toBe("fail");
+    expect(report.summary.critical).toBeGreaterThan(0);
+    expect(report.findings.some((finding) => finding.rule === "evidence")).toBe(true);
   });
 });

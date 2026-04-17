@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
+  type DraftConsistencyReport,
   analyzeCaseDraftQuality,
   type DraftIntakeConfidence,
   type DraftQualityIssue,
@@ -109,6 +110,7 @@ interface GitHubIntakeApiResponse {
     commandCount?: number;
   } | null;
   confidence?: DraftIntakeConfidence | null;
+  consistency?: DraftConsistencyReport | null;
   extractor?: {
     requested?: boolean;
     executed?: boolean;
@@ -246,6 +248,7 @@ export default function AdminPage() {
   const [importingRuntimeScreenshots, setImportingRuntimeScreenshots] = useState(false);
   const [githubLlmInfo, setGitHubLlmInfo] = useState<GitHubIntakeApiResponse["llm"]>(null);
   const [githubConfidence, setGitHubConfidence] = useState<DraftIntakeConfidence | null>(null);
+  const [githubConsistency, setGitHubConsistency] = useState<DraftConsistencyReport | null>(null);
   const draftQualityReport: DraftQualityReport | null = useMemo(() => {
     if (!caseData) return null;
     return analyzeCaseDraftQuality(caseData, { evidenceLinks: githubEvidence });
@@ -841,6 +844,7 @@ export default function AdminPage() {
     setGeneratingGitHubDraft(true);
     setMessage("");
     setGitHubConfidence(null);
+    setGitHubConsistency(null);
     try {
       const response = await fetch("/api/intake/github", {
         method: "POST",
@@ -858,6 +862,7 @@ export default function AdminPage() {
       const payload = (await response.json()) as GitHubIntakeApiResponse;
       if (!response.ok || !payload.draft) {
         setGitHubConfidence(null);
+        setGitHubConsistency(null);
         setMessage(`❌ Draft generation failed: ${getApiErrorMessage(payload)}`);
         return;
       }
@@ -871,6 +876,7 @@ export default function AdminPage() {
       );
       setGitHubLlmInfo(payload.llm ?? null);
       setGitHubConfidence(payload.confidence ?? null);
+      setGitHubConsistency(payload.consistency ?? null);
 
       const shouldApply = window.confirm(
         "Replace current case form with generated draft? Local draft is still available via browser storage."
@@ -903,6 +909,7 @@ export default function AdminPage() {
       );
     } catch (error) {
       setGitHubConfidence(null);
+      setGitHubConsistency(null);
       setMessage(
         `❌ Draft generation failed: ${
           error instanceof Error ? error.message : "Unknown error"
@@ -1355,6 +1362,53 @@ export default function AdminPage() {
                 ))}
               </ul>
             </details>
+          </div>
+        ) : null}
+        {githubConsistency ? (
+          <div
+            style={{
+              marginTop: 8,
+              padding: 8,
+              borderRadius: "var(--radius-1)",
+              border: "1px solid var(--color-border-subtle)",
+              background: "var(--color-bg)",
+            }}
+          >
+            <p style={{ fontSize: 12, marginTop: 0, marginBottom: 6 }}>
+              Consistency:{" "}
+              <strong style={{ color: consistencyOverallColor(githubConsistency.overall) }}>
+                {githubConsistency.overall}
+              </strong>
+              {" • "}
+              critical {githubConsistency.summary.critical}
+              {" • "}
+              warnings {githubConsistency.summary.warning}
+              {" • "}
+              checks:{" "}
+              {githubConsistency.checks.sectionOrder ? "order✓" : "order✕"} /{" "}
+              {githubConsistency.checks.tone ? "tone✓" : "tone✕"} /{" "}
+              {githubConsistency.checks.verbosity ? "verbosity✓" : "verbosity✕"} /{" "}
+              {githubConsistency.checks.evidence ? "evidence✓" : "evidence✕"}
+            </p>
+            {githubConsistency.findings.length > 0 ? (
+              <details>
+                <summary style={{ cursor: "pointer", fontSize: 12 }}>
+                  Top findings ({githubConsistency.findings.length})
+                </summary>
+                <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+                  {githubConsistency.findings.map((finding) => (
+                    <li key={finding.id} style={{ marginBottom: 4 }}>
+                      <strong style={{ color: consistencySeverityColor(finding.severity) }}>
+                        {finding.severity.toUpperCase()}
+                      </strong>{" "}
+                      [{finding.rule}] {finding.message}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ) : (
+              <p style={{ marginTop: 0, fontSize: 12 }}>No consistency findings.</p>
+            )}
           </div>
         ) : null}
         {githubEvidence.length > 0 ? (
@@ -2081,6 +2135,32 @@ function confidenceLevelColor(level: DraftIntakeConfidence["overallLevel"] | "mi
       return "#dc2626";
     case "missing":
       return "#7f1d1d";
+    default:
+      return "var(--color-text-primary)";
+  }
+}
+
+function consistencyOverallColor(level: DraftConsistencyReport["overall"]): string {
+  switch (level) {
+    case "pass":
+      return "#16a34a";
+    case "warn":
+      return "#ca8a04";
+    case "fail":
+      return "#dc2626";
+    default:
+      return "var(--color-text-primary)";
+  }
+}
+
+function consistencySeverityColor(level: DraftQualityIssue["severity"]): string {
+  switch (level) {
+    case "critical":
+      return "#dc2626";
+    case "warning":
+      return "#ca8a04";
+    case "info":
+      return "#2563eb";
     default:
       return "var(--color-text-primary)";
   }

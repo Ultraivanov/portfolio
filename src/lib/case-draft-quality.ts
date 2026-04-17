@@ -83,6 +83,36 @@ export type DraftIntakeConfidence = {
   topIssues: DraftQualityIssue[];
 };
 
+export type DraftConsistencyRule =
+  | "section-order"
+  | "tone"
+  | "verbosity"
+  | "evidence";
+
+export type DraftConsistencyFinding = {
+  id: string;
+  severity: QualitySeverity;
+  rule: DraftConsistencyRule;
+  message: string;
+  section?: string;
+};
+
+export type DraftConsistencyReport = {
+  overall: "pass" | "warn" | "fail";
+  summary: {
+    critical: number;
+    warning: number;
+    info: number;
+  };
+  checks: {
+    sectionOrder: boolean;
+    tone: boolean;
+    verbosity: boolean;
+    evidence: boolean;
+  };
+  findings: DraftConsistencyFinding[];
+};
+
 export function analyzeCaseDraftQuality(
   draft: CaseDraftLike,
   options?: { evidenceLinks?: string[] }
@@ -295,6 +325,102 @@ export function buildDraftIntakeConfidence(
   };
 }
 
+export function buildDraftConsistencyReport(
+  draft: CaseDraftLike,
+  options?: { evidenceLinks?: string[] }
+): DraftConsistencyReport {
+  const findings: DraftConsistencyFinding[] = [];
+  const textSignals = collectSectionTexts(draft.sections);
+  const evidenceLinks = collectEvidenceLinks(draft, options?.evidenceLinks || []);
+
+  const orderCheck = evaluateSectionOrder(draft.sections);
+  if (!orderCheck.passed) {
+    findings.push({
+      id: "section-order",
+      severity: "warning",
+      rule: "section-order",
+      message: orderCheck.message,
+    });
+  }
+
+  const duplicateSectionTitles = findDuplicateRequiredSectionTitles(draft.sections);
+  for (const title of duplicateSectionTitles) {
+    findings.push({
+      id: `duplicate-section-${normalizeTitle(title)}`,
+      severity: "warning",
+      rule: "section-order",
+      section: title,
+      message: `Section "${title}" appears more than once.`,
+    });
+  }
+
+  for (const signal of textSignals) {
+    if (containsPromotionalTone(signal.text)) {
+      findings.push({
+        id: `tone-${normalizeTitle(signal.section)}-${hashSnippet(signal.text)}`,
+        severity: "warning",
+        rule: "tone",
+        section: signal.section,
+        message: `Section "${signal.section}" contains marketing-style language. Prefer evidence-grounded wording.`,
+      });
+      break;
+    }
+  }
+
+  for (const signal of textSignals) {
+    if (signal.text.length > 560) {
+      findings.push({
+        id: `verbosity-${normalizeTitle(signal.section)}-${hashSnippet(signal.text)}`,
+        severity: "warning",
+        rule: "verbosity",
+        section: signal.section,
+        message: `Section "${signal.section}" has an overly long paragraph (${signal.text.length} chars).`,
+      });
+    }
+  }
+
+  const hasMetricClaims = draft.sections.some((section) => hasMetricSignal(section));
+  const hasNonNumericClaims = textSignals.some((signal) => CLAIM_WORDS_REGEX.test(signal.text));
+  const hasEvidence = evidenceLinks.length > 0;
+
+  if (hasMetricClaims && !hasEvidence) {
+    findings.push({
+      id: "evidence-metric-claim-missing",
+      severity: "critical",
+      rule: "evidence",
+      message: "Draft includes quantitative claims without evidence links.",
+    });
+  } else if (hasNonNumericClaims && !hasEvidence) {
+    findings.push({
+      id: "evidence-claim-missing",
+      severity: "warning",
+      rule: "evidence",
+      message: "Draft includes outcome claims without supporting evidence links.",
+    });
+  }
+
+  const summary = {
+    critical: findings.filter((item) => item.severity === "critical").length,
+    warning: findings.filter((item) => item.severity === "warning").length,
+    info: findings.filter((item) => item.severity === "info").length,
+  };
+
+  return {
+    overall: summary.critical > 0 ? "fail" : summary.warning > 0 ? "warn" : "pass",
+    summary,
+    checks: {
+      sectionOrder: !findings.some((item) => item.rule === "section-order"),
+      tone: !findings.some((item) => item.rule === "tone"),
+      verbosity: !findings.some((item) => item.rule === "verbosity"),
+      evidence: !findings.some((item) => item.rule === "evidence"),
+    },
+    findings: findings
+      .slice()
+      .sort((a, b) => severityRank(a.severity) - severityRank(b.severity))
+      .slice(0, 8),
+  };
+}
+
 function normalizeTitle(value: string): string {
   return value.trim().toLowerCase();
 }
@@ -347,6 +473,118 @@ function hasMetricSignal(section: CaseSection): boolean {
       text
     )
   );
+}
+
+const CLAIM_WORDS_REGEX =
+  /\b(improved|increase(?:d)?|reduced?|decreased?|boosted?|grew|drop(?:ped)?|faster|higher|lower)\b/i;
+
+const PROMOTIONAL_PHRASES = [
+  "best-in-class",
+  "world-class",
+  "game-changing",
+  "revolutionary",
+  "seamless experience",
+  "cutting-edge",
+];
+
+function collectSectionTexts(
+  sections: CaseSection[]
+): Array<{ section: string; text: string }> {
+  const signals: Array<{ section: string; text: string }> = [];
+  for (const section of sections) {
+    for (const block of section.blocks) {
+      if (block.discriminant === "paragraph" && typeof block.value.text === "string") {
+        const text = block.value.text.trim();
+        if (text) {
+          signals.push({ section: section.title, text });
+        }
+      }
+      if (block.discriminant === "list" && Array.isArray(block.value.items)) {
+        for (const item of block.value.items) {
+          const text = item.trim();
+          if (text) {
+            signals.push({ section: section.title, text });
+          }
+        }
+      }
+    }
+  }
+  return signals;
+}
+
+function evaluateSectionOrder(sections: CaseSection[]): { passed: boolean; message: string } {
+  const indexByTitle = new Map<string, number>();
+  for (let i = 0; i < sections.length; i += 1) {
+    const key = normalizeTitle(sections[i].title);
+    if (!indexByTitle.has(key)) {
+      indexByTitle.set(key, i);
+    }
+  }
+
+  let previous = -1;
+  for (const expected of REQUIRED_CASE_SECTIONS) {
+    const idx = indexByTitle.get(normalizeTitle(expected));
+    if (idx === undefined) continue;
+    if (idx < previous) {
+      return {
+        passed: false,
+        message: `Required sections are out of order. Expected "${expected}" after previous required sections.`,
+      };
+    }
+    previous = idx;
+  }
+  return { passed: true, message: "Required sections are in expected order." };
+}
+
+function findDuplicateRequiredSectionTitles(sections: CaseSection[]): string[] {
+  const counts = new Map<string, number>();
+  for (const section of sections) {
+    const key = normalizeTitle(section.title);
+    if (!REQUIRED_CASE_SECTIONS.map(normalizeTitle).includes(key)) continue;
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+
+  const duplicates: string[] = [];
+  for (const required of REQUIRED_CASE_SECTIONS) {
+    const key = normalizeTitle(required);
+    if ((counts.get(key) || 0) > 1) {
+      duplicates.push(required);
+    }
+  }
+  return duplicates;
+}
+
+function containsPromotionalTone(text: string): boolean {
+  if (PROMOTIONAL_PHRASES.some((phrase) => text.toLowerCase().includes(phrase))) {
+    return true;
+  }
+  if ((text.match(/!/g) || []).length >= 2) {
+    return true;
+  }
+  return false;
+}
+
+function collectEvidenceLinks(draft: CaseDraftLike, inputLinks: string[]): string[] {
+  const links = new Set<string>();
+  for (const href of inputLinks) {
+    if (isHttpUrl(href)) {
+      links.add(href);
+    }
+  }
+  for (const section of draft.sections) {
+    for (const block of section.blocks) {
+      if (block.discriminant === "link" && typeof block.value.href === "string") {
+        if (isHttpUrl(block.value.href)) {
+          links.add(block.value.href);
+        }
+      }
+    }
+  }
+  return [...links];
+}
+
+function hashSnippet(value: string): string {
+  return value.trim().toLowerCase().slice(0, 24).replace(/[^a-z0-9]+/g, "-");
 }
 
 function isHttpUrl(value: string): boolean {

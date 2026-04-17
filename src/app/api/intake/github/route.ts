@@ -10,7 +10,10 @@ import {
   executeExtractorCommands,
 } from "@/lib/github-case-extractor";
 import { synthesizeCaseDraftWithLlm } from "@/lib/github-case-intake-llm";
-import { buildDraftIntakeConfidence } from "@/lib/case-draft-quality";
+import {
+  buildDraftIntakeConfidence,
+  buildDraftConsistencyReport,
+} from "@/lib/case-draft-quality";
 
 type GitHubIntakePayload = {
   repoUrl?: unknown;
@@ -128,11 +131,13 @@ export async function POST(request: Request) {
     }
 
     const confidence = buildDraftIntakeConfidence(draft, { evidenceLinks: evidence });
+    const consistency = buildDraftConsistencyReport(draft, { evidenceLinks: evidence });
 
     return apiSuccess({
       draft,
       evidence,
       confidence,
+      consistency,
       source: {
         owner: repoRef.owner,
         repo: repoRef.repo,

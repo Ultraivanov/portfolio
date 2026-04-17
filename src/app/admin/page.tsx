@@ -274,6 +274,13 @@ export default function AdminPage() {
     }
     return serializeCaseSnapshot(caseData) !== lastSyncedSnapshot;
   }, [caseData, lastSyncedSnapshot]);
+  const validationIssues = useMemo(() => {
+    if (!caseData) {
+      return [];
+    }
+    return validateCaseIssues(caseData);
+  }, [caseData]);
+  const hasValidationIssues = validationIssues.length > 0;
 
   const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
     `${sectionIndex}:${blockIndex}`;
@@ -466,19 +473,6 @@ export default function AdminPage() {
     return normalized || "Unknown error";
   };
 
-  const validateCase = (data: CaseStudy): string | null => {
-    if (!data.title.trim()) return "Title is required";
-    if (!data.slug.trim()) return "Slug is required";
-    if (!data.coverAlt.trim()) return "Cover alt text is required";
-    // Check for empty fact labels
-    const emptyFact = data.facts.find(f => !f.label.trim());
-    if (emptyFact) return "All fact labels must be filled";
-    // Check for empty section titles
-    const emptySection = data.sections.find(s => !s.title.trim());
-    if (emptySection) return "All section titles must be filled";
-    return null;
-  };
-
   const handleSave = async () => {
     if (!caseData) return;
     const hasUploadingMedia = Object.values(mediaUploadFeedbackByBlock).some(
@@ -489,9 +483,8 @@ export default function AdminPage() {
       return;
     }
 
-    const error = validateCase(caseData);
-    if (error) {
-      setMessage(`❌ ${error}`);
+    if (hasValidationIssues) {
+      setMessage("❌ Fix validation issues before save.");
       return;
     }
     if (!hasUnsavedChanges) {
@@ -2010,18 +2003,29 @@ export default function AdminPage() {
         >
           {hasUnsavedChanges ? "Unsaved changes" : "Synced with repository"}
         </span>
+        <span
+          style={{
+            fontSize: 13,
+            fontWeight: 600,
+            color: hasValidationIssues ? "#dc2626" : "#16a34a",
+          }}
+        >
+          {hasValidationIssues ? `Fix validation issues (${validationIssues.length})` : "Ready to save"}
+        </span>
         <button
           onClick={handleSave}
-          disabled={saving || uploading || hasUploadingMedia || !hasUnsavedChanges}
+          disabled={saving || uploading || hasUploadingMedia || !hasUnsavedChanges || hasValidationIssues}
           style={{
             padding: "12px 24px",
             background:
-              saving || uploading || hasUploadingMedia || !hasUnsavedChanges ? "#999" : "#2563eb",
+              saving || uploading || hasUploadingMedia || !hasUnsavedChanges || hasValidationIssues
+                ? "#999"
+                : "#2563eb",
             color: "white",
             border: "none",
             borderRadius: "var(--radius-1)",
             cursor:
-              saving || uploading || hasUploadingMedia || !hasUnsavedChanges
+              saving || uploading || hasUploadingMedia || !hasUnsavedChanges || hasValidationIssues
                 ? "not-allowed"
                 : "pointer",
             fontSize: 16,
@@ -2031,6 +2035,8 @@ export default function AdminPage() {
             ? "Saving..."
             : hasUploadingMedia
               ? "Uploading media..."
+              : hasValidationIssues
+                ? "Fix Issues"
               : hasUnsavedChanges
                 ? "Save Changes"
                 : "No Changes"}
@@ -2107,6 +2113,18 @@ export default function AdminPage() {
             {message}
           </span>
         )}
+        {hasValidationIssues ? (
+          <details style={{ flexBasis: "100%", fontSize: 13 }}>
+            <summary style={{ cursor: "pointer", color: "#dc2626" }}>
+              Validation issues ({validationIssues.length})
+            </summary>
+            <ul style={{ marginTop: 6, marginBottom: 0, paddingLeft: 18 }}>
+              {validationIssues.map((issue) => (
+                <li key={issue}>{issue}</li>
+              ))}
+            </ul>
+          </details>
+        ) : null}
       </div>
 
       {draftSavedAt && (
@@ -2431,6 +2449,29 @@ export default function AdminPage() {
 
 function serializeCaseSnapshot(value: CaseStudy): string {
   return JSON.stringify(value);
+}
+
+function validateCaseIssues(data: CaseStudy): string[] {
+  const issues: string[] = [];
+
+  if (!data.title.trim()) {
+    issues.push("Title is required.");
+  }
+  if (!data.slug.trim()) {
+    issues.push("Slug is required.");
+  }
+  if (!data.coverAlt.trim()) {
+    issues.push("Cover alt text is required.");
+  }
+
+  if (data.facts.some((fact) => !fact.label.trim())) {
+    issues.push("All fact labels must be filled.");
+  }
+  if (data.sections.some((section) => !section.title.trim())) {
+    issues.push("All section titles must be filled.");
+  }
+
+  return issues;
 }
 
 function severityRank(severity: DraftQualityIssue["severity"]): number {

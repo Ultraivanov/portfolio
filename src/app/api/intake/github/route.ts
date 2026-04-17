@@ -16,6 +16,7 @@ import {
 } from "@/lib/case-draft-quality";
 import { buildStarterVariants } from "@/lib/case-starter";
 import { buildEvidenceBySection } from "@/lib/case-section-evidence";
+import { buildBlueprintCoverCandidate } from "@/lib/blueprint-cover-candidate";
 
 type GitHubIntakePayload = {
   repoUrl?: unknown;
@@ -142,6 +143,11 @@ export async function POST(request: Request) {
       repoFullName: `${repoRef.owner}/${repoRef.repo}`,
       focus,
     });
+    const coverCandidate = buildBlueprintCoverCandidate({
+      title: draft.title,
+      subtitle: draft.subtitle,
+      focus,
+    });
 
     return apiSuccess({
       draft,
@@ -150,6 +156,7 @@ export async function POST(request: Request) {
       confidence,
       consistency,
       starterVariants,
+      coverCandidate,
       source: {
         owner: repoRef.owner,
         repo: repoRef.repo,

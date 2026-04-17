@@ -10,6 +10,7 @@ import {
 } from "@/lib/case-draft-quality";
 import type { StarterVariant } from "@/lib/case-starter";
 import type { SectionEvidenceReport } from "@/lib/case-section-evidence";
+import type { BlueprintCoverCandidate } from "@/lib/blueprint-cover-candidate";
 
 interface Fact {
   label: string;
@@ -115,6 +116,7 @@ interface GitHubIntakeApiResponse {
   consistency?: DraftConsistencyReport | null;
   evidenceBySection?: SectionEvidenceReport | null;
   starterVariants?: StarterVariant[];
+  coverCandidate?: BlueprintCoverCandidate | null;
   extractor?: {
     requested?: boolean;
     executed?: boolean;
@@ -258,6 +260,8 @@ export default function AdminPage() {
   const [githubStarterDraft, setGitHubStarterDraft] = useState<CaseStudy | null>(null);
   const [githubStarterVariants, setGitHubStarterVariants] = useState<StarterVariant[]>([]);
   const [selectedStarterVariantId, setSelectedStarterVariantId] = useState("");
+  const [githubCoverCandidate, setGitHubCoverCandidate] =
+    useState<BlueprintCoverCandidate | null>(null);
   const [githubExtractorSummary, setGitHubExtractorSummary] = useState("");
   const draftQualityReport: DraftQualityReport | null = useMemo(() => {
     if (!caseData) return null;
@@ -319,6 +323,7 @@ export default function AdminPage() {
     setSelectedStarterVariantId("");
     setGitHubExtractorSummary("");
     setGitHubEvidenceBySection(null);
+    setGitHubCoverCandidate(null);
     void loadCaseContent(selectedCase);
   }, [selectedCase]);
 
@@ -865,6 +870,7 @@ export default function AdminPage() {
     setGitHubStarterVariants([]);
     setSelectedStarterVariantId("");
     setGitHubExtractorSummary("");
+    setGitHubCoverCandidate(null);
     try {
       const response = await fetch("/api/intake/github", {
         method: "POST",
@@ -898,6 +904,7 @@ export default function AdminPage() {
       setGitHubConfidence(payload.confidence ?? null);
       setGitHubConsistency(payload.consistency ?? null);
       setGitHubEvidenceBySection(payload.evidenceBySection ?? null);
+      setGitHubCoverCandidate(payload.coverCandidate ?? null);
       setGitHubStarterDraft(payload.draft);
       const starterVariants = normalizeStarterVariants(payload.starterVariants, payload.draft);
       setGitHubStarterVariants(starterVariants);
@@ -920,7 +927,7 @@ export default function AdminPage() {
       setGitHubExtractorSummary(extractorStatus.trim());
 
       setMessage(
-        `✅ GitHub draft generated. Choose starter variant and click Apply Starter Draft before save.${extractorStatus}`
+        `✅ GitHub draft generated. Apply starter draft and cover candidate as needed before save.${extractorStatus}`
       );
     } catch (error) {
       setGitHubConfidence(null);
@@ -930,6 +937,7 @@ export default function AdminPage() {
       setGitHubStarterVariants([]);
       setSelectedStarterVariantId("");
       setGitHubExtractorSummary("");
+      setGitHubCoverCandidate(null);
       setMessage(
         `❌ Draft generation failed: ${
           error instanceof Error ? error.message : "Unknown error"
@@ -980,6 +988,39 @@ export default function AdminPage() {
         githubExtractorSummary ? ` ${githubExtractorSummary}` : ""
       }`
     );
+  };
+
+  const handleApplyCandidateCover = () => {
+    if (!caseData || !githubCoverCandidate) {
+      setMessage("❌ Generate intake cover candidate first.");
+      return;
+    }
+
+    const shouldApply = window.confirm(
+      "Apply blueprint cover candidate to current case cover fields?"
+    );
+    if (!shouldApply) {
+      setMessage("ℹ️ Cover candidate apply cancelled.");
+      return;
+    }
+
+    const nextCaseData: CaseStudy = {
+      ...caseData,
+      coverSrc: githubCoverCandidate.previewUrl,
+      coverAlt: githubCoverCandidate.alt,
+      seo: {
+        ...caseData.seo,
+        ogImage: caseData.seo?.ogImage || githubCoverCandidate.previewUrl,
+      },
+    };
+    setCaseData(nextCaseData);
+    const savedDraft = writeCaseDraft(selectedCase, nextCaseData);
+    if (savedDraft) {
+      setDraftSavedAt(savedDraft.updatedAt);
+      setAvailableDraft(null);
+    }
+
+    setMessage("✅ Blueprint cover candidate applied. Review and save.");
   };
 
   const handleImportRuntimeScreenshots = async () => {
@@ -1442,6 +1483,52 @@ export default function AdminPage() {
               }}
             >
               Apply Starter Draft
+            </button>
+          </div>
+        ) : null}
+        {githubCoverCandidate ? (
+          <div
+            style={{
+              marginTop: 8,
+              padding: 8,
+              borderRadius: "var(--radius-1)",
+              border: "1px solid var(--color-border-subtle)",
+              background: "var(--color-bg)",
+            }}
+          >
+            <p style={{ fontSize: 12, marginTop: 0, marginBottom: 8 }}>
+              Blueprint cover candidate ({githubCoverCandidate.focus})
+            </p>
+            <div style={{ marginBottom: 8 }}>
+              <img
+                src={githubCoverCandidate.previewUrl}
+                alt={githubCoverCandidate.alt}
+                style={{
+                  width: "100%",
+                  maxWidth: 520,
+                  borderRadius: "var(--radius-1)",
+                  border: "1px solid var(--color-border-subtle)",
+                }}
+              />
+            </div>
+            <p style={{ margin: "0 0 8px 0", fontSize: 12 }}>
+              <strong>{githubCoverCandidate.title}</strong>
+              {" • "}
+              {githubCoverCandidate.subtitle}
+            </p>
+            <button
+              onClick={handleApplyCandidateCover}
+              style={{
+                padding: "8px 12px",
+                background: "#1d4ed8",
+                color: "white",
+                border: "none",
+                borderRadius: "var(--radius-1)",
+                cursor: "pointer",
+                fontSize: 13,
+              }}
+            >
+              Apply Candidate Cover
             </button>
           </div>
         ) : null}

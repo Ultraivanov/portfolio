@@ -232,6 +232,7 @@ export default function AdminPage() {
   >({});
   const [availableDraft, setAvailableDraft] = useState<CaseDraftEnvelope | null>(null);
   const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null);
+  const [lastSyncedSnapshot, setLastSyncedSnapshot] = useState<string | null>(null);
   const [newCaseSlug, setNewCaseSlug] = useState("");
   const [newCaseTitle, setNewCaseTitle] = useState("");
   const [creatingCase, setCreatingCase] = useState(false);
@@ -267,6 +268,12 @@ export default function AdminPage() {
     if (!caseData) return null;
     return analyzeCaseDraftQuality(caseData, { evidenceLinks: githubEvidence });
   }, [caseData, githubEvidence]);
+  const hasUnsavedChanges = useMemo(() => {
+    if (!caseData || !lastSyncedSnapshot) {
+      return false;
+    }
+    return serializeCaseSnapshot(caseData) !== lastSyncedSnapshot;
+  }, [caseData, lastSyncedSnapshot]);
 
   const getBlockKey = (sectionIndex: number, blockIndex: number): string =>
     `${sectionIndex}:${blockIndex}`;
@@ -295,6 +302,7 @@ export default function AdminPage() {
       const payload = (await response.json()) as { item?: CaseStudy };
       if (response.ok && payload.item) {
         setCaseData(payload.item);
+        setLastSyncedSnapshot(serializeCaseSnapshot(payload.item));
         const draft = readCaseDraft(slug);
         setDraftSavedAt(draft?.updatedAt ?? null);
         if (draft && JSON.stringify(draft.data) !== JSON.stringify(payload.item)) {
@@ -324,6 +332,7 @@ export default function AdminPage() {
     setGitHubExtractorSummary("");
     setGitHubEvidenceBySection(null);
     setGitHubCoverCandidate(null);
+    setLastSyncedSnapshot(null);
     void loadCaseContent(selectedCase);
   }, [selectedCase]);
 
@@ -485,6 +494,10 @@ export default function AdminPage() {
       setMessage(`❌ ${error}`);
       return;
     }
+    if (!hasUnsavedChanges) {
+      setMessage("ℹ️ No unsaved changes.");
+      return;
+    }
 
     if ((draftQualityReport?.summary.critical || 0) > 0) {
       const shouldSaveAnyway = window.confirm(
@@ -499,6 +512,7 @@ export default function AdminPage() {
     setSaving(true);
     setMessage("");
     setHasContentConflict(false);
+    const snapshotBeforeSave = serializeCaseSnapshot(caseData);
 
     const path = `src/content/cases/${selectedCase}.json`;
 
@@ -519,6 +533,7 @@ export default function AdminPage() {
       clearCaseDraft(selectedCase);
       setAvailableDraft(null);
       setDraftSavedAt(null);
+      setLastSyncedSnapshot(snapshotBeforeSave);
     } else {
       const errorCode = getApiErrorCode(result);
       if (errorCode === "CONTENT_CONFLICT") {
@@ -1969,21 +1984,56 @@ export default function AdminPage() {
         </button>
       </div>
 
-      <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 32, marginBottom: 16 }}>
+      <div
+        style={{
+          position: "sticky",
+          top: 10,
+          zIndex: 30,
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+          flexWrap: "wrap",
+          marginTop: 32,
+          marginBottom: 16,
+          padding: "10px 12px",
+          border: "1px solid var(--color-border-subtle)",
+          borderRadius: "var(--radius-1)",
+          background: "var(--color-bg-secondary)",
+        }}
+      >
+        <span
+          style={{
+            fontSize: 13,
+            fontWeight: 600,
+            color: hasUnsavedChanges ? "#ca8a04" : "#16a34a",
+          }}
+        >
+          {hasUnsavedChanges ? "Unsaved changes" : "Synced with repository"}
+        </span>
         <button
           onClick={handleSave}
-          disabled={saving || uploading || hasUploadingMedia}
+          disabled={saving || uploading || hasUploadingMedia || !hasUnsavedChanges}
           style={{
             padding: "12px 24px",
-            background: saving || uploading || hasUploadingMedia ? "#999" : "#2563eb",
+            background:
+              saving || uploading || hasUploadingMedia || !hasUnsavedChanges ? "#999" : "#2563eb",
             color: "white",
             border: "none",
             borderRadius: "var(--radius-1)",
-            cursor: saving || uploading || hasUploadingMedia ? "not-allowed" : "pointer",
+            cursor:
+              saving || uploading || hasUploadingMedia || !hasUnsavedChanges
+                ? "not-allowed"
+                : "pointer",
             fontSize: 16,
           }}
         >
-          {saving ? "Saving..." : hasUploadingMedia ? "Uploading media..." : "Save Changes"}
+          {saving
+            ? "Saving..."
+            : hasUploadingMedia
+              ? "Uploading media..."
+              : hasUnsavedChanges
+                ? "Save Changes"
+                : "No Changes"}
         </button>
 
         {hasContentConflict && (
@@ -2239,7 +2289,7 @@ export default function AdminPage() {
                         const feedback = mediaUploadFeedbackByBlock[getBlockKey(sectionIndex, blockIndex)];
                         if (!feedback) return null;
 
-                        return (
+  return (
                           <div
                             style={{
                               marginTop: 8,
@@ -2377,6 +2427,10 @@ export default function AdminPage() {
       </p>
     </div>
   );
+}
+
+function serializeCaseSnapshot(value: CaseStudy): string {
+  return JSON.stringify(value);
 }
 
 function severityRank(severity: DraftQualityIssue["severity"]): number {

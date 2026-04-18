@@ -216,6 +216,13 @@
           }
         },
         {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/railway-booking-flow/1776542867783.png",
+            "alt": "from UI patterns to system"
+          }
+        },
+        {
           "discriminant": "paragraph",
           "value": {
             "text": "Core Principle\n\nComponents define behavior, not just visuals"
@@ -291,25 +298,10 @@
           "discriminant": "list",
           "value": {
             "items": [
-              "more predictable task execution",
+              "faster task execution",
+              "fewer errors",
               "reduced cognitive overhead",
-              "fewer inconsistencies across flows",
-              "improved scalability"
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "System-level shift:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "from duplication → reuse",
-              "from inconsistency → governed behavior"
+              "scalable UX foundation"
             ]
           }
         }
@@ -350,17 +342,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This project reinforced a core principle:\n\nIn enterprise systems, the goal is not to simplify complexity —\n\nit is to make it predictable.\n\nA full redesign was neither feasible nor necessary.\n\nThe impact came from:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "structuring interaction logic",
-              "enabling reuse",
-              "preventing further fragmentation"
-            ]
+            "text": "In enterprise systems:\n\nUX is not about simplicity — it’s about predictability\n\nThe goal was not to redesign the product,\n\nbut to prevent it from degrading further."
           }
         }
       ]

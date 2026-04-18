@@ -5,7 +5,7 @@
 - [x] Add audit log for content edits (who/what/when, path + commit SHA + result).
 - [ ] Add E2E smoke flow: upload media -> optimize SVG -> save content -> reload admin.
 - [x] Harden upload path policy for media writes.
-- [ ] Add orphan cleanup for partial failures in upload/save flows.
+- [x] Add orphan cleanup for partial failures in upload/save flows.
 - [x] Extend retry/backoff handling with `Retry-After` support for rate limits.
 - [x] Add malicious/edge SVG fixtures (broken encoding, heavy path count, unsafe tags, data URI overload).
 - [x] Add race-condition tests for concurrent save requests.

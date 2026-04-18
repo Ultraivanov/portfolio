@@ -84,6 +84,12 @@ interface UploadApiResponse {
   };
 }
 
+interface UploadCleanupApiResponse {
+  error?: string | { message?: string };
+  skipped?: boolean;
+  reason?: string;
+}
+
 interface MediaUploadFeedback {
   fileName?: string;
   uploading?: boolean;
@@ -227,6 +233,38 @@ function formatDraftTimestamp(iso: string): string {
   }
 }
 
+function normalizeTrackedUploadPath(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (trimmed.startsWith("public/cases/")) return trimmed;
+  if (trimmed.startsWith("/cases/")) return `public${trimmed}`;
+  if (trimmed.startsWith("cases/")) return `public/${trimmed}`;
+  return null;
+}
+
+function collectReferencedUploadPaths(caseData: CaseStudy): Set<string> {
+  const paths = new Set<string>();
+
+  const coverPath = normalizeTrackedUploadPath(caseData.coverSrc || "");
+  if (coverPath) {
+    paths.add(coverPath);
+  }
+
+  for (const section of caseData.sections) {
+    for (const block of section.blocks) {
+      if (block.discriminant !== "media") {
+        continue;
+      }
+      const mediaPath = normalizeTrackedUploadPath(block.value.src || "");
+      if (mediaPath) {
+        paths.add(mediaPath);
+      }
+    }
+  }
+
+  return paths;
+}
+
 export default function AdminPage() {
   const [cases, setCases] = useState<CaseInfo[]>([]);
   const [selectedCase, setSelectedCase] = useState("");
@@ -240,6 +278,7 @@ export default function AdminPage() {
   const [hasContentConflict, setHasContentConflict] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageCaption, setImageCaption] = useState("");
+  const [uploadedPathsSinceSave, setUploadedPathsSinceSave] = useState<string[]>([]);
   const [mediaUploadFeedbackByBlock, setMediaUploadFeedbackByBlock] = useState<
     Record<string, MediaUploadFeedback>
   >({});
@@ -349,6 +388,7 @@ export default function AdminPage() {
   useEffect(() => {
     if (!selectedCase) return;
     setMediaUploadFeedbackByBlock({});
+    setUploadedPathsSinceSave([]);
     setAvailableDraft(null);
     setDraftSavedAt(null);
     setGitHubStarterDraft(null);
@@ -504,6 +544,45 @@ export default function AdminPage() {
     return normalized || "Unknown error";
   };
 
+  const rememberUploadedPath = (path: string) => {
+    const normalizedPath = normalizeTrackedUploadPath(path);
+    if (!normalizedPath) {
+      return;
+    }
+    setUploadedPathsSinceSave((prev) =>
+      prev.includes(normalizedPath) ? prev : [...prev, normalizedPath]
+    );
+  };
+
+  const cleanupUploadedPath = async (path: string): Promise<boolean> => {
+    const normalizedPath = normalizeTrackedUploadPath(path);
+    if (!normalizedPath) {
+      return true;
+    }
+
+    try {
+      const response = await fetch("/api/upload-image/cleanup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path: normalizedPath }),
+      });
+
+      if (!response.ok) {
+        return false;
+      }
+
+      try {
+        await response.json() as UploadCleanupApiResponse;
+      } catch {
+        // Treat parse failures as successful cleanup request handling.
+      }
+
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const handleSave = async () => {
     if (!caseData) return;
     const hasUploadingMedia = Object.values(mediaUploadFeedbackByBlock).some(
@@ -554,7 +633,6 @@ export default function AdminPage() {
     const result = (await response.json()) as Record<string, unknown>;
 
     if (response.ok) {
-      setMessage("✅ Saved! Changes will deploy in ~1 minute.");
       clearCaseDraft(selectedCase);
       setAvailableDraft(null);
       setDraftSavedAt(null);
@@ -562,6 +640,32 @@ export default function AdminPage() {
       const nextSha = getApiSuccessSha(result);
       if (nextSha) {
         setLastSyncedSha(nextSha);
+      }
+
+      const referencedPaths = collectReferencedUploadPaths(caseData);
+      const retainedPaths = new Set<string>();
+      let deferredCleanupCount = 0;
+
+      for (const trackedPath of uploadedPathsSinceSave) {
+        if (referencedPaths.has(trackedPath)) {
+          retainedPaths.add(trackedPath);
+          continue;
+        }
+
+        const cleaned = await cleanupUploadedPath(trackedPath);
+        if (!cleaned) {
+          retainedPaths.add(trackedPath);
+          deferredCleanupCount += 1;
+        }
+      }
+
+      setUploadedPathsSinceSave(Array.from(retainedPaths));
+      if (deferredCleanupCount > 0) {
+        setMessage(
+          `✅ Saved! Changes will deploy in ~1 minute. ${deferredCleanupCount} orphan cleanup task(s) will be retried on the next save.`
+        );
+      } else {
+        setMessage("✅ Saved! Changes will deploy in ~1 minute.");
       }
     } else {
       const errorCode = getApiErrorCode(result);
@@ -743,15 +847,18 @@ export default function AdminPage() {
         // Update coverSrc with new path (relative to public)
         const publicPath = path.replace(/^public/, "");
         updateField("coverSrc", publicPath);
+        rememberUploadedPath(path);
         const sizeDelta = formatUploadSizeDelta(result.size);
         setMessage(`✅ Image uploaded${sizeDelta ? ` (${sizeDelta})` : ""}`);
         setSelectedFile(null);
         setImageCaption("");
       } else {
+        await cleanupUploadedPath(path);
         const apiError = normalizeUploadErrorMessage(await readUploadErrorMessage(response));
         setMessage(`❌ Upload failed: ${apiError}`);
       }
     } catch (error) {
+      await cleanupUploadedPath(path);
       const message =
         error instanceof Error && error.message ? error.message : "Network error";
       setMessage(`❌ Upload failed: ${normalizeUploadErrorMessage(message)}`);
@@ -822,6 +929,7 @@ export default function AdminPage() {
         const currentAlt = caseData.sections[sectionIndex]?.blocks[blockIndex]?.value.alt?.trim();
         const nextAlt = currentAlt || deriveAltFromFileName(file.name);
         updateBlock(sectionIndex, blockIndex, { src: publicPath, alt: nextAlt });
+        rememberUploadedPath(path);
         const sizeDelta = formatUploadSizeDelta(result.size);
         setMessage(`✅ Image uploaded to media block${sizeDelta ? ` (${sizeDelta})` : ""}`);
         const processedText = result.svgOptimization
@@ -843,6 +951,7 @@ export default function AdminPage() {
       }
 
       const apiError = normalizeUploadErrorMessage(await readUploadErrorMessage(response));
+      await cleanupUploadedPath(path);
       setMessage(`❌ Upload failed: ${apiError}`);
       setMediaUploadFeedbackByBlock((prev) => ({
         ...prev,
@@ -866,6 +975,7 @@ export default function AdminPage() {
             ? error.message
             : "Network error";
       const normalizedMessage = normalizeUploadErrorMessage(message);
+      await cleanupUploadedPath(path);
       setMessage(`❌ Upload failed: ${normalizedMessage}`);
       setMediaUploadFeedbackByBlock((prev) => ({
         ...prev,

@@ -2,7 +2,7 @@
 
 ## CMS content stability
 - [x] Add optimistic locking in UI (`baseSha`) for save-content to reduce manual conflict retries.
-- [ ] Add audit log for content edits (who/what/when, path + commit SHA + result).
+- [x] Add audit log for content edits (who/what/when, path + commit SHA + result).
 - [ ] Add E2E smoke flow: upload media -> optimize SVG -> save content -> reload admin.
 - [ ] Harden upload path policy and orphan cleanup for partial failures.
 - [x] Extend retry/backoff handling with `Retry-After` support for rate limits.

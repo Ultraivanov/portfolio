@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { typografCase } from "@/lib/typograf";
 import { validateContentByPath } from "@/lib/case-content-validation";
 import { fetchGitHubWithRetry } from "@/lib/github-api";
+import { logCmsAuditEvent, resolveCmsAuditWho } from "@/lib/cms-audit-log";
 import { apiError, apiSuccess } from "@/lib/api-response";
 
 type SaveContentPayload = {
@@ -28,19 +29,35 @@ export async function POST(request: NextRequest) {
   const githubToken = process.env.GITHUB_PAT;
   const githubRepo = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
   const githubBranch = process.env.GITHUB_BRANCH || "main";
+  const auditWho = resolveCmsAuditWho(request.headers?.get?.("authorization"));
+  let auditPath = "";
 
   if (!githubToken) {
+    logCmsAuditEvent({
+      what: "save-content",
+      who: auditWho,
+      result: "error",
+      details: { code: "CONFIG_ERROR" },
+    });
     return apiError(500, "CONFIG_ERROR", "GitHub PAT not configured");
   }
 
   try {
     const payload = (await request.json()) as SaveContentPayload;
     const path = typeof payload.path === "string" ? payload.path : "";
+    auditPath = path;
     const content = payload.content;
     const message = typeof payload.message === "string" ? payload.message : undefined;
     const baseSha = typeof payload.baseSha === "string" && payload.baseSha ? payload.baseSha : undefined;
 
     if (!path || !content) {
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "INVALID_REQUEST" },
+      });
       return apiError(400, "INVALID_REQUEST", "Missing path or content");
     }
 
@@ -48,6 +65,13 @@ export async function POST(request: NextRequest) {
 
     const validation = validateContentByPath(path, normalizedContent);
     if (!validation.ok) {
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "VALIDATION_ERROR" },
+      });
       return apiError(422, "VALIDATION_ERROR", validation.error);
     }
 
@@ -79,6 +103,14 @@ export async function POST(request: NextRequest) {
       if (fileData.encoding === "base64" && typeof fileData.content === "string") {
         const currentContent = Buffer.from(fileData.content, "base64").toString("utf-8");
         if (currentContent === serializedContent) {
+          logCmsAuditEvent({
+            what: "save-content",
+            who: auditWho,
+            path,
+            result: "skipped",
+            commitSha: sha || null,
+            details: { reason: "unchanged" },
+          });
           return apiSuccess({
             success: true,
             skipped: true,
@@ -89,6 +121,14 @@ export async function POST(request: NextRequest) {
       }
 
       if (baseSha && sha !== baseSha) {
+        logCmsAuditEvent({
+          what: "save-content",
+          who: auditWho,
+          path,
+          result: "conflict",
+          commitSha: sha || null,
+          details: { code: "CONTENT_CONFLICT", baseSha },
+        });
         return apiError(
           409,
           "CONTENT_CONFLICT",
@@ -98,12 +138,26 @@ export async function POST(request: NextRequest) {
       }
     } else if (getResponse.status !== 404) {
       const error = await safeReadError(getResponse);
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "GITHUB_READ_FAILED", status: getResponse.status },
+      });
       return apiError(
         getResponse.status,
         "GITHUB_READ_FAILED",
         error || "Failed to read existing content from GitHub"
       );
     } else if (baseSha) {
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "conflict",
+        details: { code: "CONTENT_CONFLICT", baseSha, currentSha: null },
+      });
       return apiError(
         409,
         "CONTENT_CONFLICT",
@@ -134,6 +188,13 @@ export async function POST(request: NextRequest) {
     if (!updateResponse.ok) {
       const error = await safeReadError(updateResponse);
       if (updateResponse.status === 409) {
+        logCmsAuditEvent({
+          what: "save-content",
+          who: auditWho,
+          path,
+          result: "conflict",
+          details: { code: "CONTENT_CONFLICT" },
+        });
         return apiError(
           409,
           "CONTENT_CONFLICT",
@@ -141,6 +202,13 @@ export async function POST(request: NextRequest) {
           { path }
         );
       }
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "GITHUB_WRITE_FAILED", status: updateResponse.status },
+      });
       return apiError(
         updateResponse.status,
         "GITHUB_WRITE_FAILED",
@@ -154,11 +222,26 @@ export async function POST(request: NextRequest) {
       };
     };
 
+    logCmsAuditEvent({
+      what: "save-content",
+      who: auditWho,
+      path,
+      result: "success",
+      commitSha: updatePayload.content?.sha || null,
+    });
+
     return apiSuccess({
       success: true,
       sha: updatePayload.content?.sha,
     });
   } catch (error) {
+    logCmsAuditEvent({
+      what: "save-content",
+      who: auditWho,
+      path: auditPath,
+      result: "error",
+      details: { code: "INTERNAL_ERROR" },
+    });
     return apiError(
       500,
       "INTERNAL_ERROR",

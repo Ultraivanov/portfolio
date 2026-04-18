@@ -9,6 +9,7 @@ import {
   parseByteLimit,
 } from "@/lib/svg-upload";
 import { fetchGitHubWithRetry } from "@/lib/github-api";
+import { logCmsAuditEvent, resolveCmsAuditWho } from "@/lib/cms-audit-log";
 import { apiError, apiSuccess } from "@/lib/api-response";
 
 
@@ -16,12 +17,20 @@ export async function POST(request: NextRequest) {
   const githubToken = process.env.GITHUB_PAT;
   const githubRepo = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
   const githubBranch = process.env.GITHUB_BRANCH || "main";
+  const auditWho = resolveCmsAuditWho(request.headers?.get?.("authorization"));
+  let auditPath = "";
   const svgTargetBytes = parseByteLimit(
     process.env.SVG_TARGET_MAX_BYTES,
     DEFAULT_SVG_TARGET_BYTES
   );
 
   if (!githubToken) {
+    logCmsAuditEvent({
+      what: "upload-image",
+      who: auditWho,
+      result: "error",
+      details: { code: "CONFIG_ERROR" },
+    });
     return apiError(500, "CONFIG_ERROR", "GitHub PAT not configured");
   }
 
@@ -29,8 +38,16 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get("file") as File;
     const path = formData.get("path") as string;
+    auditPath = path;
 
     if (!file || !path) {
+      logCmsAuditEvent({
+        what: "upload-image",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "INVALID_REQUEST" },
+      });
       return apiError(400, "INVALID_REQUEST", "Missing file or path");
     }
 
@@ -48,6 +65,13 @@ export async function POST(request: NextRequest) {
       | undefined;
 
     if (uploadBuffer.byteLength > PLATFORM_MAX_FILE_BYTES) {
+      logCmsAuditEvent({
+        what: "upload-image",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "FILE_TOO_LARGE", stage: "initial" },
+      });
       return apiError(
         413,
         "FILE_TOO_LARGE",
@@ -70,6 +94,13 @@ export async function POST(request: NextRequest) {
         };
       } catch (error) {
         if (error instanceof SvgUploadError) {
+          logCmsAuditEvent({
+            what: "upload-image",
+            who: auditWho,
+            path,
+            result: "error",
+            details: { code: "SVG_VALIDATION_ERROR", status: error.status },
+          });
           return apiError(error.status, "SVG_VALIDATION_ERROR", error.message);
         }
         throw error;
@@ -78,6 +109,13 @@ export async function POST(request: NextRequest) {
 
     const finalBytes = uploadBuffer.byteLength;
     if (finalBytes > PLATFORM_MAX_FILE_BYTES) {
+      logCmsAuditEvent({
+        what: "upload-image",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "FILE_TOO_LARGE", stage: "processed" },
+      });
       return apiError(
         413,
         "FILE_TOO_LARGE",
@@ -125,6 +163,23 @@ export async function POST(request: NextRequest) {
 
     if (!updateResponse.ok) {
       const error = await safeReadError(updateResponse);
+      if (updateResponse.status === 409) {
+        logCmsAuditEvent({
+          what: "upload-image",
+          who: auditWho,
+          path,
+          result: "conflict",
+          details: { code: "GITHUB_WRITE_FAILED", status: updateResponse.status },
+        });
+      } else {
+        logCmsAuditEvent({
+          what: "upload-image",
+          who: auditWho,
+          path,
+          result: "error",
+          details: { code: "GITHUB_WRITE_FAILED", status: updateResponse.status },
+        });
+      }
       return apiError(
         updateResponse.status,
         "GITHUB_WRITE_FAILED",
@@ -133,6 +188,18 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await updateResponse.json();
+    const commitSha =
+      typeof result?.commit?.sha === "string"
+        ? result.commit.sha
+        : null;
+
+    logCmsAuditEvent({
+      what: "upload-image",
+      who: auditWho,
+      path,
+      result: "success",
+      commitSha,
+    });
 
     return apiSuccess({
       success: true,
@@ -149,6 +216,13 @@ export async function POST(request: NextRequest) {
           : undefined,
     });
   } catch (error) {
+    logCmsAuditEvent({
+      what: "upload-image",
+      who: auditWho,
+      path: auditPath,
+      result: "error",
+      details: { code: "INTERNAL_ERROR" },
+    });
     return apiError(
       500,
       "INTERNAL_ERROR",

@@ -56,6 +56,7 @@ type AiIntakePanelProps = {
   githubConsistency: DraftConsistencyReport | null;
   githubRewriteSuggestions: DraftRewriteSuggestion[];
   onApplyRewriteSuggestion: (suggestion: DraftRewriteSuggestion) => void;
+  onApplyAllRewriteSuggestions: () => void;
   githubEvidenceBySection: SectionEvidenceReport | null;
   githubEvidence: string[];
   githubRouteCandidates: string[];
@@ -92,6 +93,7 @@ export default function AiIntakePanel({
   githubConsistency,
   githubRewriteSuggestions,
   onApplyRewriteSuggestion,
+  onApplyAllRewriteSuggestions,
   githubEvidenceBySection,
   githubEvidence,
   githubRouteCandidates,
@@ -389,6 +391,22 @@ export default function AiIntakePanel({
             <summary style={{ cursor: "pointer", fontSize: 12 }}>
               Rewrite suggestions ({githubRewriteSuggestions.length})
             </summary>
+            <button
+              onClick={onApplyAllRewriteSuggestions}
+              style={{
+                marginTop: 8,
+                marginBottom: 6,
+                padding: "6px 10px",
+                background: "#1d4ed8",
+                color: "white",
+                border: "none",
+                borderRadius: "var(--radius-1)",
+                cursor: "pointer",
+                fontSize: 12,
+              }}
+            >
+              Apply All Rewrites
+            </button>
             <ul style={{ marginTop: 6, paddingLeft: 18 }}>
               {githubRewriteSuggestions.map((suggestion) => (
                 <li key={suggestion.id} style={{ marginBottom: 10 }}>

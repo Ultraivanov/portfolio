@@ -11,6 +11,7 @@ import {
 } from "@/lib/github-case-extractor";
 import { synthesizeCaseDraftWithLlm } from "@/lib/github-case-intake-llm";
 import {
+  buildDraftRewriteSuggestions,
   buildDraftIntakeConfidence,
   buildDraftConsistencyReport,
 } from "@/lib/case-draft-quality";
@@ -135,6 +136,9 @@ export async function POST(request: Request) {
 
     const confidence = buildDraftIntakeConfidence(draft, { evidenceLinks: evidence });
     const consistency = buildDraftConsistencyReport(draft, { evidenceLinks: evidence });
+    const rewriteSuggestions = buildDraftRewriteSuggestions(draft, {
+      evidenceLinks: evidence,
+    });
     const evidenceBySection = buildEvidenceBySection(draft, {
       evidenceLinks: evidence,
     });
@@ -155,6 +159,7 @@ export async function POST(request: Request) {
       evidenceBySection,
       confidence,
       consistency,
+      rewriteSuggestions,
       starterVariants,
       coverCandidate,
       source: {

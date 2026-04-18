@@ -7,6 +7,7 @@ import {
   type DraftIntakeConfidence,
   type DraftQualityIssue,
   type DraftQualityReport,
+  type DraftRewriteSuggestion,
 } from "@/lib/case-draft-quality";
 import type { StarterVariant } from "@/lib/case-starter";
 import type { SectionEvidenceReport } from "@/lib/case-section-evidence";
@@ -115,6 +116,7 @@ interface GitHubIntakeApiResponse {
   } | null;
   confidence?: DraftIntakeConfidence | null;
   consistency?: DraftConsistencyReport | null;
+  rewriteSuggestions?: DraftRewriteSuggestion[];
   evidenceBySection?: SectionEvidenceReport | null;
   starterVariants?: StarterVariant[];
   coverCandidate?: BlueprintCoverCandidate | null;
@@ -257,6 +259,9 @@ export default function AdminPage() {
   const [githubLlmInfo, setGitHubLlmInfo] = useState<GitHubIntakeApiResponse["llm"]>(null);
   const [githubConfidence, setGitHubConfidence] = useState<DraftIntakeConfidence | null>(null);
   const [githubConsistency, setGitHubConsistency] = useState<DraftConsistencyReport | null>(null);
+  const [githubRewriteSuggestions, setGitHubRewriteSuggestions] = useState<
+    DraftRewriteSuggestion[]
+  >([]);
   const [githubEvidenceBySection, setGitHubEvidenceBySection] =
     useState<SectionEvidenceReport | null>(null);
   const [githubStarterDraft, setGitHubStarterDraft] = useState<CaseStudy | null>(null);
@@ -338,6 +343,7 @@ export default function AdminPage() {
     setGitHubStarterVariants([]);
     setSelectedStarterVariantId("");
     setGitHubExtractorSummary("");
+    setGitHubRewriteSuggestions([]);
     setGitHubEvidenceBySection(null);
     setGitHubCoverCandidate(null);
     setLastSyncedSnapshot(null);
@@ -874,6 +880,7 @@ export default function AdminPage() {
     setMessage("");
     setGitHubConfidence(null);
     setGitHubConsistency(null);
+    setGitHubRewriteSuggestions([]);
     setGitHubEvidenceBySection(null);
     setGitHubStarterDraft(null);
     setGitHubStarterVariants([]);
@@ -898,6 +905,7 @@ export default function AdminPage() {
       if (!response.ok || !payload.draft) {
         setGitHubConfidence(null);
         setGitHubConsistency(null);
+        setGitHubRewriteSuggestions([]);
         setMessage(`❌ Draft generation failed: ${getApiErrorMessage(payload)}`);
         return;
       }
@@ -912,6 +920,9 @@ export default function AdminPage() {
       setGitHubLlmInfo(payload.llm ?? null);
       setGitHubConfidence(payload.confidence ?? null);
       setGitHubConsistency(payload.consistency ?? null);
+      setGitHubRewriteSuggestions(
+        Array.isArray(payload.rewriteSuggestions) ? payload.rewriteSuggestions : []
+      );
       setGitHubEvidenceBySection(payload.evidenceBySection ?? null);
       setGitHubCoverCandidate(payload.coverCandidate ?? null);
       setGitHubStarterDraft(payload.draft);
@@ -941,6 +952,7 @@ export default function AdminPage() {
     } catch (error) {
       setGitHubConfidence(null);
       setGitHubConsistency(null);
+      setGitHubRewriteSuggestions([]);
       setGitHubEvidenceBySection(null);
       setGitHubStarterDraft(null);
       setGitHubStarterVariants([]);
@@ -1376,6 +1388,7 @@ export default function AdminPage() {
         onApplyCandidateCover={handleApplyCandidateCover}
         githubConfidence={githubConfidence}
         githubConsistency={githubConsistency}
+        githubRewriteSuggestions={githubRewriteSuggestions}
         githubEvidenceBySection={githubEvidenceBySection}
         githubEvidence={githubEvidence}
         githubRouteCandidates={githubRouteCandidates}

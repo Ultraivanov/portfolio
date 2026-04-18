@@ -5,6 +5,7 @@ import type {
   DraftConsistencyReport,
   DraftIntakeConfidence,
   DraftQualityIssue,
+  DraftRewriteSuggestion,
 } from "@/lib/case-draft-quality";
 import type { StarterVariant } from "@/lib/case-starter";
 import type { SectionEvidenceReport } from "@/lib/case-section-evidence";
@@ -53,6 +54,7 @@ type AiIntakePanelProps = {
   onApplyCandidateCover: () => void;
   githubConfidence: DraftIntakeConfidence | null;
   githubConsistency: DraftConsistencyReport | null;
+  githubRewriteSuggestions: DraftRewriteSuggestion[];
   githubEvidenceBySection: SectionEvidenceReport | null;
   githubEvidence: string[];
   githubRouteCandidates: string[];
@@ -87,6 +89,7 @@ export default function AiIntakePanel({
   onApplyCandidateCover,
   githubConfidence,
   githubConsistency,
+  githubRewriteSuggestions,
   githubEvidenceBySection,
   githubEvidence,
   githubRouteCandidates,
@@ -370,6 +373,47 @@ export default function AiIntakePanel({
           )}
         </div>
       ) : null}
+      {githubRewriteSuggestions.length > 0 ? (
+        <div
+          style={{
+            marginTop: 8,
+            padding: 8,
+            borderRadius: "var(--radius-1)",
+            border: "1px solid var(--color-border-subtle)",
+            background: "var(--color-bg)",
+          }}
+        >
+          <details open>
+            <summary style={{ cursor: "pointer", fontSize: 12 }}>
+              Rewrite suggestions ({githubRewriteSuggestions.length})
+            </summary>
+            <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+              {githubRewriteSuggestions.map((suggestion) => (
+                <li key={suggestion.id} style={{ marginBottom: 10 }}>
+                  <p style={{ margin: 0, fontSize: 12 }}>
+                    <strong>{suggestion.section}</strong>
+                    {" • "}
+                    <span style={{ color: rewritePriorityColor(suggestion.priority) }}>
+                      {suggestion.priority}
+                    </span>
+                    {" • confidence "}
+                    <strong>{suggestion.confidence}/100</strong>
+                  </p>
+                  <p style={{ margin: "4px 0 0 0", fontSize: 12, color: "var(--color-text-muted)" }}>
+                    {suggestion.rationale}
+                  </p>
+                  <p style={{ margin: "6px 0 0 0", fontSize: 12 }}>
+                    <strong>Current:</strong> {suggestion.before}
+                  </p>
+                  <p style={{ margin: "4px 0 0 0", fontSize: 12 }}>
+                    <strong>Suggested rewrite:</strong> {suggestion.suggestedRewrite}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </div>
+      ) : null}
       {githubEvidenceBySection ? (
         <div
           style={{
@@ -564,4 +608,8 @@ function evidenceCoverageColor(covered: number, total: number): string {
 
 function sectionEvidenceStatusColor(status: "present" | "missing"): string {
   return status === "present" ? "#16a34a" : "#dc2626";
+}
+
+function rewritePriorityColor(priority: DraftRewriteSuggestion["priority"]): string {
+  return priority === "critical" ? "#dc2626" : "#ca8a04";
 }

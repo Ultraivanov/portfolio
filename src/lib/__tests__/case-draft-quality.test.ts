@@ -2,6 +2,7 @@ import {
   analyzeCaseDraftQuality,
   buildDraftConsistencyReport,
   buildDraftIntakeConfidence,
+  buildDraftRewriteSuggestions,
   REQUIRED_CASE_SECTIONS,
   type CaseDraftLike,
 } from "@/lib/case-draft-quality";
@@ -200,5 +201,56 @@ describe("buildDraftConsistencyReport", () => {
     expect(report.overall).toBe("fail");
     expect(report.summary.critical).toBeGreaterThan(0);
     expect(report.findings.some((finding) => finding.rule === "evidence")).toBe(true);
+  });
+});
+
+describe("buildDraftRewriteSuggestions", () => {
+  it("returns critical rewrite suggestion for missing required section", () => {
+    const draft = createBaseDraft();
+    draft.sections = draft.sections.filter((section) => section.title !== "Outcome");
+
+    const suggestions = buildDraftRewriteSuggestions(draft, {
+      evidenceLinks: ["https://github.com/example/repo/pull/15"],
+    });
+
+    const outcome = suggestions.find((item) => item.section === "Outcome");
+    expect(outcome?.priority).toBe("critical");
+    expect(outcome?.confidence).toBeGreaterThanOrEqual(90);
+    expect(outcome?.suggestedRewrite).toContain("Outcome:");
+  });
+
+  it("returns targeted suggestions for weak constraints/outcome and missing evidence", () => {
+    const draft = createBaseDraft();
+    const constraints = draft.sections.find((section) => section.title === "Constraints");
+    if (!constraints) {
+      throw new Error("Expected constraints section in test setup.");
+    }
+    constraints.blocks = [
+      {
+        discriminant: "paragraph",
+        value: { text: "There were constraints." },
+      },
+    ];
+    const outcome = draft.sections.find((section) => section.title === "Outcome");
+    if (!outcome) {
+      throw new Error("Expected outcome section in test setup.");
+    }
+    outcome.blocks = [
+      {
+        discriminant: "paragraph",
+        value: { text: "The launch went well and users were happier." },
+      },
+    ];
+
+    const suggestions = buildDraftRewriteSuggestions(draft, {
+      evidenceLinks: [],
+    });
+
+    expect(suggestions.some((item) => item.section === "Constraints")).toBe(true);
+    expect(suggestions.some((item) => item.section === "Outcome")).toBe(true);
+    expect(suggestions.some((item) => item.section === "Evidence")).toBe(true);
+    expect(suggestions.every((item) => item.confidence >= 0 && item.confidence <= 100)).toBe(
+      true
+    );
   });
 });

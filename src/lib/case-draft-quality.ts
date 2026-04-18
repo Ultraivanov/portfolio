@@ -83,6 +83,19 @@ export type DraftIntakeConfidence = {
   topIssues: DraftQualityIssue[];
 };
 
+export type DraftRewritePriority = "critical" | "warning";
+
+export type DraftRewriteSuggestion = {
+  id: string;
+  issueId: string;
+  section: string;
+  priority: DraftRewritePriority;
+  confidence: number;
+  rationale: string;
+  before: string;
+  suggestedRewrite: string;
+};
+
 export type DraftConsistencyRule =
   | "section-order"
   | "tone"
@@ -421,8 +434,217 @@ export function buildDraftConsistencyReport(
   };
 }
 
+export function buildDraftRewriteSuggestions(
+  draft: CaseDraftLike,
+  options?: { evidenceLinks?: string[] }
+): DraftRewriteSuggestion[] {
+  const quality = analyzeCaseDraftQuality(draft, options);
+  const sectionsByTitle = new Map(
+    draft.sections.map((section) => [normalizeTitle(section.title), section])
+  );
+  const bySection = new Map<string, DraftRewriteSuggestion>();
+  const sortedIssues = quality.issues
+    .slice()
+    .sort(
+      (a, b) =>
+        severityRank(a.severity) - severityRank(b.severity) ||
+        a.id.localeCompare(b.id)
+    );
+
+  for (const issue of sortedIssues) {
+    const section = sectionsByTitle.get(normalizeTitle(issue.section || ""));
+    const suggestion = mapIssueToRewriteSuggestion(issue, section);
+    if (!suggestion) {
+      continue;
+    }
+    const key = normalizeTitle(suggestion.section);
+    const existing = bySection.get(key);
+    if (!existing) {
+      bySection.set(key, suggestion);
+      continue;
+    }
+    if (rewritePriorityRank(suggestion.priority) < rewritePriorityRank(existing.priority)) {
+      bySection.set(key, suggestion);
+    }
+  }
+
+  return [...bySection.values()]
+    .sort(
+      (a, b) =>
+        rewritePriorityRank(a.priority) - rewritePriorityRank(b.priority) ||
+        b.confidence - a.confidence ||
+        a.section.localeCompare(b.section)
+    )
+    .slice(0, 6);
+}
+
 function normalizeTitle(value: string): string {
   return value.trim().toLowerCase();
+}
+
+function mapIssueToRewriteSuggestion(
+  issue: DraftQualityIssue,
+  section: CaseSection | undefined
+): DraftRewriteSuggestion | null {
+  if (issue.id === "metric-without-evidence") {
+    return {
+      id: `rewrite-${issue.id}`,
+      issueId: issue.id,
+      section: "Evidence",
+      priority: "warning",
+      confidence: 86,
+      rationale: issue.message,
+      before: "Quantitative claims are present, but proof links are missing.",
+      suggestedRewrite:
+        "Add 2-3 links that prove each metric claim (PR/issue, dashboard snapshot, release note), and reference each link directly in Outcome or Solution blocks.",
+    };
+  }
+
+  if (issue.id === "missing-evidence-links") {
+    return {
+      id: `rewrite-${issue.id}`,
+      issueId: issue.id,
+      section: "Evidence",
+      priority: "warning",
+      confidence: 72,
+      rationale: issue.message,
+      before: "No evidence links are attached to this draft.",
+      suggestedRewrite:
+        "Attach supporting links (repo, merged PRs, issues, docs) and anchor them to claims in Context, Solution, and Outcome sections.",
+    };
+  }
+
+  if (issue.id.startsWith("missing-")) {
+    const sectionName = issue.section || fallbackSectionFromIssueId(issue.id);
+    return {
+      id: `rewrite-${issue.id}`,
+      issueId: issue.id,
+      section: sectionName || "Section",
+      priority: "critical",
+      confidence: 94,
+      rationale: issue.message,
+      before: "Section is missing.",
+      suggestedRewrite: buildMissingSectionRewrite(sectionName || "Section"),
+    };
+  }
+
+  if (issue.id.startsWith("empty-")) {
+    const sectionName = issue.section || "Section";
+    const before = extractSectionSignal(section) || "Content is too short or generic.";
+    return {
+      id: `rewrite-${issue.id}`,
+      issueId: issue.id,
+      section: sectionName,
+      priority: "warning",
+      confidence: 76,
+      rationale: issue.message,
+      before,
+      suggestedRewrite: buildWeakSectionRewrite(sectionName),
+    };
+  }
+
+  if (issue.id === "weak-constraints") {
+    return {
+      id: `rewrite-${issue.id}`,
+      issueId: issue.id,
+      section: "Constraints",
+      priority: "warning",
+      confidence: 88,
+      rationale: issue.message,
+      before:
+        extractSectionSignal(section) || "Constraints are generic and not decision-driving.",
+      suggestedRewrite:
+        "Constraints: (1) Legacy API contract prevents [change], (2) Delivery deadline limits scope to [subset], (3) Team capacity allows [N] implementation slices this sprint.",
+    };
+  }
+
+  if (issue.id === "weak-outcome-metric") {
+    return {
+      id: `rewrite-${issue.id}`,
+      issueId: issue.id,
+      section: "Outcome",
+      priority: "warning",
+      confidence: 90,
+      rationale: issue.message,
+      before:
+        extractSectionSignal(section) || "Outcome has no measurable impact signal.",
+      suggestedRewrite:
+        "Outcome: After release, [primary metric] changed from [baseline] to [result] in [timeframe], and [secondary metric] moved by [delta]. Evidence: [link or source].",
+    };
+  }
+
+  return null;
+}
+
+function fallbackSectionFromIssueId(issueId: string): string {
+  return issueId
+    .replace(/^missing-/, "")
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function buildMissingSectionRewrite(sectionName: string): string {
+  switch (normalizeTitle(sectionName)) {
+    case "context":
+      return "Context: [target users] use [product/surface] for [goal]. Current baseline shows [pain signal], observed in [where/when].";
+    case "problem":
+      return "Problem: Users fail at [step], causing [business/user impact]. Root cause: [specific friction or ambiguity].";
+    case "constraints":
+      return "Constraints: [technical constraint], [time/resource constraint], [organizational dependency]. Each constraint changed decisions in scope or UX.";
+    case "role":
+      return "Role: I owned [discovery/design/validation], partnered with [functions], and made decisions on [scope/system/quality bar].";
+    case "approach":
+      return "Approach: We ran [research or analysis], formed [key hypotheses], prioritized [experiments], and iterated based on [evidence loop].";
+    case "solution":
+      return "Solution: Introduced [key flow/system changes], clarified [states/interactions], and aligned implementation through [handoff/spec process].";
+    case "outcome":
+      return "Outcome: [primary metric] changed by [delta] over [timeframe]. Secondary effects: [quality/support/conversion signal], validated by [evidence link].";
+    default:
+      return `Rewrite ${sectionName}: state the specific problem, decision logic, and measurable result in 2-3 concise sentences.`;
+  }
+}
+
+function buildWeakSectionRewrite(sectionName: string): string {
+  switch (normalizeTitle(sectionName)) {
+    case "constraints":
+      return "Rewrite Constraints with explicit limits: what could not be changed, why, and how each limit shaped product or technical choices.";
+    case "outcome":
+      return "Rewrite Outcome with measurable deltas: baseline -> result, timeframe, and at least one evidence link for each key claim.";
+    default:
+      return `Rewrite ${sectionName}: replace generic statements with concrete context, decisions, and observable impact.`;
+  }
+}
+
+function extractSectionSignal(section: CaseSection | undefined): string {
+  if (!section) {
+    return "";
+  }
+  const chunks: string[] = [];
+  for (const block of section.blocks) {
+    if (block.discriminant === "paragraph" && typeof block.value.text === "string") {
+      const text = block.value.text.trim();
+      if (text) {
+        chunks.push(text);
+      }
+    }
+    if (block.discriminant === "list" && Array.isArray(block.value.items)) {
+      for (const item of block.value.items) {
+        const text = item.trim();
+        if (text) {
+          chunks.push(text);
+        }
+      }
+    }
+    if (chunks.length >= 2) {
+      break;
+    }
+  }
+  const combined = chunks.join(" ").replace(/\s+/g, " ").trim();
+  if (!combined) {
+    return "";
+  }
+  return combined.length > 180 ? `${combined.slice(0, 177)}...` : combined;
 }
 
 function hasMeaningfulSectionContent(section: CaseSection): boolean {
@@ -620,6 +842,10 @@ function severityRank(severity: QualitySeverity): number {
     default:
       return 3;
   }
+}
+
+function rewritePriorityRank(priority: DraftRewritePriority): number {
+  return priority === "critical" ? 0 : 1;
 }
 
 function clampScore(value: number): number {

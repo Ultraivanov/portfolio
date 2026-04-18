@@ -23,7 +23,7 @@
     },
     {
       "label": "focus",
-      "value": "Transition from fragmented UI patterns to a component-driven UX layer enabling consistent task execution"
+      "value": "Replacing fragmented UI patterns with a component-driven interaction model"
     }
   ],
   "sections": [
@@ -33,47 +33,47 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The product is an internal enterprise tool used for executing operational workflows.\n\nOver time, the interface evolved without a governing system:"
+            "text": "The product is an internal enterprise system used for executing structured workflows.\n\nThe interface evolved without a governing logic:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "UI patterns were duplicated instead of reused",
-              "interaction logic varied across similar tasks",
-              "feedback and states were inconsistent"
+              "patterns were duplicated instead of reused",
+              "similar actions behaved differently across flows",
+              "system feedback was inconsistent"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A UI kit existed in fragments, but there was no real design system:"
+            "text": "A UI kit existed, but without system integrity:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "no component governance",
+              "no shared component logic",
               "no standardized states",
-              "no shared behavioral rules"
+              "no consistent interaction rules"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "At the same time, the system operated under heavy legacy constraints:"
+            "text": "At the same time, the system was constrained by:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "backend-driven logic",
-              "limited flexibility in restructuring flows",
+              "backend-driven architecture",
+              "limited ability to restructure flows",
               "high cost of breaking existing behavior"
             ]
           }
@@ -81,7 +81,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The product functioned, but its UX layer became increasingly inefficient to use and scale."
+            "text": "The product functioned, but its UX layer became increasingly inefficient to use and extend."
           }
         }
       ]
@@ -109,7 +109,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This was not a usability issue.\n\nIt was a breakdown of interaction logic in a system where repeatability defines efficiency."
+            "text": "This was not a usability issue.\n\nIt was a failure of interaction standardization in a system built on repeatable execution."
           }
         }
       ]
@@ -124,8 +124,8 @@
               "Core logic locked by legacy backend",
               "No mature design system to extend",
               "Changes had to be incremental and non-breaking",
-              "Mixed UI maturity across flows",
-              "Continuous system operation required"
+              "Mixed UI quality across flows",
+              "Continuous operation required"
             ]
           }
         },
@@ -161,7 +161,7 @@
           "value": {
             "items": [
               "behave consistently",
-              "reduce interpretation effort",
+              "minimize interpretation",
               "support repeatable actions"
             ]
           }
@@ -253,7 +253,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "System Transformation\n\nTo move from fragmented UI to a predictable interaction system,\nI restructured the interface around reusable components.\n\nThe diagram below shows how the system evolved:\nfrom screen-based decisions to component-driven behavior."
+            "text": "System Transformation\n\nTo replace fragmented UI behavior with a predictable interaction model,\n\nthe system was restructured around reusable components."
           }
         },
         {
@@ -266,16 +266,16 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This shift allowed the product to:"
+            "text": "This shift:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "eliminate duplicated UI logic",
-              "standardize interaction behavior",
-              "and scale without increasing inconsistency"
+              "eliminated duplicated interaction logic",
+              "standardized behavior across flows",
+              "enabled scalable UX development"
             ]
           }
         }

@@ -6,7 +6,7 @@
 - [ ] Add E2E smoke flow: upload media -> optimize SVG -> save content -> reload admin.
 - [ ] Harden upload path policy and orphan cleanup for partial failures.
 - [x] Extend retry/backoff handling with `Retry-After` support for rate limits.
-- [ ] Add malicious/edge SVG fixtures (broken encoding, heavy path count, unsafe tags, data URI overload).
+- [x] Add malicious/edge SVG fixtures (broken encoding, heavy path count, unsafe tags, data URI overload).
 - [x] Add race-condition tests for concurrent save requests.
 
 ## Admin UX cleanup

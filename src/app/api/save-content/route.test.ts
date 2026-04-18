@@ -403,11 +403,8 @@ describe("POST /api/save-content", () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
-  it("strips legacy media.variant before validation and save", async () => {
-    const fetchMock = jest
-      .fn()
-      .mockResolvedValueOnce(createGitHubResponse({}, 404))
-      .mockResolvedValueOnce(createGitHubResponse({ content: { sha: "new-sha" } }, 200));
+  it("rejects legacy media.variant in case payload", async () => {
+    const fetchMock = jest.fn();
     global.fetch = fetchMock as unknown as typeof fetch;
 
     const contentWithLegacyVariant = {
@@ -438,17 +435,11 @@ describe("POST /api/save-content", () => {
     );
     const body = await response.json();
 
-    expect(response.status).toBe(200);
-    expect(body.success).toBe(true);
-
-    const updateCall = fetchMock.mock.calls[1];
-    const options = updateCall[1] as RequestInit;
-    const requestBody = JSON.parse(String(options.body));
-    const decoded = JSON.parse(Buffer.from(requestBody.content, "base64").toString("utf-8"));
-    const mediaValue = decoded.sections[0].blocks[0].value;
-
-    expect(mediaValue.variant).toBeUndefined();
-    expect(mediaValue.src).toBe("/cases/test/diagram.svg");
+    expect(response.status).toBe(422);
+    expect(body.ok).toBe(false);
+    expect(body.error.code).toBe("VALIDATION_ERROR");
+    expect(body.error.message).toMatch(/variant/i);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("fills media.alt from src when alt is empty", async () => {

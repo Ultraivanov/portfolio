@@ -11,7 +11,8 @@
 - [x] Add race-condition tests for concurrent save requests.
 
 ## Admin UX cleanup
-- [ ] Remove legacy media `variant` model (`diagram/phone/desktop`) and old iframe/embed assumptions from content schema and admin UI.
+- [x] Remove legacy media `variant` model (`diagram/phone/desktop`) from save-content pipeline.
+- [ ] Remove old iframe/embed assumptions from content schema and admin UI.
 - [ ] Remove variant dropdown from any remaining admin surface; keep media block focused on image upload + path + alt + caption.
 - [ ] Migrate existing content entries with `variant`/`FIGMA_EMBED_*` placeholders to the current media model.
 

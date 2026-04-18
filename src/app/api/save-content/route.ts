@@ -281,7 +281,6 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
 
         const { caption, ...restValue } = block.value;
         const normalizedValue = { ...restValue };
-        delete normalizedValue.variant;
         const src = typeof normalizedValue.src === "string" ? normalizedValue.src.trim() : "";
         const alt = typeof normalizedValue.alt === "string" ? normalizedValue.alt.trim() : "";
         const normalizedCaption = typeof caption === "string" ? caption.trim() : caption;

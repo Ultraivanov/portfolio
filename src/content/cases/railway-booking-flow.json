@@ -249,6 +249,13 @@
               "coexistence with legacy"
             ]
           }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/railway-booking-flow/1776525176750.png",
+            "alt": "UX System Transformation"
+          }
         }
       ]
     },

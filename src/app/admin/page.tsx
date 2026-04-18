@@ -1169,6 +1169,69 @@ export default function AdminPage() {
     }
   };
 
+  const normalizeSectionTitle = (value: string): string => value.trim().toLowerCase();
+
+  const handleApplyRewriteSuggestion = (suggestion: DraftRewriteSuggestion) => {
+    if (!caseData) {
+      setMessage("❌ Load a case before applying rewrite suggestions.");
+      return;
+    }
+
+    const targetSectionTitle = suggestion.section.trim() || "Additional Notes";
+    const targetSectionKey = normalizeSectionTitle(targetSectionTitle);
+    const nextSections = caseData.sections.map((section) => ({
+      ...section,
+      blocks: [...section.blocks],
+    }));
+    const sectionIndex = nextSections.findIndex(
+      (section) => normalizeSectionTitle(section.title) === targetSectionKey
+    );
+    let appliedSectionTitle = targetSectionTitle;
+
+    if (sectionIndex >= 0) {
+      appliedSectionTitle = nextSections[sectionIndex].title || targetSectionTitle;
+      const blocks = [...nextSections[sectionIndex].blocks];
+      const paragraphIndex = blocks.findIndex((block) => block.discriminant === "paragraph");
+
+      if (paragraphIndex >= 0) {
+        const paragraphBlock = blocks[paragraphIndex];
+        blocks[paragraphIndex] = {
+          ...paragraphBlock,
+          value: {
+            ...paragraphBlock.value,
+            text: suggestion.suggestedRewrite,
+          },
+        };
+      } else {
+        blocks.unshift({
+          discriminant: "paragraph",
+          value: { text: suggestion.suggestedRewrite },
+        });
+      }
+
+      nextSections[sectionIndex] = {
+        ...nextSections[sectionIndex],
+        blocks,
+      };
+    } else {
+      nextSections.push({
+        title: targetSectionTitle,
+        blocks: [
+          {
+            discriminant: "paragraph",
+            value: { text: suggestion.suggestedRewrite },
+          },
+        ],
+      });
+    }
+
+    updateField("sections", nextSections);
+    setGitHubRewriteSuggestions((current) =>
+      current.filter((item) => item.id !== suggestion.id)
+    );
+    setMessage(`✅ Applied rewrite suggestion to "${appliedSectionTitle}". Review and save.`);
+  };
+
   // Section management
   const updateSection = (sectionIndex: number, field: keyof Section, value: string) => {
     if (!caseData) return;
@@ -1389,6 +1452,7 @@ export default function AdminPage() {
         githubConfidence={githubConfidence}
         githubConsistency={githubConsistency}
         githubRewriteSuggestions={githubRewriteSuggestions}
+        onApplyRewriteSuggestion={handleApplyRewriteSuggestion}
         githubEvidenceBySection={githubEvidenceBySection}
         githubEvidence={githubEvidence}
         githubRouteCandidates={githubRouteCandidates}

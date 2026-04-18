@@ -221,7 +221,7 @@ describe("AdminPage media upload input state", () => {
 
     await waitFor(() => {
       expect(screen.getByText("❌ Upload failed: boom")).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Save Changes" })).toBeEnabled();
+      expect(screen.getByRole("button", { name: "No Changes" })).toBeDisabled();
     });
   });
 

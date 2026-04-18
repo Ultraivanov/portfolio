@@ -8,6 +8,7 @@ type SaveContentPayload = {
   path?: unknown;
   content?: unknown;
   message?: unknown;
+  baseSha?: unknown;
 };
 
 type TypografCaseInput = {
@@ -37,6 +38,7 @@ export async function POST(request: NextRequest) {
     const path = typeof payload.path === "string" ? payload.path : "";
     const content = payload.content;
     const message = typeof payload.message === "string" ? payload.message : undefined;
+    const baseSha = typeof payload.baseSha === "string" && payload.baseSha ? payload.baseSha : undefined;
 
     if (!path || !content) {
       return apiError(400, "INVALID_REQUEST", "Missing path or content");
@@ -81,8 +83,18 @@ export async function POST(request: NextRequest) {
             success: true,
             skipped: true,
             reason: "unchanged",
+            sha,
           });
         }
+      }
+
+      if (baseSha && sha !== baseSha) {
+        return apiError(
+          409,
+          "CONTENT_CONFLICT",
+          "Content changed in repository since you loaded this draft. Reload latest version and retry save.",
+          { path, currentSha: sha, baseSha }
+        );
       }
     } else if (getResponse.status !== 404) {
       const error = await safeReadError(getResponse);
@@ -90,6 +102,13 @@ export async function POST(request: NextRequest) {
         getResponse.status,
         "GITHUB_READ_FAILED",
         error || "Failed to read existing content from GitHub"
+      );
+    } else if (baseSha) {
+      return apiError(
+        409,
+        "CONTENT_CONFLICT",
+        "Content changed in repository since you loaded this draft. Reload latest version and retry save.",
+        { path, currentSha: null, baseSha }
       );
     }
 
@@ -129,7 +148,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return apiSuccess({ success: true });
+    const updatePayload = (await updateResponse.json()) as {
+      content?: {
+        sha?: string;
+      };
+    };
+
+    return apiSuccess({
+      success: true,
+      sha: updatePayload.content?.sha,
+    });
   } catch (error) {
     return apiError(
       500,
@@ -168,9 +196,11 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
           return block;
         }
 
-        const { variant: _legacyVariant, caption, ...restValue } = block.value;
-        const src = typeof restValue.src === "string" ? restValue.src.trim() : "";
-        const alt = typeof restValue.alt === "string" ? restValue.alt.trim() : "";
+        const { caption, ...restValue } = block.value;
+        const normalizedValue = { ...restValue };
+        delete normalizedValue.variant;
+        const src = typeof normalizedValue.src === "string" ? normalizedValue.src.trim() : "";
+        const alt = typeof normalizedValue.alt === "string" ? normalizedValue.alt.trim() : "";
         const normalizedCaption = typeof caption === "string" ? caption.trim() : caption;
         const includeCaption =
           normalizedCaption !== undefined &&
@@ -184,7 +214,7 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
         return {
           ...block,
           value: {
-            ...restValue,
+            ...normalizedValue,
             ...(src && !alt ? { alt: deriveAltFromPath(src) } : {}),
             ...(includeCaption ? { caption: normalizedCaption } : {}),
           },

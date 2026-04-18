@@ -99,6 +99,12 @@ interface CaseDraftEnvelope {
   data: CaseStudy;
 }
 
+interface CaseContentApiResponse {
+  item?: CaseStudy;
+  sha?: string | null;
+  error?: string | { message?: string };
+}
+
 interface GitHubIntakeApiResponse {
   ok?: boolean;
   draft?: CaseStudy;
@@ -240,6 +246,7 @@ export default function AdminPage() {
   const [availableDraft, setAvailableDraft] = useState<CaseDraftEnvelope | null>(null);
   const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null);
   const [lastSyncedSnapshot, setLastSyncedSnapshot] = useState<string | null>(null);
+  const [lastSyncedSha, setLastSyncedSha] = useState<string | null>(null);
   const [newCaseSlug, setNewCaseSlug] = useState("");
   const [newCaseTitle, setNewCaseTitle] = useState("");
   const [creatingCase, setCreatingCase] = useState(false);
@@ -316,10 +323,11 @@ export default function AdminPage() {
   const loadCaseContent = async (slug: string): Promise<boolean> => {
     try {
       const response = await fetch(`/api/cases/${slug}`, { cache: "no-store" });
-      const payload = (await response.json()) as { item?: CaseStudy };
+      const payload = (await response.json()) as CaseContentApiResponse;
       if (response.ok && payload.item) {
         setCaseData(payload.item);
         setLastSyncedSnapshot(serializeCaseSnapshot(payload.item));
+        setLastSyncedSha(typeof payload.sha === "string" ? payload.sha : null);
         const draft = readCaseDraft(slug);
         setDraftSavedAt(draft?.updatedAt ?? null);
         if (draft && JSON.stringify(draft.data) !== JSON.stringify(payload.item)) {
@@ -351,6 +359,7 @@ export default function AdminPage() {
     setGitHubEvidenceBySection(null);
     setGitHubCoverCandidate(null);
     setLastSyncedSnapshot(null);
+    setLastSyncedSha(null);
     void loadCaseContent(selectedCase);
   }, [selectedCase]);
 
@@ -443,6 +452,17 @@ export default function AdminPage() {
     return undefined;
   };
 
+  const getApiSuccessSha = (payload: unknown): string | null => {
+    if (typeof payload !== "object" || payload === null) {
+      return null;
+    }
+    const sha = (payload as Record<string, unknown>).sha;
+    if (typeof sha === "string" && sha) {
+      return sha;
+    }
+    return null;
+  };
+
   const readUploadErrorMessage = async (response: Response): Promise<string> => {
     try {
       const text = (await response.text()).trim();
@@ -527,6 +547,7 @@ export default function AdminPage() {
         path,
         content: caseData,
         message: `Update ${selectedCase} case`,
+        baseSha: lastSyncedSha || undefined,
       }),
     });
 
@@ -538,6 +559,10 @@ export default function AdminPage() {
       setAvailableDraft(null);
       setDraftSavedAt(null);
       setLastSyncedSnapshot(snapshotBeforeSave);
+      const nextSha = getApiSuccessSha(result);
+      if (nextSha) {
+        setLastSyncedSha(nextSha);
+      }
     } else {
       const errorCode = getApiErrorCode(result);
       if (errorCode === "CONTENT_CONFLICT") {

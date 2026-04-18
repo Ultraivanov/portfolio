@@ -122,6 +122,7 @@ describe("POST /api/save-content", () => {
     expect(body.success).toBe(true);
     expect(body.skipped).toBe(true);
     expect(body.reason).toBe("unchanged");
+    expect(body.sha).toBe("abc123");
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
@@ -143,7 +144,76 @@ describe("POST /api/save-content", () => {
 
     expect(response.status).toBe(200);
     expect(body.success).toBe(true);
+    expect(body.sha).toBe("new-sha");
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("returns CONTENT_CONFLICT when baseSha is stale", async () => {
+    const content = validCaseContent();
+    const current = {
+      ...content,
+      title: "Current title in repo",
+    };
+
+    const fetchMock = jest.fn().mockResolvedValueOnce(
+      createGitHubResponse(
+        {
+          sha: "sha-current",
+          encoding: "base64",
+          content: Buffer.from(JSON.stringify(current, null, 2)).toString("base64"),
+        },
+        200
+      )
+    );
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const response = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content,
+        baseSha: "sha-stale",
+      })
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(409);
+    expect(body.ok).toBe(false);
+    expect(body.error.code).toBe("CONTENT_CONFLICT");
+    expect(body.error.message).toMatch(/changed in repository|reload/i);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns skipped for unchanged content even when baseSha is stale", async () => {
+    const content = validCaseContent();
+    const serialized = JSON.stringify(content, null, 2);
+
+    const fetchMock = jest.fn().mockResolvedValueOnce(
+      createGitHubResponse(
+        {
+          sha: "sha-current",
+          encoding: "base64",
+          content: Buffer.from(serialized).toString("base64"),
+        },
+        200
+      )
+    );
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const response = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content,
+        baseSha: "sha-stale",
+      })
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.success).toBe(true);
+    expect(body.skipped).toBe(true);
+    expect(body.reason).toBe("unchanged");
+    expect(body.sha).toBe("sha-current");
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("returns CONTENT_CONFLICT on github sha conflict", async () => {
@@ -185,6 +255,26 @@ describe("POST /api/save-content", () => {
     expect(body.ok).toBe(false);
     expect(body.error.code).toBe("CONTENT_CONFLICT");
     expect(body.error.message).toMatch(/sha does not match|Reload/i);
+  });
+
+  it("returns CONTENT_CONFLICT when file was deleted after draft load (baseSha provided)", async () => {
+    const fetchMock = jest.fn().mockResolvedValueOnce(createGitHubResponse({}, 404));
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const response = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content: validCaseContent(),
+        baseSha: "sha-loaded-earlier",
+      })
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(409);
+    expect(body.ok).toBe(false);
+    expect(body.error.code).toBe("CONTENT_CONFLICT");
+    expect(body.error.message).toMatch(/changed in repository|reload/i);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it("accepts home.json payload when schema is valid", async () => {

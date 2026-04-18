@@ -216,6 +216,73 @@ describe("POST /api/save-content", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it("rejects second concurrent save attempt with stale baseSha", async () => {
+    const firstDraft = {
+      ...validCaseContent(),
+      title: "Draft title v2",
+    };
+    const secondDraft = {
+      ...validCaseContent(),
+      title: "Draft title v3",
+    };
+    const firstSerialized = JSON.stringify(firstDraft, null, 2);
+    const oldSerialized = JSON.stringify(validCaseContent(), null, 2);
+
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce(
+        createGitHubResponse(
+          {
+            sha: "sha-base",
+            encoding: "base64",
+            content: Buffer.from(oldSerialized).toString("base64"),
+          },
+          200
+        )
+      )
+      .mockResolvedValueOnce(
+        createGitHubResponse({ content: { sha: "sha-new" } }, 200)
+      )
+      .mockResolvedValueOnce(
+        createGitHubResponse(
+          {
+            sha: "sha-new",
+            encoding: "base64",
+            content: Buffer.from(firstSerialized).toString("base64"),
+          },
+          200
+        )
+      );
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const firstResponse = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content: firstDraft,
+        baseSha: "sha-base",
+      })
+    );
+    const firstBody = await firstResponse.json();
+    expect(firstResponse.status).toBe(200);
+    expect(firstBody.success).toBe(true);
+    expect(firstBody.sha).toBe("sha-new");
+
+    const secondResponse = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content: secondDraft,
+        baseSha: "sha-base",
+      })
+    );
+    const secondBody = await secondResponse.json();
+
+    expect(secondResponse.status).toBe(409);
+    expect(secondBody.ok).toBe(false);
+    expect(secondBody.error.code).toBe("CONTENT_CONFLICT");
+    expect(secondBody.error.message).toMatch(/changed in repository|reload/i);
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
   it("returns CONTENT_CONFLICT on github sha conflict", async () => {
     const content = validCaseContent();
     const current = {

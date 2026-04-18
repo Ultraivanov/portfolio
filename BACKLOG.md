@@ -1,13 +1,13 @@
 # Backlog
 
 ## CMS content stability
-- [ ] Add optimistic locking in UI (`baseSha`) for save-content to reduce manual conflict retries.
+- [x] Add optimistic locking in UI (`baseSha`) for save-content to reduce manual conflict retries.
 - [ ] Add audit log for content edits (who/what/when, path + commit SHA + result).
 - [ ] Add E2E smoke flow: upload media -> optimize SVG -> save content -> reload admin.
 - [ ] Harden upload path policy and orphan cleanup for partial failures.
 - [ ] Extend retry/backoff handling with `Retry-After` support for rate limits.
 - [ ] Add malicious/edge SVG fixtures (broken encoding, heavy path count, unsafe tags, data URI overload).
-- [ ] Add race-condition tests for concurrent save requests.
+- [x] Add race-condition tests for concurrent save requests.
 
 ## Admin UX cleanup
 - [ ] Remove legacy media `variant` model (`diagram/phone/desktop`) and old iframe/embed assumptions from content schema and admin UI.

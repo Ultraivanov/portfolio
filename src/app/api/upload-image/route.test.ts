@@ -121,4 +121,55 @@ describe("POST /api/upload-image", () => {
     expect(body.error.message).toMatch(/Unsafe SVG/i);
     expect(fetchMock).not.toHaveBeenCalled();
   });
+
+  it("rejects traversal upload path", async () => {
+    const fetchMock = jest.fn();
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const file = new File(["hello"], "cover.png", { type: "image/png" });
+    const response = await POST(
+      createRequest(file, "public/cases/demo/../cover.png")
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(422);
+    expect(body.ok).toBe(false);
+    expect(body.error.code).toBe("INVALID_PATH");
+    expect(body.error.message).toMatch(/traversal/i);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects upload path outside public/cases", async () => {
+    const fetchMock = jest.fn();
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const file = new File(["hello"], "cover.png", { type: "image/png" });
+    const response = await POST(
+      createRequest(file, "public/uploads/demo/cover.png")
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(422);
+    expect(body.ok).toBe(false);
+    expect(body.error.code).toBe("INVALID_PATH");
+    expect(body.error.message).toMatch(/public\/cases/i);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects unsupported file extension in upload path", async () => {
+    const fetchMock = jest.fn();
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const file = new File(["hello"], "cover.png", { type: "image/png" });
+    const response = await POST(
+      createRequest(file, "public/cases/demo/cover.html")
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(422);
+    expect(body.ok).toBe(false);
+    expect(body.error.code).toBe("INVALID_PATH");
+    expect(body.error.message).toMatch(/Unsupported file extension/i);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
 });

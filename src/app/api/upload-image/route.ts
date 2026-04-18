@@ -12,6 +12,15 @@ import { fetchGitHubWithRetry } from "@/lib/github-api";
 import { logCmsAuditEvent, resolveCmsAuditWho } from "@/lib/cms-audit-log";
 import { apiError, apiSuccess } from "@/lib/api-response";
 
+const ALLOWED_UPLOAD_EXTENSIONS = new Set([
+  "png",
+  "jpg",
+  "jpeg",
+  "webp",
+  "avif",
+  "gif",
+  "svg",
+]);
 
 export async function POST(request: NextRequest) {
   const githubToken = process.env.GITHUB_PAT;
@@ -37,7 +46,8 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    const path = formData.get("path") as string;
+    const pathValue = formData.get("path");
+    const path = typeof pathValue === "string" ? pathValue : "";
     auditPath = path;
 
     if (!file || !path) {
@@ -49,6 +59,18 @@ export async function POST(request: NextRequest) {
         details: { code: "INVALID_REQUEST" },
       });
       return apiError(400, "INVALID_REQUEST", "Missing file or path");
+    }
+
+    const pathError = validateUploadPath(path);
+    if (pathError) {
+      logCmsAuditEvent({
+        what: "upload-image",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "INVALID_PATH", reason: pathError },
+      });
+      return apiError(422, "INVALID_PATH", pathError);
     }
 
     // Convert file and normalize SVG uploads before saving to GitHub.
@@ -238,4 +260,30 @@ async function safeReadError(response: Response): Promise<string | undefined> {
   } catch {
     return undefined;
   }
+}
+
+function validateUploadPath(path: string): string | null {
+  const trimmedPath = path.trim();
+  if (!trimmedPath) {
+    return "Upload path is required.";
+  }
+
+  if (trimmedPath.includes("\\") || trimmedPath.includes("..")) {
+    return "Invalid upload path. Directory traversal is not allowed.";
+  }
+
+  const match = trimmedPath.match(
+    /^public\/cases\/([a-z0-9-]+)\/([A-Za-z0-9][A-Za-z0-9._-]*)$/
+  );
+  if (!match) {
+    return "Invalid upload path. Use public/cases/<slug>/<file-name>.";
+  }
+
+  const fileName = match[2] || "";
+  const extension = fileName.split(".").pop()?.toLowerCase();
+  if (!extension || !ALLOWED_UPLOAD_EXTENSIONS.has(extension)) {
+    return `Unsupported file extension. Allowed: ${[...ALLOWED_UPLOAD_EXTENSIONS].join(", ")}.`;
+  }
+
+  return null;
 }

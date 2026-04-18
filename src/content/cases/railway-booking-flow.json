@@ -251,10 +251,32 @@
           }
         },
         {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "System Transformation\n\nTo move from fragmented UI to a predictable interaction system,\nI restructured the interface around reusable components.\n\nThe diagram below shows how the system evolved:\nfrom screen-based decisions to component-driven behavior."
+          }
+        },
+        {
           "discriminant": "media",
           "value": {
             "src": "/cases/railway-booking-flow/1776525176750.png",
             "alt": "UX System Transformation"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "This shift allowed the product to:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "eliminate duplicated UI logic",
+              "standardize interaction behavior",
+              "and scale without increasing inconsistency"
+            ]
           }
         }
       ]
@@ -333,10 +355,23 @@
           }
         },
         {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The following decisions were made to address system-level inconsistencies\n\nand improve operational reliability."
+          }
+        },
+        {
           "discriminant": "media",
           "value": {
-            "src": "/cases/railway-booking-flow/1776511865104.png",
-            "alt": "State Logic"
+            "src": "/cases/railway-booking-flow/1776527359200.png",
+            "alt": "State Logic",
+            "caption": "From local UI fixes → to system-level change"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "System Impact Mapping\n\nThe diagram below shows how each decision addresses a specific system issue\nand contributes to a more predictable and scalable interaction model."
           }
         }
       ]

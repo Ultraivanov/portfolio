@@ -1,48 +1,29 @@
 {
   "slug": "railway-booking-flow",
-  "title": "RZD • Internal Communication System",
-  "subtitle": "From fragmented interactions to a controlled communication loop",
+  "title": "Russian Railways • Enterprise Communicator UX",
+  "subtitle": "Designing a component-driven interaction system under legacy constraints",
   "coverSrc": "/cases/rzd-communication/cover.png",
   "coverAlt": "RZD communication workflow system cover",
   "facts": [
     {
       "label": "domain",
-      "value": [
-        "Enterprise internal communication system",
-        "Document management & executive request workflows"
-      ]
+      "value": "Enterprise communication / operational tooling"
     },
     {
       "label": "scope",
-      "value": [
-        "Mobile application redesign",
-        "Workflow restructuring",
-        "Communication lifecycle system design",
-        "UX / UI system under strict enterprise constraints"
-      ]
+      "value": "UX/UI restructuring of multi-step operational workflows and introduction of a minimal component system within a legacy application"
     },
     {
       "label": "audience",
-      "value": [
-        "Employees initiating requests",
-        "Managers reviewing and responding",
-        "Executive chain for escalations"
-      ]
+      "value": "Internal employees performing repeatable operational tasks, where speed, accuracy, and predictability are critical"
     },
     {
       "label": "role",
-      "value": [
-        "Product Designer"
-      ]
+      "value": "Product Designer responsible for structuring UX behavior, defining reusable components, and introducing a scalable interaction model"
     },
     {
       "label": "focus",
-      "value": [
-        "Request lifecycle modeling",
-        "Communication flow structuring",
-        "System-level interaction logic",
-        "Full mobile UX/UI delivery"
-      ]
+      "value": "Transition from fragmented UI patterns to a component-driven UX layer enabling consistent task execution"
     }
   ],
   "sections": [
@@ -52,19 +33,55 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Russian Railways operated a legacy internal service used for employee-to-management communication, document-related requests, and internal approvals and escalations."
+            "text": "The product is an internal enterprise tool used for executing operational workflows.\n\nOver time, the interface evolved without a governing system:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "UI patterns were duplicated instead of reused",
+              "interaction logic varied across similar tasks",
+              "feedback and states were inconsistent"
+            ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The system was functionally complete, but operationally inefficient."
+            "text": "A UI kit existed in fragments, but there was no real design system:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "no component governance",
+              "no standardized states",
+              "no shared behavioral rules"
+            ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "It supported processes — but did not structure them."
+            "text": "At the same time, the system operated under heavy legacy constraints:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "backend-driven logic",
+              "limited flexibility in restructuring flows",
+              "high cost of breaking existing behavior"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The product functioned, but its UX layer became increasingly inefficient to use and scale."
           }
         }
       ]
@@ -75,41 +92,24 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The system failed not at the interface level, but at the process level."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Symptoms:"
+            "text": "The interface lacked interaction consistency, directly impacting operational performance."
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Complex and inconsistent navigation",
-              "Unclear request statuses",
-              "Fragmented communication flows",
-              "Lack of transparency in request handling"
+              "identical tasks behaved differently across contexts",
+              "users reinterpreted UI instead of executing known actions",
+              "inconsistent states increased error probability",
+              "lack of predictability slowed down repetitive workflows"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "System-level failure:"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "Requests had no predictable lifecycle",
-              "Escalation paths were implicit",
-              "Responses were not structured",
-              "Users could not anticipate outcomes"
-            ]
+            "text": "This was not a usability issue.\n\nIt was a breakdown of interaction logic in a system where repeatability defines efficiency."
           }
         }
       ]
@@ -121,11 +121,27 @@
           "discriminant": "list",
           "value": {
             "items": [
-              "Legacy database and architecture (no restructuring)",
-              "Strict enterprise requirements",
-              "Minimal visual expressiveness allowed",
-              "Formal communication must be preserved",
-              "High information density"
+              "Core logic locked by legacy backend",
+              "No mature design system to extend",
+              "Changes had to be incremental and non-breaking",
+              "Mixed UI maturity across flows",
+              "Continuous system operation required"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The solution had to be:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "modular",
+              "compatible with existing structure",
+              "incrementally adoptable"
             ]
           }
         }
@@ -137,13 +153,23 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The core issue was not usability — it was lack of system-level clarity."
+            "text": "In enterprise systems, UX quality is defined by execution reliability.\n\nUsers do not explore — they execute.\n\nThe system must:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "behave consistently",
+              "reduce interpretation effort",
+              "support repeatable actions"
+            ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Users did not need a \"better interface\". They needed a controlled communication loop."
+            "text": "A component-driven approach is the only scalable way to achieve this."
           }
         }
       ]
@@ -154,136 +180,74 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Instead of redesigning screens, the focus shifted to designing a system:"
+            "text": "From screen-level fixes → to system-level structuring"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "1. Pattern Identification\n\nMapped recurring interaction scenarios:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Request lifecycle model",
-              "Explicit state management",
-              "Escalation logic",
-              "Notification structure",
-              "Feedback loop"
+              "input",
+              "selection",
+              "validation",
+              "feedback",
+              "progression"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The interface became a reflection of system logic — not the other way around."
-          }
-        }
-      ]
-    },
-    {
-      "title": "Behavior Model",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "User interaction was reframed as a closed loop:"
+            "text": "2. Component Abstraction\n\nTranslated patterns into reusable components:"
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "User creates request",
-              "System assigns status",
-              "Manager reviews & responds",
-              "System updates state",
-              "User receives response",
-              "User evaluates outcome",
-              "[Optional] Escalation to higher authority"
+              "Input",
+              "Selector",
+              "Status Block",
+              "Action Bar"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This loop defines the core behavior of the system."
+            "text": "Each component defined:"
           }
         },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/behavior-loop.svg",
-            "alt": "Behavior loop diagram — closed communication cycle",
-            "caption": "Closed-loop communication model: request → status → review → response → evaluation → optional escalation."
-          }
-        }
-      ]
-    },
-    {
-      "title": "User Flow — Operational Layer",
-      "blocks": [
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Entry Point → Select request category",
-              "Compose request → Submit request",
-              "System assigns status: \"Sent\"",
-              "Request delivered to manager → Status: \"Received\"",
-              "Manager responds → Status: \"Answered\"",
-              "User reviews response",
-              "Accept result → Complete",
-              "OR Escalate request → Forward to higher manager → Loop continues"
+              "states",
+              "behavior",
+              "interaction rules"
             ]
           }
         },
         {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/user-flow-operational.svg",
-            "alt": "Operational user flow with branching",
-            "caption": "Operational flow: from request entry through category selection, submission, manager review, and resolution or escalation."
-          }
-        }
-      ]
-    },
-    {
-      "title": "State Machine",
-      "blocks": [
-        {
           "discriminant": "paragraph",
           "value": {
-            "text": "All requests follow a clearly defined lifecycle: Draft → Sent → Received → Answered → Closed. Escalation branches from Answered and loops back to Received."
+            "text": "3. Incremental System Introduction"
           }
         },
         {
-          "discriminant": "media",
+          "discriminant": "list",
           "value": {
-            "src": "/cases/rzd/state-machine.svg",
-            "alt": "State machine — request lifecycle with escalation branch",
-            "caption": "Explicit state system: every request has a predictable path. Escalation is part of the system, not a workaround."
-          }
-        }
-      ]
-    },
-    {
-      "title": "System Architecture",
-      "blocks": [
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "The system is structured as a layered architecture: User Input → Routing Logic → State Machine → Notifications → Interfaces."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "UI is the last layer — not the first. The interface reflects system logic, it does not define it."
-          }
-        },
-        {
-          "discriminant": "media",
-          "value": {
-            "src": "/cases/rzd/system-logic.svg",
-            "alt": "System architecture — layered control model",
-            "caption": "Layered architecture showing that UI is the output of system logic, not its starting point."
+            "items": [
+              "gradual rollout",
+              "reuse across flows",
+              "coexistence with legacy"
+            ]
           }
         }
       ]
@@ -294,119 +258,78 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "### Eligibility before booking"
+            "text": "1. Standardizing Interaction Patterns\n\nDecision\nUnified behavior for core actions\n\nBehavioral Change\nUsers rely on learned patterns\n\nOperational Impact\n\n* faster execution\n* reduced cognitive switching\n\nUI Proof\nSame interaction logic across flows"
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/rzd/ui-before-after.png",
-            "alt": "UI Before / After — Decision moved from user interpretation to system-structured scenarios",
-            "caption": "Decision moved from user interpretation → to system-structured scenarios"
+            "src": "/cases/railway-booking-flow/1776511834161.png",
+            "alt": "template"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Before the redesign, availability was presented as raw data. Users had to interpret room types, conditions, and constraints manually, without understanding whether a scenario was actually valid. This created a gap between selection and eligibility."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "After the redesign, availability is structured as decision-ready scenarios. The system incorporates user context — including constraints and conditions — into the way options are presented. Users no longer construct scenarios themselves. They select from options that are already aligned with system rules."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "### Outcome before submission"
+            "text": "2. Component-Based UI Layer\n\nDecision\nReplaced fragmented UI with reusable components\n\nBehavioral Change\nPredictable interaction\n\nOperational Impact\n\n* reduced error rate\n* improved scalability\n\nUI Proof\nShared components across screens"
           }
         },
         {
           "discriminant": "media",
           "value": {
-            "src": "/cases/rzd/application-summary.png",
-            "alt": "Application / booking summary screen",
-            "caption": "Outcome is defined before submission"
+            "src": "/cases/railway-booking-flow/1776511843030.png",
+            "alt": "template"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The system does not use submission as a validation step anymore. Instead, it constructs a complete scenario before the user commits. All key elements — guests, dates, room type, and pricing — are resolved in advance. Subsidies are applied, constraints are accounted for, and the final outcome is visible. Submission becomes a confirmation, not a test."
+            "text": "3. Explicit State System\n\nDecision\nDefined consistent states\n\nBehavioral Change\nClear feedback at each step\n\nOperational Impact\n\n* faster recovery\n* fewer support issues\n\nUI Proof\nUnified validation and system states"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/railway-booking-flow/1776511851196.png",
+            "alt": "template"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "1. Explicit State System"
+            "text": "4. Action Hierarchy\n\nDecision\nStandardized primary / secondary actions\n\nBehavioral Change\nClear next-step logic\n\nOperational Impact\n\n* reduced navigation errors\n* faster completion"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "All requests operate within a clearly defined lifecycle. Eliminates ambiguity. Improves predictability."
+            "text": "5. Behavior-First Components\n\nDecision\nSeparated behavior from layout\n\nBehavioral Change\nConsistency across UI variations\n\nOperational Impact\n\n* stable UX under constraints\n* faster development"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "2. Linear Communication Flow"
+            "text": "6. Incremental Rollout\n\nDecision\nGradual system adoption\n\nBehavioral Change\nNo disruption\n\nOperational Impact\n\n* lower risk\n* continuous improvement"
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Replaced fragmented interactions with a structured sequence. Reduces cognitive load. Enforces process consistency."
+            "text": "7. Progression Logic in Components\n\nDecision\nEncoded step logic into UI\n\nBehavioral Change\nUsers understand when to proceed\n\nOperational Impact\n\n* fewer invalid actions\n* reduced backtracking"
           }
         },
         {
-          "discriminant": "paragraph",
+          "discriminant": "media",
           "value": {
-            "text": "3. Category-Based Routing"
+            "src": "/cases/railway-booking-flow/1776511858673.png",
+            "alt": "Component System"
           }
         },
         {
-          "discriminant": "paragraph",
+          "discriminant": "media",
           "value": {
-            "text": "Requests are classified at entry point. Enables correct routing. Reduces handling time."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "4. Built-in Escalation"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Escalation becomes part of the system, not a workaround. Supports hierarchical structures. Maintains accountability."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "5. Feedback Loop"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Users can evaluate responses. Closes communication loop. Introduces quality control."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "6. Minimalist Interface Strategy"
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "Due to constraints: no decorative graphics, reliance on typography and structure, contrast used as primary visual tool. Aligns with enterprise expectations. Ensures clarity under high information load."
+            "src": "/cases/railway-booking-flow/1776511865104.png",
+            "alt": "State Logic"
           }
         }
       ]
@@ -417,13 +340,31 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A structured communication system embedded in a mobile interface."
+            "text": "A component-driven UX layer embedded into a legacy system:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "reusable components",
+              "standardized interaction patterns",
+              "consistent state logic",
+              "unified progression behavior"
+            ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Not just an app redesign — but a workflow control layer for enterprise communication."
+            "text": "The product shifted from isolated UI decisions to a structured interaction system"
+          }
+        },
+        {
+          "discriminant": "media",
+          "value": {
+            "src": "/cases/railway-booking-flow/1776511872533.png",
+            "alt": "Final Screens"
           }
         }
       ]
@@ -435,45 +376,120 @@
           "discriminant": "list",
           "value": {
             "items": [
-              "Reduced ambiguity in communication",
-              "Improved predictability of request handling",
-              "Clearer responsibility boundaries",
-              "Faster decision loops",
-              "Scalable interaction model"
+              "predictable task execution",
+              "reduced cognitive overhead",
+              "fewer inconsistencies",
+              "improved scalability"
             ]
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The system transitioned from interface-driven interaction to process-driven communication."
+            "text": "System-level shift:"
           }
-        }
-      ]
-    },
-    {
-      "title": "Artifacts",
-      "blocks": [
+        },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "Full mobile UX/UI",
-              "Interactive prototype (Figma)",
-              "Usability testing flows",
-              "System-level workflow mapping"
+              "from duplication → reuse",
+              "from inconsistency → governed behavior"
             ]
           }
         }
       ]
     },
     {
-      "title": "Reflection",
+      "title": "Failure Modes",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This project demonstrates system thinking over screen-level design, ability to operate under strict enterprise constraints, focus on behavior modeling and process clarity, and designing control layers instead of isolated interfaces."
+            "text": "Without structured UX:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "patterns diverge",
+              "components duplicate",
+              "states become inconsistent",
+              "progression logic breaks",
+              "system complexity grows exponentially"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "No system → Local decisions → Inconsistency → Errors → Operational cost\n\nIn enterprise UX:\n\ninconsistency becomes an operational risk"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Trade-offs / Reflection",
+      "blocks": [
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "What was NOT solved"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "full legacy cleanup",
+              "complete visual unification",
+              "removal of all design debt"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Why"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "backend constraints",
+              "high cost of redesign",
+              "need for operational continuity"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Key Trade-off\n\nBehavior consistency over visual perfection"
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "Key Learning\n\nIn enterprise systems:"
+          }
+        },
+        {
+          "discriminant": "list",
+          "value": {
+            "items": [
+              "usability = predictability",
+              "design = control of behavior",
+              "scalability = consistency"
+            ]
+          }
+        },
+        {
+          "discriminant": "paragraph",
+          "value": {
+            "text": "The impact came not from redesigning screens,\nbut from introducing a system that prevents future fragmentation."
           }
         }
       ]

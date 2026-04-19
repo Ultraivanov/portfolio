@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import { Button } from "@gravity-ui/uikit";
-import { useThemeMode } from "@/components/ClientProviders";
 import { trackEvent } from "@/lib/analytics";
-import type { HomeContent, PastProject } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import styles from "./home-page.module.css";
 
 type FeaturedCase = {
@@ -21,6 +20,17 @@ type HomePageProps = {
 };
 
 export default function HomePage({ data, featuredCases }: HomePageProps) {
+  const aboutSections = data.about.description
+    .split(/\n{2,}/)
+    .map((section) => section.trim())
+    .filter(Boolean);
+  const keywordSection = aboutSections[aboutSections.length - 1] ?? "";
+  const hasKeywordSection = keywordSection.includes("·");
+  const aboutParagraphs = hasKeywordSection ? aboutSections.slice(0, -1) : aboutSections;
+  const aboutKeywords = hasKeywordSection
+    ? keywordSection.split("·").map((item) => item.trim()).filter(Boolean)
+    : [];
+
   // Use real case data if featuredCases is provided, otherwise fall back to static items
   const projects = featuredCases && featuredCases.length > 0
     ? featuredCases
@@ -87,7 +97,22 @@ export default function HomePage({ data, featuredCases }: HomePageProps) {
             <p className={styles.aboutRole}>{data.about.role}</p>
           </div>
         </div>
-        <p className={styles.aboutText}>{data.about.description}</p>
+        <div className={styles.aboutCopy}>
+          {aboutParagraphs.map((paragraph, index) => (
+            <p key={`${paragraph.slice(0, 24)}-${index}`} className={styles.aboutText}>
+              {paragraph}
+            </p>
+          ))}
+          {aboutKeywords.length > 0 ? (
+            <ul className={styles.aboutKeywords} aria-label="Core focus areas">
+              {aboutKeywords.map((keyword) => (
+                <li key={keyword} className={styles.aboutKeyword}>
+                  {keyword}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
       </section>
 
       <section className={styles.cover} aria-labelledby="cover-title">
@@ -155,6 +180,8 @@ export default function HomePage({ data, featuredCases }: HomePageProps) {
               <>
                 <div className={styles.projectImage}>
                   {item.imageSrc ? (
+                    // Dynamic project image source may include external URLs from content.
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={item.imageSrc} alt={item.imageAlt ?? item.title} />
                   ) : null}
                 </div>

@@ -365,4 +365,98 @@ describe("AdminPage media upload input state", () => {
       expect(screen.getByText(/Restored local draft/i)).toBeInTheDocument();
     });
   });
+
+  it("runs smoke flow upload -> save -> reload and keeps uploaded media path", async () => {
+    const fixedTimestamp = 1_710_000_000_000;
+    jest.spyOn(Date, "now").mockReturnValue(fixedTimestamp);
+    jest.spyOn(window, "confirm").mockReturnValue(true);
+
+    let serverCase = JSON.parse(JSON.stringify(mediaCase)) as typeof mediaCase;
+    let currentSha = "sha-initial";
+
+    const fetchMock = jest.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+      const url = typeof input === "string" ? input : input.toString();
+
+      if (url === "/api/cases") {
+        return mockJsonResponse({
+          items: [{ slug: "megamod", title: "Megamod" }],
+        });
+      }
+
+      if (url === "/api/cases/megamod") {
+        return mockJsonResponse({ item: serverCase, sha: currentSha });
+      }
+
+      if (url === "/api/upload-image") {
+        return mockJsonResponse({
+          size: { beforeBytes: 2048, afterBytes: 1024 },
+          svgOptimization: {
+            optimized: true,
+            originalBytes: 2048,
+            optimizedBytes: 1024,
+            usedAggressivePass: false,
+          },
+        });
+      }
+
+      if (url === "/api/save-content") {
+        const body = JSON.parse(String(init?.body || "{}")) as {
+          content?: typeof mediaCase;
+        };
+        if (!body.content) {
+          return mockJsonResponse({ error: { message: "Missing content" } }, false);
+        }
+        serverCase = body.content;
+        currentSha = "sha-saved";
+        return mockJsonResponse({ success: true, sha: currentSha });
+      }
+
+      if (url === "/api/upload-image/cleanup") {
+        return mockJsonResponse({ success: true, skipped: true, reason: "referenced" });
+      }
+
+      return mockJsonResponse({ error: "Unexpected url" }, false);
+    });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    const { container, unmount } = render(<AdminPage />);
+
+    await screen.findByText("Sections");
+
+    const fileInputs = container.querySelectorAll<HTMLInputElement>('input[type="file"]');
+    expect(fileInputs.length).toBeGreaterThan(1);
+    const mediaInput = fileInputs[1];
+    const file = new File(["<svg></svg>"], "smoke.svg", { type: "image/svg+xml" });
+    fireEvent.change(mediaInput, { target: { files: [file] } });
+
+    const expectedMediaPath = `/cases/megamod/${fixedTimestamp}.svg`;
+
+    await waitFor(() => {
+      expect(screen.getByText("✅ Uploaded: smoke.svg")).toBeInTheDocument();
+      expect(screen.getByDisplayValue(expectedMediaPath)).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Save Changes" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("✅ Saved! Changes will deploy in ~1 minute.")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "No Changes" })).toBeDisabled();
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith("/api/upload-image", expect.any(Object));
+    expect(fetchMock).toHaveBeenCalledWith("/api/save-content", expect.any(Object));
+
+    unmount();
+    render(<AdminPage />);
+
+    await screen.findByText("Sections");
+    await waitFor(() => {
+      expect(screen.getByDisplayValue(expectedMediaPath)).toBeInTheDocument();
+    });
+  });
 });

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Icon } from "@gravity-ui/uikit";
 import { Paperclip } from "@gravity-ui/icons";
-import { SITE_NAME } from "@/lib/seo";
+import { buildPageMetadata, SITE_NAME } from "@/lib/seo";
 import styles from "./cv-page.module.css";
 
 const CV_TITLE = `CV — ${SITE_NAME}`;
@@ -9,22 +9,13 @@ const CV_DESCRIPTION =
   "Product Designer working on products with complex logic — including monetization systems, internal platforms, and early-stage products.";
 
 export const metadata: Metadata = {
-  title: CV_TITLE,
-  description: CV_DESCRIPTION,
-  alternates: {
-    canonical: "/cv",
-  },
-  openGraph: {
+  ...buildPageMetadata({
     title: CV_TITLE,
     description: CV_DESCRIPTION,
-    url: "/cv",
+    path: "/cv",
     type: "profile",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: CV_TITLE,
-    description: CV_DESCRIPTION,
-  },
+    keywords: ["product designer cv", "product designer resume"],
+  }),
 };
 
 const skillsLine = (items: string[]) => items.join(" • ");

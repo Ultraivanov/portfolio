@@ -6,7 +6,7 @@ import CaseFacts from "@/components/case/CaseFacts";
 import CaseMedia from "@/components/case/CaseMedia";
 import CaseSection from "@/components/case/CaseSection";
 import { cases, getCaseBySlug } from "@/content/cases";
-import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { buildPageMetadata, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 type CasePageProps = {
   params: Promise<{ slug: string }>;
@@ -31,29 +31,16 @@ export async function generateMetadata({ params }: CasePageProps): Promise<Metad
   const casePath = `/work/${caseStudy.slug}`;
 
   return {
-    title,
-    description,
-    alternates: {
-      canonical: casePath,
-    },
-    openGraph: {
+    ...buildPageMetadata({
       title,
       description,
-      url: casePath,
+      path: casePath,
       type: "article",
-      images: [
-        {
-          url: caseStudy.coverSrc,
-          alt: caseStudy.coverAlt,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [caseStudy.coverSrc],
-    },
+      ogImage: caseStudy.coverSrc,
+      ogImageAlt: caseStudy.coverAlt,
+      twitterImage: caseStudy.coverSrc,
+      keywords: ["product case study", caseStudy.title.toLowerCase()],
+    }),
   };
 }
 

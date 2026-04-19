@@ -3,6 +3,8 @@ import HomePage from "@/components/home/HomePage";
 import { cases } from "@/content/cases";
 import { home } from "@/content/home";
 import {
+  buildPageMetadata,
+  DEFAULT_KEYWORDS,
   DEFAULT_DESCRIPTION,
   DEFAULT_TITLE,
   SAME_AS_LINKS,
@@ -15,22 +17,12 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: DEFAULT_TITLE,
-  description: DEFAULT_DESCRIPTION,
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
+  ...buildPageMetadata({
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
-    url: "/",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: DEFAULT_TITLE,
-    description: DEFAULT_DESCRIPTION,
-  },
+    path: "/",
+    keywords: DEFAULT_KEYWORDS,
+  }),
 };
 
 const normalizeFeaturedCaseSlug = (value: string | { slug?: string | null }) =>
@@ -52,6 +44,8 @@ export default function Home() {
     name: SITE_NAME,
     url: SITE_URL,
     jobTitle: "Product Designer",
+    description: DEFAULT_DESCRIPTION,
+    knowsAbout: DEFAULT_KEYWORDS.slice(1),
     sameAs: SAME_AS_LINKS,
   };
   const websiteJsonLd = {

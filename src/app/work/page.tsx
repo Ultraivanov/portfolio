@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cases } from "@/content/cases";
-import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { buildPageMetadata, SITE_NAME, SITE_URL } from "@/lib/seo";
 import styles from "./work.module.css";
 
 const WORK_TITLE = `Work — ${SITE_NAME}`;
@@ -9,22 +9,12 @@ const WORK_DESCRIPTION =
   "Product case studies focused on decisions, tradeoffs, and measurable outcomes.";
 
 export const metadata: Metadata = {
-  title: WORK_TITLE,
-  description: WORK_DESCRIPTION,
-  alternates: {
-    canonical: "/work",
-  },
-  openGraph: {
+  ...buildPageMetadata({
     title: WORK_TITLE,
     description: WORK_DESCRIPTION,
-    url: "/work",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: WORK_TITLE,
-    description: WORK_DESCRIPTION,
-  },
+    path: "/work",
+    keywords: ["product case studies", "ux case study", "product design outcomes"],
+  }),
 };
 
 export default function WorkPage() {

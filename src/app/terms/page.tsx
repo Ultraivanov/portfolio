@@ -1,27 +1,18 @@
 import type { Metadata } from "next";
 import LegalPage from "@/components/legal/LegalPage";
 import { termsOfUse } from "@/content/legal";
-import { SITE_NAME } from "@/lib/seo";
+import { buildPageMetadata, SITE_NAME } from "@/lib/seo";
 
 const TERMS_TITLE = `Terms of Use — ${SITE_NAME}`;
 
 export const metadata: Metadata = {
-  title: TERMS_TITLE,
-  description: termsOfUse.intro,
-  alternates: {
-    canonical: "/terms",
-  },
-  openGraph: {
+  ...buildPageMetadata({
     title: TERMS_TITLE,
     description: termsOfUse.intro,
-    url: "/terms",
+    path: "/terms",
     type: "article",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: TERMS_TITLE,
-    description: termsOfUse.intro,
-  },
+    keywords: ["terms of use", "terms and conditions"],
+  }),
 };
 
 export default function TermsPage() {

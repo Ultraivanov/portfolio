@@ -282,6 +282,7 @@ export default function SectionsEditor({
 
                     {block.value.src ? (
                       <div style={{ marginBottom: 8 }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={block.value.src}
                           alt={block.value.alt || ""}

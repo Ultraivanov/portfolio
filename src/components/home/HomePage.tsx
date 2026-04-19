@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import { Button } from "@gravity-ui/uikit";
-import { useThemeMode } from "@/components/ClientProviders";
 import { trackEvent } from "@/lib/analytics";
-import type { HomeContent, PastProject } from "@/content/home";
+import type { HomeContent } from "@/content/home";
 import styles from "./home-page.module.css";
 
 type FeaturedCase = {
@@ -155,6 +154,8 @@ export default function HomePage({ data, featuredCases }: HomePageProps) {
               <>
                 <div className={styles.projectImage}>
                   {item.imageSrc ? (
+                    // Dynamic project image source may include external URLs from content.
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={item.imageSrc} alt={item.imageAlt ?? item.title} />
                   ) : null}
                 </div>

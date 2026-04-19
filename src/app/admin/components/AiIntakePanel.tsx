@@ -259,6 +259,7 @@ export default function AiIntakePanel({
             Blueprint cover candidate ({githubCoverCandidate.focus})
           </p>
           <div style={{ marginBottom: 8 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={githubCoverCandidate.previewUrl}
               alt={githubCoverCandidate.alt}

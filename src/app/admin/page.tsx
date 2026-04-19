@@ -1655,6 +1655,7 @@ export default function AdminPage() {
         {/* Preview */}
         {caseData.coverSrc && (
           <div style={{ marginTop: 12 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={caseData.coverSrc}
               alt={caseData.coverAlt}

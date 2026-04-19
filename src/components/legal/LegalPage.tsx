@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { LegalPageContent } from "@/content/legal";
 import LegalAccordion from "./LegalAccordion";
 import styles from "./legal-page.module.css";
@@ -9,10 +10,10 @@ type LegalPageProps = {
 export default function LegalPage({ data }: LegalPageProps) {
   return (
     <article className={styles.page}>
-      <a className={styles.back} href="/">
+      <Link className={styles.back} href="/">
         <span className={styles.backIcon} aria-hidden="true" />
         <span className={styles.backLabel}>Menu</span>
-      </a>
+      </Link>
       <header className={styles.header}>
         <p className={styles.kicker}>Legal</p>
         <h1 className={styles.title}>{data.title}</h1>

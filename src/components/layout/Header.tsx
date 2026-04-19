@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import Container from "./Container";
 import styles from "./layout.module.css";
 import ThemeToggle from "@/components/theme/ThemeToggle";
@@ -7,22 +9,26 @@ export default function Header() {
     <header className={styles.header}>
       <Container className={styles.headerInner}>
         <div className={styles.headerLeft}>
-          <a className={styles.headerLogo} href="/" aria-label="Home">
-            <img
+          <Link className={styles.headerLogo} href="/" aria-label="Home">
+            <Image
               className={styles.headerLogoImageLight}
               src="/home/logo.svg"
               alt="Dima Ginzburg"
+              width={32}
+              height={18}
             />
-            <img
+            <Image
               className={styles.headerLogoImageDark}
               src="/home/logo-dark.svg"
               alt="Dima Ginzburg"
+              width={32}
+              height={18}
             />
-          </a>
+          </Link>
           <nav className={styles.nav} aria-label="Primary">
-            <a className={styles.navLink} href="/work">
+            <Link className={styles.navLink} href="/work">
               works
-            </a>
+            </Link>
             <a
               className={styles.navLink}
               href="https://www.linkedin.com"
@@ -31,9 +37,9 @@ export default function Header() {
             >
               linkedin
             </a>
-            <a className={styles.navLink} href="/contact">
+            <Link className={styles.navLink} href="/contact">
               connect
-            </a>
+            </Link>
           </nav>
         </div>
         <div className={styles.headerActions}>

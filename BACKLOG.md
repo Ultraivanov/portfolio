@@ -17,4 +17,4 @@
 - [x] Migrate existing content entries with `variant`/`FIGMA_EMBED_*` placeholders to the current media model.
 
 ## Existing lint debt
-- [ ] Main admin has pre-existing lint errors outside the stability scope; global eslint for this file remains red and should be cleaned separately.
+- [x] Main admin has pre-existing lint errors outside the stability scope; global eslint for this file remains red and should be cleaned separately.

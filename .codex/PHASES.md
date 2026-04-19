@@ -19,10 +19,10 @@
 
 | Field      | Value                          |
 |------------|--------------------------------|
-| Block ID   | R-02                           |
-| Title      | Performance + QA               |
+| Block ID   | R-03                           |
+| Title      | Launch checklist               |
 | Status     | in-progress                    |
-| File       | `.codex/blocks/R-02.md`        |
+| File       | `.codex/blocks/R-03.md`        |
 
 ---
 
@@ -60,8 +60,8 @@
 | ID   | Block                         | Status  |
 |------|-------------------------------|---------|
 | R-01 | Visual polish + regression     | in-progress |
-| R-02 | Performance + QA               | in-progress |
-| R-03 | Launch checklist               | pending |
+| R-02 | Performance + QA               | done |
+| R-03 | Launch checklist               | in-progress |
 
 ---
 
@@ -73,4 +73,4 @@
 
 ---
 
-_Last updated: 2026-04-16_
+_Last updated: 2026-04-19_

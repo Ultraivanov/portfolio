@@ -7,9 +7,7 @@
   "facts": [
     {
       "label": "domain",
-      "value": [
-        "Travel / Booking Platforms"
-      ]
+      "value": "Travel / Booking Platforms"
     },
     {
       "label": "scope",
@@ -28,15 +26,11 @@
     },
     {
       "label": "role",
-      "value": [
-        "Product Designer"
-      ]
+      "value": "Product Designer"
     },
     {
       "label": "focus",
-      "value": [
-        "Shift the experience from search & browse to guided decision-making before booking"
-      ]
+      "value": "Shift the experience from search & browse to guided decision-making before booking"
     }
   ],
   "sections": [
@@ -285,22 +279,6 @@
           }
         },
         {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "UI Proof"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "no search bar on entry",
-              "scenario-based choices (relax / explore / family)",
-              "lightweight selection cards instead of input fields"
-            ]
-          }
-        },
-        {
           "discriminant": "media",
           "value": {
             "src": "/cases/my-perfect-greek-vacation/1776282650641.png",
@@ -326,22 +304,6 @@
           "discriminant": "paragraph",
           "value": {
             "text": "This stabilizes decision-making early."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "UI Proof"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "summary screen with labeled intent (e.g. «Relaxed coastal vacation»)",
-              "visible parameters (budget, pace, environment)",
-              "editable criteria before proceeding"
-            ]
           }
         },
         {
@@ -373,22 +335,6 @@
           }
         },
         {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "UI Proof"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "short, bounded list",
-              "no infinite scroll",
-              "visible sense of «selection» rather than «catalog»"
-            ]
-          }
-        },
-        {
           "discriminant": "media",
           "value": {
             "src": "/cases/my-perfect-greek-vacation/1776283204427.png",
@@ -408,22 +354,6 @@
               "rely less on external validation",
               "understand trade-offs directly",
               "build trust in the system"
-            ]
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "UI Proof"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "explanation block on each card",
-              "explicit mapping between user input and option attributes",
-              "short, contextual reasoning near decision point"
             ]
           }
         },
@@ -453,22 +383,6 @@
           "discriminant": "paragraph",
           "value": {
             "text": "This reduces drop-off at the transaction stage."
-          }
-        },
-        {
-          "discriminant": "paragraph",
-          "value": {
-            "text": "UI Proof"
-          }
-        },
-        {
-          "discriminant": "list",
-          "value": {
-            "items": [
-              "сlear confirmation state («You selected X»)",
-              "booking flow preserves user context",
-              "prevents users from re-evaluating large option sets"
-            ]
           }
         },
         {

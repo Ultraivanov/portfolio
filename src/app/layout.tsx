@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import ClientProviders from "@/components/ClientProviders";
 import Layout from "@/components/layout/Layout";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_OG_IMAGE,
+  DEFAULT_TITLE,
+  DEFAULT_TWITTER_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Dima Ginzburg — Product Designer",
-  description:
-    "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
-  metadataBase: new URL("https://ginzburg.work"),
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     title: "Product Designer",
-    description:
-      "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
-    url: "https://ginzburg.work",
-    siteName: "Dima Ginzburg",
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
     type: "website",
     images: [
       {
-        url: "https://ginzburg.work/og-whatsapp.png",
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 900,
         alt: "Portfolio preview",
@@ -28,11 +33,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Product Designer",
-    description:
-      "I turn messy product problems into clear structure, usable flows, and credible interfaces.",
+    description: DEFAULT_DESCRIPTION,
     images: [
       {
-        url: "https://ginzburg.work/og.png",
+        url: DEFAULT_TWITTER_IMAGE,
         width: 1200,
         height: 630,
         alt: "Portfolio preview",

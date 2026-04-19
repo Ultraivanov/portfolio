@@ -45,4 +45,4 @@ for v in GITHUB_PAT GITHUB_REPO CMS_ADMIN_USER CMS_ADMIN_PASSWORD; do ...; done
 
 ## Next Action
 
-Proceed to `R-03-T3`: finalize go-live and rollback playbook, close G7/G8 evidence, then rerun final go/no-go review.
+Proceed to `R-03-T4`: close G6-G8 blockers using `docs/release/go-live-playbook-2026-04-19.md`, then run final GO/NO-GO review and fill sign-off record.

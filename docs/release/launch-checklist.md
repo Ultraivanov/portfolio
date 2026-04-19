@@ -63,6 +63,7 @@ npm test -- src/app/admin/page.test.tsx \
 2. Record release commit SHA and deployment URL.
 3. Product owner and engineering owner both confirm `GO`.
 4. If any gate fails, mark `NO-GO`, capture blocker, and re-run checklist after fix.
+5. Execute operational timeline and rollback rules from `docs/release/go-live-playbook-2026-04-19.md`.
 
 ## Rollback Plan (Template)
 
@@ -74,6 +75,8 @@ npm test -- src/app/admin/page.test.tsx \
   2. Smoke-check `/`, `/work`, `/admin`
   3. Announce rollback completion
 - Post-rollback follow-up ticket: `<link>`
+
+Operational rollback runbook: `docs/release/go-live-playbook-2026-04-19.md`
 
 ## Sign-Off Record (Template)
 

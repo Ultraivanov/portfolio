@@ -125,4 +125,64 @@ describe("content validation contract", () => {
       expect(result.error).toMatch(/variant/i);
     }
   });
+
+  it("rejects legacy FIGMA_EMBED placeholder in media src", () => {
+    const result = validateCaseContent({
+      slug: "test-case",
+      title: "Case title",
+      subtitle: "Case subtitle",
+      coverSrc: "/cases/test/cover.png",
+      coverAlt: "Cover",
+      facts: [{ label: "role", value: "Designer" }],
+      sections: [
+        {
+          title: "Context",
+          blocks: [
+            {
+              discriminant: "media",
+              value: {
+                src: "FIGMA_EMBED_CASE_01",
+                alt: "Legacy embed",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error).toMatch(/legacy embed placeholder/i);
+    }
+  });
+
+  it("rejects iframe/embed URLs in media src", () => {
+    const result = validateCaseContent({
+      slug: "test-case",
+      title: "Case title",
+      subtitle: "Case subtitle",
+      coverSrc: "/cases/test/cover.png",
+      coverAlt: "Cover",
+      facts: [{ label: "role", value: "Designer" }],
+      sections: [
+        {
+          title: "Context",
+          blocks: [
+            {
+              discriminant: "media",
+              value: {
+                src: "https://www.figma.com/embed?embed_host=share&url=https://figma.com/file/abc",
+                alt: "Legacy embed url",
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error).toMatch(/legacy embed placeholder/i);
+    }
+  });
 });

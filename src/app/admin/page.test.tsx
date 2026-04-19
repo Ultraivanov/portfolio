@@ -114,6 +114,41 @@ describe("AdminPage media upload input state", () => {
     expect(fetchMock).toHaveBeenCalledWith("/api/upload-image", expect.any(Object));
   });
 
+  it("does not render legacy media variant options", async () => {
+    const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
+      const url = typeof input === "string" ? input : input.toString();
+
+      if (url === "/api/cases") {
+        return mockJsonResponse({
+          items: [{ slug: "megamod", title: "Megamod" }],
+        });
+      }
+
+      if (url === "/api/cases/megamod") {
+        return mockJsonResponse({ item: mediaCase });
+      }
+
+      return mockJsonResponse({ error: "Unexpected url" }, false);
+    });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    render(<AdminPage />);
+    await screen.findByText("Sections");
+
+    const optionValues = Array.from(document.querySelectorAll("option"))
+      .map((option) => option.getAttribute("value") || "")
+      .map((value) => value.trim().toLowerCase());
+
+    expect(optionValues).not.toContain("diagram");
+    expect(optionValues).not.toContain("phone");
+    expect(optionValues).not.toContain("desktop");
+  });
+
   it("disables save while media upload is in progress", async () => {
     let resolveUpload: ((value: Response) => void) | undefined;
     const uploadPromise = new Promise<Response>((resolve) => {

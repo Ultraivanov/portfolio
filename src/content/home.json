@@ -145,7 +145,7 @@
         "href": "https://deus-in-machina.vercel.app/"
       },
       {
-        "title": "Assistant Workflow Starter",
+        "title": "Assistant Workflow",
         "description": "Deterministic AI workflow with Phase \u2192 Block \u2192 Task \u2192 Session, approval gates, and file-based context",
         "linkLabel": "GITHUB",
         "href": "https://github.com/Ultraivanov/assistant-workflow-starter"

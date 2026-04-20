@@ -7,7 +7,7 @@
 ## Crawler policy
 - Search bots allowed: `OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`.
 - User-triggered fetch bots allowed: `ChatGPT-User`, `Claude-User`.
-- Training bots policy (current): `GPTBot`, `ClaudeBot` allowed.
+- Training bots policy (current): `GPTBot`, `ClaudeBot` blocked with `Disallow: /`.
 - Technical paths blocked for all bots: `/admin`, `/admin/*`, `/perf-test`.
 
 ## Release checklist
@@ -51,4 +51,4 @@
   - `SEO_WWW_URL` (default `https://www.ginzburg.work`)
 
 ## Rollback note
-- If training reuse must be blocked, set `GPTBot` and `ClaudeBot` to `Disallow: /` in `src/app/robots.ts` and redeploy.
+- If training reuse must be allowed again, set `GPTBot` and `ClaudeBot` back to `Allow: /` plus technical-path disallow list in `src/app/robots.ts`, then redeploy.

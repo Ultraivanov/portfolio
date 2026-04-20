@@ -36,7 +36,19 @@
    - `chatgpt.com`
    - `perplexity.ai`
    - `claude.ai`
-4. Revalidate robots/sitemap endpoints after each production deploy.
+4. Verify GitHub Action `Agent-Native SEO Check`:
+   - weekly run status is green
+   - no regressions in `robots/sitemap/canonical/schema` checks
+5. Revalidate robots/sitemap endpoints after each production deploy.
+
+## Automation
+- Workflow file: `.github/workflows/agent-native-seo-check.yml`
+- Trigger modes:
+  - schedule: every Monday at 06:00 UTC
+  - manual: `workflow_dispatch`
+- Optional repo variables:
+  - `SEO_BASE_URL` (default `https://ginzburg.work`)
+  - `SEO_WWW_URL` (default `https://www.ginzburg.work`)
 
 ## Rollback note
 - If training reuse must be blocked, set `GPTBot` and `ClaudeBot` to `Disallow: /` in `src/app/robots.ts` and redeploy.

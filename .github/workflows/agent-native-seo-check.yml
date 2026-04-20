@@ -1,0 +1,30 @@
+name: Agent-Native SEO Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  health-check:
+    name: Run Agent-Native SEO Health Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SEO_BASE_URL: ${{ vars.SEO_BASE_URL || 'https://ginzburg.work' }}
+      SEO_WWW_URL: ${{ vars.SEO_WWW_URL || 'https://www.ginzburg.work' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run SEO health check
+        run: npm run check:seo:agent-native

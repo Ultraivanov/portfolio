@@ -34,9 +34,15 @@ function hasMeta(html, name, value) {
 }
 
 function hasCanonical(html, expectedUrl) {
-  const escaped = expectedUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const pattern = new RegExp(`<link\\s+rel=["']canonical["']\\s+href=["']${escaped}["']\\s*/?>`, "i");
-  return pattern.test(html);
+  const variants = new Set([expectedUrl, expectedUrl.replace(/\/+$/, ""), `${expectedUrl.replace(/\/+$/, "")}/`]);
+  return [...variants].some((url) => {
+    const escaped = url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(
+      `<link\\s+rel=["']canonical["']\\s+href=["']${escaped}["']\\s*/?>`,
+      "i",
+    );
+    return pattern.test(html);
+  });
 }
 
 function countJsonLd(html) {

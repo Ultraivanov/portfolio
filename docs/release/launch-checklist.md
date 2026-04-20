@@ -65,11 +65,11 @@ npm test -- src/app/admin/page.test.tsx \
 4. If any gate fails, mark `NO-GO`, capture blocker, and re-run checklist after fix.
 5. Execute operational timeline and rollback rules from `docs/release/go-live-playbook-2026-04-19.md`.
 
-## Rollback Plan (Template)
+## Rollback Plan (Current Baseline)
 
-- Last known good commit: `<sha>`
-- Last known good deployment URL: `<url>`
-- Rollback owner: `<name>`
+- Last known good commit: `7df1162dc814749821878a8feab29891064f451b`
+- Last known good deployment URL: `https://portfolio-3ubq77fvm-dima-ginzburgs-projects.vercel.app`
+- Rollback owner: `ultraivanov`
 - Rollback action:
   1. Redeploy last known good commit
   2. Smoke-check `/`, `/work`, `/admin`

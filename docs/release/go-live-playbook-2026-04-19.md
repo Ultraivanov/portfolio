@@ -73,8 +73,8 @@ Trigger rollback immediately when one of these occurs post-deploy:
 ## Rollback Procedure
 
 1. Identify last known good deployment:
-   - Commit: `<fill>`
-   - URL: `<fill>`
+   - Commit: `7df1162dc814749821878a8feab29891064f451b`
+   - URL: `https://portfolio-3ubq77fvm-dima-ginzburgs-projects.vercel.app`
 2. Release Operator redeploys last known good commit.
 3. Run rollback smoke checks:
    - `/`
@@ -96,8 +96,8 @@ Trigger rollback immediately when one of these occurs post-deploy:
 
 ## Completion Record
 
-- Release candidate SHA: `<fill>`
-- Deployment URL: `<fill>`
-- Final decision: `GO` / `NO-GO`
-- Product sign-off: `<name/date>`
-- Engineering sign-off: `<name/date>`
+- Release candidate SHA: `b6074df2a6e79a23426c1314cf784e0475e39ee1`
+- Deployment URL: `https://ginzburg.work`
+- Final decision: `NO-GO` (pending explicit product + engineering GO sign-off)
+- Product sign-off: `<pending>`
+- Engineering sign-off: `<pending>`

@@ -9,8 +9,8 @@ const decodeBase64 = (value: string) => {
 };
 
 export function middleware(request: NextRequest) {
-  const username = process.env.CMS_ADMIN_USER || process.env.KEYSTATIC_ADMIN_USER;
-  const password = process.env.CMS_ADMIN_PASSWORD || process.env.KEYSTATIC_ADMIN_PASSWORD;
+  const username = process.env.CMS_ADMIN_USER;
+  const password = process.env.CMS_ADMIN_PASSWORD;
 
   if (!username || !password) {
     return new NextResponse("CMS auth is not configured.", {

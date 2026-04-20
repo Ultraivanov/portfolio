@@ -2,11 +2,11 @@
 
 Date: 2026-04-19  
 Branch: `codex/v2-roadmap-cms-ai`  
-Release candidate SHA: `af83b94`
+Release candidate SHA: `b6074df2a6e79a23426c1314cf784e0475e39ee1`
 
 ## Decision
 
-Final decision at this checkpoint: `NO-GO`.
+Final decision at this checkpoint: `NO-GO` (technical gates passed; explicit owner GO sign-off is still pending).
 
 ## Gate Snapshot
 
@@ -17,23 +17,20 @@ Final decision at this checkpoint: `NO-GO`.
 | G3 CMS write safety | PASS | API regression suites for save/upload/cleanup pass. |
 | G4 CMS smoke flow | PASS | Admin smoke test upload-save-reload passes. |
 | G5 Content integrity | PASS | Legacy embed/variant placeholders absent by migration test. |
-| G6 Env + auth readiness | FAIL | Required env vars are missing; `/admin` returns `500` (`CMS auth is not configured.`). |
-| G7 Runtime sanity | FAIL | Public routes are healthy, admin runtime fails due missing auth config. |
-| G8 Rollback readiness | PENDING | Rollback owner and last known good deployment URL are not yet filled. |
+| G6 Env + auth readiness | PASS | `vercel env ls` confirms `GITHUB_PAT`, `GITHUB_REPO`, `CMS_ADMIN_USER`, `CMS_ADMIN_PASSWORD`; `/admin` returns `401 Basic` on production alias. |
+| G7 Runtime sanity | PASS | `https://ginzburg.work` smoke: `/ 200`, `/work 200`, `/work/travel-booking-platform 200`, `/work/railway-booking-flow 200`, `/admin 401` (expected auth challenge). |
+| G8 Rollback readiness | PASS | Last known good commit/url documented: `7df1162dc814749821878a8feab29891064f451b` / `https://portfolio-3ubq77fvm-dima-ginzburgs-projects.vercel.app`; rollback owner `ultraivanov`. |
 
 ## Blocking Actions Before GO
 
-1. Set release env vars: `GITHUB_PAT`, `GITHUB_REPO`, `CMS_ADMIN_USER`, `CMS_ADMIN_PASSWORD`.
-2. Re-run runtime walkthrough and verify `/admin` returns non-500 with valid auth flow.
-3. Fill rollback metadata:
-   - Last known good deployment URL: `<fill>`
-   - Rollback owner: `<fill>`
+1. Product Owner explicit GO sign-off.
+2. Engineering Owner explicit GO sign-off.
 
 ## Sign-Off Record
 
-- Release candidate SHA: `af83b94`
-- Build ID / Deployment URL: `<fill>`
-- Product sign-off: `<fill>`
-- Engineering sign-off: `<fill>`
+- Release candidate SHA: `b6074df2a6e79a23426c1314cf784e0475e39ee1`
+- Build ID / Deployment URL: `https://ginzburg.work`
+- Product sign-off: `<pending>`
+- Engineering sign-off: `<pending>`
 - Final decision: `NO-GO`
-- Next review window: `<fill>`
+- Next review window: `as soon as owner sign-offs are provided`

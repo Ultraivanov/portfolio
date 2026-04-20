@@ -21,7 +21,7 @@
 |------------|--------------------------------|
 | Block ID   | R-03                           |
 | Title      | Launch checklist               |
-| Status     | in-progress                    |
+| Status     | done                           |
 | File       | `.codex/blocks/R-03.md`        |
 
 ---
@@ -61,7 +61,7 @@
 |------|-------------------------------|---------|
 | R-01 | Visual polish + regression     | in-progress |
 | R-02 | Performance + QA               | done |
-| R-03 | Launch checklist               | in-progress |
+| R-03 | Launch checklist               | done |
 
 ---
 
@@ -73,4 +73,4 @@
 
 ---
 
-_Last updated: 2026-04-19_
+_Last updated: 2026-04-20_

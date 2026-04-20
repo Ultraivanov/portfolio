@@ -96,8 +96,8 @@ Trigger rollback immediately when one of these occurs post-deploy:
 
 ## Completion Record
 
-- Release candidate SHA: `b6074df2a6e79a23426c1314cf784e0475e39ee1`
+- Release candidate SHA: `8db2908da94e830be4812a13012f98e0e1cc6365`
 - Deployment URL: `https://ginzburg.work`
-- Final decision: `NO-GO` (pending explicit product + engineering GO sign-off)
-- Product sign-off: `<pending>`
-- Engineering sign-off: `<pending>`
+- Final decision: `GO`
+- Product sign-off: `ultraivanov / 2026-04-20`
+- Engineering sign-off: `ultraivanov / 2026-04-20`

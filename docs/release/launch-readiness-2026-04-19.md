@@ -9,7 +9,8 @@ Checklist source: `docs/release/launch-checklist.md`
 ## Summary
 
 Readiness checks were re-executed on the current branch tip with external deployment evidence.  
-Technical gates G1-G8 are now satisfied. Final release decision remains pending explicit owner GO sign-off.
+Technical gates G1-G8 are satisfied and owner sign-offs were recorded on 2026-04-20.  
+Current decision: `GO` (see `docs/release/go-no-go-review-2026-04-19.md`).
 
 ## Gate Results
 
@@ -48,8 +49,8 @@ curl https://ginzburg.work/{/,work,work/travel-booking-platform,work/railway-boo
 
 ## Open Blockers
 
-1. Obtain explicit GO sign-off from Product Owner and Engineering Owner in the final review record.
+- none
 
 ## Next Action
 
-Record explicit owner sign-offs in `docs/release/go-no-go-review-2026-04-19.md` and switch final decision from checkpoint `NO-GO` to `GO` when approved.
+Close `R-03-T4` in `.codex/blocks/R-03.md` and move to the next roadmap block.

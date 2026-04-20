@@ -50,6 +50,14 @@ function countJsonLd(html) {
   return matches?.length ?? 0;
 }
 
+function getRobotsBlock(robotsText, userAgent) {
+  const escaped = userAgent.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = robotsText.match(
+    new RegExp(`User-Agent:\\s*${escaped}\\n([\\s\\S]*?)(?:\\n\\n|$)`, "i"),
+  );
+  return match?.[1] ?? "";
+}
+
 async function run() {
   const robotsUrl = `${base}/robots.txt`;
   const sitemapUrl = `${base}/sitemap.xml`;
@@ -67,6 +75,11 @@ async function run() {
   });
   [...SEARCH_BOTS, ...USER_FETCH_BOTS, ...TRAINING_BOTS].forEach((bot) => {
     assert(robots.text.includes(`User-Agent: ${bot}`), `robots.txt missing rule for ${bot}`);
+  });
+  TRAINING_BOTS.forEach((bot) => {
+    const block = getRobotsBlock(robots.text, bot);
+    assert(block.includes("Disallow: /"), `${bot} must be blocked with Disallow: /`);
+    assert(!block.includes("Allow: /"), `${bot} must not include Allow: /`);
   });
   checks.push("robots.txt policy");
 

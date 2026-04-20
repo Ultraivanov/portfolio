@@ -21,8 +21,7 @@ export default function robots(): MetadataRoute.Robots {
     })),
     ...TRAINING_BOTS.map((userAgent) => ({
       userAgent,
-      allow: "/",
-      disallow: DISALLOWED_PATHS,
+      disallow: "/",
     })),
   ];
 

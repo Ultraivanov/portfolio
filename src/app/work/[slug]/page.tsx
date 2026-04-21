@@ -1,17 +1,78 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import CaseHero from "@/components/case/CaseHero";
 import CaseCover from "@/components/case/CaseCover";
 import CaseFacts from "@/components/case/CaseFacts";
 import CaseMedia from "@/components/case/CaseMedia";
 import CaseSection from "@/components/case/CaseSection";
 import { cases, getCaseBySlug } from "@/content/cases";
+import { toAbsoluteUrl } from "@/lib/seo";
 
 type CasePageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function toAbsoluteImageUrl(value: string): string {
+  return /^https?:\/\//i.test(value) ? value : toAbsoluteUrl(value);
+}
+
+export async function generateMetadata({ params }: CasePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const caseStudy = getCaseBySlug(slug);
+
+  if (!caseStudy) {
+    return {
+      title: "Case Not Found — Dima Ginzburg",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  const title = `${caseStudy.title} — Case Study | Dima Ginzburg`;
+  const description = caseStudy.subtitle;
+  const canonicalPath = `/work/${caseStudy.slug}`;
+  const imageUrl = toAbsoluteImageUrl(caseStudy.coverSrc);
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalPath,
+      type: "article",
+      images: [
+        {
+          url: imageUrl,
+          alt: caseStudy.coverAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [
+        {
+          url: imageUrl,
+          alt: caseStudy.coverAlt,
+        },
+      ],
+    },
+  };
+}
+
 export default async function CasePage({ params }: CasePageProps) {
   const { slug } = await params;
-  const caseStudy = getCaseBySlug(slug) ?? cases[0];
+  const caseStudy = getCaseBySlug(slug);
+  if (!caseStudy) {
+    notFound();
+  }
 
   return (
     <article>

@@ -5,6 +5,8 @@ on:
     paths:
       - "src/app/robots.ts"
       - "src/app/sitemap.ts"
+      - "src/app/work/page.tsx"
+      - "src/app/work/[slug]/page.tsx"
       - "src/lib/seo.ts"
       - "scripts/check-agent-native-seo.mjs"
       - "package.json"
@@ -13,6 +15,8 @@ on:
     paths:
       - "src/app/robots.ts"
       - "src/app/sitemap.ts"
+      - "src/app/work/page.tsx"
+      - "src/app/work/[slug]/page.tsx"
       - "src/lib/seo.ts"
       - "scripts/check-agent-native-seo.mjs"
       - "package.json"

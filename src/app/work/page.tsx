@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { cases } from "@/content/cases";
 import styles from "./work.module.css";
+
+export const metadata: Metadata = {
+  title: "Work — Dima Ginzburg",
+  description:
+    "Case studies focused on product decisions, constraints, tradeoffs, and measurable outcomes.",
+  alternates: {
+    canonical: "/work",
+  },
+  openGraph: {
+    title: "Work — Dima Ginzburg",
+    description:
+      "Case studies focused on product decisions, constraints, tradeoffs, and measurable outcomes.",
+    url: "/work",
+    type: "website",
+  },
+};
 
 export default function WorkPage() {
   return (

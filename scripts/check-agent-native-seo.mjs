@@ -7,6 +7,8 @@ const requiredFiles = [
   "src/lib/seo.ts",
   "src/app/robots.ts",
   "src/app/sitemap.ts",
+  "src/app/work/page.tsx",
+  "src/app/work/[slug]/page.tsx",
   "scripts/check-agent-native-seo.mjs",
   ".github/workflows/agent-native-seo-check.yml",
 ];
@@ -15,6 +17,11 @@ const contentChecks = [
   { file: "src/lib/seo.ts", includes: ["getSiteUrl", "toAbsoluteUrl", "PUBLIC_STATIC_ROUTES"] },
   { file: "src/app/robots.ts", includes: ["MetadataRoute.Robots", "sitemap", "/admin"] },
   { file: "src/app/sitemap.ts", includes: ["MetadataRoute.Sitemap", "PUBLIC_STATIC_ROUTES", "/work/"] },
+  { file: "src/app/work/page.tsx", includes: ["export const metadata", "canonical: \"/work\""] },
+  {
+    file: "src/app/work/[slug]/page.tsx",
+    includes: ["generateMetadata", "notFound()", "canonical:"],
+  },
   {
     file: ".github/workflows/agent-native-seo-check.yml",
     includes: ["check:seo:agent-native", "actions/checkout@v4", "actions/setup-node@v4"],

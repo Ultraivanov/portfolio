@@ -9,6 +9,10 @@ const requiredFiles = [
   "src/app/sitemap.ts",
   "src/app/work/page.tsx",
   "src/app/work/[slug]/page.tsx",
+  "src/app/contact/page.tsx",
+  "src/app/privacy/page.tsx",
+  "src/app/terms/page.tsx",
+  "src/app/perf-test/layout.tsx",
   "scripts/check-agent-native-seo.mjs",
   ".github/workflows/agent-native-seo-check.yml",
 ];
@@ -21,6 +25,22 @@ const contentChecks = [
   {
     file: "src/app/work/[slug]/page.tsx",
     includes: ["generateMetadata", "notFound()", "canonical:"],
+  },
+  {
+    file: "src/app/contact/page.tsx",
+    includes: ["export const metadata", "canonical: \"/contact\""],
+  },
+  {
+    file: "src/app/privacy/page.tsx",
+    includes: ["export const metadata", "canonical: \"/privacy\""],
+  },
+  {
+    file: "src/app/terms/page.tsx",
+    includes: ["export const metadata", "canonical: \"/terms\""],
+  },
+  {
+    file: "src/app/perf-test/layout.tsx",
+    includes: ["export const metadata", "index: false", "canonical: \"/perf-test\""],
   },
   {
     file: ".github/workflows/agent-native-seo-check.yml",

@@ -1,0 +1,38 @@
+name: Agent Native SEO Check
+
+on:
+  push:
+    paths:
+      - "src/app/robots.ts"
+      - "src/app/sitemap.ts"
+      - "src/lib/seo.ts"
+      - "scripts/check-agent-native-seo.mjs"
+      - "package.json"
+      - ".github/workflows/agent-native-seo-check.yml"
+  pull_request:
+    paths:
+      - "src/app/robots.ts"
+      - "src/app/sitemap.ts"
+      - "src/lib/seo.ts"
+      - "scripts/check-agent-native-seo.mjs"
+      - "package.json"
+      - ".github/workflows/agent-native-seo-check.yml"
+
+jobs:
+  seo-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run SEO baseline check
+        run: npm run check:seo:agent-native

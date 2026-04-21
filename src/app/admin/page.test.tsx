@@ -114,6 +114,42 @@ describe("AdminPage media upload input state", () => {
     expect(fetchMock).toHaveBeenCalledWith("/api/upload-image", expect.any(Object));
   });
 
+  it("shows AI intake panel when no case data is loaded yet", async () => {
+    const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
+      const url = typeof input === "string" ? input : input.toString();
+
+      if (url === "/api/cases") {
+        return mockJsonResponse({ items: [] });
+      }
+
+      return mockJsonResponse({ error: "Unexpected url" }, false);
+    });
+
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      writable: true,
+      value: fetchMock,
+    });
+
+    render(<AdminPage />);
+
+    await screen.findByText("AI Intake (GitHub)");
+    expect(
+      screen.getByText("Select an existing case or create a new one to unlock full editor fields.")
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Generate Draft" }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("❌ Select or create a case before generating a draft.")
+      ).toBeInTheDocument();
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledWith("/api/cases", { cache: "no-store" });
+  });
+
   it("does not render legacy media variant options", async () => {
     const fetchMock = jest.fn(async (input: RequestInfo | URL) => {
       const url = typeof input === "string" ? input : input.toString();

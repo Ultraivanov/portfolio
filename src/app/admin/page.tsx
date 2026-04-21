@@ -1010,6 +1010,11 @@ export default function AdminPage() {
   };
 
   const handleGenerateGitHubDraft = async () => {
+    if (!selectedCase) {
+      setMessage("❌ Select or create a case before generating a draft.");
+      return;
+    }
+
     if (!githubRepoUrl.trim()) {
       setMessage("❌ GitHub repository URL is required.");
       return;
@@ -1109,6 +1114,11 @@ export default function AdminPage() {
   };
 
   const handleApplyStarterDraft = () => {
+    if (!selectedCase) {
+      setMessage("❌ Select or create a case before applying starter draft.");
+      return;
+    }
+
     if (!githubStarterDraft) {
       setMessage("❌ Generate a draft first.");
       return;
@@ -1435,11 +1445,120 @@ export default function AdminPage() {
   });
   const topDraftIssues = sortedDraftIssues.slice(0, 8);
 
-  if (loading || !caseData) {
+  if (loading) {
     return (
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: 24 }}>
         <h1 style={{ fontSize: 24, marginBottom: 24 }}>Content Admin</h1>
         <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (!caseData) {
+    return (
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: 24 }}>
+        <h1 style={{ fontSize: 24, marginBottom: 24 }}>Content Admin</h1>
+
+        <div style={fieldStyle}>
+          <label style={labelStyle}>Create new case:</label>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+            <input
+              type="text"
+              value={newCaseSlug}
+              onChange={(e) => setNewCaseSlug(normalizeSlugInput(e.target.value))}
+              style={{ ...inputStyle, width: 240, flex: "0 0 240px" }}
+              placeholder="slug (e.g. new-case)"
+            />
+            <input
+              type="text"
+              value={newCaseTitle}
+              onChange={(e) => setNewCaseTitle(e.target.value)}
+              style={{ ...inputStyle, flex: 1, minWidth: 260 }}
+              placeholder="Case title"
+            />
+            <button
+              onClick={handleCreateCase}
+              disabled={creatingCase}
+              style={{
+                padding: "10px 14px",
+                background: creatingCase ? "#999" : "#0ea5e9",
+                color: "white",
+                border: "none",
+                borderRadius: "var(--radius-1)",
+                cursor: creatingCase ? "not-allowed" : "pointer",
+                fontSize: 14,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {creatingCase ? "Creating..." : "Create Case"}
+            </button>
+          </div>
+        </div>
+
+        <div style={fieldStyle}>
+          <label style={labelStyle}>Select case:</label>
+          <select
+            value={selectedCase}
+            onChange={(e) => setSelectedCase(e.target.value)}
+            style={inputStyle}
+          >
+            {cases.length === 0 ? (
+              <option value="">No cases available</option>
+            ) : (
+              cases.map((c: CaseInfo) => (
+                <option key={c.slug} value={c.slug}>
+                  {c.title}
+                </option>
+              ))
+            )}
+          </select>
+        </div>
+
+        <AiIntakePanel
+          fieldStyle={fieldStyle}
+          labelStyle={labelStyle}
+          inputStyle={inputStyle}
+          githubRepoUrl={githubRepoUrl}
+          onGitHubRepoUrlChange={setGitHubRepoUrl}
+          githubFocus={githubFocus}
+          onGitHubFocusChange={setGitHubFocus}
+          githubAnalysisMode={githubAnalysisMode}
+          onGitHubAnalysisModeChange={setGitHubAnalysisMode}
+          githubRuntimeBaseUrl={githubRuntimeBaseUrl}
+          onGitHubRuntimeBaseUrlChange={setGitHubRuntimeBaseUrl}
+          githubScreenshotLimit={githubScreenshotLimit}
+          onGitHubScreenshotLimitChange={setGitHubScreenshotLimit}
+          generatingGitHubDraft={generatingGitHubDraft}
+          onGenerateGitHubDraft={handleGenerateGitHubDraft}
+          githubLlmInfo={githubLlmInfo}
+          hasGithubStarterDraft={Boolean(githubStarterDraft)}
+          githubStarterVariants={githubStarterVariants}
+          selectedStarterVariantId={selectedStarterVariantId}
+          onSelectStarterVariant={setSelectedStarterVariantId}
+          onApplyStarterDraft={handleApplyStarterDraft}
+          githubCoverCandidate={githubCoverCandidate}
+          onApplyCandidateCover={handleApplyCandidateCover}
+          githubConfidence={githubConfidence}
+          githubConsistency={githubConsistency}
+          githubRewriteSuggestions={githubRewriteSuggestions}
+          onApplyRewriteSuggestion={handleApplyRewriteSuggestion}
+          onApplyAllRewriteSuggestions={handleApplyAllRewriteSuggestions}
+          githubEvidenceBySection={githubEvidenceBySection}
+          githubEvidence={githubEvidence}
+          githubRouteCandidates={githubRouteCandidates}
+          githubRuntimeScreenshots={githubRuntimeScreenshots}
+          importingRuntimeScreenshots={importingRuntimeScreenshots}
+          onImportRuntimeScreenshots={handleImportRuntimeScreenshots}
+        />
+
+        <p style={{ marginTop: 16, fontSize: 13, color: "var(--color-text-muted)" }}>
+          Select an existing case or create a new one to unlock full editor fields.
+        </p>
+        {message ? (
+          <p style={{ marginTop: 8, fontSize: 14, color: message.startsWith("✅") ? "green" : "red" }}>
+            {message}
+          </p>
+        ) : null}
       </div>
     );
   }

@@ -12,6 +12,14 @@ type CasePageProps = {
   params: Promise<{ slug: string }>;
 };
 
+const formatUpdatedDate = (value: string) =>
+  new Intl.DateTimeFormat("en", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`));
+
 export async function generateMetadata({ params }: CasePageProps): Promise<Metadata> {
   const { slug } = await params;
   const caseStudy = getCaseBySlug(slug);
@@ -60,8 +68,9 @@ export default async function CasePage({ params }: CasePageProps) {
     image: `${SITE_URL}${caseStudy.coverSrc}`,
     author: {
       "@type": "Person",
-      name: SITE_NAME,
+      name: caseStudy.author,
     },
+    dateModified: caseStudy.lastUpdated,
     inLanguage: "en",
   };
 
@@ -72,7 +81,12 @@ export default async function CasePage({ params }: CasePageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseJsonLd) }}
       />
       <article>
-        <CaseHero title={caseStudy.title} subtitle={caseStudy.subtitle} />
+        <CaseHero
+          title={caseStudy.title}
+          subtitle={caseStudy.subtitle}
+          author={caseStudy.author}
+          updatedLabel={formatUpdatedDate(caseStudy.lastUpdated)}
+        />
         <CaseCover src={caseStudy.coverSrc} alt={caseStudy.coverAlt} />
         <CaseFacts items={caseStudy.facts} />
         {caseStudy.sections.map((section) => (

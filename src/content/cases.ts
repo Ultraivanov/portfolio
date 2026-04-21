@@ -25,6 +25,8 @@ export type CaseStudy = {
   slug: string;
   title: string;
   subtitle: string;
+  author: string;
+  lastUpdated: string;
   coverSrc: string;
   coverAlt: string;
   facts: { label: string; value: string | string[]; href?: string }[];
@@ -37,15 +39,49 @@ const caseFiles = fs
   .readdirSync(casesDirectory)
   .filter((file) => file.endsWith(".json"));
 
-type CaseStudyRaw = Omit<CaseStudy, "slug"> & { slug: CaseSlug };
+type CaseStudyRaw = Omit<CaseStudy, "slug" | "author" | "lastUpdated"> & { slug: CaseSlug };
 
 const normalizeSlug = (slug: CaseSlug) =>
   typeof slug === "string" ? slug : slug.slug;
 
-const normalizeCase = (raw: CaseStudyRaw): CaseStudy => ({
-  ...raw,
-  slug: normalizeSlug(raw.slug),
-});
+const CASE_META_BY_SLUG: Record<string, Pick<CaseStudy, "author" | "lastUpdated">> = {
+  "travel-booking-platform": {
+    author: "Dima Ginzburg",
+    lastUpdated: "2026-04-21",
+  },
+  "railway-booking-flow": {
+    author: "Dima Ginzburg",
+    lastUpdated: "2026-04-21",
+  },
+  megamod: {
+    author: "Dima Ginzburg",
+    lastUpdated: "2026-04-21",
+  },
+  "my-perfect-greek-vacation": {
+    author: "Dima Ginzburg",
+    lastUpdated: "2026-04-21",
+  },
+  "design-system-runtime": {
+    author: "Dima Ginzburg",
+    lastUpdated: "2026-04-21",
+  },
+};
+
+const DEFAULT_CASE_META: Pick<CaseStudy, "author" | "lastUpdated"> = {
+  author: "Dima Ginzburg",
+  lastUpdated: "2026-04-21",
+};
+
+const normalizeCase = (raw: CaseStudyRaw): CaseStudy => {
+  const slug = normalizeSlug(raw.slug);
+  const meta = CASE_META_BY_SLUG[slug] ?? DEFAULT_CASE_META;
+
+  return {
+    ...raw,
+    ...meta,
+    slug,
+  };
+};
 
 const allCases = caseFiles.map((file) => {
   const fullPath = path.join(casesDirectory, file);

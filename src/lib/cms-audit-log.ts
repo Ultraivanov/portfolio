@@ -11,7 +11,15 @@ export interface CmsAuditLogInput {
 }
 
 export function resolveCmsAuditWho(authorizationHeader?: string | null): string {
-  if (!authorizationHeader || !authorizationHeader.startsWith("Basic ")) {
+  if (!authorizationHeader) {
+    return "unknown";
+  }
+
+  if (!authorizationHeader.startsWith("Basic ")) {
+    const directUser = authorizationHeader.trim();
+    if (/^[A-Za-z0-9._-]+$/u.test(directUser)) {
+      return directUser;
+    }
     return "unknown";
   }
 

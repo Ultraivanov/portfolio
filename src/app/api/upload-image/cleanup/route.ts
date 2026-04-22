@@ -20,7 +20,9 @@ export async function POST(request: NextRequest) {
   const githubToken = process.env.GITHUB_PAT;
   const githubRepo = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
   const githubBranch = process.env.GITHUB_BRANCH || "main";
-  const auditWho = resolveCmsAuditWho(request.headers?.get?.("authorization"));
+  const auditWho = resolveCmsAuditWho(
+    request.headers?.get?.("x-cms-user") || request.headers?.get?.("authorization")
+  );
   let auditPath = "";
 
   if (!githubToken) {

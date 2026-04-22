@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import HomePage from "@/components/home/HomePage";
-import { cases } from "@/content/cases";
+import { featuredCases as featuredCaseStudies } from "@/content/cases";
 import { home } from "@/content/home";
 import {
   buildPageMetadata,
@@ -29,14 +29,21 @@ const normalizeFeaturedCaseSlug = (value: string | { slug?: string | null }) =>
   typeof value === "string" ? value : value.slug ?? null;
 
 export default function Home() {
-  const featured = home.pastProjects.featuredCases ?? [];
-  const caseMap = new Map(cases.map((item) => [item.slug, item]));
-
-  const featuredCases = featured
+  const orderHint = (home.pastProjects.featuredCases ?? [])
     .map(normalizeFeaturedCaseSlug)
-    .filter((slug): slug is string => Boolean(slug))
+    .filter((slug): slug is string => Boolean(slug));
+
+  const caseMap = new Map(featuredCaseStudies.map((item) => [item.slug, item]));
+  const seen = new Set<string>();
+  const orderedFromHint = orderHint
     .map((slug) => caseMap.get(slug))
-    .filter((item): item is NonNullable<typeof item> => Boolean(item));
+    .filter((item): item is NonNullable<typeof item> => {
+      if (!item) return false;
+      seen.add(item.slug);
+      return true;
+    });
+  const rest = featuredCaseStudies.filter((item) => !seen.has(item.slug));
+  const featuredCases = [...orderedFromHint, ...rest];
 
   const personJsonLd = {
     "@context": "https://schema.org",

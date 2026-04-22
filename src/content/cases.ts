@@ -32,6 +32,8 @@ export type CaseStudy = {
   coverAlt: string;
   facts: { label: string; value: string | string[]; href?: string }[];
   sections: CaseSectionBlock[];
+  published?: boolean;
+  featured?: boolean;
 };
 
 const casesDirectory = path.join(process.cwd(), "src", "content", "cases");
@@ -89,7 +91,7 @@ const normalizeCase = (raw: CaseStudyRaw, filePath: string): CaseStudy => {
   };
 };
 
-const allCases = caseFiles.map((file) => {
+const loadedCases = caseFiles.map((file) => {
   const fullPath = path.join(casesDirectory, file);
   const raw = fs.readFileSync(fullPath, "utf-8");
   return normalizeCase(JSON.parse(raw) as CaseStudyRaw, fullPath);
@@ -104,22 +106,31 @@ const preferredOrder = [
   "design-system-runtime",
 ];
 
-export const cases = allCases.sort((a, b) => {
-  const indexA = preferredOrder.indexOf(a.slug);
-  const indexB = preferredOrder.indexOf(b.slug);
-  
-  // If both are in preferred order, sort by preferred order
-  if (indexA !== -1 && indexB !== -1) {
-    return indexA - indexB;
-  }
-  
-  // If only one is in preferred order, it comes first
-  if (indexA !== -1) return -1;
-  if (indexB !== -1) return 1;
-  
-  // Otherwise, keep alphabetical order
-  return a.slug.localeCompare(b.slug);
-});
+const orderCases = (items: CaseStudy[]) =>
+  [...items].sort((a, b) => {
+    const indexA = preferredOrder.indexOf(a.slug);
+    const indexB = preferredOrder.indexOf(b.slug);
+
+    if (indexA !== -1 && indexB !== -1) {
+      return indexA - indexB;
+    }
+
+    if (indexA !== -1) return -1;
+    if (indexB !== -1) return 1;
+
+    return a.slug.localeCompare(b.slug);
+  });
+
+const isPublished = (item: CaseStudy) => item.published !== false;
+
+// All cases (including drafts). Use for CMS only.
+export const allCases = orderCases(loadedCases);
+
+// Published cases only. Use on all public-facing pages.
+export const cases = allCases.filter(isPublished);
+
+// Featured & published cases — for homepage featured list.
+export const featuredCases = cases.filter((item) => item.featured === true);
 
 export const getCaseBySlug = (slug: string) =>
   cases.find((item) => item.slug === slug);

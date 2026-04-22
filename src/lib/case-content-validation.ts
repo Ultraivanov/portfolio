@@ -71,6 +71,14 @@ export function validateCaseContent(content: unknown): ValidationResult {
     return { ok: false, error: 'Field "seo" must be an object with string values.' };
   }
 
+  if (content.published !== undefined && typeof content.published !== "boolean") {
+    return { ok: false, error: 'Field "published" must be a boolean if provided.' };
+  }
+
+  if (content.featured !== undefined && typeof content.featured !== "boolean") {
+    return { ok: false, error: 'Field "featured" must be a boolean if provided.' };
+  }
+
   return { ok: true };
 }
 

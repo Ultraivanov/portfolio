@@ -60,11 +60,15 @@ interface CaseStudy {
   facts: Fact[];
   sections: Section[];
   seo?: SeoData;
+  published?: boolean;
+  featured?: boolean;
 }
 
 interface CaseInfo {
   slug: string;
   title: string;
+  published?: boolean;
+  featured?: boolean;
 }
 
 interface UploadSizeInfo {
@@ -1505,11 +1509,14 @@ export default function AdminPage() {
             {cases.length === 0 ? (
               <option value="">No cases available</option>
             ) : (
-              cases.map((c: CaseInfo) => (
-                <option key={c.slug} value={c.slug}>
-                  {c.title}
-                </option>
-              ))
+              cases.map((c: CaseInfo) => {
+                const prefix = c.published === false ? "[Draft] " : c.featured ? "★ " : "";
+                return (
+                  <option key={c.slug} value={c.slug}>
+                    {prefix}{c.title}
+                  </option>
+                );
+              })
             )}
           </select>
         </div>
@@ -1709,6 +1716,25 @@ export default function AdminPage() {
           onChange={(e) => updateField("title", e.target.value)}
           style={inputStyle}
         />
+      </div>
+
+      <div style={{ ...fieldStyle, display: "flex", gap: 24, alignItems: "center" }}>
+        <label style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer" }}>
+          <input
+            type="checkbox"
+            checked={caseData.published !== false}
+            onChange={(e) => updateField("published", e.target.checked)}
+          />
+          <span>Published (visible on /work and case page)</span>
+        </label>
+        <label style={{ display: "flex", gap: 8, alignItems: "center", cursor: "pointer" }}>
+          <input
+            type="checkbox"
+            checked={caseData.featured === true}
+            onChange={(e) => updateField("featured", e.target.checked)}
+          />
+          <span>Featured on homepage</span>
+        </label>
       </div>
 
       <div style={fieldStyle}>

@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "check:seo:agent-native": "node scripts/check-agent-native-seo.mjs",
     "test": "jest",
     "test:watch": "jest --watch",
     "check:seo:agent-native": "node scripts/check-agent-native-seo.mjs"

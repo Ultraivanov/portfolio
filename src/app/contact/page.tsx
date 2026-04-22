@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
 import ContactPage from "@/components/contact/ContactPage";
 import { contact } from "@/content/contact";
+import { buildPageMetadata, SITE_NAME } from "@/lib/seo";
+
+const CONTACT_TITLE = `Contact — ${SITE_NAME}`;
 
 export const metadata: Metadata = {
-  title: "Contact — Dima Ginzburg",
-  description:
-    "Get in touch for product design collaboration, consulting, and project discussions.",
+  ...buildPageMetadata({
+    title: CONTACT_TITLE,
+    description: contact.subtitle,
+    path: "/contact",
+    keywords: ["product designer contact", "hire product designer"],
+  }),
   alternates: {
     canonical: "/contact",
-  },
-  openGraph: {
-    title: "Contact — Dima Ginzburg",
-    description:
-      "Get in touch for product design collaboration, consulting, and project discussions.",
-    url: "/contact",
-    type: "website",
   },
 };
 

@@ -1,4 +1,29 @@
+import type { Metadata } from "next";
+
 const DEFAULT_SITE_URL = "https://ginzburg.work";
+
+export const SITE_NAME = "Dima Ginzburg";
+export const DEFAULT_TITLE = "Dima Ginzburg — Product Designer";
+export const DEFAULT_DESCRIPTION =
+  "I turn messy product problems into clear structure, usable flows, and credible interfaces.";
+export const DEFAULT_OG_IMAGE = "/og-whatsapp.png";
+export const DEFAULT_TWITTER_IMAGE = "/og.png";
+export const DEFAULT_PREVIEW_ALT = "Dima Ginzburg portfolio preview";
+
+export const SAME_AS_LINKS = [
+  "https://www.linkedin.com/in/dmitry-ginzburg-profit/",
+  "https://github.com/Ultraivanov",
+];
+
+export const DEFAULT_KEYWORDS = [
+  "product designer",
+  "agentic flows",
+  "AI systems",
+  "interaction models",
+  "end-to-end design",
+  "product UX",
+  "design systems",
+];
 
 function stripTrailingSlash(value: string): string {
   return value.replace(/\/+$/, "");
@@ -23,6 +48,8 @@ export function getSiteUrl(): string {
   return normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL);
 }
 
+export const SITE_URL = getSiteUrl();
+
 export function toAbsoluteUrl(pathname: string): string {
   const normalizedPathname = pathname.startsWith("/") ? pathname : `/${pathname}`;
   return new URL(normalizedPathname, getSiteUrl()).toString();
@@ -36,3 +63,55 @@ export const PUBLIC_STATIC_ROUTES = [
   "/privacy",
   "/terms",
 ] as const;
+
+type PageType = "website" | "article" | "profile";
+
+type BuildPageMetadataArgs = {
+  title: string;
+  description: string;
+  path: string;
+  type?: PageType;
+  keywords?: string[];
+  ogImage?: string;
+  ogImageAlt?: string;
+  twitterImage?: string;
+};
+
+export const buildPageMetadata = ({
+  title,
+  description,
+  path,
+  type = "website",
+  keywords,
+  ogImage,
+  ogImageAlt,
+  twitterImage,
+}: BuildPageMetadataArgs): Metadata => {
+  const canonicalPath = path.startsWith("/") ? path : `/${path}`;
+  const canonicalUrl = toAbsoluteUrl(canonicalPath);
+  const openGraphImage = toAbsoluteUrl(ogImage ?? DEFAULT_OG_IMAGE);
+  const twitterPreview = toAbsoluteUrl(twitterImage ?? (ogImage ? ogImage : DEFAULT_TWITTER_IMAGE));
+
+  return {
+    title,
+    description,
+    keywords,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: SITE_NAME,
+      type,
+      images: [{ url: openGraphImage, alt: ogImageAlt ?? DEFAULT_PREVIEW_ALT }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [twitterPreview],
+    },
+  };
+};

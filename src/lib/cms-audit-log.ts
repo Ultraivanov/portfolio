@@ -1,4 +1,4 @@
-type CmsAuditWhat = "save-content" | "upload-image" | "upload-image-cleanup";
+type CmsAuditWhat = "save-content" | "upload-image" | "upload-image-cleanup" | "create-case";
 type CmsAuditResult = "success" | "skipped" | "conflict" | "error";
 
 export interface CmsAuditLogInput {

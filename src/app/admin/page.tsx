@@ -734,65 +734,13 @@ export default function AdminPage() {
       return;
     }
 
-    const template: CaseStudy = {
-      slug,
-      title,
-      subtitle: "Short case summary.",
-      coverSrc: "/cases/example/cover.png",
-      coverAlt: `${title} cover`,
-      facts: [
-        { label: "role", value: "Product Designer" },
-        { label: "scope", value: "End-to-end product design" },
-      ],
-      sections: [
-        {
-          title: "Context",
-          blocks: [{ discriminant: "paragraph", value: { text: "Describe product and business context." } }],
-        },
-        {
-          title: "Problem",
-          blocks: [{ discriminant: "paragraph", value: { text: "Describe the core user or system problem." } }],
-        },
-        {
-          title: "Constraints",
-          blocks: [{ discriminant: "list", value: { items: ["Constraint 1", "Constraint 2"] } }],
-        },
-        {
-          title: "Role",
-          blocks: [{ discriminant: "paragraph", value: { text: "Explain your responsibility and ownership boundaries." } }],
-        },
-        {
-          title: "Approach",
-          blocks: [{ discriminant: "paragraph", value: { text: "Describe your design and discovery approach." } }],
-        },
-        {
-          title: "Solution",
-          blocks: [{ discriminant: "paragraph", value: { text: "Describe what was designed and implemented." } }],
-        },
-        {
-          title: "Outcome",
-          blocks: [{ discriminant: "paragraph", value: { text: "Describe measurable or observed outcomes." } }],
-        },
-      ],
-      seo: {
-        metaTitle: `${title} | Case Study`,
-        metaDescription: "Case study",
-        ogImage: "/cases/example/cover.png",
-      },
-    };
-
     setCreatingCase(true);
     setMessage("");
     try {
-      const path = `src/content/cases/${slug}.json`;
-      const response = await fetch("/api/save-content", {
+      const response = await fetch("/api/cases", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          path,
-          content: template,
-          message: `Create ${slug} case via CMS`,
-        }),
+        body: JSON.stringify({ slug, title }),
       });
 
       const payload = (await response.json()) as Record<string, unknown>;
@@ -801,12 +749,17 @@ export default function AdminPage() {
         return;
       }
 
-      const nextCases = [...cases, { slug, title }].sort((a, b) => a.title.localeCompare(b.title));
+      const nextCases = [
+        ...cases,
+        { slug, title, published: false, featured: false },
+      ].sort((a, b) => a.title.localeCompare(b.title));
       setCases(nextCases);
       setSelectedCase(slug);
       setNewCaseSlug("");
       setNewCaseTitle("");
-      setMessage(`✅ Case "${title}" created. Fill content and click Save Changes when ready.`);
+      setMessage(
+        `✅ Case "${title}" created as draft. Fill content, toggle "Published" when ready, then Save.`
+      );
     } catch (error) {
       setMessage(
         `❌ Failed to create case: ${

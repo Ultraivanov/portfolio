@@ -25,6 +25,31 @@ describe("svg-upload utility", () => {
     expect(() => optimizeSvgForUpload(unsafe, 1024 * 1024)).toThrow(SvgUploadError);
   });
 
+  it("rejects foreignObject and inline handlers", () => {
+    const unsafe = `<svg xmlns="http://www.w3.org/2000/svg"><foreignObject><div onload="x()">x</div></foreignObject></svg>`;
+
+    expect(() => optimizeSvgForUpload(unsafe, 1024 * 1024)).toThrow(SvgUploadError);
+  });
+
+  it("rejects data-uri href overload payloads", () => {
+    const unsafe = `<svg xmlns="http://www.w3.org/2000/svg"><image href="data:image/png;base64,AAAA"/></svg>`;
+
+    expect(() => optimizeSvgForUpload(unsafe, 1024 * 1024)).toThrow(SvgUploadError);
+  });
+
+  it("rejects broken encoding control characters", () => {
+    const broken = `<svg xmlns="http://www.w3.org/2000/svg">\u0000<path d="M0 0 L1 1"/></svg>`;
+
+    expect(() => optimizeSvgForUpload(broken, 1024 * 1024)).toThrow(SvgUploadError);
+  });
+
+  it("rejects overly complex svg with huge path node count", () => {
+    const paths = Array.from({ length: 2001 }, (_, index) => `<path d="M${index} 0 L${index} 1"/>`).join("");
+    const complex = `<svg xmlns="http://www.w3.org/2000/svg">${paths}</svg>`;
+
+    expect(() => optimizeSvgForUpload(complex, 1024 * 1024)).toThrow(SvgUploadError);
+  });
+
   it("parses byte limits with fallback", () => {
     expect(parseByteLimit(undefined, 123)).toBe(123);
     expect(parseByteLimit("2048", 123)).toBe(2048);

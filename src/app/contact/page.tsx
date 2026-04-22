@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     path: "/contact",
     keywords: ["product designer contact", "hire product designer"],
   }),
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default function Contact() {

@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     path: "/work",
     keywords: ["product case studies", "ux case study", "product design outcomes"],
   }),
+  alternates: {
+    canonical: "/work",
+  },
 };
 
 export default function WorkPage() {

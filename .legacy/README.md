@@ -28,7 +28,7 @@ Complete backup of the Keystatic CMS integration that was replaced by the custom
 1. Copy files back to original locations
 2. Restore `src/lib/keystatic.ts` import in components
 3. Re-add Keystatic route checks in `ClientProviders.tsx`, `Layout.tsx`, `ThemeToggle.tsx`
-4. Update `middleware.ts` to use `KEYSTATIC_*` env vars exclusively
+4. Update `middleware.ts` to use `CMS_*` env vars exclusively
 5. Install dependencies: `npm install @keystatic/core @keystatic/next`
 
 ---

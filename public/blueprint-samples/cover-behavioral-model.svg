@@ -1,0 +1,68 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="smallGridB" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#224D75" stroke-width="1"/>
+    </pattern>
+    <pattern id="gridB" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="url(#smallGridB)"/>
+      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#2F6A91" stroke-width="1.2"/>
+    </pattern>
+    <linearGradient id="bgB" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C2E49"/>
+      <stop offset="1" stop-color="#0B243A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bgB)"/>
+  <rect width="1600" height="900" fill="url(#gridB)" opacity="0.85"/>
+  <rect x="56" y="56" width="1488" height="788" rx="8" stroke="#7EC6FF" stroke-width="1.5" opacity="0.8"/>
+
+  <text x="94" y="132" fill="#BEE5FF" font-family="IBM Plex Mono, SFMono-Regular, Menlo, monospace" font-size="22" letter-spacing="0.12em">
+    SYSTEM CASE COVER / BEHAVIORAL MODEL
+  </text>
+  <text x="94" y="198" fill="#F1FAFF" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="62" font-weight="700">
+    TRAVEL BOOKING PLATFORM
+  </text>
+  <text x="94" y="246" fill="#9DD3FF" font-family="IBM Plex Mono, SFMono-Regular, Menlo, monospace" font-size="24">
+    Decision Architecture Before Inventory Exposure
+  </text>
+
+  <rect x="92" y="292" width="318" height="42" rx="21" stroke="#7EC6FF" stroke-width="1.2"/>
+  <text x="124" y="320" fill="#BEE5FF" font-family="IBM Plex Mono, SFMono-Regular, Menlo, monospace" font-size="18">ANGLE: BEHAVIORAL-MODEL</text>
+
+  <g stroke="#9BD8FF" stroke-width="2" fill="none">
+    <rect x="180" y="470" width="180" height="80" rx="8"/>
+    <rect x="430" y="470" width="180" height="80" rx="8"/>
+    <rect x="680" y="470" width="180" height="80" rx="8"/>
+    <rect x="930" y="470" width="180" height="80" rx="8"/>
+    <rect x="1180" y="470" width="180" height="80" rx="8"/>
+  </g>
+
+  <g fill="#D7F0FF" font-family="IBM Plex Mono, SFMono-Regular, Menlo, monospace" font-size="18">
+    <text x="214" y="517">INTENT</text>
+    <text x="466" y="517">CONTEXT</text>
+    <text x="730" y="517">ELIGIBILITY</text>
+    <text x="983" y="517">OPTION SET</text>
+    <text x="1242" y="517">COMMIT</text>
+  </g>
+
+  <g stroke="#7EC6FF" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M360 510 H430"/>
+    <path d="M610 510 H680"/>
+    <path d="M860 510 H930"/>
+    <path d="M1110 510 H1180"/>
+    <path d="M1270 550 C1270 640 260 640 260 550"/>
+  </g>
+
+  <g fill="#7EC6FF">
+    <circle cx="430" cy="510" r="4"/>
+    <circle cx="680" cy="510" r="4"/>
+    <circle cx="930" cy="510" r="4"/>
+    <circle cx="1180" cy="510" r="4"/>
+    <circle cx="260" cy="550" r="4"/>
+  </g>
+
+  <text x="94" y="812" fill="#86C9F8" font-family="IBM Plex Mono, SFMono-Regular, Menlo, monospace" font-size="18">
+    state logic emphasis  /  constraints before commitment  /  reusable blueprint family
+  </text>
+</svg>

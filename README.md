@@ -48,6 +48,7 @@ Required env vars:
 - `GITHUB_REPO`
 - `CMS_ADMIN_USER`
 - `CMS_ADMIN_PASSWORD`
+- `CMS_SESSION_SECRET`
 
 ## Development
 ```bash
@@ -56,6 +57,15 @@ npm run build
 npm run test
 npm run lint
 ```
+
+## Local Env via Vercel
+Use Vercel as the source of truth for secrets and pull them locally:
+
+```bash
+vercel env pull .env.local
+```
+
+Then restart the dev server so updated env values are picked up.
 
 ## Single Source of Truth (Workflow State)
 Use only `.codex/*` for project status and phase tracking:

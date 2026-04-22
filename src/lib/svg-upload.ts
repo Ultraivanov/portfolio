@@ -3,9 +3,11 @@ import { optimize, type Config } from "svgo";
 export const GITHUB_FILE_WARNING_BYTES = 50 * 1024 * 1024; // 50 MiB
 export const PLATFORM_MAX_FILE_BYTES = 100 * 1024 * 1024; // GitHub/Vercel hard cap
 export const DEFAULT_SVG_TARGET_BYTES = 2 * 1024 * 1024; // CMS budget
+const MAX_SVG_PATH_NODES = 2_000;
 
 const DANGEROUS_SVG_PATTERN =
-  /<\s*script\b|<\s*foreignObject\b|\son[a-z]+\s*=|(?:xlink:)?href\s*=\s*["'][^"']*javascript:|<!DOCTYPE|<!ENTITY/i;
+  /<\s*script\b|<\s*foreignObject\b|\son[a-z]+\s*=|(?:xlink:)?href\s*=\s*["'][^"']*(?:javascript:|data:)|<!DOCTYPE|<!ENTITY/i;
+const INVALID_CONTROL_CHAR_PATTERN = /[\u0000-\u0008\u000B\u000C\u000E-\u001F]/;
 
 export class SvgUploadError extends Error {
   status: number;
@@ -84,16 +86,31 @@ function assertSafeSvg(svgContent: string): void {
     throw new SvgUploadError("Invalid SVG: root <svg> tag is missing.");
   }
 
+  if (INVALID_CONTROL_CHAR_PATTERN.test(svgContent)) {
+    throw new SvgUploadError("Invalid SVG: contains broken control characters.");
+  }
+
   if (DANGEROUS_SVG_PATTERN.test(svgContent)) {
     throw new SvgUploadError(
       "Unsafe SVG detected. Remove scripts, foreignObject, inline handlers, javascript: URLs, and DTD entities."
     );
   }
+
+  const pathNodeCount = (svgContent.match(/<\s*path\b/gi) || []).length;
+  if (pathNodeCount > MAX_SVG_PATH_NODES) {
+    throw new SvgUploadError(
+      `SVG is too complex (${pathNodeCount} path nodes). Keep path nodes at or below ${MAX_SVG_PATH_NODES}.`
+    );
+  }
 }
 
 function runSvgo(input: string, config: Config): string {
-  const result = optimize(input, config);
-  return result.data;
+  try {
+    const result = optimize(input, config);
+    return result.data;
+  } catch {
+    throw new SvgUploadError("Invalid SVG: failed to parse and optimize.");
+  }
 }
 
 function buildBaseConfig(): Config {

@@ -1,24 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./consent-banner.module.css";
 
 type ConsentState = "unknown" | "granted" | "denied";
 
 export default function ConsentBanner() {
-  if (!process.env.NEXT_PUBLIC_GA_ID) {
-    return null;
-  }
-  const [consent, setConsent] = useState<ConsentState>("unknown");
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem("analytics-consent");
-    if (stored === "granted" || stored === "denied") {
-      setConsent(stored);
+  const hasAnalyticsId = Boolean(process.env.NEXT_PUBLIC_GA_ID);
+  const [consent, setConsent] = useState<ConsentState>(() => {
+    if (!hasAnalyticsId || typeof window === "undefined") {
+      return "unknown";
     }
-  }, []);
+    const stored = window.localStorage.getItem("analytics-consent");
+    return stored === "granted" || stored === "denied" ? stored : "unknown";
+  });
 
-  if (consent !== "unknown") {
+  if (!hasAnalyticsId || consent !== "unknown") {
     return null;
   }
 

@@ -43,7 +43,6 @@ export default function PerfTestPage() {
         if (!nav) {
           // Fallback to legacy performance.timing
           const timing = performance.timing;
-          const now = performance.now();
           
           setMetrics({
             dns: timing.domainLookupEnd - timing.domainLookupStart,

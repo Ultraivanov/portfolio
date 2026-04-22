@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import styles from "./case-media.module.css";
 
 type CaseMediaProps = {

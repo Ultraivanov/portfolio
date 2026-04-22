@@ -1,33 +1,50 @@
-name: Agent-Native SEO Check
+name: Agent Native SEO Check
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 6 * * 1"
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  push:
+    paths:
+      - "src/app/robots.ts"
+      - "src/app/sitemap.ts"
+      - "src/app/work/page.tsx"
+      - "src/app/work/[slug]/page.tsx"
+      - "src/app/contact/page.tsx"
+      - "src/app/privacy/page.tsx"
+      - "src/app/terms/page.tsx"
+      - "src/app/perf-test/layout.tsx"
+      - "src/lib/seo.ts"
+      - "scripts/check-agent-native-seo.mjs"
+      - "package.json"
+      - ".github/workflows/agent-native-seo-check.yml"
+  pull_request:
+    paths:
+      - "src/app/robots.ts"
+      - "src/app/sitemap.ts"
+      - "src/app/work/page.tsx"
+      - "src/app/work/[slug]/page.tsx"
+      - "src/app/contact/page.tsx"
+      - "src/app/privacy/page.tsx"
+      - "src/app/terms/page.tsx"
+      - "src/app/perf-test/layout.tsx"
+      - "src/lib/seo.ts"
+      - "scripts/check-agent-native-seo.mjs"
+      - "package.json"
+      - ".github/workflows/agent-native-seo-check.yml"
 
 jobs:
-  health-check:
-    name: Run Agent-Native SEO Health Check
+  seo-check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    env:
-      SEO_BASE_URL: ${{ vars.SEO_BASE_URL || 'https://ginzburg.work' }}
-      SEO_WWW_URL: ${{ vars.SEO_WWW_URL || 'https://www.ginzburg.work' }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run SEO health check
+      - name: Run SEO baseline check
         run: npm run check:seo:agent-native

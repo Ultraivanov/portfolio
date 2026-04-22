@@ -9,7 +9,8 @@
     "lint": "eslint",
     "check:seo:agent-native": "node scripts/check-agent-native-seo.mjs",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "check:seo:agent-native": "node scripts/check-agent-native-seo.mjs"
   },
   "dependencies": {
     "@gravity-ui/uikit": "^7.35.2",

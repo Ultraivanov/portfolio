@@ -65,17 +65,37 @@ function getRetryDelayMs(
   baseDelayMs: number,
   attempt: number
 ): number {
-  const retryAfter = response.headers.get("retry-after");
-  if (!retryAfter) {
-    return baseDelayMs * 2 ** (attempt - 1);
+  const fallbackDelayMs = baseDelayMs * 2 ** (attempt - 1);
+  const retryAfterHeader = response.headers.get("retry-after");
+  if (!retryAfterHeader) {
+    return fallbackDelayMs;
   }
 
-  const seconds = Number.parseInt(retryAfter, 10);
+  const retryAfterMs = parseRetryAfterMs(retryAfterHeader);
+  if (retryAfterMs !== null) {
+    return retryAfterMs;
+  }
+
+  return fallbackDelayMs;
+}
+
+function parseRetryAfterMs(retryAfterHeader: string): number | null {
+  const normalized = retryAfterHeader.trim();
+  if (!normalized) {
+    return null;
+  }
+
+  const seconds = Number(normalized);
   if (Number.isFinite(seconds) && seconds >= 0) {
-    return seconds * 1000;
+    return Math.floor(seconds * 1000);
   }
 
-  return baseDelayMs * 2 ** (attempt - 1);
+  const dateMs = Date.parse(normalized);
+  if (!Number.isFinite(dateMs)) {
+    return null;
+  }
+
+  return Math.max(0, dateMs - Date.now());
 }
 
 function wait(ms: number): Promise<void> {

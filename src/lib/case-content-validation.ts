@@ -261,6 +261,12 @@ function validateBlock(
           error: `${location}.value.src and .value.alt must be non-empty strings.`,
         };
       }
+      if (hasLegacyEmbedSource(value.src)) {
+        return {
+          ok: false,
+          error: `${location}.value.src contains a legacy embed placeholder or embed URL. Use uploaded image path only.`,
+        };
+      }
       if (value.caption !== undefined && !isNonEmptyString(value.caption)) {
         return { ok: false, error: `${location}.value.caption must be a non-empty string if provided.` };
       }
@@ -335,4 +341,25 @@ function requireLabeledGroupSection(
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function hasLegacyEmbedSource(src: unknown): boolean {
+  if (!isNonEmptyString(src)) {
+    return false;
+  }
+
+  const normalized = src.trim().toLowerCase();
+  if (normalized.includes("figma_embed_")) {
+    return true;
+  }
+
+  if (normalized.includes("<iframe") || normalized.includes("</iframe>")) {
+    return true;
+  }
+
+  return (
+    normalized.includes("figma.com/embed") ||
+    normalized.includes("youtube.com/embed") ||
+    normalized.includes("player.vimeo.com/video")
+  );
 }

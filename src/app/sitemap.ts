@@ -1,55 +1,23 @@
 import type { MetadataRoute } from "next";
 import { cases } from "@/content/cases";
-import { SITE_URL } from "@/lib/seo";
-
-const now = new Date();
-
-const staticRoutes: MetadataRoute.Sitemap = [
-  {
-    url: SITE_URL,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 1,
-  },
-  {
-    url: `${SITE_URL}/work`,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  },
-  {
-    url: `${SITE_URL}/contact`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  },
-  {
-    url: `${SITE_URL}/cv`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  },
-  {
-    url: `${SITE_URL}/privacy`,
-    lastModified: now,
-    changeFrequency: "yearly",
-    priority: 0.2,
-  },
-  {
-    url: `${SITE_URL}/terms`,
-    lastModified: now,
-    changeFrequency: "yearly",
-    priority: 0.2,
-  },
-];
+import { PUBLIC_STATIC_ROUTES, toAbsoluteUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const caseRoutes: MetadataRoute.Sitemap = cases.map((caseStudy) => ({
-    url: `${SITE_URL}/work/${caseStudy.slug}`,
+  const now = new Date();
+
+  const staticEntries: MetadataRoute.Sitemap = PUBLIC_STATIC_ROUTES.map((route) => ({
+    url: toAbsoluteUrl(route),
     lastModified: now,
+    changeFrequency: route === "/" ? "weekly" : "monthly",
+    priority: route === "/" ? 1 : route === "/work" ? 0.9 : 0.7,
+  }));
+
+  const caseEntries: MetadataRoute.Sitemap = cases.map((item) => ({
+    url: toAbsoluteUrl(`/work/${item.slug}`),
+    lastModified: new Date(`${item.lastUpdated}T00:00:00Z`),
     changeFrequency: "monthly",
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...caseRoutes];
+  return [...staticEntries, ...caseEntries];
 }

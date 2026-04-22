@@ -2,15 +2,19 @@ import { NextRequest } from "next/server";
 import { typografCase } from "@/lib/typograf";
 import { validateContentByPath } from "@/lib/case-content-validation";
 import { fetchGitHubWithRetry } from "@/lib/github-api";
+import { logCmsAuditEvent, resolveCmsAuditWho } from "@/lib/cms-audit-log";
 import { apiError, apiSuccess } from "@/lib/api-response";
 
 type SaveContentPayload = {
   path?: unknown;
   content?: unknown;
   message?: unknown;
+  baseSha?: unknown;
 };
 
 type TypografCaseInput = {
+  author?: string;
+  lastUpdated?: string;
   title?: string;
   subtitle?: string;
   facts?: Array<{ label: string; value: string | string[] }>;
@@ -27,30 +31,57 @@ export async function POST(request: NextRequest) {
   const githubToken = process.env.GITHUB_PAT;
   const githubRepo = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
   const githubBranch = process.env.GITHUB_BRANCH || "main";
+  const auditWho = resolveCmsAuditWho(
+    request.headers?.get?.("x-cms-user") || request.headers?.get?.("authorization")
+  );
+  let auditPath = "";
 
   if (!githubToken) {
+    logCmsAuditEvent({
+      what: "save-content",
+      who: auditWho,
+      result: "error",
+      details: { code: "CONFIG_ERROR" },
+    });
     return apiError(500, "CONFIG_ERROR", "GitHub PAT not configured");
   }
 
   try {
     const payload = (await request.json()) as SaveContentPayload;
     const path = typeof payload.path === "string" ? payload.path : "";
+    auditPath = path;
     const content = payload.content;
     const message = typeof payload.message === "string" ? payload.message : undefined;
+    const baseSha = typeof payload.baseSha === "string" && payload.baseSha ? payload.baseSha : undefined;
 
     if (!path || !content) {
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "INVALID_REQUEST" },
+      });
       return apiError(400, "INVALID_REQUEST", "Missing path or content");
     }
 
     const normalizedContent = normalizeCaseMediaFields(path, content);
+    const enrichedContent = applyCaseManagedMetadata(path, normalizedContent);
 
-    const validation = validateContentByPath(path, normalizedContent);
+    const validation = validateContentByPath(path, enrichedContent);
     if (!validation.ok) {
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "VALIDATION_ERROR" },
+      });
       return apiError(422, "VALIDATION_ERROR", validation.error);
     }
 
     // Apply typograf to all text content before saving
-    const processedContent = typografCase(normalizedContent as TypografCaseInput);
+    const processedContent = typografCase(enrichedContent as TypografCaseInput);
     const serializedContent = JSON.stringify(processedContent, null, 2);
     const encodedContent = Buffer.from(serializedContent).toString("base64");
 
@@ -76,20 +107,70 @@ export async function POST(request: NextRequest) {
 
       if (fileData.encoding === "base64" && typeof fileData.content === "string") {
         const currentContent = Buffer.from(fileData.content, "base64").toString("utf-8");
-        if (currentContent === serializedContent) {
+        const unchanged =
+          currentContent === serializedContent ||
+          areEquivalentIgnoringCaseManagedFields(path, currentContent, serializedContent);
+        if (unchanged) {
+          logCmsAuditEvent({
+            what: "save-content",
+            who: auditWho,
+            path,
+            result: "skipped",
+            commitSha: sha || null,
+            details: { reason: "unchanged" },
+          });
           return apiSuccess({
             success: true,
             skipped: true,
             reason: "unchanged",
+            sha,
           });
         }
       }
+
+      if (baseSha && sha !== baseSha) {
+        logCmsAuditEvent({
+          what: "save-content",
+          who: auditWho,
+          path,
+          result: "conflict",
+          commitSha: sha || null,
+          details: { code: "CONTENT_CONFLICT", baseSha },
+        });
+        return apiError(
+          409,
+          "CONTENT_CONFLICT",
+          "Content changed in repository since you loaded this draft. Reload latest version and retry save.",
+          { path, currentSha: sha, baseSha }
+        );
+      }
     } else if (getResponse.status !== 404) {
       const error = await safeReadError(getResponse);
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "GITHUB_READ_FAILED", status: getResponse.status },
+      });
       return apiError(
         getResponse.status,
         "GITHUB_READ_FAILED",
         error || "Failed to read existing content from GitHub"
+      );
+    } else if (baseSha) {
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "conflict",
+        details: { code: "CONTENT_CONFLICT", baseSha, currentSha: null },
+      });
+      return apiError(
+        409,
+        "CONTENT_CONFLICT",
+        "Content changed in repository since you loaded this draft. Reload latest version and retry save.",
+        { path, currentSha: null, baseSha }
       );
     }
 
@@ -115,6 +196,13 @@ export async function POST(request: NextRequest) {
     if (!updateResponse.ok) {
       const error = await safeReadError(updateResponse);
       if (updateResponse.status === 409) {
+        logCmsAuditEvent({
+          what: "save-content",
+          who: auditWho,
+          path,
+          result: "conflict",
+          details: { code: "CONTENT_CONFLICT" },
+        });
         return apiError(
           409,
           "CONTENT_CONFLICT",
@@ -122,6 +210,13 @@ export async function POST(request: NextRequest) {
           { path }
         );
       }
+      logCmsAuditEvent({
+        what: "save-content",
+        who: auditWho,
+        path,
+        result: "error",
+        details: { code: "GITHUB_WRITE_FAILED", status: updateResponse.status },
+      });
       return apiError(
         updateResponse.status,
         "GITHUB_WRITE_FAILED",
@@ -129,8 +224,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return apiSuccess({ success: true });
+    const updatePayload = (await updateResponse.json()) as {
+      content?: {
+        sha?: string;
+      };
+    };
+
+    logCmsAuditEvent({
+      what: "save-content",
+      who: auditWho,
+      path,
+      result: "success",
+      commitSha: updatePayload.content?.sha || null,
+    });
+
+    return apiSuccess({
+      success: true,
+      sha: updatePayload.content?.sha,
+    });
   } catch (error) {
+    logCmsAuditEvent({
+      what: "save-content",
+      who: auditWho,
+      path: auditPath,
+      result: "error",
+      details: { code: "INTERNAL_ERROR" },
+    });
     return apiError(
       500,
       "INTERNAL_ERROR",
@@ -149,7 +268,7 @@ async function safeReadError(response: Response): Promise<string | undefined> {
 }
 
 function normalizeCaseMediaFields(path: string, content: unknown): unknown {
-  if (!/^src\/content\/cases\/[a-z0-9-]+\.json$/i.test(path)) {
+  if (!isCaseContentPath(path)) {
     return content;
   }
 
@@ -168,9 +287,10 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
           return block;
         }
 
-        const { variant: _legacyVariant, caption, ...restValue } = block.value;
-        const src = typeof restValue.src === "string" ? restValue.src.trim() : "";
-        const alt = typeof restValue.alt === "string" ? restValue.alt.trim() : "";
+        const { caption, ...restValue } = block.value;
+        const normalizedValue = { ...restValue };
+        const src = typeof normalizedValue.src === "string" ? normalizedValue.src.trim() : "";
+        const alt = typeof normalizedValue.alt === "string" ? normalizedValue.alt.trim() : "";
         const normalizedCaption = typeof caption === "string" ? caption.trim() : caption;
         const includeCaption =
           normalizedCaption !== undefined &&
@@ -184,7 +304,7 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
         return {
           ...block,
           value: {
-            ...restValue,
+            ...normalizedValue,
             ...(src && !alt ? { alt: deriveAltFromPath(src) } : {}),
             ...(includeCaption ? { caption: normalizedCaption } : {}),
           },
@@ -202,6 +322,60 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
     ...content,
     sections,
   };
+}
+
+function applyCaseManagedMetadata(path: string, content: unknown): unknown {
+  if (!isCaseContentPath(path) || !isRecord(content)) {
+    return content;
+  }
+
+  const author =
+    typeof content.author === "string" && content.author.trim()
+      ? content.author.trim()
+      : "Dima Ginzburg";
+
+  return {
+    ...content,
+    author,
+    lastUpdated: new Date().toISOString().slice(0, 10),
+  };
+}
+
+function areEquivalentIgnoringCaseManagedFields(
+  path: string,
+  currentContent: string,
+  nextContent: string
+): boolean {
+  if (!isCaseContentPath(path)) {
+    return false;
+  }
+
+  try {
+    const currentParsed = JSON.parse(currentContent) as unknown;
+    const nextParsed = JSON.parse(nextContent) as unknown;
+
+    const currentComparable = stripCaseManagedMetadata(currentParsed);
+    const nextComparable = stripCaseManagedMetadata(nextParsed);
+
+    return JSON.stringify(currentComparable) === JSON.stringify(nextComparable);
+  } catch {
+    return false;
+  }
+}
+
+function stripCaseManagedMetadata(value: unknown): unknown {
+  if (!isRecord(value)) {
+    return value;
+  }
+
+  const rest = { ...value };
+  delete rest.author;
+  delete rest.lastUpdated;
+  return rest;
+}
+
+function isCaseContentPath(path: string): boolean {
+  return /^src\/content\/cases\/[a-z0-9-]+\.json$/i.test(path);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

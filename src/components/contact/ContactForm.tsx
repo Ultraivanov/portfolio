@@ -96,7 +96,7 @@ export default function ContactForm({ email }: ContactFormProps) {
       setConsent(false);
       setCaptchaToken("");
       setCaptchaReset((prev) => prev + 1);
-    } catch (err) {
+    } catch {
       setStatus("error");
       trackEvent("contact_submit", { status: "error" });
       setError(

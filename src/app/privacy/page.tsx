@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     type: "article",
     keywords: ["privacy policy", "personal data processing"],
   }),
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {

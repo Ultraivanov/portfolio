@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     type: "article",
     keywords: ["terms of use", "terms and conditions"],
   }),
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default function TermsPage() {

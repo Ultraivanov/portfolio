@@ -10,8 +10,8 @@ export default function KeystaticApp() {
     <Keystatic
       config={config}
       appSlug={{
-        envName: "NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG",
-        value: process.env.NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG,
+        envName: "NEXT_PUBLIC_CMS_GITHUB_APP_SLUG",
+        value: process.env.NEXT_PUBLIC_CMS_GITHUB_APP_SLUG,
       }}
     />
   );

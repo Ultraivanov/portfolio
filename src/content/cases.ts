@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 
 export type CaseSectionContent =
   | { discriminant: "paragraph"; value: { text: string } }
@@ -40,41 +41,46 @@ const caseFiles = fs
   .filter((file) => file.endsWith(".json"));
 
 type CaseStudyRaw = Omit<CaseStudy, "slug" | "author" | "lastUpdated"> & { slug: CaseSlug };
+type CaseMeta = Pick<CaseStudy, "author" | "lastUpdated">;
 
 const normalizeSlug = (slug: CaseSlug) =>
   typeof slug === "string" ? slug : slug.slug;
 
-const CASE_META_BY_SLUG: Record<string, Pick<CaseStudy, "author" | "lastUpdated">> = {
-  "travel-booking-platform": {
-    author: "Dima Ginzburg",
-    lastUpdated: "2026-04-21",
-  },
-  "railway-booking-flow": {
-    author: "Dima Ginzburg",
-    lastUpdated: "2026-04-21",
-  },
-  megamod: {
-    author: "Dima Ginzburg",
-    lastUpdated: "2026-04-21",
-  },
-  "my-perfect-greek-vacation": {
-    author: "Dima Ginzburg",
-    lastUpdated: "2026-04-21",
-  },
-  "design-system-runtime": {
-    author: "Dima Ginzburg",
-    lastUpdated: "2026-04-21",
-  },
-};
+const DEFAULT_CASE_AUTHOR = "Dima Ginzburg";
 
-const DEFAULT_CASE_META: Pick<CaseStudy, "author" | "lastUpdated"> = {
-  author: "Dima Ginzburg",
-  lastUpdated: "2026-04-21",
-};
+// Optional per-case overrides. Keep only exceptions here.
+const CASE_META_BY_SLUG: Record<string, Partial<CaseMeta>> = {};
 
-const normalizeCase = (raw: CaseStudyRaw): CaseStudy => {
+function getTodayIsoDate(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function getLastGitUpdatedDate(filePath: string): string | null {
+  try {
+    const output = execSync(`git log -1 --format=%cs -- "${filePath}"`, {
+      cwd: process.cwd(),
+      encoding: "utf-8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+
+    return /^\d{4}-\d{2}-\d{2}$/.test(output) ? output : null;
+  } catch {
+    return null;
+  }
+}
+
+function resolveCaseMeta(slug: string, filePath: string): CaseMeta {
+  const override = CASE_META_BY_SLUG[slug];
+
+  return {
+    author: override?.author ?? DEFAULT_CASE_AUTHOR,
+    lastUpdated: override?.lastUpdated ?? getLastGitUpdatedDate(filePath) ?? getTodayIsoDate(),
+  };
+}
+
+const normalizeCase = (raw: CaseStudyRaw, filePath: string): CaseStudy => {
   const slug = normalizeSlug(raw.slug);
-  const meta = CASE_META_BY_SLUG[slug] ?? DEFAULT_CASE_META;
+  const meta = resolveCaseMeta(slug, filePath);
 
   return {
     ...raw,
@@ -86,7 +92,7 @@ const normalizeCase = (raw: CaseStudyRaw): CaseStudy => {
 const allCases = caseFiles.map((file) => {
   const fullPath = path.join(casesDirectory, file);
   const raw = fs.readFileSync(fullPath, "utf-8");
-  return normalizeCase(JSON.parse(raw) as CaseStudyRaw);
+  return normalizeCase(JSON.parse(raw) as CaseStudyRaw, fullPath);
 });
 
 // Define preferred order of cases

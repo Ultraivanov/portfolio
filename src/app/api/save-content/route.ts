@@ -13,6 +13,8 @@ type SaveContentPayload = {
 };
 
 type TypografCaseInput = {
+  author?: string;
+  lastUpdated?: string;
   title?: string;
   subtitle?: string;
   facts?: Array<{ label: string; value: string | string[] }>;
@@ -29,7 +31,9 @@ export async function POST(request: NextRequest) {
   const githubToken = process.env.GITHUB_PAT;
   const githubRepo = process.env.GITHUB_REPO || "Ultraivanov/portfolio";
   const githubBranch = process.env.GITHUB_BRANCH || "main";
-  const auditWho = resolveCmsAuditWho(request.headers?.get?.("authorization"));
+  const auditWho = resolveCmsAuditWho(
+    request.headers?.get?.("x-cms-user") || request.headers?.get?.("authorization")
+  );
   let auditPath = "";
 
   if (!githubToken) {
@@ -62,8 +66,9 @@ export async function POST(request: NextRequest) {
     }
 
     const normalizedContent = normalizeCaseMediaFields(path, content);
+    const enrichedContent = applyCaseManagedMetadata(path, normalizedContent);
 
-    const validation = validateContentByPath(path, normalizedContent);
+    const validation = validateContentByPath(path, enrichedContent);
     if (!validation.ok) {
       logCmsAuditEvent({
         what: "save-content",
@@ -76,7 +81,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Apply typograf to all text content before saving
-    const processedContent = typografCase(normalizedContent as TypografCaseInput);
+    const processedContent = typografCase(enrichedContent as TypografCaseInput);
     const serializedContent = JSON.stringify(processedContent, null, 2);
     const encodedContent = Buffer.from(serializedContent).toString("base64");
 
@@ -102,7 +107,10 @@ export async function POST(request: NextRequest) {
 
       if (fileData.encoding === "base64" && typeof fileData.content === "string") {
         const currentContent = Buffer.from(fileData.content, "base64").toString("utf-8");
-        if (currentContent === serializedContent) {
+        const unchanged =
+          currentContent === serializedContent ||
+          areEquivalentIgnoringCaseManagedFields(path, currentContent, serializedContent);
+        if (unchanged) {
           logCmsAuditEvent({
             what: "save-content",
             who: auditWho,
@@ -260,7 +268,7 @@ async function safeReadError(response: Response): Promise<string | undefined> {
 }
 
 function normalizeCaseMediaFields(path: string, content: unknown): unknown {
-  if (!/^src\/content\/cases\/[a-z0-9-]+\.json$/i.test(path)) {
+  if (!isCaseContentPath(path)) {
     return content;
   }
 
@@ -314,6 +322,60 @@ function normalizeCaseMediaFields(path: string, content: unknown): unknown {
     ...content,
     sections,
   };
+}
+
+function applyCaseManagedMetadata(path: string, content: unknown): unknown {
+  if (!isCaseContentPath(path) || !isRecord(content)) {
+    return content;
+  }
+
+  const author =
+    typeof content.author === "string" && content.author.trim()
+      ? content.author.trim()
+      : "Dima Ginzburg";
+
+  return {
+    ...content,
+    author,
+    lastUpdated: new Date().toISOString().slice(0, 10),
+  };
+}
+
+function areEquivalentIgnoringCaseManagedFields(
+  path: string,
+  currentContent: string,
+  nextContent: string
+): boolean {
+  if (!isCaseContentPath(path)) {
+    return false;
+  }
+
+  try {
+    const currentParsed = JSON.parse(currentContent) as unknown;
+    const nextParsed = JSON.parse(nextContent) as unknown;
+
+    const currentComparable = stripCaseManagedMetadata(currentParsed);
+    const nextComparable = stripCaseManagedMetadata(nextParsed);
+
+    return JSON.stringify(currentComparable) === JSON.stringify(nextComparable);
+  } catch {
+    return false;
+  }
+}
+
+function stripCaseManagedMetadata(value: unknown): unknown {
+  if (!isRecord(value)) {
+    return value;
+  }
+
+  const rest = { ...value };
+  delete rest.author;
+  delete rest.lastUpdated;
+  return rest;
+}
+
+function isCaseContentPath(path: string): boolean {
+  return /^src\/content\/cases\/[a-z0-9-]+\.json$/i.test(path);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

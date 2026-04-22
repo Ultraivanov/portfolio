@@ -27,8 +27,27 @@
   max-width: 720px;
 }
 
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.separator {
+  line-height: 1;
+}
+
 @media (max-width: 900px) {
   .hero {
     padding: var(--space-5) 0 var(--space-5);
+  }
+
+  .meta {
+    flex-wrap: wrap;
+    gap: var(--space-1);
   }
 }

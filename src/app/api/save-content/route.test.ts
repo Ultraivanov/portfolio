@@ -148,6 +148,33 @@ describe("POST /api/save-content", () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
+  it("auto-populates case author and lastUpdated on save", async () => {
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce(createGitHubResponse({}, 404))
+      .mockResolvedValueOnce(createGitHubResponse({ content: { sha: "new-sha" } }, 200));
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    const response = await POST(
+      createRequest({
+        path: "src/content/cases/test-case.json",
+        content: validCaseContent(),
+      })
+    );
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.success).toBe(true);
+
+    const updateCall = fetchMock.mock.calls[1];
+    const options = updateCall[1] as RequestInit;
+    const requestBody = JSON.parse(String(options.body));
+    const decoded = JSON.parse(Buffer.from(requestBody.content, "base64").toString("utf-8"));
+
+    expect(decoded.author).toBe("Dima Ginzburg");
+    expect(decoded.lastUpdated).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+  });
+
   it("returns CONTENT_CONFLICT when baseSha is stale", async () => {
     const content = validCaseContent();
     const current = {

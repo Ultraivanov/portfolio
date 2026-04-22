@@ -27,20 +27,21 @@
 .heroTitle {
   position: relative;
   width: 100%;
-  height: 157px;
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 
 .heroTitleText {
   font-family: "Plus Jakarta Sans", "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 88px;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1;
   letter-spacing: -0.01em;
   color: var(--color-text-primary);
   margin: 0;
   width: 100%;
+  white-space: nowrap;
 }
 
 .heroHeadline {
@@ -117,13 +118,9 @@
 }
 
 @media (max-width: 600px) {
-  .heroTitle {
-    height: 96px;
-  }
-
   .heroTitleText {
     font-size: 48px;
-    line-height: 1.1;
+    line-height: 1;
   }
 
   .heroHeadline {
@@ -503,13 +500,9 @@
 }
 
 @media (max-width: 900px) {
-  .heroTitle {
-    height: 120px;
-  }
-
   .heroTitleText {
     font-size: 64px;
-    line-height: 1.1;
+    line-height: 1;
   }
 
   .skillsTools {

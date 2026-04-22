@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRef, useEffect } from "react";
 import { Button } from "@gravity-ui/uikit";
 import { trackEvent } from "@/lib/analytics";
 import type { HomeContent } from "@/content/home";
@@ -20,6 +21,40 @@ type HomePageProps = {
 };
 
 export default function HomePage({ data, featuredCases }: HomePageProps) {
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const title = heroTitleRef.current;
+    if (!title) return;
+
+    const fit = () => {
+      const container = title.parentElement;
+      if (!container) return;
+      const containerWidth = container.clientWidth;
+      if (containerWidth === 0) return;
+
+      let lo = 24, hi = 800;
+      while (lo < hi - 1) {
+        const mid = Math.floor((lo + hi) / 2);
+        title.style.fontSize = `${mid}px`;
+        if (title.scrollWidth <= containerWidth) {
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+      }
+      title.style.fontSize = `${lo}px`;
+    };
+
+    fit();
+
+    const observer = new ResizeObserver(fit);
+    const container = title.parentElement;
+    if (container) observer.observe(container);
+
+    return () => observer.disconnect();
+  }, []);
+
   const aboutSections = data.about.description
     .split(/\n{2,}/)
     .map((section) => section.trim())
@@ -61,7 +96,7 @@ export default function HomePage({ data, featuredCases }: HomePageProps) {
       </h1>
       <section className={styles.hero}>
         <div className={styles.heroTitle}>
-          <h1 className={styles.heroTitleText}>Portfolio</h1>
+          <h1 aria-hidden="true" ref={heroTitleRef} className={styles.heroTitleText}>Portfolio</h1>
         </div>
         <p className={styles.heroHeadline}>{data.hero.headline}</p>
         <div className={styles.heroCtas}>

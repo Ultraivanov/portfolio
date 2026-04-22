@@ -38,17 +38,27 @@ export async function generateMetadata({ params }: CasePageProps): Promise<Metad
   const description = caseStudy.subtitle;
   const casePath = `/work/${caseStudy.slug}`;
 
+  const metadata = buildPageMetadata({
+    title,
+    description,
+    type: "article",
+    path: casePath,
+    ogImage: caseStudy.coverSrc,
+    ogImageAlt: caseStudy.coverAlt,
+    twitterImage: caseStudy.coverSrc,
+    keywords: ["product case study", caseStudy.title.toLowerCase()],
+  });
+
   return {
-    ...buildPageMetadata({
+    ...metadata,
+    openGraph: {
+      ...metadata.openGraph,
       title,
       description,
       type: "article",
-      path: casePath,
-      ogImage: caseStudy.coverSrc,
-      ogImageAlt: caseStudy.coverAlt,
-      twitterImage: caseStudy.coverSrc,
-      keywords: ["product case study", caseStudy.title.toLowerCase()],
-    }),
+      authors: [caseStudy.author],
+      modifiedTime: new Date(`${caseStudy.lastUpdated}T00:00:00Z`).toISOString(),
+    },
     alternates: {
       canonical: casePath,
     },

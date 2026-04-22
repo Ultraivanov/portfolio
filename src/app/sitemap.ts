@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const caseEntries: MetadataRoute.Sitemap = cases.map((item) => ({
     url: toAbsoluteUrl(`/work/${item.slug}`),
-    lastModified: now,
+    lastModified: new Date(`${item.lastUpdated}T00:00:00Z`),
     changeFrequency: "monthly",
     priority: 0.8,
   }));

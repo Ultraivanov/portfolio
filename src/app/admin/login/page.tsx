@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./login.module.css";
 
@@ -102,7 +101,11 @@ export default function AdminLoginPage() {
             <button className={styles.button} type="submit" disabled={submitting}>
               {submitting ? "Signing in..." : "Sign in"}
             </button>
-            {error ? <p className={styles.error}>{error}</p> : null}
+            {error ? (
+              <p className={styles.error} role="alert">
+                {error}
+              </p>
+            ) : null}
           </div>
         </form>
       </section>

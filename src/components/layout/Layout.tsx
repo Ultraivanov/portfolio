@@ -15,8 +15,11 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className={styles.page}>
+      <a className={styles.skipLink} href="#main-content">
+        Skip to main content
+      </a>
       <Header />
-      <main className={styles.main}>
+      <main id="main-content" className={styles.main} tabIndex={-1}>
         <Container>{children}</Container>
       </main>
       <Footer />

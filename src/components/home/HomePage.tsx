@@ -56,12 +56,11 @@ export default function HomePage({ data, featuredCases }: HomePageProps) {
 
   return (
     <article className={styles.page} aria-labelledby="home-title">
-      <h1 id="home-title" className={styles.visuallyHidden}>
-        Portfolio
-      </h1>
       <section className={styles.hero}>
         <div className={styles.heroTitle}>
-          <h1 className={styles.heroTitleText}>Portfolio</h1>
+          <h1 id="home-title" className={styles.heroTitleText}>
+            Portfolio
+          </h1>
         </div>
         <p className={styles.heroHeadline}>{data.hero.headline}</p>
         <div className={styles.heroCtas}>

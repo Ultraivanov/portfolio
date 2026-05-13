@@ -31,27 +31,11 @@ export default function Header() {
             </Link>
             <a
               className={styles.navLink}
-              href="https://github.com/Ultraivanov"
-              target="_blank"
-              rel="noreferrer"
-            >
-              github
-            </a>
-            <a
-              className={styles.navLink}
               href="https://www.linkedin.com/in/dmitry-ginzburg-profit/"
               target="_blank"
               rel="noreferrer"
             >
               linkedin
-            </a>
-            <a
-              className={styles.navLink}
-              href="https://x.com/bo1d_design"
-              target="_blank"
-              rel="noreferrer"
-            >
-              twitter
             </a>
             <Link className={styles.navLink} href="/contact">
               connect

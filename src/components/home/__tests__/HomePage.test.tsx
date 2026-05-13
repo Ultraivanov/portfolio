@@ -118,8 +118,6 @@ describe('HomePage', () => {
         subtitle: 'Featured subtitle 1',
         coverSrc: '/featured1.png',
         coverAlt: 'Featured case 1',
-        facts: [],
-        sections: [],
       },
       {
         slug: 'case-2',
@@ -127,8 +125,6 @@ describe('HomePage', () => {
         subtitle: 'Featured subtitle 2',
         coverSrc: '/featured2.png',
         coverAlt: 'Featured case 2',
-        facts: [],
-        sections: [],
       },
     ];
 
@@ -147,8 +143,6 @@ describe('HomePage', () => {
         subtitle: 'Valid subtitle',
         coverSrc: '/valid.png',
         coverAlt: 'Valid case',
-        facts: [],
-        sections: [],
       },
       // Missing title - should be filtered out
       {
@@ -157,8 +151,6 @@ describe('HomePage', () => {
         subtitle: 'Invalid subtitle',
         coverSrc: '/invalid.png',
         coverAlt: 'Invalid case',
-        facts: [],
-        sections: [],
       },
       // Missing slug - should be filtered out
       {
@@ -167,8 +159,6 @@ describe('HomePage', () => {
         subtitle: 'Another invalid subtitle',
         coverSrc: '/invalid2.png',
         coverAlt: 'Another invalid case',
-        facts: [],
-        sections: [],
       },
       // Missing optional properties - should work with defaults
       {
@@ -177,8 +167,6 @@ describe('HomePage', () => {
         subtitle: '',
         coverSrc: '',
         coverAlt: '',
-        facts: [],
-        sections: [],
       },
     ];
 
@@ -210,8 +198,6 @@ describe('HomePage', () => {
       subtitle: `Subtitle ${i}`,
       coverSrc: `/case${i}.png`,
       coverAlt: `Case ${i}`,
-      facts: [],
-      sections: [],
     }));
 
     render(<HomePage data={mockHomeData} featuredCases={manyCases} />);

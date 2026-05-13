@@ -45,7 +45,6 @@ export async function generateMetadata({ params }: CasePageProps): Promise<Metad
     path: casePath,
     ogImage: caseStudy.coverSrc,
     ogImageAlt: caseStudy.coverAlt,
-    twitterImage: caseStudy.coverSrc,
     keywords: ["product case study", caseStudy.title.toLowerCase()],
   });
 
@@ -83,6 +82,7 @@ export default async function CasePage({ params }: CasePageProps) {
       "@type": "Person",
       name: caseStudy.author,
     },
+    datePublished: caseStudy.lastUpdated,
     dateModified: caseStudy.lastUpdated,
     inLanguage: "en",
   };

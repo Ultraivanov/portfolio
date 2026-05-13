@@ -6,13 +6,14 @@ export const SITE_NAME = "Dima Ginzburg";
 export const DEFAULT_TITLE = "Dima Ginzburg — Product Designer";
 export const DEFAULT_DESCRIPTION =
   "I turn messy product problems into clear structure, usable flows, and credible interfaces.";
-export const DEFAULT_OG_IMAGE = "/og-whatsapp.png";
-export const DEFAULT_TWITTER_IMAGE = "/og.png";
+export const DEFAULT_OG_IMAGE = "/og.png";
 export const DEFAULT_PREVIEW_ALT = "Dima Ginzburg portfolio preview";
+export const TWITTER_HANDLE = "@bo1d_design";
 
 export const SAME_AS_LINKS = [
   "https://www.linkedin.com/in/dmitry-ginzburg-profit/",
   "https://github.com/Ultraivanov",
+  "https://x.com/bo1d_design",
 ];
 
 export const DEFAULT_KEYWORDS = [
@@ -74,7 +75,6 @@ type BuildPageMetadataArgs = {
   keywords?: string[];
   ogImage?: string;
   ogImageAlt?: string;
-  twitterImage?: string;
 };
 
 export const buildPageMetadata = ({
@@ -85,12 +85,11 @@ export const buildPageMetadata = ({
   keywords,
   ogImage,
   ogImageAlt,
-  twitterImage,
 }: BuildPageMetadataArgs): Metadata => {
   const canonicalPath = path.startsWith("/") ? path : `/${path}`;
   const canonicalUrl = toAbsoluteUrl(canonicalPath);
-  const openGraphImage = toAbsoluteUrl(ogImage ?? DEFAULT_OG_IMAGE);
-  const twitterPreview = toAbsoluteUrl(twitterImage ?? (ogImage ? ogImage : DEFAULT_TWITTER_IMAGE));
+  const image = toAbsoluteUrl(ogImage ?? DEFAULT_OG_IMAGE);
+  const imageAlt = ogImageAlt ?? DEFAULT_PREVIEW_ALT;
 
   return {
     title,
@@ -105,13 +104,15 @@ export const buildPageMetadata = ({
       url: canonicalUrl,
       siteName: SITE_NAME,
       type,
-      images: [{ url: openGraphImage, alt: ogImageAlt ?? DEFAULT_PREVIEW_ALT }],
+      images: [{ url: image, width: 1200, height: 630, alt: imageAlt }],
     },
     twitter: {
       card: "summary_large_image",
+      site: TWITTER_HANDLE,
+      creator: TWITTER_HANDLE,
       title,
       description,
-      images: [twitterPreview],
+      images: [{ url: image, alt: imageAlt }],
     },
   };
 };

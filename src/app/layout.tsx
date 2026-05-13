@@ -7,9 +7,9 @@ import {
   DEFAULT_OG_IMAGE,
   DEFAULT_PREVIEW_ALT,
   DEFAULT_TITLE,
-  DEFAULT_TWITTER_IMAGE,
   SITE_NAME,
   SITE_URL,
+  TWITTER_HANDLE,
 } from "@/lib/seo";
 import "./globals.css";
 
@@ -42,18 +42,20 @@ export const metadata: Metadata = {
       {
         url: DEFAULT_OG_IMAGE,
         width: 1200,
-        height: 900,
+        height: 630,
         alt: DEFAULT_PREVIEW_ALT,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
     images: [
       {
-        url: DEFAULT_TWITTER_IMAGE,
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
         alt: DEFAULT_PREVIEW_ALT,

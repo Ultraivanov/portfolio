@@ -2,6 +2,8 @@
   "slug": "railway-booking-flow",
   "title": "Russian Railways • Enterprise Communicator UX",
   "subtitle": "Designing a component-driven interaction system under legacy constraints",
+  "published": true,
+  "featured": true,
   "coverSrc": "/cases/rzd-communication/cover.png",
   "coverAlt": "RZD communication workflow system cover",
   "facts": [

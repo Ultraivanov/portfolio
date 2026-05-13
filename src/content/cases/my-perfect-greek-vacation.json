@@ -2,6 +2,8 @@
   "slug": "my-perfect-greek-vacation",
   "title": "My Perfect Greek Vacation",
   "subtitle": "Decision-Driven UX Booking Platform",
+  "published": true,
+  "featured": true,
   "coverSrc": "/cases/my-perfect-greek-vacation/cover.png",
   "coverAlt": "My Perfect Greek Vacation concept cover",
   "facts": [

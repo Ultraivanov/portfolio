@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-width: 720px;
 }
 
 .kicker {
@@ -27,6 +26,8 @@
 .subtitle {
   font-size: var(--text-body);
   color: var(--color-text-muted);
+  /* Keep subtitle within the left column width (1fr out of 1fr + 1.2fr ≈ 45%) */
+  max-width: calc(100% * (1 / 2.2));
 }
 
 .grid {
@@ -84,6 +85,10 @@
 }
 
 @media (max-width: 900px) {
+  .subtitle {
+    max-width: none;
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }

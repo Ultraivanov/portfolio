@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Analytics from "@/components/analytics/Analytics";
 import ClientProviders from "@/components/ClientProviders";
 import Layout from "@/components/layout/Layout";
 import {
@@ -92,6 +93,7 @@ export default function RootLayout({
         )}
       </head>
       <body>
+        <Analytics />
         <ClientProviders>
           <Layout>{children}</Layout>
         </ClientProviders>

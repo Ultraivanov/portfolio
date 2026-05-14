@@ -8,7 +8,7 @@ export type ContactContent = {
 };
 
 export const contact: ContactContent = {
-  title: "Get in touch",
+  title: "Hire me",
   subtitle:
     "If you want to discuss a product, case study, or role, send a short brief and I will reply with next steps.",
   email: "dima@ginzburg.work",

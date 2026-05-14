@@ -50,9 +50,33 @@ export default function Home() {
     "@type": "Person",
     name: SITE_NAME,
     url: SITE_URL,
-    jobTitle: "Product Designer",
+    image: `${SITE_URL}/avatar.png`,
+    jobTitle: "AI Product Designer",
     description: DEFAULT_DESCRIPTION,
-    knowsAbout: DEFAULT_KEYWORDS.slice(1),
+    knowsAbout: [
+      "AI product design",
+      "agentic flows",
+      "AI systems",
+      "interaction models",
+      "end-to-end product design",
+      "product strategy",
+      "UX systems",
+      "design systems",
+      "prompt prototyping",
+      "design automation",
+      "agent workflows",
+    ],
+    hasOccupation: {
+      "@type": "Occupation",
+      name: "AI Product Designer",
+      occupationalCategory: "27-1024.00",
+      skills:
+        "Product strategy, UX systems, Interaction design, AI-assisted UX, Prompt prototyping, Design automation, Agent workflows, Design systems",
+    },
+    workLocation: {
+      "@type": "Place",
+      name: "Tel Aviv, Israel",
+    },
     sameAs: SAME_AS_LINKS,
   };
   const websiteJsonLd = {

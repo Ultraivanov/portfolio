@@ -81,10 +81,15 @@ export default async function CasePage({ params }: CasePageProps) {
     author: {
       "@type": "Person",
       name: caseStudy.author,
+      url: SITE_URL,
     },
     datePublished: caseStudy.lastUpdated,
     dateModified: caseStudy.lastUpdated,
     inLanguage: "en",
+    keywords: caseStudy.facts
+      ?.filter((f) => f.label.toLowerCase().includes("role") || f.label.toLowerCase().includes("scope"))
+      .map((f) => f.value)
+      .join(", ") || caseStudy.title,
   };
 
   return (

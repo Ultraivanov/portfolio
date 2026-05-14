@@ -1,0 +1,40 @@
+# Dima Ginzburg — AI Product Designer
+
+> Personal portfolio of Dima Ginzburg, a product designer specializing in AI-native products, agentic flows, and 0-to-1 product design.
+
+## About
+
+Dima Ginzburg is a product designer focused on AI-native and early-stage products. He designs agentic experiences — shaping how systems reason, act, and interact with users across flows, not just screens. His work focuses on behavior, orchestration, and generated outcomes — translating product ideas and AI capabilities into clear, usable systems.
+
+Based in Tel Aviv, open to global teams.
+
+## Core expertise
+
+- Agentic flows and AI system design
+- Interaction models for AI-native products
+- End-to-end product design (0-to-1)
+- Product strategy and UX systems
+- Design systems and component architecture
+- Prompt prototyping and design automation
+
+## Case studies
+
+- [Travel Booking Platform](https://ginzburg.work/work/travel-booking-platform): Turning a complex internal booking process into a predictable and repeatable system
+- [Railway Booking Flow](https://ginzburg.work/work/railway-booking-flow): Designing a component-driven interaction system under legacy constraints
+- [Megamod](https://ginzburg.work/work/megamod): Scaling product complexity through a unified communication layer
+- [My Perfect Greek Vacation](https://ginzburg.work/work/my-perfect-greek-vacation): Decision-driven UX booking platform
+- [Design System Runtime](https://ginzburg.work/work/design-system-runtime): Transforming static design tokens into a living system with runtime validation and automated governance
+
+## Pages
+
+- [Home](https://ginzburg.work/)
+- [Work](https://ginzburg.work/work)
+- [CV](https://ginzburg.work/cv)
+- [Contact](https://ginzburg.work/contact)
+
+## Contact
+
+- Email: dima@ginzburg.work
+- LinkedIn: https://www.linkedin.com/in/dmitry-ginzburg-profit/
+- X/Twitter: https://x.com/bo1d_design
+- GitHub: https://github.com/Ultraivanov

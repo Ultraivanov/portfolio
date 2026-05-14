@@ -3,9 +3,10 @@ import type { Metadata } from "next";
 const DEFAULT_SITE_URL = "https://ginzburg.work";
 
 export const SITE_NAME = "Dima Ginzburg";
-export const DEFAULT_TITLE = "Dima Ginzburg — Product Designer";
+export const DEFAULT_TITLE =
+  "Dima Ginzburg — AI Product Designer · Agentic Flows & 0→1 Products";
 export const DEFAULT_DESCRIPTION =
-  "I turn messy product problems into clear structure, usable flows, and credible interfaces.";
+  "AI product designer who turns messy product problems into clear structure, usable agentic flows, and credible interfaces.";
 export const DEFAULT_OG_IMAGE = "/og.png";
 export const DEFAULT_PREVIEW_ALT = "Dima Ginzburg portfolio preview";
 export const TWITTER_HANDLE = "@bo1d_design";

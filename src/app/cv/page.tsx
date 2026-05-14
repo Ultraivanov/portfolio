@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Icon } from "@gravity-ui/uikit";
 import { Paperclip } from "@gravity-ui/icons";
-import { buildPageMetadata, SITE_NAME } from "@/lib/seo";
+import { buildPageMetadata, SAME_AS_LINKS, SITE_NAME, SITE_URL } from "@/lib/seo";
 import styles from "./cv-page.module.css";
 
 const CV_TITLE = `CV — ${SITE_NAME}`;
@@ -14,14 +14,36 @@ export const metadata: Metadata = {
     description: CV_DESCRIPTION,
     path: "/cv",
     type: "profile",
-    keywords: ["product designer cv", "product designer resume"],
+    keywords: [
+      "ai product designer cv",
+      "agentic ux designer resume",
+      "freelance product designer",
+    ],
   }),
 };
 
 const skillsLine = (items: string[]) => items.join(" • ");
 
 export default function CVPage() {
+  const profileJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: "Dmitry Ginzburg",
+      alternateName: "Dima Ginzburg",
+      jobTitle: "AI Product Designer",
+      url: SITE_URL,
+      sameAs: SAME_AS_LINKS,
+    },
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profileJsonLd) }}
+      />
     <section className={styles.cvPage}>
       <div className={styles.cvContainer}>
         <header className={styles.cvHeader}>
@@ -180,7 +202,7 @@ export default function CVPage() {
                 access logic, eligibility rules, and purchase flows
               </li>
               <li>
-                Built pre-sale journeys (discovery, ожидание, phased access),
+                Built pre-sale journeys (discovery, anticipation, phased access),
                 improving conversion under high demand
               </li>
               <li>
@@ -319,5 +341,6 @@ export default function CVPage() {
         </div>
       </div>
     </section>
+    </>
   );
 }

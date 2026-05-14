@@ -5,7 +5,7 @@
   "published": true,
   "featured": true,
   "coverSrc": "/cases/design-system-runtime/cover.png",
-  "coverAlt": "Deus in Machina design system runtime cover",
+  "coverAlt": "Design system runtime architecture — token enforcement case study by Dima Ginzburg",
   "facts": [
     {
       "label": "domain",

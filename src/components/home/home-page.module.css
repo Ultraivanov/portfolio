@@ -149,6 +149,11 @@
   border-radius: 999px;
   overflow: hidden;
   position: relative;
+  flex-shrink: 0;
+}
+
+.avatar img {
+  object-fit: cover;
 }
 
 .aboutIdentity {
@@ -200,8 +205,9 @@
 }
 
 .aboutKeyword + .aboutKeyword::before {
-  content: " · ";
+  content: "·";
   color: var(--color-text-muted);
+  padding: 0 8px;
 }
 
 .cover {

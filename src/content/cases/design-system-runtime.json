@@ -1,9 +1,9 @@
 {
   "slug": "design-system-runtime",
-  "title": "Design System Runtime — From Documentation to Infrastructure",
-  "subtitle": "Transformed static design tokens into a living system with runtime validation and automated governance.",
+  "title": "Design System Runtime • From Documentation to Infrastructure",
+  "subtitle": "Transformed static design tokens into a living system with runtime validation and automated governance.",
   "published": true,
-  "featured": true,
+  "featured": false,
   "coverSrc": "/cases/design-system-runtime/cover.png",
   "coverAlt": "Design system runtime architecture — token enforcement case study by Dima Ginzburg",
   "facts": [
@@ -23,7 +23,7 @@
     },
     {
       "label": "role",
-      "value": "Lead Product Designer — system architecture, validation infrastructure, cross-team governance strategy"
+      "value": "Lead Product Designer — system architecture, validation infrastructure, cross-team governance strategy"
     },
     {
       "label": "focus",
@@ -37,7 +37,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The market is making a specific request: design systems are evolving from static libraries into living, code-backed infrastructure. Companies are looking for designers who think in systems and speak both design and engineering — who can bridge the widening gap between design intent and implementation reality."
+            "text": "The market is making a specific request: design systems are evolving from static libraries into living, code-backed infrastructure. Companies are looking for designers who think in systems and speak both design and engineering — who can bridge the widening gap between design intent and implementation reality."
           }
         },
         {
@@ -51,13 +51,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This case study is a response to that request. At 500+ tokens and 80+ components across 6 product teams, our design system had reached a scaling threshold where documentation alone couldn't maintain consistency. Token drift hit 47%, handoff delays averaged 2-3 days, and teams spent nearly a third of design time on system maintenance. The risk was clear: without structural intervention, product teams would abandon the system for local solutions."
+            "text": "This case study is a response to that request. At 500+ tokens and 80+ components across 6 product teams, our design system had reached a scaling threshold where documentation alone couldn’t maintain consistency. Token drift hit 47%, handoff delays averaged 2-3 days, and teams spent nearly a third of design time on system maintenance. The risk was clear: without structural intervention, product teams would abandon the system for local solutions."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "I took ownership of the transformation from documentation into self-enforcing infrastructure — treating design rules as code and embedding validation into the development workflow."
+            "text": "I took ownership of the transformation from documentation into self-enforcing infrastructure — treating design rules as code and embedding validation into the development workflow."
           }
         }
       ]
@@ -68,13 +68,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The design system was degrading from a productivity multiplier into an organizational liability. Token drift had reached 47% — nearly half of all color values in production code diverged from the source of truth. Three different button implementations coexisted across products, each with slightly different interaction patterns and accessibility behaviors. Handoff delays averaged 2-3 days as every component change required manual design system review."
+            "text": "The design system was degrading from a productivity multiplier into an organizational liability. Token drift had reached 47% — nearly half of all color values in production code diverged from the source of truth. Three different button implementations coexisted across products, each with slightly different interaction patterns and accessibility behaviors. Handoff delays averaged 2-3 days as every component change required manual design system review."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The core issue wasn't lack of documentation or team buy-in. It was architectural: the system could describe rules but couldn't enforce them. Teams faced no consequences for deviation, so deviation became the path of least resistance. Without quality metrics, we couldn't even measure the problem precisely — only feel its symptoms in delayed releases and inconsistent experiences."
+            "text": "The core issue wasn’t lack of documentation or team buy-in. It was architectural: the system could describe rules but couldn’t enforce them. Teams faced no consequences for deviation, so deviation became the path of least resistance. Without quality metrics, we couldn’t even measure the problem precisely — only feel its symptoms in delayed releases and inconsistent experiences."
           }
         }
       ]
@@ -85,13 +85,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Any solution had to integrate with existing infrastructure without disrupting 6 product teams operating on different release cycles. Figma tokens and Storybook were already embedded in workflows — replacing them would cost more than fixing them. The system needed to support both React and Vue.js implementations without breaking existing component APIs."
+            "text": "Any solution had to integrate with existing infrastructure without disrupting 6 product teams operating on different release cycles. Figma tokens and Storybook were already embedded in workflows — replacing them would cost more than fixing them. The system needed to support both React and Vue.js implementations without breaking existing component APIs."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "A critical constraint: no dedicated DevOps resources for the design system. Whatever we built had to run within existing CI/CD pipelines and require minimal operational maintenance. Additionally, some environments were air-gapped, requiring offline validation capabilities. These constraints shaped the architecture toward lightweight, portable tooling rather than centralized cloud services."
+            "text": "A critical constraint: no dedicated DevOps resources for the design system. Whatever we built had to run within existing CI/CD pipelines and require minimal operational maintenance. Additionally, some environments were air-gapped, requiring offline validation capabilities. These constraints shaped the architecture toward lightweight, portable tooling rather than centralized cloud services."
           }
         }
       ]
@@ -102,7 +102,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Teams adopt design systems when the system feels helpful and reliable. The runtime must surface problems before they become debt and make the right decision easier than the wrong one."
+            "text": "Teams adopt design systems when the system feels helpful and reliable. The runtime must surface problems before they become debt and make the right decision easier than the wrong one."
           }
         }
       ]
@@ -113,13 +113,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The breakthrough realization was that a design system's value isn't in its assets — tokens, components, documentation — but in its ability to enforce consistency without human bottlenecks. Teams didn't need more guidance; they needed guardrails that made the right decision easier than the wrong one."
+            "text": "The breakthrough realization was that a design system’s value isn’t in its assets — tokens, components, documentation — but in its ability to enforce consistency without human bottlenecks. Teams didn’t need more guidance; they needed guardrails that made the right decision easier than the wrong one."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The product vision became clear: transform static documentation into runtime validation that surfaces problems before they become technical debt. Instead of reviewing every change reactively, the system would prevent inconsistencies proactively through automated checks integrated into the development workflow."
+            "text": "The product vision became clear: transform static documentation into runtime validation that surfaces problems before they become technical debt. Instead of reviewing every change reactively, the system would prevent inconsistencies proactively through automated checks integrated into the development workflow."
           }
         }
       ]
@@ -130,13 +130,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "I architected a three-layer runtime system that transforms static tokens into enforceable infrastructure. The token normalization engine validates Figma tokens against naming conventions and generates TypeScript types automatically, eliminating manual translation errors. The pattern validation layer runs 200+ automated checks during build time, catching inconsistencies before they reach production."
+            "text": "I architected a three-layer runtime system that transforms static tokens into enforceable infrastructure. The token normalization engine validates Figma tokens against naming conventions and generates TypeScript types automatically, eliminating manual translation errors. The pattern validation layer runs 200+ automated checks during build time, catching inconsistencies before they reach production."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The governance dashboard provides real-time visibility into system health, showing not just what's broken but where attention is needed. IDE integrations surface warnings directly in Figma and VS Code, giving teams immediate feedback without context switching. The key tradeoff was between comprehensive coverage and developer friction — I chose non-blocking warnings that educate without halting development, prioritizing adoption over enforcement purity."
+            "text": "The governance dashboard provides real-time visibility into system health, showing not just what’s broken but where attention is needed. IDE integrations surface warnings directly in Figma and VS Code, giving teams immediate feedback without context switching. The key tradeoff was between comprehensive coverage and developer friction — I chose non-blocking warnings that educate without halting development, prioritizing adoption over enforcement purity."
           }
         }
       ]
@@ -147,7 +147,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "I built the runtime as a portable Node.js package that plugs into existing CI/CD pipelines without requiring dedicated infrastructure. The token pipeline pulls from Figma API, runs validation against naming rules, generates TypeScript types, and publishes to npm — all in under 5 minutes. Component validation combines Jest tests with custom ESLint rules that check pattern compliance at build time."
+            "text": "I built the runtime as a portable Node.js package that plugs into existing CI/CD pipelines without requiring dedicated infrastructure. The token pipeline pulls from Figma API, runs validation against naming rules, generates TypeScript types, and publishes to npm — all in under 5 minutes. Component validation combines Jest tests with custom ESLint rules that check pattern compliance at build time."
           }
         },
         {
@@ -161,7 +161,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "For health monitoring, I implemented custom metrics feeding into Grafana, giving us real-time visibility into token drift, component coverage, and adoption rates across teams. IDE plugins for Figma and VS Code provide immediate feedback where decisions are made."
+            "text": "For health monitoring, I implemented custom metrics feeding into Grafana, giving us real-time visibility into token drift, component coverage, and adoption rates across teams. IDE plugins for Figma and VS Code provide immediate feedback where decisions are made."
           }
         },
         {
@@ -175,7 +175,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Critical architectural tradeoffs: I chose fail-fast validation in CI/CD to catch issues before production, but implemented non-blocking warnings rather than hard failures to avoid disrupting development velocity. Rules are version-controlled in git, making governance changes auditable and reversible. Teams can adopt incrementally — one product at a time, one validation layer at a time — reducing migration risk."
+            "text": "Critical architectural tradeoffs: I chose fail-fast validation in CI/CD to catch issues before production, but implemented non-blocking warnings rather than hard failures to avoid disrupting development velocity. Rules are version-controlled in git, making governance changes auditable and reversible. Teams can adopt incrementally — one product at a time, one validation layer at a time — reducing migration risk."
           }
         }
       ]
@@ -186,13 +186,13 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The runtime transformed the design system from passive documentation into active infrastructure. Token synchronization now runs automatically — Figma changes flow into production code within 5 minutes, eliminating the manual translation layer that previously introduced drift. The 200+ automated validation checks catch inconsistencies during development, before they reach production."
+            "text": "The runtime transformed the design system from passive documentation into active infrastructure. Token synchronization now runs automatically — Figma changes flow into production code within 5 minutes, eliminating the manual translation layer that previously introduced drift. The 200+ automated validation checks catch inconsistencies during development, before they reach production."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The quality dashboard gave us what we never had before: visibility. An 87% system health score shows not just current state but trend direction. Most importantly, governance became self-service — teams can validate their work against system rules without waiting for manual review. The 60% reduction in maintenance overhead didn't come from cutting corners; it came from replacing human bottlenecks with automated enforcement that never sleeps."
+            "text": "The quality dashboard gave us what we never had before: visibility. An 87% system health score shows not just current state but trend direction. Most importantly, governance became self-service — teams can validate their work against system rules without waiting for manual review. The 60% reduction in maintenance overhead didn’t come from cutting corners; it came from replacing human bottlenecks with automated enforcement that never sleeps."
           }
         },
         {
@@ -210,19 +210,19 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The results validated the architectural bet. Token consistency improved from 53% to 95% — not through stricter manual review, but through automated enforcement that catches drift before it accumulates. Handoff time dropped from 3 days to 2 hours because validation happens in code, not in meetings."
+            "text": "The results validated the architectural bet. Token consistency improved from 53% to 95% — not through stricter manual review, but through automated enforcement that catches drift before it accumulates. Handoff time dropped from 3 days to 2 hours because validation happens in code, not in meetings."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Eighty percent of component changes now flow through without manual design system review. The 200+ automated checks in CI/CD catch issues that previously slipped through, while the 87% system health score gives leadership real-time visibility into design system maturity. Teams spend 95% of design time on product work rather than system maintenance."
+            "text": "Eighty percent of component changes now flow through without manual design system review. The 200+ automated checks in CI/CD catch issues that previously slipped through, while the 87% system health score gives leadership real-time visibility into design system maturity. Teams spend 95% of design time on product work rather than system maintenance."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The design system team transformed from gatekeepers into enablers. Instead of reviewing every change reactively, we now focus on evolving the system architecture and tooling. The runtime handles enforcement; we handle vision."
+            "text": "The design system team transformed from gatekeepers into enablers. Instead of reviewing every change reactively, we now focus on evolving the system architecture and tooling. The runtime handles enforcement; we handle vision."
           }
         }
       ]
@@ -233,22 +233,24 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The fundamental insight was that design systems at scale don't fail because of inadequate documentation — they fail because documentation doesn't enforce anything. By treating design rules as code and embedding validation into the development workflow, we shifted from reactive governance to proactive prevention."
+            "text": "The fundamental insight was that design systems at scale don’t fail because of inadequate documentation — they fail because documentation doesn’t enforce anything. By treating design rules as code and embedding validation into the development workflow, we shifted from reactive governance to proactive prevention."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The tradeoff between comprehensive enforcement and developer adoption was the critical balancing act. Too strict, and teams would bypass the system. Too lenient, and drift would continue. Non-blocking warnings struck the right balance: visibility into problems without stopping development velocity."
+            "text": "The tradeoff between comprehensive enforcement and developer adoption was the critical balancing act. Too strict, and teams would bypass the system. Too lenient, and drift would continue. Non-blocking warnings struck the right balance: visibility into problems without stopping development velocity."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "For senior product designers, the lesson is about leverage. Individual design decisions don't scale. System architecture that makes the right decision easier than the wrong one scales indefinitely. The runtime isn't just tooling — it's the expression of product vision for how design quality should be ensured at organizational scale."
+            "text": "For senior product designers, the lesson is about leverage. Individual design decisions don’t scale. System architecture that makes the right decision easier than the wrong one scales indefinitely. The runtime isn’t just tooling — it’s the expression of product vision for how design quality should be ensured at organizational scale."
           }
         }
       ]
     }
-  ]
+  ],
+  "author": "Dima Ginzburg",
+  "lastUpdated": "2026-05-17"
 }

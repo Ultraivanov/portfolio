@@ -1,7 +1,7 @@
 {
   "slug": "happy-numbers-design-system",
-  "title": "Happy Numbers Design System — From Figma to Storybook",
-  "subtitle": "Operationalized a Figma-only system into a production-ready Storybook with clear foundations, explicit states, and predictable implementation patterns.",
+  "title": "Happy Numbers Design System • From Figma to Storybook",
+  "subtitle": "Operationalized a Figma-only system into a production-ready Storybook with clear foundations, explicit states, and predictable implementation patterns.",
   "published": true,
   "featured": false,
   "coverSrc": "/cases/happy-numbers-design-system/cover.jpg",
@@ -18,16 +18,16 @@
     {
       "label": "scope",
       "value": [
-        "Figma audit of components, variants, and states",
+        "Figma audit of components, variants, and states",
         "Tokenization and theming (Light/Dark)",
         "React component implementation",
-        "Storybook documentation of states and foundations",
+        "Storybook documentation of states and foundations",
         "Public deployment"
       ]
     },
     {
       "label": "stack",
-      "value": "React, TypeScript, Storybook, Netlify"
+      "value": "Figma, React, TypeScript, Storybook, Netlify"
     },
     {
       "label": "result",
@@ -41,7 +41,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "This work started during an interview assignment where the primary task was to redesign the inviting flow.\n\nWhile working on that flow, it became clear that there was a meaningful gap between Figma layouts and code implementation. Storybook emerged as a deliberate side outcome: I wanted to test what a more 2026-ready design system format could look like — a shared operational workspace for designers and developers.\n\nThe goal was practical: reduce the gap between what is designed in Figma and what ships in production code."
+            "text": "This work started during an interview assignment where the primary task was to redesign the inviting flow.\n\nWhile working on that flow, it became clear that there was a meaningful gap between Figma layouts and code implementation. Storybook emerged as a deliberate side outcome: I wanted to test what a more 2026-ready design system format could look like — a shared operational workspace for designers and developers.\n\nThe goal was practical: reduce the gap between what is designed in Figma and what ships in production code."
           }
         }
       ]
@@ -52,17 +52,17 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "The core risk was inconsistency at scale. Teams interpreted component behavior differently, which created visual drift and slowed QA."
+            "text": "The core risk was inconsistency at scale. Teams interpreted component behavior differently, which created visual drift and slowed QA."
           }
         },
         {
           "discriminant": "list",
           "value": {
             "items": [
-              "No implementation source of truth for interaction states",
-              "Foundation rules (type, grid, spacing, icons, palette) were not codified in one runtime surface",
-              "Theme behavior was not represented in code",
-              "Stakeholders had no reviewable artifact for product-level sign-off"
+              "No implementation source of truth for interaction states",
+              "Foundation rules (type, grid, spacing, icons, palette) were not codified in one runtime surface",
+              "Theme behavior was not represented in code",
+              "Stakeholders had no reviewable artifact for product-level sign-off"
             ]
           }
         }
@@ -74,7 +74,7 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "I treated the work as a productization pipeline: audit the source system, formalize decisions into tokens, implement reusable components, then document behavior through state-driven stories. Each iteration was validated against Figma to reduce interpretation risk."
+            "text": "I treated the work as a productization pipeline: audit the source system, formalize decisions into tokens, implement reusable components, then document behavior through state-driven stories. Each iteration was validated against Figma to reduce interpretation risk."
           }
         },
         {
@@ -83,28 +83,28 @@
             "items": [
               "System audit: variants, state map, sizing, and icon semantics",
               "Token layer: base variables, semantic mapping, light/dark behavior",
-              "Component implementation in React with predictable API",
+              "Component implementation in React with predictable API",
               "Storybook states matrix with interactive controls",
               "Foundations documentation: colors, typography, grid, spacing, icons",
-              "Deployment pipeline to public static Storybook"
+              "Deployment pipeline to public static Storybook"
             ]
           }
         }
       ]
     },
     {
-      "title": "What I Implemented",
+      "title": "What I Implemented",
       "blocks": [
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Delivered a component layer including Button, Input, Search, Checkbox, Expand, Backdrop, Cancel, Link, EmailPreview, MyAccount, Logo, Navbar (Desktop/Mobile), and Footer (Mobile). Critical controls include state-comparison and interactive stories for faster QA and handoff."
+            "text": "Delivered a component layer including Button, Input, Search, Checkbox, Expand, Backdrop, Cancel, Link, EmailPreview, MyAccount, Logo, Navbar (Desktop/Mobile), and Footer (Mobile). Critical controls include state-comparison and interactive stories for faster QA and handoff."
           }
         },
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "Delivered foundation coverage for Desktop/Mobile typography, grid constraints, spacing scale and usage patterns, icon system with state behavior, and a tokenized color palette supporting both light and dark themes."
+            "text": "Delivered foundation coverage for Desktop/Mobile typography, grid constraints, spacing scale and usage patterns, icon system with state behavior, and a tokenized color palette supporting both light and dark themes."
           }
         }
       ]
@@ -116,11 +116,11 @@
           "discriminant": "list",
           "value": {
             "items": [
-              "Design intent moved from static reference to operational Storybook runtime",
-              "Component behavior is explicit, testable, and easier to review cross-functionally",
+              "Design intent moved from static reference to operational Storybook runtime",
+              "Component behavior is explicit, testable, and easier to review cross-functionally",
               "Desktop/Mobile foundation differences are now documented and inspectable",
-              "Dark theme behavior is tokenized and reusable across components",
-              "Stakeholders and engineers can review one artifact instead of fragmented files"
+              "Dark theme behavior is tokenized and reusable across components",
+              "Stakeholders and engineers can review one artifact instead of fragmented files"
             ]
           }
         },
@@ -139,10 +139,12 @@
         {
           "discriminant": "paragraph",
           "value": {
-            "text": "My main takeaway is that system work creates the most value when it grows out of a real product task, not from abstract documentation efforts.\n\nIn this case, the inviting flow exposed a problem that already existed in the system. Storybook became a practical way to establish one shared alignment surface for tokens, states, and component behavior.\n\nIf continued, I would scale this approach incrementally through real product tasks. That keeps the design system alive and directly connected to release quality."
+            "text": "My main takeaway is that system work creates the most value when it grows out of a real product task, not from abstract documentation efforts.\n\nIn this case, the inviting flow exposed a problem that already existed in the system. Storybook became a practical way to establish one shared alignment surface for tokens, states, and component behavior.\n\nIf continued, I would scale this approach incrementally through real product tasks. That keeps the design system alive and directly connected to release quality."
           }
         }
       ]
     }
-  ]
+  ],
+  "author": "Dima Ginzburg",
+  "lastUpdated": "2026-05-18"
 }

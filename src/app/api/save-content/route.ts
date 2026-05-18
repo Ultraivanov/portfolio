@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { typografCase } from "@/lib/typograf";
 import { validateContentByPath } from "@/lib/case-content-validation";
 import { fetchGitHubWithRetry } from "@/lib/github-api";
@@ -238,6 +239,8 @@ export async function POST(request: NextRequest) {
       commitSha: updatePayload.content?.sha || null,
     });
 
+    revalidatePublicPathsForContent(path);
+
     return apiSuccess({
       success: true,
       sha: updatePayload.content?.sha,
@@ -255,6 +258,23 @@ export async function POST(request: NextRequest) {
       "INTERNAL_ERROR",
       error instanceof Error ? error.message : "Unknown error"
     );
+  }
+}
+
+function revalidatePublicPathsForContent(path: string): void {
+  if (!isCaseContentPath(path)) {
+    return;
+  }
+
+  const slug = path.split("/").pop()?.replace(/\.json$/i, "");
+  try {
+    revalidatePath("/");
+    revalidatePath("/work");
+    if (slug) {
+      revalidatePath(`/work/${slug}`);
+    }
+  } catch {
+    // Revalidation should never block successful content save.
   }
 }
 

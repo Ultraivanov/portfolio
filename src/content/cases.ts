@@ -99,6 +99,7 @@ const loadedCases = caseFiles.map((file) => {
 
 // Define preferred order of cases
 const preferredOrder = [
+  "happy-numbers-design-system",
   "travel-booking-platform",
   "railway-booking-flow",
   "megamod",
@@ -121,7 +122,7 @@ const orderCases = (items: CaseStudy[]) =>
     return a.slug.localeCompare(b.slug);
   });
 
-const isPublished = (item: CaseStudy) => item.published !== false;
+const isPublished = (item: CaseStudy) => item.published === true;
 
 // All cases (including drafts). Use for CMS only.
 export const allCases = orderCases(loadedCases);

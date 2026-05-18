@@ -39,7 +39,7 @@ export async function GET() {
       return {
         slug: typeof data.slug === "string" ? data.slug : slug,
         title: data.title || slug,
-        published: data.published !== false,
+        published: data.published === true,
         featured: data.featured === true,
       };
     });

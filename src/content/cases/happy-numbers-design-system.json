@@ -1,7 +1,7 @@
 {
   "slug": "happy-numbers-design-system",
   "title": "Happy Numbers Design System • From Figma to Storybook",
-  "subtitle": "Operationalized a Figma-only system into a production-ready Storybook with clear foundations, explicit states, and predictable implementation patterns.",
+  "subtitle": "Operationalized a Figma-only system into a production-ready Storybook with clear foundations, explicit states, and predictable implementation patterns",
   "published": true,
   "featured": false,
   "coverSrc": "/cases/happy-numbers-design-system/cover.jpg",
@@ -9,11 +9,13 @@
   "facts": [
     {
       "label": "domain",
-      "value": "Design systems / Product UI"
+      "value": "Design systems"
     },
     {
       "label": "role",
-      "value": "Product Designer + Design Engineer"
+      "value": [
+        "Product Designer + Design Engineer"
+      ]
     },
     {
       "label": "scope",

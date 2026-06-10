@@ -89,6 +89,13 @@
   gap: 2px;
 }
 
+.cvList a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .cvGroup {
   display: flex;
   flex-direction: column;

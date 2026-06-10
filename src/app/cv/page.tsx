@@ -6,7 +6,7 @@ import styles from "./cv-page.module.css";
 
 const CV_TITLE = `CV — ${SITE_NAME}`;
 const CV_DESCRIPTION =
-  "Product Designer working on products with complex logic — including monetization systems, internal platforms, and early-stage products.";
+  "Product Designer with 8+ years of hands-on design work, focused on business logic, monetization flows, access rules, conversion-critical UX, scalable design systems, and AI-native workflows.";
 
 export const metadata: Metadata = {
   ...buildPageMetadata({
@@ -32,7 +32,7 @@ export default function CVPage() {
       "@type": "Person",
       name: "Dmitry Ginzburg",
       alternateName: "Dima Ginzburg",
-      jobTitle: "AI Product Designer",
+      jobTitle: "Product Designer",
       url: SITE_URL,
       sameAs: SAME_AS_LINKS,
     },
@@ -53,11 +53,17 @@ export default function CVPage() {
         </header>
 
         <div className={styles.cvContacts}>
-          <span>Israel</span>
+          <span>Haifa, Israel</span>
           <span className={styles.cvSeparator}>∙</span>
-          <span>phone +972533569957</span>
+          <a href="https://wa.me/972533569957" target="_blank" rel="noreferrer">
+            +972-53-356-9957
+          </a>
           <span className={styles.cvSeparator}>∙</span>
           <a href="mailto:dima@ginzburg.work">dima@ginzburg.work</a>
+          <span className={styles.cvSeparator}>∙</span>
+          <a href="https://ginzburg.work" target="_blank" rel="noreferrer">
+            portfolio
+          </a>
           <span className={styles.cvSeparator}>∙</span>
           <a
             href="https://www.linkedin.com/in/dmitry-ginzburg-profit/"
@@ -79,11 +85,12 @@ export default function CVPage() {
         <section className={styles.cvSection}>
           <p className={styles.cvSectionLabel}>summary</p>
           <p className={styles.cvBody}>
-            Product Designer working on products with complex logic — including
-            monetization systems, internal platforms, and early-stage products.
-            I design user flows, interfaces, and interaction models that make
-            complex systems understandable and usable, with impact on conversion,
-            efficiency, and product adoption.
+            Product Designer with 8+ years of hands-on design work — and a
+            decade of running businesses before that. I came to design from
+            operating roles, so I design through business logic: monetization
+            flows, access rules, conversion-critical UX, scalable design systems.
+            Today I work AI-native, building design workflows around agentic
+            tools and shipping my own AI-assisted products.
           </p>
         </section>
 
@@ -94,12 +101,13 @@ export default function CVPage() {
               Designing flows and interaction models for complex products
             </li>
             <li>
-              Translating business rules and constraints into clear UX
+              Translating business rules, access logic, and constraints into
+              clear UX
             </li>
             <li>
               Building scalable design systems and structured UI
             </li>
-            <li>Working across 0→1 and growth stages</li>
+            <li>Working AI-native with agentic design and development tools</li>
           </ul>
         </section>
 
@@ -134,15 +142,28 @@ export default function CVPage() {
               {skillsLine([
                 "Layout",
                 "Typography",
-                "Component systems",
+                "Component-based design",
                 "Visual consistency",
+              ])}
+            </p>
+          </div>
+          <div className={styles.cvGroup}>
+            <p className={styles.cvGroupTitle}>AI &amp; Agentic</p>
+            <p className={styles.cvBody}>
+              {skillsLine([
+                "Codex",
+                "Claude Code",
+                "Cursor",
+                "Windsurf",
+                "Figma MCP",
+                "Agentic workflow design",
               ])}
             </p>
           </div>
           <div className={styles.cvGroup}>
             <p className={styles.cvGroupTitle}>Tools</p>
             <p className={styles.cvBody}>
-              {skillsLine(["Figma", "Codex", "Framer"])}
+              {skillsLine(["Figma", "Sketch", "Framer"])}
             </p>
           </div>
         </section>
@@ -170,13 +191,19 @@ export default function CVPage() {
             </p>
             <ul className={styles.cvList}>
               <li>
-                Defined how the product is structured and communicated for
-                external audiences, translating a complex platform model into
-                clear product flows and narrative
+                Led product design for a UGC game platform — flows, design
+                system, and external-facing product narrative
               </li>
               <li>
-                Designed investor-facing website and materials, aligning product
-                logic, positioning, and visual system
+                Structured product narrative, flows, and information to explain
+                a complex platform to investors
+              </li>
+              <li>
+                Defined product positioning and communication across external
+                touchpoints
+              </li>
+              <li>
+                Built a consistent visual system across all materials
               </li>
               <li>
                 Contributed to a $7M funding round at a $25M valuation
@@ -198,18 +225,14 @@ export default function CVPage() {
             </p>
             <ul className={styles.cvList}>
               <li>
-                Designed end-to-end UX for limited-supply NFT sales, including
-                access logic, eligibility rules, and purchase flows
-              </li>
-              <li>
-                Built pre-sale journeys (discovery, anticipation, phased access),
-                improving conversion under high demand
+                Built user journeys and purchase flows with clear access logic
+                and constraints
               </li>
               <li>
                 Developed and tested multiple sale models, influencing
                 monetization and distribution strategy
               </li>
-              <li>Result: $6M+ in volume and 16K NFTs sold</li>
+              <li>Result: $6M+ in sales volume and 16K NFTs sold</li>
             </ul>
           </div>
 
@@ -225,7 +248,7 @@ export default function CVPage() {
             <ul className={styles.cvList}>
               <li>
                 Redesigned UX across multiple services, simplifying workflows
-                and improving usability at scale
+                and improving usability at scale across 10+ internal services
               </li>
               <li>
                 Defined interaction patterns across B2B, B2C, and operational
@@ -247,7 +270,7 @@ export default function CVPage() {
                 >
                   Prostor
                 </a>
-                {` / Russia — Junior UX/UI Designer (Discovery & Narrative UX • Contractor)`}
+                {` / Russia — Narrative UX Designer (Contractor)`}
               </p>
               <span className={styles.cvDate}>Jan 2017 – Feb 2020</span>
             </div>
@@ -266,22 +289,38 @@ export default function CVPage() {
         </section>
 
         <section className={styles.cvSection}>
-          <p className={styles.cvSectionLabel}>Earlier Experience</p>
+          <p className={styles.cvSectionLabel}>AI &amp; Agentic Work</p>
           <ul className={styles.cvList}>
             <li>
-              <strong>E-commerce / Marketplaces</strong> — C-level roles focused
-              on growth, fundraising support, and strategic initiatives (E96,
-              Logo).
+              Designed and shipped browser-based product tools using AI-assisted
+              development: an ATS resume parseability checker and a design-token
+              auditor
             </li>
             <li>
-              <strong>Gaming / Game Publishing</strong> — C-level role owning
-              marketing, distribution, and go-to-market strategy for published
-              titles.
+              Developing “agent-native design systems” methodology — design
+              tokens and components structured for consumption by AI agents, not
+              only humans
+            </li>
+          </ul>
+        </section>
+
+        <section className={styles.cvSection}>
+          <p className={styles.cvSectionLabel}>
+            Earlier Career: Operating &amp; Executive Roles
+          </p>
+          <ul className={styles.cvList}>
+            <li>
+              C-level roles in e-commerce/marketplaces: growth, fundraising
+              support, strategic initiatives (E96, Logo)
             </li>
             <li>
-              <strong>Media</strong> — Executive editorial roles up to
-              Editor-in-Chief, owning content strategy, narratives, and audience
-              growth (Kommersant, Delovoy Kvartal, Bussiness and Life)
+              C-level role in game publishing: marketing, distribution,
+              go-to-market for published titles (iJet-Media)
+            </li>
+            <li>
+              Editor-in-Chief and executive editorial roles: content strategy
+              and audience growth (Kommersant-Yekaterinburg, Delovoy Kvartal,
+              Business and Life)
             </li>
           </ul>
         </section>
@@ -291,7 +330,8 @@ export default function CVPage() {
           <div className={styles.cvGroup}>
             <p className={styles.cvMuted}>1998-2003</p>
             <p className={styles.cvBody}>
-              BA of Journalism — UrFU (Russia, Yekaterinburg)
+              BA in Journalism — Ural Federal University (UrFU), Yekaterinburg,
+              Russia
             </p>
           </div>
           <div className={styles.cvGroup}>
@@ -319,9 +359,59 @@ export default function CVPage() {
               )
             </p>
             <p className={styles.cvBody}>
-              CEEMAN/Adizes partner • Mini-MBA
+              Mini-MBA — CEEMAN / Adizes partner
             </p>
           </div>
+        </section>
+
+        <section className={styles.cvSection}>
+          <p className={styles.cvSectionLabel}>Selected Portfolio</p>
+          <ul className={styles.cvList}>
+            <li>
+              <a
+                href="/work/megamod"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Megamod
+              </a>{" "}
+              — Scaling product complexity through a unified communication layer
+              (UX/UI Design)
+            </li>
+            <li>
+              <a
+                href="/work/travel-booking-platform"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Russian Railways
+              </a>{" "}
+              — Turning a complex internal booking process into a predictable,
+              repeatable system (Product Design)
+            </li>
+            <li>
+              <a
+                href="/work/railway-booking-flow"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Russian Railways
+              </a>{" "}
+              — Designing a component-driven interaction system under legacy
+              constraints (Product Design)
+            </li>
+            <li>
+              <a
+                href="/work/my-perfect-greek-vacation"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Greek Vacation
+              </a>{" "}
+              — Helping users move from vague intent to confident booking
+              (UX/UI Design)
+            </li>
+          </ul>
         </section>
 
         <div className={styles.cvDownload}>
@@ -336,7 +426,7 @@ export default function CVPage() {
               className={styles.cvDownloadIcon}
               aria-hidden="true"
             />
-            Download PDF (2MB)
+            Download PDF (108KB)
           </a>
         </div>
       </div>
